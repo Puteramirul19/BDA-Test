@@ -1,0 +1,3694 @@
+﻿
+@{
+    ViewData["Title"] = "Reporting";
+
+}
+
+@section Styles{
+
+    <style>
+
+        .btn-create {
+            background-color: #5d5386;
+            color: white;
+        }
+
+        .btn-apply:hover {
+            background-color: white;
+            color: black;
+        }
+
+        .btn-cancel:hover {
+            background-color: red;
+            color: white;
+        }
+
+        .btn-recover:hover {
+            background-color: limegreen;
+            color: white;
+        }
+
+        .btn-lost:hover {
+            background-color: #FFC300;
+            color: white;
+        }
+
+        select.filter {
+            height: 33px !important;
+        }
+
+        .dataTable > thead > tr > th[class*="sort"]:before,
+        .dataTable > thead > tr > th[class*="sort"]:after {
+            content: "" !important;
+        }
+
+        .dt-body-right {
+            text-align: right;
+        }
+
+        .dt-body-center {
+            text-align: center;
+        }
+    </style>
+}
+<div class="content-inner active">
+    <div class="container-fluid">
+        <!-- Begin Page Header-->
+        <div class="row">
+            <div class="page-header">
+                <div class="d-flex align-items-center">
+                    <div>
+                        <h2 class="page-header-title">Custom Report</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="widget has-shadow">
+            <h2 style="padding-top:30px;padding-left:30px" class="page-header-title" id="header1"><b>Generate Export Log</b></h2>
+            @*<h2 style="padding-top:30px;padding-left:30px" id="title1">Lampiran 1</h2>*@
+            <div class="widget-body">
+                <div class="form-group row" style="margin-top:20px;color:#5d5386;font-size:18px;font-weight:bold;text-align:center">
+                    <div class="col-xl-2">
+                        <label>Month</label>
+                    </div>
+                    <div class="col-xl-2">
+                        <label>Year</label>
+                    </div>
+                    <div class="col-xl-2">
+                        <label>Division</label>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-xl-2">
+                        <select id="ddlMonth" name="ddlMonth" class="form-control" tabindex="-98" style="background-color:white">
+                            <option value="0" selected disabled>Month</option>
+                            <option value="1">January</option>
+                            <option value="2">February</option>
+                            <option value="3">March</option>
+                            <option value="4">April</option>
+                            <option value="5">May</option>
+                            <option value="6">June</option>
+                            <option value="7">July</option>
+                            <option value="8">August</option>
+                            <option value="9">September</option>
+                            <option value="10">October</option>
+                            <option value="11">November</option>
+                            <option value="12">December</option>
+                        </select>
+                    </div>
+                    <div class="col-xl-2">
+                        <select id="ddlYear" name="ddlYear" class="form-control" tabindex="-98">
+                            <option value="0" selected disabled>Year</option>
+                            <option value="2015">2015</option>
+                            <option value="2016">2016</option>
+                            <option value="2017">2017</option>
+                            <option value="2018">2018</option>
+                            <option value="2019">2019</option>
+                            <option value="2020">2020</option>
+                            <option value="2021">2021</option>
+                        </select>
+                    </div>
+                    <div class="col-xl-2">
+                        <select name="ddlCoCode" id="ddlCoCode" class="form-control" tabindex="-98"></select>
+                    </div>
+                    @*<button onclick="saveAsPDF();">SAVE AS PDF</button>*@
+                </div>
+            </div>
+            <div class="row flex-row">
+                <div class="col-xl-12">
+                    <div class="row flex-row">
+                        <div class="col-xl-12 col-md-12">
+                            <div class="table-responsive">
+                                <div class="widget has-shadow">
+                                    <div class="widget-body">
+                                        <button onclick="saveAsPDF();" class="btn btn- btn-info">PDF</button>
+                                        <div class="table-responsive" id="chart-container">
+                                            <table id="tblLampiran1" class="table table-bordered table-hover mb-0" styles="width:100%">
+                                                <thead>
+                                                    <tr>
+                                                        <th style="text-align:center">State</th>
+                                                        <th style="text-align:center">No. of BD Issued</th>
+                                                        <th style="text-align:center">Issued Amount (RM)</th>
+                                                        <th style="text-align:center">No. of BD Recovered</th>
+                                                        <th style="text-align:center">Recovered Amount (RM)</th>
+                                                        <th style="text-align:center">Total BD After Recovery</th>
+                                                        <th style="text-align:center">Total BD Amount After Recovery(RM)</th>
+                                                        @*<th></th>*@
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @*@foreach (var item in Model.SMAs)
+                                                        {
+                                                        <tr>
+                                                            <td>@item.state</td>
+                                                            <td>@item.noOfBDIssued</td>
+                                                            <td>@item.amount</td>
+                                                            <td>@item.noOfRecovery</td>
+                                                            <td>@item.amountRev</td>
+                                                            <td>@item.noOfOutstanding </td>
+                                                            <td>@item.outstandingAmount</td>
+                                                        </tr>
+                                                        }*@
+                                                </tbody>
+                                                <tfoot>
+                                                    <tr style="background-color:#877cb5">
+                                                        <td style="font-weight:bold">GRAND TOTAL</td>
+                                                        <td id="totalBD" style="text-align:center;font-weight:bold">0</td>
+                                                        <td id="totalAmount" style="text-align:right;font-weight:bold">0</td>
+                                                        <td id="totalRec" style="text-align:center;font-weight:bold">0</td>
+                                                        <td id="totalRecAmount" style="text-align:right;font-weight:bold">0</td>
+                                                        <td id="totalBal" style="text-align:center;font-weight:bold">0</td>
+                                                        <td id="totalBalAmount" style="text-align:right;font-weight:bold">0</td>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @*<button id="btnPull2" class="btn btn-success">Generate</button>*@
+                        </div>
+                    </div>
+                    <!-- End Form -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Container -->
+    <!-- Begin Page Footer-->
+    <!-- End Page Footer -->
+    @*<a href="#" class="go-top"><i class="la la-arrow-up"></i></a>*@
+    <!-- Offcanvas Sidebar -->
+    <!-- End Offcanvas Sidebar -->
+</div>
+
+@section Scripts{
+
+    @*<script src="~/assets/js/PapaParse-5.0.2/papaparse.min.js"></script>
+
+    <script>
+        var table;
+        var columns = [];
+
+        function getColumns(elem) {
+            let table = $(elem).val();
+            columns = []
+            data = []
+
+            $('.filterDiv').each(function () {
+                let elem = $(this)
+                let show = elem.data('show');
+                let hide = elem.data('hide');
+
+                if (show !== undefined) {
+                    if (show.includes(table)) elem.show();
+                    else elem.hide();
+                } else {
+                    if (hide.includes(table)) elem.hide();
+                    else elem.show();
+                }
+            })
+
+            if (table == 'NCL') {
+                columns.push(['ncl_id', 'NCL Id'])
+                columns.push(['created_by', 'Created By'])
+                columns.push(['created_date', 'Created Date'])
+                columns.push(['category_id', 'Category'])
+                columns.push(['class_id', 'Classification'])
+                columns.push(['issue_by_id', 'Issue By'])
+                columns.push(['issue_by_other', 'Issue By Other'])
+                columns.push(['notes', 'Details'])
+                columns.push(['note_date', 'Date Issued'])
+                columns.push(['due_date', 'Due Date'])
+                columns.push(['report_date', 'Report Date'])
+                columns.push(['pic_suggestion', 'PIC Suggestion'])
+                columns.push(['pic_respond_date', 'PIC Respond Date'])
+                columns.push(['status_id', 'Status'])
+                columns.push(['section', 'Section'])
+                columns.push(['fine', 'Fine'])
+                columns.push(['compound', 'Compound'])
+                columns.push(['year_of_sentence', 'Year Of Sentence'])
+                columns.push(['deleted', 'Deleted'])
+                columns.push(['division_id', 'Division'])
+                columns.push(['department_id', 'Department'])
+                columns.push(['zone_id', 'Zone'])
+                columns.push(['month_of_sentence', 'Month Of Sentence'])
+                columns.push(['day_of_sentence', 'Day Of Sentence'])
+                columns.push(['im_comment', 'IM Comment'])
+                columns.push(['pic_fine', 'PIC Fine'])
+                columns.push(['pic_compound', 'PIC Compound'])
+                columns.push(['pic_Id', 'PIC'])
+                columns.push(['EmailUserID', 'Notified Person'])
+                columns.push(['PIC_Comment', 'PIC Comment'])
+                columns.push(['unit_id', 'Unit'])
+                columns.push(['subzone_id', 'Subzone'])
+                columns.push(['im_Id', 'IM'])
+                columns.push(['NCL_code', 'NCL Code'])
+            }
+
+            if (table == 'NCR') {
+                columns.push(['ncr_id', 'NCR Id']);
+                columns.push(['created_by', 'Created By'])
+                columns.push(['created_date', 'Created Date'])
+                columns.push(['division_id', 'Division'])
+                columns.push(['department_id', 'Location or Parties Audited/Inspection']);
+                columns.push(['legal', 'Legality']);
+                columns.push(['type_id', 'Type']);
+                columns.push(['requirement', 'Requirement']);
+                columns.push(['finding', 'Finding']);
+                columns.push(['objective', 'Objective']);
+                columns.push(['auditee_id', 'Auditee']);
+                columns.push(['correction', 'Correction']);
+                columns.push(['action_date', 'Action Date']);
+                columns.push(['Investigation', 'Root Cause Category']);
+                columns.push(['remarks', 'Remarks']);
+                columns.push(['action_plan', 'Action Plan']);
+                columns.push(['completion_date', 'Completion Date']);
+                columns.push(['verification', 'Verification']);
+                columns.push(['status_id', 'Status']);
+                columns.push(['deleted', 'Deleted']);
+                columns.push(['propose_date', 'Proposed Date']);
+                columns.push(['verify_date', 'Verify Date']);
+                columns.push(['requirement_others', 'Requirement Others']);
+                columns.push(['issued_date', 'Issued Date']);
+                columns.push(['step', 'NCR Step']);
+                columns.push(['zoneId', 'Zone']);
+                columns.push(['subzoneId', 'Subzone']);
+                columns.push(['ncr_code', 'NCR Code']);
+            }
+
+            if (table == 'SHC') {
+                columns.push(['Id', 'SHC Id'])
+                columns.push(['Code', 'SHC Code'])
+                columns.push(['Name', 'Name'])
+                columns.push(['Jkkp_addr_line1', 'Address Line 1'])
+                columns.push(['Jkkp_addr_line2', 'Address Line 2'])
+                columns.push(['Jkkp_city', 'City'])
+                columns.push(['Jkkp_state', 'State'])
+                columns.push(['Jkkp_postcode', 'Postcode'])
+                columns.push(['Divisionid', 'Division'])
+                columns.push(['Departmentid', 'Department'])
+                columns.push(['Unitid', 'Unit'])
+                columns.push(['Zoneid', 'Zone'])
+                columns.push(['Subzoneid', 'Subzone'])
+                columns.push(['Createddate', 'Created Date'])
+                columns.push(['Gps_lat', 'Dosh Reg. No.'])
+                columns.push(['Gps_long', 'Latitude / Longitude'])
+                columns.push(['Newapprovedid', 'New Approved Id'])
+                columns.push(['Newapproveddate', 'New Approved Date'])
+                columns.push(['Nomember', 'No of Member'])
+                columns.push(['deleted', 'Deleted'])
+                columns.push(['Statusid', 'Status'])
+                columns.push(['Typeid', 'SHC Type'])
+                columns.push(['Typeinfo', 'Type Info'])
+                columns.push(['Secproposedmeetingdate', 'Proposed Meeting Date'])
+                columns.push(['Createremark', 'Remark upon creation'])
+                columns.push(['Step', 'Step']);
+                columns.push(['Createdby', 'Created By']);
+                columns.push(['NoMemberApprovedBy', 'No of MemberApprovedBy']);
+                columns.push(['NoMemberApprovedDate', 'No of MemberApprovedDate']);
+                columns.push(['AdmProposedMeetingDate', 'Admin Proposed Meeting Date']);
+            }
+
+            if (table == 'Users') {
+                columns.push(['User_id', 'User ID'])
+                columns.push(['Userguid', 'User GUID'])
+                columns.push(['Deleted', 'deleted'])
+                columns.push(['createdBy', 'Created By'])
+                columns.push(['createdDate', 'Created Date'])
+                columns.push(['UserName', 'Username'])
+                columns.push(['Email', 'Email'])
+                columns.push(['staff_number', 'Staff Number'])
+                columns.push(['Fullname', 'Full Name'])
+                columns.push(['Identityno', 'Identity No'])
+                columns.push(['grade', 'Grade'])
+                columns.push(['home_addr_line1', 'Home Address Line 1'])
+                columns.push(['home_addr_line2', 'Home Address Line 2'])
+                columns.push(['home_city', 'Home City'])
+                columns.push(['home_state', 'Home State'])
+                columns.push(['home_postcode', 'Home Postcode'])
+                columns.push(['off_addr_line1', 'Office Address Line 1'])
+                columns.push(['off_addr_line2', 'Office Address Line 2'])
+                columns.push(['off_city', 'Office City'])
+                columns.push(['off_state', 'Office State'])
+                columns.push(['off_postcode', 'Office Postcode'])
+                columns.push(['Mobile_no_p1', 'Mobile No P1'])
+                columns.push(['Mobile_no_p2', 'Mobile No P2'])
+                columns.push(['Office_no_p1', 'Office No P1'])
+                columns.push(['Office_no_p2', 'Office No P2'])
+                columns.push(['Empstartdate', 'Employment Start Date'])
+                columns.push(['Dob', 'Date of Birth'])
+                columns.push(['gender', 'Gender'])
+                columns.push(['marital_status', 'Marital Status'])
+                columns.push(['nationality', 'Nationality'])
+                columns.push(['retirement_date', 'Retirement Date'])
+                columns.push(['basis_of_employment', 'Basis Of Employment'])
+                columns.push(['position_status', 'Position'])
+                columns.push(['designation', 'Designation'])
+                columns.push(['manager_staffid', 'Manager'])
+                columns.push(['division', 'Division'])
+                columns.push(['department', 'Department'])
+                columns.push(['UnitId', 'Unit'])
+                columns.push(['zone', 'Zone'])
+                columns.push(['Subzone', 'Subzone'])
+                columns.push(['RoleIdlist', 'Role List'])
+                columns.push(['o_Adm_c', 'o_Adm_c'])
+                columns.push(['o_Adm_d', 'o_Adm_d'])
+                columns.push(['o_Adm_r', 'o_Adm_r'])
+                columns.push(['o_Adm_u', 'o_Adm_u'])
+                columns.push(['o_adddepartment_id', 'o_adddepartment_id'])
+
+                columns.push(['o_chem_c', 'o_chem_c'])
+                columns.push(['o_chem_d', 'o_chem_d'])
+                columns.push(['o_chem_r', 'o_chem_r'])
+                columns.push(['o_chem_u', 'o_chem_u'])
+
+                columns.push(['o_ncl_c', 'o_ncl_c'])
+                columns.push(['o_ncl_d', 'o_ncl_d'])
+                columns.push(['o_ncl_r', 'o_ncl_r'])
+                columns.push(['o_ncl_u', 'o_ncl_u'])
+
+                columns.push(['o_ncr_c', 'o_ncr_c'])
+                columns.push(['o_ncr_d', 'o_ncr_d'])
+                columns.push(['o_ncr_r', 'o_ncr_r'])
+                columns.push(['o_ncr_u', 'o_ncr_u'])
+
+                columns.push(['o_report_r', 'o_report_r'])
+
+                columns.push(['o_shc_c', 'o_shc_c'])
+                columns.push(['o_shc_r', 'o_shc_r'])
+                columns.push(['o_shc_u', 'o_shc_u'])
+                columns.push(['AccessFailedCount', 'Failed Count'])
+                columns.push(['LastLoginDate', 'Last Login Date'])
+                columns.push(['Status', 'Status'])
+            }
+
+            if (table == 'Trail_NCL') {
+                columns.push(['NCL_ID_Trail', 'NCL Id Trail'])
+                columns.push(['NCL_ID', 'NCL Id'])
+                columns.push(['NCL_code', 'NCL Code'])
+                columns.push(['created_by', 'Created By'])
+                columns.push(['created_date', 'Created Date'])
+                columns.push(['category_id', 'Notified Person'])
+                columns.push(['class_id', 'Classification'])
+                columns.push(['issue_by_id', 'Issue By'])
+                columns.push(['issue_by_other', 'Issue By Other'])
+                columns.push(['notes', 'Details'])
+                columns.push(['note_date', 'Date Issued'])
+                columns.push(['due_date', 'Due Date'])
+                columns.push(['report_date', 'Report Date'])
+                columns.push(['pic_suggestion', 'PIC Suggestion'])
+                columns.push(['pic_respond_date', 'PIC Respond Date'])
+                columns.push(['status_id', 'Status'])
+                columns.push(['section', 'Section'])
+                columns.push(['fine', 'Fine'])
+                columns.push(['Compound', 'compound'])
+                columns.push(['year_of_sentence', 'Year Of Sentence'])
+                columns.push(['deleted', 'Deleted'])
+                columns.push(['division_id', 'Division'])
+                columns.push(['department_id', 'Department'])
+                columns.push(['zone_id', 'Zone'])
+                columns.push(['month_of_sentence', 'Month Of Sentence'])
+                columns.push(['day_of_sentence', 'Day Of Sentence'])
+                columns.push(['im_comment', 'IM Comment'])
+                columns.push(['pic_fine', 'PIC Fine'])
+                columns.push(['pic_compound', 'PIC Compound'])
+                columns.push(['pic_Id', 'PIC'])
+                columns.push(['EmailUserID', 'Notified Person'])
+                columns.push(['PIC_Comment', 'PIC Comment'])
+                columns.push(['unit_id', 'Unit Id'])
+                columns.push(['subzone_id', 'Subzone'])
+                columns.push(['im_Id', 'IM'])
+                columns.push(['ModifyBy', 'Modify By'])
+                columns.push(['ModifyDate', 'Modify Date'])
+            }
+
+            if (table == 'Trail_NCR') {
+                columns.push(['NCR_ID_Trail', 'NCR Id Trail'])
+                columns.push(['Ncr_ID', 'NCR Id']);
+                columns.push(['ncr_code', 'NCR Code']);
+                columns.push(['created_by', 'Created By'])
+                columns.push(['created_date', 'Created Date'])
+                columns.push(['division_id', 'Division'])
+                columns.push(['department_id', 'Location or Parties Audited/Inspection']);
+                columns.push(['legal', 'Legality']);
+                columns.push(['type_id', 'Type']);
+                columns.push(['requirement', 'Requirement']);
+                columns.push(['finding', 'Finding']);
+                columns.push(['objective', 'Objective']);
+                columns.push(['auditee_id', 'Auditee']);
+                columns.push(['correction', 'Correction']);
+                columns.push(['action_date', 'Action Date']);
+                columns.push(['Investigation', 'Root Cause Category']);
+                columns.push(['remarks', 'Remarks']);
+                columns.push(['action_plan', 'Action Plan']);
+                columns.push(['completion_date', 'Completion Date']);
+                columns.push(['verification', 'Verification']);
+                columns.push(['status_id', 'Status']);
+                columns.push(['deleted', 'Deleted']);
+                columns.push(['propose_date', 'Proposed Date']);
+                columns.push(['verify_date', 'Verify Date']);
+                columns.push(['requirement_others', 'Requirement Others']);
+                columns.push(['issued_date', 'Issued Date']);
+                columns.push(['step', 'NCR Step']);
+                columns.push(['zoneId', 'Zone']);
+                columns.push(['subzoneId', 'Subzone']);
+                columns.push(['ModifyBy', 'Modify By'])
+                columns.push(['ModifyDate', 'Modify Date'])
+            }
+
+            if (table == 'Trail_SHC') {
+                columns.push(['Id_Trail', 'SHC Id Trail'])
+                columns.push(['Id', 'SHC Id'])
+                columns.push(['Code', 'SHC Code'])
+                columns.push(['Name', 'Name'])
+                columns.push(['Jkkp_addr_line1', 'Address Line 1'])
+                columns.push(['Jkkp_addr_line2', 'Address Line 2'])
+                columns.push(['Jkkp_city', 'City'])
+                columns.push(['Jkkp_state', 'State'])
+                columns.push(['Jkkp_postcode', 'Postcode'])
+                columns.push(['Divisionid', 'Division'])
+                columns.push(['Departmentid', 'Department'])
+                columns.push(['Unitid', 'Unit'])
+                columns.push(['Zoneid', 'Zone'])
+                columns.push(['Subzoneid', 'Subzone'])
+                columns.push(['Createddate', 'Created Date'])
+                columns.push(['Gps_lat', 'Dosh Reg. No.'])
+                columns.push(['Gps_long', 'Latitude / Longitude'])
+                columns.push(['Newapprovedid', 'New Approved Id'])
+                columns.push(['Newapproveddate', 'New Approved Date'])
+                columns.push(['Nomember', 'No of Member'])
+                columns.push(['deleted', 'Deleted'])
+                columns.push(['Statusid', 'Status'])
+                columns.push(['Typeid', 'SHC Type'])
+                columns.push(['Typeinfo', 'Type Info'])
+                columns.push(['Secproposedmeetingdate', 'Proposed Meeting Date'])
+                columns.push(['Createremark', 'Remark upon creation'])
+                columns.push(['Step', 'Step']);
+                columns.push(['Createdby', 'Created By']);
+                columns.push(['NoMemberApprovedBy', 'No of MemberApprovedBy']);
+                columns.push(['NoMemberApprovedDate', 'No of MemberApprovedDate']);
+                columns.push(['AdmProposedMeetingDate', 'Admin Proposed Meeting Date']);
+                columns.push(['ModifyBy', 'Modify By'])
+                columns.push(['ModifyDate', 'Modify Date'])
+            }
+
+            if (table == 'SHC_Meeting') {
+                columns.push(['Id', 'Id'])
+                columns.push(['Meetingcode', 'Meeting Code'])
+                columns.push(['Meetingdate', 'Meeting Date'])
+                columns.push(['Starttime', 'Start Time'])
+                columns.push(['Endtime', 'End Time'])
+                columns.push(['location', 'Location'])
+                columns.push(['SHC_id', 'SHC'])
+                columns.push(['Notmeetkorum', 'Not Meet Korum'])
+                columns.push(['deleted', 'Deleted'])
+                columns.push(['Statusid', 'Status'])
+                columns.push(['Remark3month', 'Remark'])
+                columns.push(['Postponereason', 'Postpone Reason'])
+                columns.push(['Prevmeetingid', 'Prev Meeting'])
+                columns.push(['Createdid', 'Created By']);
+                columns.push(['Createddate', 'Created Date'])
+                columns.push(['Nextmeetingdate', 'Next Meeting Date'])
+                columns.push(['Korumsetpercent', 'Korum Set Percent'])
+                columns.push(['Momapproveddate', 'MOM Approved Date'])
+                columns.push(['Momapprovedby', 'MOM Approved By'])
+            }
+
+
+            if (table == 'SHC_Assignment') {
+                columns.push(['Id', 'Id'])
+                columns.push(['Agendaid', 'Agenda']);
+                columns.push(['Picid', 'PIC'])
+                columns.push(['Comiteeid', 'Committee'])
+                columns.push(['Targetdate', 'Target Date'])
+                columns.push(['Createddate', 'Created Date'])
+                columns.push(['Createdby', 'Created By'])
+                columns.push(['deleted', 'Deleted'])
+                columns.push(['Categoryid', 'Category'])
+                columns.push(['Statusid', 'Status']);
+                columns.push(['Remark', 'Remark']);
+                columns.push(['Targetcompletiondate', 'Target Completion Date'])
+                columns.push(['Nodayscompletion', 'No. Days Completion'])
+                columns.push(['Acceptedbypic', 'Accepted By PIC'])
+                columns.push(['Rejectedbypic', 'Rejected By PIC'])
+                columns.push(['RespondDate', 'Respond Date'])
+                columns.push(['Actualcompletiondate', 'Actual Completion Date'])
+                columns.push(['Actiontaken', 'Action Taken'])
+                columns.push(['Assignmentcode', 'Assignment Code'])
+                columns.push(['Step', 'Step'])
+                columns.push(['Rejectreason', 'Reject Reason'])
+            }
+
+            if (table == 'Trail_SHC_Meeting') {
+                columns.push(['Id_trail', 'Trail Id'])
+                columns.push(['Meetingcode', 'Meeting Code'])
+                columns.push(['Meetingcode', 'Meeting Code'])
+                columns.push(['Meetingdate', 'Meeting Date'])
+                columns.push(['Starttime', 'Start Time'])
+                columns.push(['Endtime', 'End Time'])
+                columns.push(['location', 'Location'])
+                columns.push(['SHC_id', 'SHC'])
+                columns.push(['Notmeetkorum', 'Not Meet Korum'])
+                columns.push(['deleted', 'Deleted'])
+                columns.push(['Statusid', 'Status'])
+                columns.push(['Remark3month', 'Remark'])
+                columns.push(['Postponereason', 'Postpone Reason'])
+                columns.push(['Prevmeetingid', 'Prev Meeting'])
+                columns.push(['Createdid', 'Created By']);
+                columns.push(['Createddate', 'Created Date'])
+                columns.push(['Nextmeetingdate', 'Next Meeting Date'])
+                columns.push(['Korumsetpercent', 'Korum Set Percent'])
+                columns.push(['Momapproveddate', 'MOM Approved Date'])
+                columns.push(['Momapprovedby', 'MOM Approved By'])
+                columns.push(['Modifyby', 'Modify By'])
+                columns.push(['Modifydate', 'Modify Date'])
+            }
+
+            if (table == 'Trail_SHC_Assignment') {
+                columns.push(['Id_trail', 'Trail Id'])
+                columns.push(['Id', 'Id'])
+                columns.push(['Agendaid', 'Agenda']);
+                columns.push(['Picid', 'PIC'])
+                columns.push(['Comiteeid', 'Committee'])
+                columns.push(['Targetdate', 'Target Date'])
+                columns.push(['Createddate', 'Created Date'])
+                columns.push(['Createdby', 'Created By'])
+                columns.push(['deleted', 'Deleted'])
+                columns.push(['Categoryid', 'Category'])
+                columns.push(['Statusid', 'Status']);
+                columns.push(['Remark', 'Remark']);
+                columns.push(['Targetcompletiondate', 'Target Completion Date'])
+                columns.push(['Nodayscompletion', 'No. Days Completion'])
+                columns.push(['Acceptedbypic', 'Accepted By PIC'])
+                columns.push(['Rejectedbypic', 'Rejected By PIC'])
+                columns.push(['RespondDate', 'Respond Date'])
+                columns.push(['Actualcompletiondate', 'Actual Completion Date'])
+                columns.push(['Actiontaken', 'Action Taken'])
+                columns.push(['Assignmentcode', 'Assignment Code'])
+                columns.push(['Step', 'Step'])
+                columns.push(['Rejectreason', 'Reject Reason'])
+                columns.push(['Modifyby', 'Modify By'])
+                columns.push(['Modifydate', 'Modify Date'])
+            }
+
+            if (table == 'tbl_chem_reg_B2') {
+                columns.push(['chem_reg_id', 'Chem Reg Id'])
+                columns.push(['chem_hazard', 'Chem Hazard'])
+                columns.push(['prod_name', 'Product Name'])
+                columns.push(['brand', 'Brand'])
+                columns.push(['chem_name', 'Chemical Name'])
+                columns.push(['class_label_attch1_path', 'Class Label Attch2 Path'])
+                columns.push(['class_label_attch1_name', 'Class Label Attch2 Name'])
+                columns.push(['class_label_attch2_path', 'Class Label Attch2 Path'])
+                columns.push(['class_label_attch2_name', 'Class Label Attch2 Name'])
+                columns.push(['class_label_attch3_path', 'Class Label Attch3 Path'])
+                columns.push(['class_label_attch3_name', 'Class Label Attch3 Name'])
+                columns.push(['SDS_malay_path', 'SDS Malay Path'])
+                columns.push(['SDS_malay_name', 'SDS Malay Name'])
+                columns.push(['SDS_eng_path', 'SDS Eng Path'])
+                columns.push(['SDS_eng_name', 'SDS Eng Name'])
+                columns.push(['SDS_date', 'SDS Date'])
+                columns.push(['SDS_expiry_date', 'SDS Expiry Date'])
+                columns.push(['chem_pack', 'Chem Pack'])
+                columns.push(['chem_carcinogenic', 'Chem carcinogenic'])
+                columns.push(['chem_mutagenic', 'Chem mutagenic'])
+                columns.push(['chem_respiratory', 'Chem Respiratory'])
+                columns.push(['chem_containLCC', 'Chem contain LCC'])
+                columns.push(['chem_forlabs', 'Chem Forlabs'])
+                columns.push(['no_worker_male', 'No Worker Male'])
+                columns.push(['no_worker_female', 'No Worker Female'])
+                columns.push(['type_control_engcontrol', 'Type Control Engcontrol'])
+                columns.push(['type_control_PPE', 'Type Control PPE'])
+                columns.push(['chem_formchemical', 'Chem Formchemical'])
+                columns.push(['chem_quantity', 'Chem Quantity'])
+                columns.push(['chem_unit', 'Chem unit'])
+                columns.push(['chem_CASNo', 'Chem CAS No'])
+                columns.push(['active_ingr', 'Active Ingredients'])
+                columns.push(['comply_classH', 'Comply Class H'])
+                columns.push(['comply_classS', 'Comply Class S'])
+                columns.push(['comply_classE', 'Comply Class E'])
+                columns.push(['supplier_name', 'Supplier Name'])
+                columns.push(['supplier_address', 'Supplier Address'])
+                columns.push(['supplier_tel', 'Supplier Phone'])
+                columns.push(['supplier_email', 'Supplier Email'])
+                columns.push(['chem_approval', 'Chem Approval'])
+                columns.push(['save_status', 'Save Status'])
+                columns.push(['usagechemicaltype', 'Usage Chemical Type'])
+                columns.push(['prod_id', 'Prod'])
+                columns.push(['chem_reg_B2_id2', 'Chem Reg B2 Id 2'])
+                columns.push(['deleted', 'Deleted'])
+                columns.push(['division', 'Division'])
+                columns.push(['dept', 'Department'])
+                columns.push(['unit', 'Unit'])
+                columns.push(['createdDate', 'Created Date'])
+                columns.push(['revisedDate', 'Revised Date'])
+                columns.push(['revisedNo', 'Revised No'])
+            }
+
+
+            //if (table == 'View_chem_reg_B2') {
+            //    columns.push(['Chemical_hazard', 'Chemical Hazard'])
+            //    columns.push(['productname', 'Product Name'])
+            //    columns.push(['desc', 'Description'])
+            //    columns.push(['chemicalname', 'Chemical Name'])
+            //    columns.push(['SDS_date', 'SDS Date'])
+            //    columns.push(['SDS_expiry_date', 'SDS expiry date'])
+            //    columns.push(['chem_pack', 'Chem Pack'])
+            //    columns.push(['chem_carcinogenic', 'Chem Carcinogenic'])
+            //    columns.push(['chem_mutagenic', 'Chem Mutagenic']);
+            //}
+
+            if (table == 'tbl_chem_approved_list') {
+                columns.push(['chem_approv_list_id', 'Approved Chemical Id'])
+                columns.push(['division', 'Division'])
+                columns.push(['dept', 'Department'])
+                columns.push(['unit', 'Unit'])
+                columns.push(['prodname', 'Product Name'])
+                columns.push(['brand', 'Brand'])
+                columns.push(['SDS_language', 'SDS Language'])
+                columns.push(['SDS_eng_path', 'SDS Eng Path'])
+                columns.push(['SDS_eng_name', 'SDS Eng Name'])
+                columns.push(['SDS_malay_path', 'SDS Malay Path'])
+                columns.push(['SDS_malay_name', 'SDS Malay Name'])
+                columns.push(['SDS_date', 'SDS Date'])
+                columns.push(['SDS_expiry_date', 'SDS Expiry Date']);
+                columns.push(['deleted', 'Deleted'])
+                columns.push(['createdDate', 'Created Date'])
+
+            }
+
+            if (table == 'LC_LegalRegister'){
+                columns.push(['Id', 'Id'])
+                columns.push(['Premisename', 'Premise Name'])
+                columns.push(['DivisionId', 'Division'])
+                columns.push(['DeptId', 'Dept'])
+                columns.push(['ZoneId', 'Zone'])
+                columns.push(['Documentno', 'Document No.'])
+                columns.push(['Revisionno', 'Revision No.'])
+                columns.push(['Revisiondate', 'Revision Date'])
+                columns.push(['ApprovalDate', 'Approval Date'])
+                columns.push(['StatusId', 'Status'])
+                columns.push(['LeadUserId', 'Lead User'])
+                columns.push(['LeadUserPosition', 'Lead User Position'])
+                columns.push(['Remarks', 'Remarks'])
+                columns.push(['NotifyUserId', 'Notify User'])
+                columns.push(['ApproverUserId', 'Approver User'])
+                columns.push(['ApproverUserPosition', 'Approver User Position'])
+                columns.push(['ApproverRemarks', 'Approver Remarks'])
+                columns.push(['Isdeleted', 'Is Deleted'])
+                columns.push(['CreatedbyId', 'Created By'])
+                columns.push(['CreatedDate', 'Created Date'])
+            }
+
+            columns.forEach(function (current) {
+                let row = {}
+                row.id = current[0]
+                row.text = current[1]
+                data.push(row)
+            })
+
+            if ($('#columnSelect').data('select2')) {
+                $("#columnSelect").select2("val", "");
+                $("#columnSelect").empty();
+                $("#columnSelect").select2('destroy');
+            }
+            $("#columnSelect").select2({ data: data });
+
+        }
+
+        var input;
+
+        function getLog() {
+            event.preventDefault()
+            $("#generateBtn").prop('disabled', true)
+            notify("warning", "Loading logs! Please wait...");
+            let log = {
+                Column: $('#columnSelect').val(),
+                TableName: $('#tableSelect').val(),
+                DateTo: $('#dateToInput').val(),
+                DateFrom: $('#dateFromInput').val(),
+                Division: $('#divisionSelect').val(),
+                Department: $('#departmentSelect').val(),
+                Unit: $('#unitSelect').val(),
+                Category: $('#nclCategorySelect').val(),
+                Classification: $('#nclClassificationSelect').val(),
+                Agency: $('#nclAgencySelect').val(),
+                nclncrId: $('#nclNcrId').val(),
+                RootCause: $('#ncrRootCauseSelect').val(),
+                Elements: $('#ncrRegulationSelect').val(),
+                Status: $('input[name="Status"]:checked').val()
+            }
+
+            if (log.Column.length < 1) {
+                notify("danger", "Please choose at least one column!")
+                $("#generateBtn").prop('disabled', false)
+                return;
+            }
+
+            input = {
+                TableName: log.TableName,
+                ColumnList: log.Column,
+                ColumnArray: columns,
+                FilterWhere: ""
+            };
+
+            var dateFrom = log.DateFrom + " 23:59:59";
+            var dateTo = log.DateTo + " 00:00:00";
+
+            if (log.TableName == 'SHC') {
+                input.FilterWhere = "CreatedDate >= '" + log.DateFrom + "' AND CreatedDate <= '" + dateTo + "'";
+                input.FilterWhere = log.Division != null && log.Division != undefined ? input.FilterWhere + ' AND DivisionId = ' + log.Division : input.FilterWhere;
+            }
+
+            if (log.TableName == 'Trail_SHC') {
+                input.FilterWhere = "CreatedDate >= '" + log.DateFrom + "' AND CreatedDate <= '" + dateTo + "'";
+            }
+
+            if (log.TableName == 'Users') {
+                input.TableName = 'AspNetUsers'
+                input.FilterWhere = "createdDate >= '" + log.DateFrom + "' AND createdDate <= '" + dateTo + "'";
+                input.FilterWhere = log.Division != null && log.Division != undefined ? input.FilterWhere + ' AND division = ' + log.Division : input.FilterWhere;
+                input.FilterWhere = log.Department != null && log.Department != undefined ? input.FilterWhere + ' AND department = ' + log.Department : input.FilterWhere;
+                input.FilterWhere = log.Status == '0' ? input.FilterWhere + ' AND deleted = 0' : log.Status != null && log.Status != undefined ? input.FilterWhere + ' AND deleted = 1' : input.FilterWhere;
+            }
+
+            if (log.TableName == 'NCR') {
+                input.FilterWhere = "created_date >= '" + dateFrom + "' AND created_date <= '" + dateTo + "'";
+                input.FilterWhere = log.Status == '0' ? input.FilterWhere + ' AND deleted = 0' : log.Status != null && log.Status != undefined ? input.FilterWhere + ' AND deleted = 1' : input.FilterWhere;
+                input.FilterWhere = log.Division != null && log.Division != undefined ? input.FilterWhere + ' AND division_id = ' + log.Division : input.FilterWhere;
+                input.FilterWhere = log.Department != null && log.Department != undefined ? input.FilterWhere + ' AND department_id = ' + log.Department : input.FilterWhere;
+                input.FilterWhere = log.RootCause != null && log.RootCause != undefined && log.RootCause != '' ? input.FilterWhere + ' AND investigation = ' + log.RootCause : input.FilterWhere;
+                input.FilterWhere = log.Elements != null && log.Elements != undefined && log.Elements != '' ? input.FilterWhere + ' AND requirement = ' + log.Elements : input.FilterWhere;
+                input.FilterWhere = log.nclncrId != null && log.nclncrId != undefined && log.nclncrId != '' ? input.FilterWhere + ' AND NCR_code = ' + `'${log.nclncrId}'` : input.FilterWhere;
+            }
+
+            if (log.TableName == 'NCL') {
+                input.FilterWhere = "created_date >= '" + dateFrom+ "' AND created_date <= '" + dateTo + "'";
+                input.FilterWhere = log.Status == '0' ? input.FilterWhere + ' AND deleted = 0' : log.Status != null && log.Status != undefined ? input.FilterWhere + ' AND deleted = 1' : input.FilterWhere;
+                input.FilterWhere = log.Division != null && log.Division != undefined ? input.FilterWhere + ' AND division_id = ' + log.Division : input.FilterWhere;
+                input.FilterWhere = log.Department != null && log.Department != undefined ? input.FilterWhere + ' AND department_id = ' + log.Department : input.FilterWhere;
+                input.FilterWhere = log.Category != null && log.Category != undefined && log.Category != '' ? input.FilterWhere + " AND category_id = '" + log.Category + "'" : input.FilterWhere;
+                input.FilterWhere = log.Agency != null && log.Agency != undefined && log.Agency != '' ? input.FilterWhere + " AND issue_by_id = '" + log.Agency + "'" : input.FilterWhere;
+                input.FilterWhere = log.Classification != null && log.Classification != undefined && log.Classification != '' ? input.FilterWhere + " AND class_id = '" + log.Classification + "'" : input.FilterWhere;
+                input.FilterWhere = log.nclncrId != null && log.nclncrId != undefined && log.nclncrId != '' ? input.FilterWhere + ' AND NCL_code = ' + `'${log.nclncrId}'` : input.FilterWhere;
+            }
+
+            if (log.TableName == 'SHC_Meeting') {
+                input.FilterWhere = "CreatedDate >= '" + log.DateFrom + "' AND CreatedDate <= '" + dateTo + "'";
+                input.FilterWhere = log.Status == '0' ? input.FilterWhere + ' AND deleted = 0' : log.Status != null && log.Status != undefined ? input.FilterWhere + ' AND deleted = 1' : input.FilterWhere;
+            }
+
+            if (log.TableName == 'SHC_Assignment') {
+                input.FilterWhere = "CreatedDate >= '" + log.DateFrom + "' AND CreatedDate <= '" + dateTo + "'";
+                input.FilterWhere = log.Status == '0' ? input.FilterWhere + ' AND deleted = 0' : log.Status != null && log.Status != undefined ? input.FilterWhere + ' AND deleted = 1' : input.FilterWhere;
+            }
+
+            if (log.TableName == 'Trail_SHC_Meeting') {
+                input.FilterWhere = "CreatedDate >= '" + log.DateFrom + "' AND CreatedDate <= '" + dateTo + "'";
+                input.FilterWhere = log.Status == '0' ? input.FilterWhere + ' AND deleted = 0' : log.Status != null && log.Status != undefined ? input.FilterWhere + ' AND deleted = 1' : input.FilterWhere;
+            }
+
+            if (log.TableName == 'Trail_SHC_Assignment') {
+                input.FilterWhere = "CreatedDate >= '" + log.DateFrom + "' AND CreatedDate <= '" + dateTo + "'";
+                input.FilterWhere = log.Status == '0' ? input.FilterWhere + ' AND deleted = 0' : log.Status != null && log.Status != undefined ? input.FilterWhere + ' AND deleted = 1' : input.FilterWhere;
+            }
+
+            if (log.TableName == 'tbl_chem_reg_B2') {
+                // input.FilterWhere = "CreatedDate >= '" + log.DateFrom + "' AND CreatedDate <= '" + dateTo + "'";
+                input.FilterWhere = "SDS_date >= '" + log.DateFrom + "' AND SDS_date <= '" + dateTo + "'";
+                input.FilterWhere = log.Status == '0' ? input.FilterWhere + ' AND deleted = 0' : log.Status != null && log.Status != undefined ? input.FilterWhere + ' AND deleted = 1' : input.FilterWhere;
+                // input.FilterWhere = log.Division != null && log.Division != undefined ? input.FilterWhere + ' AND division_id = ' + log.Division : input.FilterWhere;
+                // input.FilterWhere = log.Department != null && log.Department != undefined ? input.FilterWhere + ' AND department_id = ' + log.Department : input.FilterWhere;
+                // input.FilterWhere = log.Unit != null && log.Unit != undefined ? input.FilterWhere + ' AND unit_id = ' + log.Unit : input.FilterWhere;
+            }
+
+            if (log.TableName == 'tbl_chem_approved_list') {
+                input.FilterWhere = "SDS_date >= '" + log.DateFrom + "' AND SDS_date <= '" + dateTo + "'";
+                input.FilterWhere = log.Status == '0' ? input.FilterWhere + ' AND deleted = 0' : log.Status != null && log.Status != undefined ? input.FilterWhere + ' AND deleted = 1' : input.FilterWhere;
+                input.FilterWhere = log.Division != null && log.Division != undefined ? input.FilterWhere + ' AND div = ' + log.Division : input.FilterWhere;
+                input.FilterWhere = log.Department != null && log.Department != undefined ? input.FilterWhere + ' AND dept = ' + log.Department : input.FilterWhere;
+                //input.FilterWhere = log.Unit != null && log.Unit != undefined ? input.FilterWhere + ' AND unit_id = ' + log.Unit : input.FilterWhere;
+            }
+
+            if (log.TableName == 'LC_LegalRegister') {
+                input.FilterWhere = "CreatedDate >= '" + log.DateFrom + "' AND CreatedDate <= '" + dateTo + "'";
+                input.FilterWhere = log.Status == '0' ? input.FilterWhere + ' AND isDeleted = 0' : log.Status != null && log.Status != undefined ? input.FilterWhere + ' AND isDeleted = 1' : input.FilterWhere;
+                input.FilterWhere = log.Division != null && log.Division != undefined ? input.FilterWhere + ' AND DivisionId = ' + log.Division : input.FilterWhere;
+                input.FilterWhere = log.Department != null && log.Department != undefined ? input.FilterWhere + ' AND DeptId = ' + log.Department : input.FilterWhere;
+                //input.FilterWhere = log.Unit != null && log.Unit != undefined ? input.FilterWhere + ' AND unit_id = ' + log.Unit : input.FilterWhere;
+            }
+
+            loadTable();
+
+        }
+
+        function loadTable() {
+            if (table) {
+                $('#example').DataTable().destroy();
+                $('#example').empty();
+            }
+            $("#example").append("<thead><tr></tr></thead>");
+
+            input.ColumnList.forEach((col) => {
+                 $("#example thead tr").append(`<th>${col}</th>`);
+            })
+
+            table = $("#example").DataTable({
+                "paging": true,
+                "searching": true,
+                "processing": true, // for show progress bar
+                "serverSide": true, // for process server side
+                //"filter": true, // this is for disable filter (search box)
+                "orderMulti": false, // for disable multiple column at once
+                //"order": [[3, "desc"]],
+                //"lengthMenu": [ [10, 25, 50, 100, -1], [10, 25, 50, 100, "All"] ],
+                "ajax": {
+                    "url": "/api/log/getlog",
+                    "type": "POST",
+                    "datatype": "json",
+                    "data": input
+                },
+                "scrollX": true,
+                "columns":  input.ColumnList.map((col) => { return { "data": col, "className": col, "autoWidth": true } }),
+                "deferRender": true,
+                "drawCallback": function() {
+                    getRelationalData()
+                     $("#example").DataTable().columns.adjust();
+                     $("#btnsExport").slideDown();
+                }
+            });
+            $("#generateBtn").prop('disabled', false)
+
+            notify("success", "Logs has been loaded successfully!");
+
+            $("th").each(function (index) {
+                try {
+                    let currCol = $(this).text();
+                    $(this).text(columns.find(x => x[0] == currCol)[1])
+                }
+                catch (e){}
+            })
+
+        }
+
+        function exportToCsv(){
+            //$("#loadingRange").val(0);
+            //$("#loadingExport").modal("show");
+            notify("warning", "Exporting data... Please wait!")
+            swal({
+                showCancelButton: false, // There won't be any cancel button
+                showConfirmButton: false, // There won't be any confirm button
+                allowOutsideClick: false,
+		        title: `${sweet_loader}Exporting data... Please wait!`,
+                text: "This may take a while...",
+                html: true,
+	        });
+            $.ajax({
+                url: "/hse/getlogfull",
+                xhrFields: {
+                    withCredentials: true
+                },
+                data: input,
+                type: "POST"
+            }).done(function (datas) {
+                datas = JSON.parse(datas)
+                //currentPercent = 0
+                //totalPercent = data.length * columns.length
+                //$("#loadingRange").attr("max", totalPercent);
+                datas.forEach(function(row, rowIndex) {
+                    let meetingCode;
+                    Object.keys(row).forEach(function(key){
+                        if (key == "Meeting Code") meetingCode = row[key];
+                        datas[rowIndex][key] = getRelationalDataExport(key, row[key], meetingCode);
+                    })
+                });
+                let csvData = new Blob([Papa.unparse(datas)], { type: 'text/csv' });
+                let a = document.createElement('a');
+                let csvUrl = URL.createObjectURL(csvData);
+                a.target      = '_blank';
+                a.download    = `HSE_LOG_${new Date().toISOString()}.csv`;
+                a.href =  csvUrl;
+
+                document.body.appendChild(a);
+                a.click(); // This will download the data file named "my_data.csv".
+                swal.close()
+                notify("success", "Data exported!")
+            })
+        }
+
+        function downloadPDF (){
+            function buildTableBody(data, columns) {
+                let body = [];
+
+                let col = [];
+                columns.forEach(function (item) {
+                    col.push({ text: item, style: 'tableHeader' });
+                });
+
+                body.push(col);
+
+                data.forEach(function (row) {
+                    let dataRow = [];
+                    let meetingCode;
+                    columns.forEach(function (column) {
+                        if (column == "Meeting Code") meetingCode = row[column];
+                        let formattedData = getRelationalDataExport(column, row[column], meetingCode);
+                        dataRow.push(formattedData != null ? formattedData : "");
+                    })
+
+                    body.push(dataRow);
+                });
+
+                return body;
+            }
+
+            function table(data, columns) {
+                return {
+                    table: {
+                        headerRows: 1,
+                        body: buildTableBody(data, columns)
+                    }
+                };
+            }
+
+            notify("warning", "Exporting data... Please wait!")
+            swal({
+                showCancelButton: false, // There won't be any cancel button
+                showConfirmButton: false, // There won't be any confirm button
+                allowOutsideClick: false,
+		        title: `${sweet_loader}Exporting data... Please wait!`,
+                text: "This may take a while...",
+                html: true,
+	        });
+            $.ajax({
+                url: "/hse/getlogfull",
+                xhrFields: {
+                    withCredentials: true
+                },
+                data: input,
+                type: "POST"
+            }).done(function (datas) {
+                let data = JSON.parse(datas)
+
+                let csv_file_name = `HSE_LOG_${new Date().toISOString()}`;
+
+                let dd = {
+                    pageSize: $("#globalPageSize").text(),
+                    pageOrientation: 'landscape',
+                    content: [
+                        table(data, Object.keys(data[0]))
+                    ],
+                    styles: {
+                        header: {
+                            fontSize: 5,
+                            bold: true,
+                            margin: [0, 0, 0, 10]
+                        },
+                        subheader: {
+                            fontSize: 5,
+                            bold: true,
+                            margin: [0, 10, 0, 5]
+                        },
+                        tableExample: {
+                            margin: [0, 5, 0, 15]
+                        },
+                        tableHeader: {
+                            bold: true,
+                            fontSize: 5,
+                            color: 'black'
+                        }
+                    },
+                    defaultStyle: {
+                        alignment: 'justify',
+                        fontSize: 5,
+                    }
+                }
+                pdfMake.createPdf(dd).download(csv_file_name + '.pdf');
+
+                swal.close()
+                notify("success", "Data exported!")
+            })
+        };
+
+        function previewPDF (){
+            function buildTableBody(data, columns) {
+                let body = [];
+
+                let col = [];
+                columns.forEach(function (item) {
+                    col.push({ text: item, style: 'tableHeader' });
+                });
+
+                body.push(col);
+
+                data.forEach(function (row) {
+                    let dataRow = [];
+                    let meetingCode;
+                    columns.forEach(function (column) {
+                        if (column == "Meeting Code") meetingCode = row[column];
+                        let formattedData = getRelationalDataExport(column, row[column], meetingCode);
+                        dataRow.push(formattedData != null ? formattedData : "");
+                    })
+
+                    body.push(dataRow);
+                });
+
+                return body;
+            }
+
+            function table(data, columns) {
+                return {
+                    table: {
+                        headerRows: 1,
+                        body: buildTableBody(data, columns)
+                    }
+                };
+            }
+
+            notify("warning", "Exporting data... Please wait!")
+            swal({
+                showCancelButton: false, // There won't be any cancel button
+                showConfirmButton: false, // There won't be any confirm button
+                allowOutsideClick: false,
+		        title: `${sweet_loader}Exporting data... Please wait!`,
+                text: "This may take a while...",
+                html: true,
+	        });
+            $.ajax({
+                url: "/hse/getlogpreview",
+                xhrFields: {
+                    withCredentials: true
+                },
+                data: input,
+                type: "POST"
+            }).done(function (datas) {
+                let data = JSON.parse(datas)
+
+                let csv_file_name = `HSE_LOG_${new Date().toISOString()}`;
+
+                let dd = {
+                    pageSize: $("#globalPageSize").text(),
+                    pageOrientation: 'landscape',
+                    content: [
+                        table(data, Object.keys(data[0]))
+                    ],
+                    styles: {
+                        header: {
+                            fontSize: 5,
+                            bold: true,
+                            margin: [0, 0, 0, 10]
+                        },
+                        subheader: {
+                            fontSize: 5,
+                            bold: true,
+                            margin: [0, 10, 0, 5]
+                        },
+                        tableExample: {
+                            margin: [0, 5, 0, 15]
+                        },
+                        tableHeader: {
+                            bold: true,
+                            fontSize: 5,
+                            color: 'black'
+                        }
+                    },
+                    defaultStyle: {
+                        alignment: 'justify',
+                        fontSize: 5,
+                    }
+                }
+                pdfMake.createPdf(dd).open();
+
+                swal.close()
+                notify("success", "Data exported!")
+            })
+        };
+
+        var nclCategories = JSON.parse('@Html.Raw(JsonConvert.SerializeObject(ViewBag.NclCategories))');
+        var nclClassifications = JSON.parse('@Html.Raw(JsonConvert.SerializeObject(ViewBag.NclClassifications))');
+        var nclAgencies = JSON.parse('@Html.Raw(JsonConvert.SerializeObject(ViewBag.NclAgencies))');
+        var ncrRequirements = JSON.parse('@Html.Raw(JsonConvert.SerializeObject(ViewBag.NclRegulations))');
+        var ncrRootCauses = [];
+        var chemBrands = JSON.parse('@Html.Raw(JsonConvert.SerializeObject(ViewBag.ChemBrands))');
+        var chemTypePpe = JSON.parse('@Html.Raw(JsonConvert.SerializeObject(ViewBag.ChemTypePpe))');
+        var chemTypeEC = JSON.parse('@Html.Raw(JsonConvert.SerializeObject(ViewBag.ChemTypeEC))');
+        var chemFormChemical = JSON.parse('@Html.Raw(JsonConvert.SerializeObject(ViewBag.ChemFormChemical))');
+        var chemHazardH = JSON.parse('@Html.Raw(JsonConvert.SerializeObject(ViewBag.ChemHazardH))');
+        var chemHazardS = JSON.parse('@Html.Raw(JsonConvert.SerializeObject(ViewBag.ChemHazardS))');
+        var chemHazardE = JSON.parse('@Html.Raw(JsonConvert.SerializeObject(ViewBag.ChemHazardE))');
+
+        $('#ncrRootCauseSelect option').each(function() {
+            if ($(this).val() == "") return;
+            ncrRootCauses.push({ id: $(this).val(), desc: $(this).text() })
+        })
+
+        var users = [];
+        var divisions = [];
+        var departments = [];
+        var zones = [];
+        var subzones = [];
+        var units = [];
+        var statuses = [];
+        var types = [];
+        var sections = [
+            { id: 0, desc: 'Draft' },
+            { id: 1, desc: 'Created' },
+            { id: 2, desc: 'Verified' },
+            { id: 3, desc: 'Action Taken' },
+            { id: 4, desc: 'Endorsed' }
+        ];
+        var steps = [
+            { id: 0, desc: 'Draft' },
+            { id: 1, desc: 'Detailed' },
+            { id: 2, desc: 'Action Plan' },
+            { id: 3, desc: 'Action Approval' },
+            { id: 4, desc: 'Evidence Submission' },
+            { id: 5, desc: 'Evidence Acceptence' },
+            { id: 6, desc: 'Verified' }
+        ];
+
+        var nclIdColumns = ['ncl id']
+        var ncrIdColumns = ['ncr id']
+        var dateColumns = ['due date', 'date issued', 'created date', 'report date']
+        var userColumns = ['created by', 'im', 'pic', 'auditee', 'new approved id', 'mom approved by', 'approver user', 'lead user', 'chem approval', 'modify by'];
+        var usersColumns = ['notified person', 'notify user'];
+        var categoryColumns = ['category'];
+        var classColumns = ['classification'];
+        var divColumns = ['division'];
+        var agencyColumns = ['issue by'];
+        var deptColumns = ['department', 'dept', 'location or parties audited/inspection'];
+        var zoneColumns = ['zone'];
+        var subzoneColumns = ['subzone'];
+        var unitColumns = ['unit'];
+        var statusColumns = ['status'];
+        var shcTypeColumns = ['shc type'];
+        var typeColumns = ['type'];
+        var legalColumns = ['legality'];
+        var sectionColumns = ['section'];
+        var requirementColumns = ['requirement'];
+        var stepColumns = ['ncr step']
+        var shcColumns = ['shc']
+        var prevMeetColumns = ['prev meeting']
+        var brandColumns = ['brand']
+        var boolColumns = ['chem hazard', 'chem pack', 'chem carcinogenic', 'chem mutagenic', 'chem respiratory', 'chem contain lcc', 'chem forlabs']
+        var typePpeColumns = ['type control ppe']
+        var typeEcColumns = ['type control engcontrol']
+        var formChemColumns = ['chem formchemical']
+        var hazardHColumns = ['comply class h']
+        var hazardSColumns = ['comply class s']
+        var hazardEColumns = ['comply class e']
+        var genderColumns = ['gender']
+        var rootCausesColumns = ['root cause category']
+
+        function getRelationalData() {
+
+            $("th").each(function (indexTh){
+                let currentElem = $(this);
+                let currCol = currentElem.text();
+
+                if (userColumns.includes(currCol.toLowerCase())){
+                    $("tbody tr").each(function (indexTd){
+                        let chosenElem = $(this).children().eq(indexTh)
+                        let currUser = users.find(x => x.user_id == chosenElem.text());
+                        if (typeof currUser !== 'undefined') chosenElem.text(currUser.fullname);
+                    })
+                }
+                else if (dateColumns.includes(currCol.toLowerCase()) || currCol.toLowerCase().includes('date')){
+                    $("tbody tr").each(function (indexTd){
+                        let chosenElem = $(this).children().eq(indexTh)
+                        let currDate = dateToStringV3(new Date(chosenElem.text()));
+                        if (typeof currDate !== 'undefined' && !currDate.includes('undefined') && !currDate.includes('NaN')) chosenElem.text(currDate);
+                    })
+                }
+                else if (agencyColumns.includes(currCol.toLowerCase())){
+                    $("tbody tr").each(function (indexTd){
+                        let chosenElem = $(this).children().eq(indexTh)
+                        let currAgency = nclAgencies.find(x => x.issue_id == chosenElem.text());
+                        if (typeof currAgency !== 'undefined') chosenElem.text(currAgency.issue_desc);
+                    })
+                }
+                else if (usersColumns.includes(currCol.toLowerCase())) {
+                    $("tbody tr").each(function (indexTd){
+                        let chosenElem = $(this).children().eq(indexTh)
+                        let userIdsStr = `${chosenElem.text()}`
+                        let userIds = userIdsStr.split(",");
+                        let fullNames = "";
+                        userIds.forEach(function(userId) {
+                            let currUser = users.find(x => x.user_id == userId);
+                            fullNames += typeof currUser !== 'undefined' ? currUser.fullname : userId;
+                            fullNames += ", "
+                        })
+                        chosenElem.text(fullNames.replace(/(^, )|(, $)/g, ""))
+                    })
+                }
+                else if (categoryColumns.includes(currCol.toLowerCase())){
+                    $("tbody tr").each(function (indexTd){
+                        let chosenElem = $(this).children().eq(indexTh)
+                        let catIdsStr = `${chosenElem.text()}`
+                        let catIds = catIdsStr.split(",");
+                        let fullCats = "";
+                        catIds.forEach(function(catId) {
+                            let currCat = nclCategories.find(x => x.category_id == catId);
+                            fullCats += typeof currCat !== 'undefined' ? currCat.category_desc : catId;
+                            fullCats += ", "
+                        })
+                        chosenElem.text(fullCats.replace(/(^, )|(, $)/g, ""))
+                    })
+                }
+                else if (classColumns.includes(currCol.toLowerCase())){
+                    $("tbody tr").each(function (indexTd){
+                        let chosenElem = $(this).children().eq(indexTh)
+                        let currClass = nclClassifications.find(x => x.class_id == chosenElem.text());
+                        if (typeof currClass !== 'undefined') chosenElem.text(currClass.class_desc);
+                    })
+                }
+                else if (divColumns.includes(currCol.toLowerCase())){
+                    $("tbody tr").each(function (indexTd){
+                        let chosenElem = $(this).children().eq(indexTh)
+                        let currDiv = divisions.find(x => x.division_id == chosenElem.text());
+                        if (typeof currDiv !== 'undefined') chosenElem.text(currDiv.division_desc);
+                    })
+                }
+                else if (deptColumns.includes(currCol.toLowerCase())){
+                    $("tbody tr").each(function (indexTd){
+                        let chosenElem = $(this).children().eq(indexTh)
+                        let currDept = departments.find(x => x.department_id == chosenElem.text());
+                        if (typeof currDept !== 'undefined') chosenElem.text(currDept.department_desc);
+                    })
+                }
+                else if (zoneColumns.includes(currCol.toLowerCase())){
+                    $("tbody tr").each(function (indexTd){
+                        let chosenElem = $(this).children().eq(indexTh)
+                        let currZone = zones.find(x => x.zone_id == chosenElem.text());
+                        if (typeof currZone !== 'undefined') chosenElem.text(currZone.zone_desc);
+                    })
+                }
+                else if (subzoneColumns.includes(currCol.toLowerCase())){
+                    $("tbody tr").each(function (indexTd){
+                        let chosenElem = $(this).children().eq(indexTh)
+                        let currSubzone = subzones.find(x => x.subzone_id == chosenElem.text());
+                        if (typeof currSubzone !== 'undefined') chosenElem.text(currSubzone.subzone_desc);
+                    })
+                }
+                else if (unitColumns.includes(currCol.toLowerCase())){
+                    $("tbody tr").each(function (indexTd){
+                        let chosenElem = $(this).children().eq(indexTh)
+                        let currUnit = units.find(x => x.unit_id == chosenElem.text());
+                        if (typeof currUnit !== 'undefined') chosenElem.text(currUnit.unit_desc);
+                    })
+                }
+                else if (statusColumns.includes(currCol.toLowerCase())){
+                    $("tbody tr").each(function (indexTd){
+                        let chosenElem = $(this).children().eq(indexTh)
+                        let currStatus = statuses.find(x => x.status_id == chosenElem.text());
+                        if (typeof currStatus !== 'undefined') chosenElem.text(currStatus.status_desc);
+                    })
+                }
+                else if (typeColumns.includes(currCol.toLowerCase())){
+                    $("tbody tr").each(function (indexTd){
+                        let chosenElem = $(this).children().eq(indexTh)
+                        let currType = types.find(x => x.type_id == chosenElem.text());
+                        if (typeof currType !== 'undefined') chosenElem.text(currType.type_desc);
+                    })
+                }
+                else if (shcTypeColumns.includes(currCol.toLowerCase())){
+                    $("tbody tr").each(function (indexTd){
+                        let chosenElem = $(this).children().eq(indexTh)
+                        switch (chosenElem.text()) {
+                            case "1":
+                                chosenElem.text("Function");
+                                break;
+                            case "2":
+                                chosenElem.text("Building");
+                                break;
+                            default:
+                                break;
+                        }
+                    })
+                }
+                else if (legalColumns.includes(currCol.toLowerCase())){
+                    $("tbody tr").each(function (indexTd){
+                        let chosenElem = $(this).children().eq(indexTh)
+                        switch (chosenElem.text()) {
+                            case "0":
+                                chosenElem.text("Non Legal");
+                                break;
+                            case "1":
+                                chosenElem.text("Legal");
+                                break;
+                            default:
+                                chosenElem.text("N/A");
+                                break;
+                        }
+                    })
+                }
+                else if (sectionColumns.includes(currCol.toLowerCase())){
+                    $("tbody tr").each(function (indexTd){
+                        let chosenElem = $(this).children().eq(indexTh)
+                        let currSection = sections.find(x => x.id == chosenElem.text());
+                        if (typeof currSection !== 'undefined') chosenElem.text(currSection.desc);
+                    })
+                }
+                else if (requirementColumns.includes(currCol.toLowerCase())){
+                    $("tbody tr").each(function (indexTd){
+                        let chosenElem = $(this).children().eq(indexTh)
+                        let currReq = ncrRequirements.find(x => x.regulation_id == chosenElem.text());
+                        if (typeof currReq !== 'undefined') chosenElem.text(currReq.regulation_desc);
+                    })
+                }
+                else if (stepColumns.includes(currCol.toLowerCase())){
+                    $("tbody tr").each(function (indexTd){
+                        let chosenElem = $(this).children().eq(indexTh)
+                        let currStep = steps.find(x => x.id == chosenElem.text());
+                        if (typeof currStep !== 'undefined') chosenElem.text(currStep.desc);
+                    })
+                }
+                else if (shcColumns.includes(currCol.toLowerCase())){
+                    let format = new Intl.NumberFormat('en-US', {
+                        minimumIntegerDigits: 4
+                    });
+                    $("tbody tr").each(function (indexTd){
+                        let chosenElem = $(this).children().eq(indexTh)
+                        let currShc = `SHC${format.format(chosenElem.text())}`;
+                        if (typeof currShc !== 'undefined' && !currShc.includes('undefined') && !currShc.includes('NaN')) chosenElem.text(currShc.replace(/\,/g,''));
+                    })
+                }
+                else if (prevMeetColumns.includes(currCol.toLowerCase())){
+                    let format = new Intl.NumberFormat('en-US', {
+                        minimumIntegerDigits: 8
+                    });
+                    $("tbody tr").each(function (indexTd){
+                        let thIndex = $('thead th.Meetingcode').eq(0).index();
+                        let chosenElem = $(this).children().eq(indexTh)
+                        if (chosenElem.text() == "") return chosenElem.text("No Previous Meeting");
+                        if (thIndex == -1) return;
+                        let meetingCode = $(this).children().eq(thIndex).text()
+                        let currMeet = `${meetingCode.split("/")[0]}/MEETING-${format.format(chosenElem.text())}`;
+                        if (typeof currMeet !== 'currMeet' && !currMeet.includes('currMeet') && !currMeet.includes('currMeet')) chosenElem.text(currMeet.replace(/\,/g,''));
+                    })
+                }
+                else if (brandColumns.includes(currCol.toLowerCase())){
+                    $("tbody tr").each(function (indexTd){
+                        let chosenElem = $(this).children().eq(indexTh)
+                        let currBrand = chemBrands.find(x => x.id == chosenElem.text());
+                        if (typeof currBrand !== 'undefined') chosenElem.text(currBrand.desc);
+                    })
+                }
+                else if (boolColumns.includes(currCol.toLowerCase())){
+                    $("tbody tr").each(function (indexTd){
+                        let chosenElem = $(this).children().eq(indexTh)
+                        let currBool = chosenElem.text() == "1" ? "YES" : "NO";
+                        if (typeof currBool !== 'undefined') chosenElem.text(currBool);
+                    })
+                }
+                else if (typePpeColumns.includes(currCol.toLowerCase())){
+                    $("tbody tr").each(function (indexTd){
+                        let chosenElem = $(this).children().eq(indexTh)
+                        let ppeIdsStr = `${chosenElem.text()}`
+                        let ppeIds = ppeIdsStr.split(",");
+                        let fullPpes = "";
+                        ppeIds.forEach(function(ppeId) {
+                            let currPpe = chemTypePpe.find(x => x.id == ppeId);
+                            fullPpes += typeof currPpe !== 'undefined' ? currPpe.descr : ppeId;
+                            fullPpes += ", "
+                        })
+                        chosenElem.text(fullPpes.replace(/(^, )|(, $)/g, ""))
+                    })
+                }
+                else if (typeEcColumns.includes(currCol.toLowerCase())){
+                    $("tbody tr").each(function (indexTd){
+                        let chosenElem = $(this).children().eq(indexTh)
+                        let currEC = chemTypeEC.find(x => x.id == chosenElem.text());
+                        if (typeof currEC !== 'undefined') chosenElem.text(currEC.descr);
+                    })
+                }
+                else if (formChemColumns.includes(currCol.toLowerCase())){
+                    $("tbody tr").each(function (indexTd){
+                        let chosenElem = $(this).children().eq(indexTh)
+                        let currFormChem = chemFormChemical.find(x => x.id == chosenElem.text());
+                        if (typeof currFormChem !== 'undefined') chosenElem.text(currFormChem.descr);
+                    })
+                }
+                else if (hazardHColumns.includes(currCol.toLowerCase())){
+                    $("tbody tr").each(function (indexTd){
+                        let chosenElem = $(this).children().eq(indexTh)
+                        let currHazH = chemHazardH.find(x => x.id == chosenElem.text());
+                        if (typeof currHazH !== 'undefined') chosenElem.text(currHazH.descr);
+                    })
+                }
+                else if (hazardSColumns.includes(currCol.toLowerCase())){
+                    $("tbody tr").each(function (indexTd){
+                        let chosenElem = $(this).children().eq(indexTh)
+                        let currHazS = chemHazardS.find(x => x.id == chosenElem.text());
+                        if (typeof currHazS !== 'undefined') chosenElem.text(currHazS.descr);
+                    })
+                }
+                else if (hazardEColumns.includes(currCol.toLowerCase())){
+                    $("tbody tr").each(function (indexTd){
+                        let chosenElem = $(this).children().eq(indexTh)
+                        let currHazE = chemHazardE.find(x => x.id == chosenElem.text());
+                        if (typeof currHazE !== 'undefined') chosenElem.text(currHazE.descr);
+                    })
+                }
+                else if (rootCausesColumns.includes(currCol.toLowerCase())){
+                    $("tbody tr").each(function (indexTd){
+                        let chosenElem = $(this).children().eq(indexTh)
+                        let currRootCause = ncrRootCauses.find(x => x.id == chosenElem.text());
+                        if (typeof currRootCause !== 'undefined') chosenElem.text(currRootCause.desc);
+                    })
+                }
+                else if (genderColumns.includes(currCol.toLowerCase())){
+                    $("tbody tr").each(function (indexTd){
+                        let chosenElem = $(this).children().eq(indexTh)
+                        let gender;
+                        switch(chosenElem.text()){
+                            case "1":
+                                gender = "Male";
+                                break;
+                            case "2":
+                                gender = "Female";
+                                break;
+                            default:
+                                gender = undefined;
+                        }
+                        if (typeof gender !== 'undefined') chosenElem.text(gender);
+                    })
+                }
+                else if (nclIdColumns.includes(currCol.toLowerCase())) {
+                    $("tbody tr").each(function (indexTd) {
+                        let chosenElem = $(this).children().eq(indexTh)
+                        let nclId = `NCL${padLeadingZeros(chosenElem.text(), 7)}`
+                        if (typeof chosenElem.text() !== 'undefined') chosenElem.text(nclId);
+                    })
+                }
+                else if (ncrIdColumns.includes(currCol.toLowerCase())) {
+                    $("tbody tr").each(function (indexTd) {
+                        let chosenElem = $(this).children().eq(indexTh)
+                        let ncrId = `NCR${padLeadingZeros(chosenElem.text(), 7)}`
+                        if (typeof chosenElem.text() !== 'undefined') chosenElem.text(ncrId);
+                    })
+                }
+            })
+
+        }
+
+        function getRelationalDataExport(col, data, meetingCode = "") {
+
+            if (userColumns.includes(col.toLowerCase())){
+                let currUser = users.find(x => x.user_id == data);
+                if (typeof currUser !== 'undefined') return currUser.fullname;
+            }
+            else if (dateColumns.includes(col.toLowerCase()) || col.toLowerCase().includes('date')){
+                let currDate = dateToStringV3(new Date(data));
+                if (typeof currDate !== 'undefined' && !currDate.includes('undefined') && !currDate.includes('NaN')) return currDate;
+            }
+            else if (agencyColumns.includes(col.toLowerCase())){
+                let currAgency = nclAgencies.find(x => x.issue_id == data);
+                if (typeof currAgency !== 'undefined') return currAgency.issue_desc;
+            }
+            else if (usersColumns.includes(col.toLowerCase())) {
+                let userIdsStr = data;
+                let userIds = userIdsStr.split(",");
+                let fullNames = "";
+                userIds.forEach(function(userId) {
+                    let currUser = users.find(x => x.user_id == userId);
+                    fullNames += typeof currUser !== 'undefined' ? currUser.fullname : userId;
+                    fullNames += ", "
+                })
+                return fullNames.replace(/(^, )|(, $)/g, "")
+            }
+            else if (categoryColumns.includes(col.toLowerCase())){
+                let catIdsStr = data
+                let catIds = catIdsStr.split(",");
+                let fullCats = "";
+                catIds.forEach(function(catId) {
+                    let currCat = nclCategories.find(x => x.category_id == catId);
+                    fullCats += typeof currCat !== 'undefined' ? currCat.category_desc : catId;
+                    fullCats += ", "
+                })
+                return fullCats.replace(/(^, )|(, $)/g, "")
+            }
+            else if (classColumns.includes(col.toLowerCase())){
+                let currClass = nclClassifications.find(x => x.class_id == data);
+                if (typeof currClass !== 'undefined') return currClass.class_desc;
+            }
+            else if (divColumns.includes(col.toLowerCase())){
+                let currDiv = divisions.find(x => x.division_id == data);
+                if (typeof currDiv !== 'undefined') return currDiv.division_desc;
+            }
+            else if (deptColumns.includes(col.toLowerCase())){
+                let currDept = departments.find(x => x.department_id == data);
+                if (typeof currDept !== 'undefined') return currDept.department_desc;
+            }
+            else if (zoneColumns.includes(col.toLowerCase())){
+                let currZone = zones.find(x => x.zone_id == data);
+                if (typeof currZone !== 'undefined') return currZone.zone_desc;
+            }
+            else if (subzoneColumns.includes(col.toLowerCase())){
+                let currSubzone = subzones.find(x => x.subzone_id == data);
+                if (typeof currSubzone !== 'undefined') return currSubzone.subzone_desc;
+            }
+            else if (unitColumns.includes(col.toLowerCase())){
+                let currUnit = units.find(x => x.unit_id == data);
+                if (typeof currUnit !== 'undefined') return currUnit.unit_desc;
+            }
+            else if (statusColumns.includes(col.toLowerCase())){
+                let currStatus = statuses.find(x => x.status_id == data);
+                if (typeof currStatus !== 'undefined') return currStatus.status_desc;
+            }
+            else if (typeColumns.includes(col.toLowerCase())){
+                let currType = types.find(x => x.type_id == data);
+                if (typeof currType !== 'undefined') return currType.type_desc;
+            }
+            else if (shcTypeColumns.includes(col.toLowerCase())){
+                switch (data) {
+                    case "1":
+                        return "Function";
+                        break;
+                    case "2":
+                        return "Building";
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else if (legalColumns.includes(col.toLowerCase())){
+                switch (data) {
+                    case 0:
+                        return "Non Legal";
+                        break;
+                    case 1:
+                        return "Legal";
+                        break;
+                    default:
+                        return "N/A";
+                        break;
+                }
+            }
+            else if (sectionColumns.includes(col.toLowerCase())){
+                let currSection = sections.find(x => x.id == data);
+                if (typeof currSection !== 'undefined') return currSection.desc;
+            }
+            else if (requirementColumns.includes(col.toLowerCase())){
+                let currReq = ncrRequirements.find(x => x.regulation_id == data);
+                if (typeof currReq !== 'undefined') return currReq.regulation_desc;
+            }
+            else if (stepColumns.includes(col.toLowerCase())){
+                let currStep = steps.find(x => x.id == data);
+                if (typeof currStep !== 'undefined') return currStep.desc;
+            }
+            else if (shcColumns.includes(col.toLowerCase())){
+                let format = new Intl.NumberFormat('en-US', {
+                    minimumIntegerDigits: 4
+                });
+                let currShc = `SHC${format.format(data)}`;
+                if (typeof currShc !== 'undefined' && !currShc.includes('undefined') && !currShc.includes('NaN')) return currShc.replace(/\,/g,'');
+            }
+            else if (prevMeetColumns.includes(col.toLowerCase())){
+                let format = new Intl.NumberFormat('en-US', {
+                    minimumIntegerDigits: 8
+                });
+                if (data == "") return "No Previous Meeting";
+                if (meetingCode == "") return data;
+                let currMeet = `${meetingCode.split("/")[0]}/MEETING-${format.format(data)}`;
+                if (typeof currMeet !== 'currMeet' && !currMeet.includes('currMeet') && !currMeet.includes('currMeet')) return currMeet.replace(/\,/g,'');
+            }
+            else if (brandColumns.includes(col.toLowerCase())){
+                let currBrand = chemBrands.find(x => x.id == data);
+                if (typeof currBrand !== 'undefined') return currBrand.desc;
+            }
+            else if (boolColumns.includes(col.toLowerCase())){
+                let currBool = data == "1" ? "YES" : "NO";
+                if (typeof currBool !== 'undefined') return currBool;
+            }
+            else if (typePpeColumns.includes(col.toLowerCase())){
+                let ppeIdsStr = data;
+                let ppeIds = ppeIdsStr.split(",");
+                let fullPpes = "";
+                ppeIds.forEach(function(ppeId) {
+                    let currPpe = chemTypePpe.find(x => x.id == ppeId);
+                    fullPpes += typeof currPpe !== 'undefined' ? currPpe.descr : ppeId;
+                    fullPpes += ", "
+                })
+                return fullPpes.replace(/(^, )|(, $)/g, "")
+            }
+            else if (typeEcColumns.includes(col.toLowerCase())){
+                let currEC = chemTypeEC.find(x => x.id == data);
+                if (typeof currEC !== 'undefined') return currEC.descr;
+            }
+            else if (formChemColumns.includes(col.toLowerCase())){
+                let currFormChem = chemFormChemical.find(x => x.id == data);
+                if (typeof currFormChem !== 'undefined') return currFormChem.descr;
+            }
+            else if (hazardHColumns.includes(col.toLowerCase())){
+                let currHazH = chemHazardH.find(x => x.id == data);
+                if (typeof currHazH !== 'undefined') return currHazH.descr;
+            }
+            else if (hazardSColumns.includes(col.toLowerCase())){
+                let currHazS = chemHazardS.find(x => x.id == data);
+                if (typeof currHazS !== 'undefined') return currHazS.descr;
+            }
+            else if (hazardEColumns.includes(col.toLowerCase())){
+                let currHazE = chemHazardE.find(x => x.id == data);
+                if (typeof currHazE !== 'undefined') return currHazE.descr;
+            }
+            else if (rootCausesColumns.includes(col.toLowerCase())){
+                let currRootCause = ncrRootCauses.find(x => x.id == data);
+                if (typeof currRootCause !== 'undefined') return currRootCause.desc;
+            }
+            else if (genderColumns.includes(col.toLowerCase())){
+                let gender;
+                switch(data){
+                    case "1":
+                        gender = "Male";
+                        break;
+                    case "2":
+                        gender = "Female";
+                        break;
+                    default:
+                        gender = undefined;
+                }
+                if (typeof gender !== 'undefined') return gender;
+            }
+            else if (nclIdColumns.includes(col.toLowerCase())) {
+                let nclId = `NCL${padLeadingZeros(data, 7)}`
+                if (typeof nclId !== 'undefined') return nclId;
+            }
+            else if (ncrIdColumns.includes(col.toLowerCase())) {
+                let ncrId = `NCR${padLeadingZeros(data, 7)}`
+                if (typeof ncrId !== 'undefined') return ncrId;
+            }
+
+            return data;
+        }
+
+        var totalPercent;
+        var currentPercent = 0;
+
+        // JSON to CSV Converter
+        function ConvertToCSVOld(data) {
+            const items = data
+            const replacer = (key, value) => value === null ? '' : value // specify how you want to handle null values here
+            const header = Object.keys(items[0])
+            let meetingCode;
+
+            const csv = [
+              header.join(','), // header row first
+              ...items.map(row => header.map((fieldName, index) => {
+                if (fieldName == "Meeting Code") meetingCode = row[fieldName];
+                let formattedData = getRelationalDataExport(fieldName, row[fieldName], meetingCode);
+                //currentPercent += 1;
+                //$("#loadingRange").val(currentPercent)
+                if (typeof formattedData == "string"){
+                    formattedData = formattedData.replace(`"`, `''`).replace(`\"`, `''`);
+                }
+                console.log(formattedData);
+                console.log(JSON.stringify(formattedData, replacer))
+                return JSON.stringify(formattedData, replacer)
+              }).join(','))
+            ].join('\r\n')
+
+            return csv
+        }
+
+        function isNumeric(str) {
+            if (typeof str != "string") return false // we only process strings!
+            return !isNaN(str) && // use type coercion to parse the _entirety_ of the string (`parseFloat` alone does not do this)...
+                    !isNaN(parseFloat(str)) // ...and ensure strings of whitespace fail
+        }
+
+        function dateToStringV3(date) {
+            //This function only return this format - dd-MMM-yyyy
+            const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            let day = date.getDate();
+            day = day.toString().length != 2 ? '0' + day : day;
+            //month = monthNames[date.getMonth()];
+            month = date.getMonth() + 1;
+            return day + '/' + month + '/' + date.getFullYear();
+        }
+
+        function loadAllData(){
+            if (zones.length == 0){
+                $("#generateBtn").prop('disabled', true)
+                notify("warning", "Initializing data. This will take a moment... Please wait!");
+                $("#generateBtn").text("Initializing... Please wait!")
+                loadAllStatus()
+                loadAllType()
+                loadAllZone()
+                loadAllSubzone()
+                loadAllUnit()
+                loadAllDepartment()
+                loadAllDivision()
+                loadAllUsers()
+            }
+        }
+
+        function loadAllStatus() {
+            $.ajax({
+                url: `/sys/getallstatus`,
+                xhrFields: {
+                    withCredentials: true
+                }
+            }).done(function (data) {
+                statuses = data;
+            })
+        }
+
+        function loadAllType() {
+            $.ajax({
+                url: `/sys/getalltype`,
+                xhrFields: {
+                    withCredentials: true
+                }
+            }).done(function (data) {
+                types = data;
+            })
+        }
+
+        function loadAllDivision() {
+            $.ajax({
+                url: `/sys/getalldivision?showDeleted=true`,
+                xhrFields: {
+                    withCredentials: true
+                }
+            }).done(function (data) {
+                divisions = data;
+            })
+        }
+
+        function loadAllDepartment() {
+            $.ajax({
+                url: `/sys/getalldepartment?showDeleted=true`,
+                xhrFields: {
+                    withCredentials: true
+                }
+            }).done(function (data) {
+                departments = data;
+            })
+        }
+
+        function loadAllZone() {
+            $.ajax({
+                url: `/sys/getallzone?showDeleted=true`,
+                xhrFields: {
+                    withCredentials: true
+                }
+            }).done(function (data) {
+                zones = data;
+            })
+        }
+
+        function loadAllSubzone() {
+            $.ajax({
+                url: `/sys/getallsubzone?showDeleted=true`,
+                xhrFields: {
+                    withCredentials: true
+                }
+            }).done(function (data) {
+                subzones = data;
+            })
+        }
+
+        function loadAllUnit() {
+            $.ajax({
+                url: `/sys/getallunit?showDeleted=true`,
+                xhrFields: {
+                    withCredentials: true
+                }
+            }).done(function (data) {
+                units = data;
+            })
+        }
+
+        function loadAllUsers() {
+            if (users.length == 0) {
+                $.ajax({
+                    url: `/users/getallsimple`,
+                    xhrFields: {
+                        withCredentials: true
+                    }
+                }).done(function (data) {
+                    users = data;
+                    notify("success", "Data initialized successfully! You can now generate logs...");
+                    $("#generateBtn").prop('disabled', false)
+                    $("#generateBtn").html("<b>Generate</b>")
+                })
+            }
+        }
+
+        function padLeadingZeros(num, size) {
+            var s = num + "";
+            while (s.length < size) s = "0" + s;
+            return s;
+        }
+
+        var sweet_loader = '<div class="sweet_loader"><svg viewBox="0 0 140 140" width="140" height="140"><g class="outline"><path d="m 70 28 a 1 1 0 0 0 0 84 a 1 1 0 0 0 0 -84" stroke="rgba(0,0,0,0.1)" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></g><g class="circle"><path d="m 70 28 a 1 1 0 0 0 0 84 a 1 1 0 0 0 0 -84" stroke="#71BBFF" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dashoffset="200" stroke-dasharray="300"></path></g></svg></div>';
+
+
+        $(document).ready(function () {
+
+            // divisionSelect select2 definition
+            $('#divisionSelect').select2({
+                placeholder: "Please select a Division",
+                minimumResultsForSearch: -1,
+                ajax: {
+                    url: '/sys/getalldivision',
+                    processResults: function (data) {
+                        return {
+                            results: $.map(data, function (obj, index) {
+                                return { id: obj.division_id, text: `${obj.division_desc} - ${obj.division_code}` };
+                            })
+                        }
+                    },
+                    delay: 250,
+                },
+                cache: true
+            })
+
+            // divisionSelect bind child
+            $("#divisionSelect").change(function () {
+                $("#departmentSelect").val('').trigger('change')
+                if ($(this).find(":selected").val()) {
+                    $("#departmentSelect").prop("disabled", false)
+                } else {
+                    $("#departmentSelect").prop("disabled", true)
+                }
+            })
+
+            // departmentSelect select2 definition
+            $('#departmentSelect').select2({
+                placeholder: "Please select a Department",
+                minimumResultsForSearch: -1,
+                ajax: {
+                    url: '/sys/getselectdepartment',
+                    data: function (params) {
+                        let parentValue = $("#divisionSelect").find(":selected").val()
+                        let query = {
+                            divisionid: parentValue
+                        }
+                        return query;
+                    },
+                    processResults: function (data) {
+                        return {
+                            results: $.map(data, function (obj, index) {
+                                return { id: obj.department_id, text: `${obj.department_desc} - ${obj.department_code}` };
+                            })
+                        }
+                    },
+                    delay: 250,
+                },
+                cache: true
+            })
+
+            // departmentSelect bind child
+            $("#departmentSelect").change(function () {
+                $("#unitSelect").val('').trigger('change')
+                if ($(this).find(":selected").val()) {
+                    $("#unitSelect").prop("disabled", false)
+                } else {
+                    $("#unitSelect").prop("disabled", true)
+                }
+            })
+
+            // unitSelect select2 definition
+            $('#unitSelect').select2({
+                placeholder: "Please select a Unit",
+                minimumResultsForSearch: -1,
+                ajax: {
+                    url: '/sys/getselectunit',
+                    data: function () {
+                        let parentValue = $("#departmentSelect").find(":selected").val()
+                        let query = {
+                            departmentid: parentValue
+                        }
+                        return query;
+                    },
+                    processResults: function (data) {
+                        return {
+                            results: $.map(data, function (obj, index) {
+                                return { id: obj.unit_id, text: `${obj.unit_desc} - ${obj.unit_code}` };
+                            })
+                        }
+                    },
+                    delay: 250,
+                },
+                cache: true
+            })
+        })
+    </script>
+    <script src="~/assets/vendors/js/PapaParse-5.0.2/papaparse.min.js"></script>
+
+    <script>
+        var table;
+        var columns = [];
+
+        function getColumns(elem) {
+            let table = $(elem).val();
+            columns = []
+            data = []
+
+            $('.filterDiv').each(function () {
+                let elem = $(this)
+                let show = elem.data('show');
+                let hide = elem.data('hide');
+
+                if (show !== undefined) {
+                    if (show.includes(table)) elem.show();
+                    else elem.hide();
+                } else {
+                    if (hide.includes(table)) elem.hide();
+                    else elem.show();
+                }
+            })
+
+            if (table == 'NCL') {
+                columns.push(['ncl_id', 'NCL Id'])
+                columns.push(['created_by', 'Created By'])
+                columns.push(['created_date', 'Created Date'])
+                columns.push(['category_id', 'Category'])
+                columns.push(['class_id', 'Classification'])
+                columns.push(['issue_by_id', 'Issue By'])
+                columns.push(['issue_by_other', 'Issue By Other'])
+                columns.push(['notes', 'Details'])
+                columns.push(['note_date', 'Date Issued'])
+                columns.push(['due_date', 'Due Date'])
+                columns.push(['report_date', 'Report Date'])
+                columns.push(['pic_suggestion', 'PIC Suggestion'])
+                columns.push(['pic_respond_date', 'PIC Respond Date'])
+                columns.push(['status_id', 'Status'])
+                columns.push(['section', 'Section'])
+                columns.push(['fine', 'Fine'])
+                columns.push(['compound', 'Compound'])
+                columns.push(['year_of_sentence', 'Year Of Sentence'])
+                columns.push(['deleted', 'Deleted'])
+                columns.push(['division_id', 'Division'])
+                columns.push(['department_id', 'Department'])
+                columns.push(['zone_id', 'Zone'])
+                columns.push(['month_of_sentence', 'Month Of Sentence'])
+                columns.push(['day_of_sentence', 'Day Of Sentence'])
+                columns.push(['im_comment', 'IM Comment'])
+                columns.push(['pic_fine', 'PIC Fine'])
+                columns.push(['pic_compound', 'PIC Compound'])
+                columns.push(['pic_Id', 'PIC'])
+                columns.push(['EmailUserID', 'Notified Person'])
+                columns.push(['PIC_Comment', 'PIC Comment'])
+                columns.push(['unit_id', 'Unit'])
+                columns.push(['subzone_id', 'Subzone'])
+                columns.push(['im_Id', 'IM'])
+                columns.push(['NCL_code', 'NCL Code'])
+            }
+
+            if (table == 'NCR') {
+                columns.push(['ncr_id', 'NCR Id']);
+                columns.push(['created_by', 'Created By'])
+                columns.push(['created_date', 'Created Date'])
+                columns.push(['division_id', 'Division'])
+                columns.push(['department_id', 'Location or Parties Audited/Inspection']);
+                columns.push(['legal', 'Legality']);
+                columns.push(['type_id', 'Type']);
+                columns.push(['requirement', 'Requirement']);
+                columns.push(['finding', 'Finding']);
+                columns.push(['objective', 'Objective']);
+                columns.push(['auditee_id', 'Auditee']);
+                columns.push(['correction', 'Correction']);
+                columns.push(['action_date', 'Action Date']);
+                columns.push(['Investigation', 'Root Cause Category']);
+                columns.push(['remarks', 'Remarks']);
+                columns.push(['action_plan', 'Action Plan']);
+                columns.push(['completion_date', 'Completion Date']);
+                columns.push(['verification', 'Verification']);
+                columns.push(['status_id', 'Status']);
+                columns.push(['deleted', 'Deleted']);
+                columns.push(['propose_date', 'Proposed Date']);
+                columns.push(['verify_date', 'Verify Date']);
+                columns.push(['requirement_others', 'Requirement Others']);
+                columns.push(['issued_date', 'Issued Date']);
+                columns.push(['step', 'NCR Step']);
+                columns.push(['zoneId', 'Zone']);
+                columns.push(['subzoneId', 'Subzone']);
+                columns.push(['ncr_code', 'NCR Code']);
+            }
+
+            if (table == 'SHC') {
+                columns.push(['Id', 'SHC Id'])
+                columns.push(['Code', 'SHC Code'])
+                columns.push(['Name', 'Name'])
+                columns.push(['Jkkp_addr_line1', 'Address Line 1'])
+                columns.push(['Jkkp_addr_line2', 'Address Line 2'])
+                columns.push(['Jkkp_city', 'City'])
+                columns.push(['Jkkp_state', 'State'])
+                columns.push(['Jkkp_postcode', 'Postcode'])
+                columns.push(['Divisionid', 'Division'])
+                columns.push(['Departmentid', 'Department'])
+                columns.push(['Unitid', 'Unit'])
+                columns.push(['Zoneid', 'Zone'])
+                columns.push(['Subzoneid', 'Subzone'])
+                columns.push(['Createddate', 'Created Date'])
+                columns.push(['Gps_lat', 'Dosh Reg. No.'])
+                columns.push(['Gps_long', 'Latitude / Longitude'])
+                columns.push(['Newapprovedid', 'New Approved Id'])
+                columns.push(['Newapproveddate', 'New Approved Date'])
+                columns.push(['Nomember', 'No of Member'])
+                columns.push(['deleted', 'Deleted'])
+                columns.push(['Statusid', 'Status'])
+                columns.push(['Typeid', 'SHC Type'])
+                columns.push(['Typeinfo', 'Type Info'])
+                columns.push(['Secproposedmeetingdate', 'Proposed Meeting Date'])
+                columns.push(['Createremark', 'Remark upon creation'])
+                columns.push(['Step', 'Step']);
+                columns.push(['Createdby', 'Created By']);
+                columns.push(['NoMemberApprovedBy', 'No of MemberApprovedBy']);
+                columns.push(['NoMemberApprovedDate', 'No of MemberApprovedDate']);
+                columns.push(['AdmProposedMeetingDate', 'Admin Proposed Meeting Date']);
+            }
+
+            if (table == 'Users') {
+                columns.push(['User_id', 'User ID'])
+                columns.push(['Userguid', 'User GUID'])
+                columns.push(['Deleted', 'deleted'])
+                columns.push(['createdBy', 'Created By'])
+                columns.push(['createdDate', 'Created Date'])
+                columns.push(['UserName', 'Username'])
+                columns.push(['Email', 'Email'])
+                columns.push(['staff_number', 'Staff Number'])
+                columns.push(['Fullname', 'Full Name'])
+                columns.push(['Identityno', 'Identity No'])
+                columns.push(['grade', 'Grade'])
+                columns.push(['home_addr_line1', 'Home Address Line 1'])
+                columns.push(['home_addr_line2', 'Home Address Line 2'])
+                columns.push(['home_city', 'Home City'])
+                columns.push(['home_state', 'Home State'])
+                columns.push(['home_postcode', 'Home Postcode'])
+                columns.push(['off_addr_line1', 'Office Address Line 1'])
+                columns.push(['off_addr_line2', 'Office Address Line 2'])
+                columns.push(['off_city', 'Office City'])
+                columns.push(['off_state', 'Office State'])
+                columns.push(['off_postcode', 'Office Postcode'])
+                columns.push(['Mobile_no_p1', 'Mobile No P1'])
+                columns.push(['Mobile_no_p2', 'Mobile No P2'])
+                columns.push(['Office_no_p1', 'Office No P1'])
+                columns.push(['Office_no_p2', 'Office No P2'])
+                columns.push(['Empstartdate', 'Employment Start Date'])
+                columns.push(['Dob', 'Date of Birth'])
+                columns.push(['gender', 'Gender'])
+                columns.push(['marital_status', 'Marital Status'])
+                columns.push(['nationality', 'Nationality'])
+                columns.push(['retirement_date', 'Retirement Date'])
+                columns.push(['basis_of_employment', 'Basis Of Employment'])
+                columns.push(['position_status', 'Position'])
+                columns.push(['designation', 'Designation'])
+                columns.push(['manager_staffid', 'Manager'])
+                columns.push(['division', 'Division'])
+                columns.push(['department', 'Department'])
+                columns.push(['UnitId', 'Unit'])
+                columns.push(['zone', 'Zone'])
+                columns.push(['Subzone', 'Subzone'])
+                columns.push(['RoleIdlist', 'Role List'])
+                columns.push(['o_Adm_c', 'o_Adm_c'])
+                columns.push(['o_Adm_d', 'o_Adm_d'])
+                columns.push(['o_Adm_r', 'o_Adm_r'])
+                columns.push(['o_Adm_u', 'o_Adm_u'])
+                columns.push(['o_adddepartment_id', 'o_adddepartment_id'])
+
+                columns.push(['o_chem_c', 'o_chem_c'])
+                columns.push(['o_chem_d', 'o_chem_d'])
+                columns.push(['o_chem_r', 'o_chem_r'])
+                columns.push(['o_chem_u', 'o_chem_u'])
+
+                columns.push(['o_ncl_c', 'o_ncl_c'])
+                columns.push(['o_ncl_d', 'o_ncl_d'])
+                columns.push(['o_ncl_r', 'o_ncl_r'])
+                columns.push(['o_ncl_u', 'o_ncl_u'])
+
+                columns.push(['o_ncr_c', 'o_ncr_c'])
+                columns.push(['o_ncr_d', 'o_ncr_d'])
+                columns.push(['o_ncr_r', 'o_ncr_r'])
+                columns.push(['o_ncr_u', 'o_ncr_u'])
+
+                columns.push(['o_report_r', 'o_report_r'])
+
+                columns.push(['o_shc_c', 'o_shc_c'])
+                columns.push(['o_shc_r', 'o_shc_r'])
+                columns.push(['o_shc_u', 'o_shc_u'])
+                columns.push(['AccessFailedCount', 'Failed Count'])
+                columns.push(['LastLoginDate', 'Last Login Date'])
+                columns.push(['Status', 'Status'])
+            }
+
+            if (table == 'Trail_NCL') {
+                columns.push(['NCL_ID_Trail', 'NCL Id Trail'])
+                columns.push(['NCL_ID', 'NCL Id'])
+                columns.push(['NCL_code', 'NCL Code'])
+                columns.push(['created_by', 'Created By'])
+                columns.push(['created_date', 'Created Date'])
+                columns.push(['category_id', 'Notified Person'])
+                columns.push(['class_id', 'Classification'])
+                columns.push(['issue_by_id', 'Issue By'])
+                columns.push(['issue_by_other', 'Issue By Other'])
+                columns.push(['notes', 'Details'])
+                columns.push(['note_date', 'Date Issued'])
+                columns.push(['due_date', 'Due Date'])
+                columns.push(['report_date', 'Report Date'])
+                columns.push(['pic_suggestion', 'PIC Suggestion'])
+                columns.push(['pic_respond_date', 'PIC Respond Date'])
+                columns.push(['status_id', 'Status'])
+                columns.push(['section', 'Section'])
+                columns.push(['fine', 'Fine'])
+                columns.push(['Compound', 'compound'])
+                columns.push(['year_of_sentence', 'Year Of Sentence'])
+                columns.push(['deleted', 'Deleted'])
+                columns.push(['division_id', 'Division'])
+                columns.push(['department_id', 'Department'])
+                columns.push(['zone_id', 'Zone'])
+                columns.push(['month_of_sentence', 'Month Of Sentence'])
+                columns.push(['day_of_sentence', 'Day Of Sentence'])
+                columns.push(['im_comment', 'IM Comment'])
+                columns.push(['pic_fine', 'PIC Fine'])
+                columns.push(['pic_compound', 'PIC Compound'])
+                columns.push(['pic_Id', 'PIC'])
+                columns.push(['EmailUserID', 'Notified Person'])
+                columns.push(['PIC_Comment', 'PIC Comment'])
+                columns.push(['unit_id', 'Unit Id'])
+                columns.push(['subzone_id', 'Subzone'])
+                columns.push(['im_Id', 'IM'])
+                columns.push(['ModifyBy', 'Modify By'])
+                columns.push(['ModifyDate', 'Modify Date'])
+            }
+
+            if (table == 'Trail_NCR') {
+                columns.push(['NCR_ID_Trail', 'NCR Id Trail'])
+                columns.push(['Ncr_ID', 'NCR Id']);
+                columns.push(['ncr_code', 'NCR Code']);
+                columns.push(['created_by', 'Created By'])
+                columns.push(['created_date', 'Created Date'])
+                columns.push(['division_id', 'Division'])
+                columns.push(['department_id', 'Location or Parties Audited/Inspection']);
+                columns.push(['legal', 'Legality']);
+                columns.push(['type_id', 'Type']);
+                columns.push(['requirement', 'Requirement']);
+                columns.push(['finding', 'Finding']);
+                columns.push(['objective', 'Objective']);
+                columns.push(['auditee_id', 'Auditee']);
+                columns.push(['correction', 'Correction']);
+                columns.push(['action_date', 'Action Date']);
+                columns.push(['Investigation', 'Root Cause Category']);
+                columns.push(['remarks', 'Remarks']);
+                columns.push(['action_plan', 'Action Plan']);
+                columns.push(['completion_date', 'Completion Date']);
+                columns.push(['verification', 'Verification']);
+                columns.push(['status_id', 'Status']);
+                columns.push(['deleted', 'Deleted']);
+                columns.push(['propose_date', 'Proposed Date']);
+                columns.push(['verify_date', 'Verify Date']);
+                columns.push(['requirement_others', 'Requirement Others']);
+                columns.push(['issued_date', 'Issued Date']);
+                columns.push(['step', 'NCR Step']);
+                columns.push(['zoneId', 'Zone']);
+                columns.push(['subzoneId', 'Subzone']);
+                columns.push(['ModifyBy', 'Modify By'])
+                columns.push(['ModifyDate', 'Modify Date'])
+            }
+
+            if (table == 'Trail_SHC') {
+                columns.push(['Id_Trail', 'SHC Id Trail'])
+                columns.push(['Id', 'SHC Id'])
+                columns.push(['Code', 'SHC Code'])
+                columns.push(['Name', 'Name'])
+                columns.push(['Jkkp_addr_line1', 'Address Line 1'])
+                columns.push(['Jkkp_addr_line2', 'Address Line 2'])
+                columns.push(['Jkkp_city', 'City'])
+                columns.push(['Jkkp_state', 'State'])
+                columns.push(['Jkkp_postcode', 'Postcode'])
+                columns.push(['Divisionid', 'Division'])
+                columns.push(['Departmentid', 'Department'])
+                columns.push(['Unitid', 'Unit'])
+                columns.push(['Zoneid', 'Zone'])
+                columns.push(['Subzoneid', 'Subzone'])
+                columns.push(['Createddate', 'Created Date'])
+                columns.push(['Gps_lat', 'Dosh Reg. No.'])
+                columns.push(['Gps_long', 'Latitude / Longitude'])
+                columns.push(['Newapprovedid', 'New Approved Id'])
+                columns.push(['Newapproveddate', 'New Approved Date'])
+                columns.push(['Nomember', 'No of Member'])
+                columns.push(['deleted', 'Deleted'])
+                columns.push(['Statusid', 'Status'])
+                columns.push(['Typeid', 'SHC Type'])
+                columns.push(['Typeinfo', 'Type Info'])
+                columns.push(['Secproposedmeetingdate', 'Proposed Meeting Date'])
+                columns.push(['Createremark', 'Remark upon creation'])
+                columns.push(['Step', 'Step']);
+                columns.push(['Createdby', 'Created By']);
+                columns.push(['NoMemberApprovedBy', 'No of MemberApprovedBy']);
+                columns.push(['NoMemberApprovedDate', 'No of MemberApprovedDate']);
+                columns.push(['AdmProposedMeetingDate', 'Admin Proposed Meeting Date']);
+                columns.push(['ModifyBy', 'Modify By'])
+                columns.push(['ModifyDate', 'Modify Date'])
+            }
+
+            if (table == 'SHC_Meeting') {
+                columns.push(['Id', 'Id'])
+                columns.push(['Meetingcode', 'Meeting Code'])
+                columns.push(['Meetingdate', 'Meeting Date'])
+                columns.push(['Starttime', 'Start Time'])
+                columns.push(['Endtime', 'End Time'])
+                columns.push(['location', 'Location'])
+                columns.push(['SHC_id', 'SHC'])
+                columns.push(['Notmeetkorum', 'Not Meet Korum'])
+                columns.push(['deleted', 'Deleted'])
+                columns.push(['Statusid', 'Status'])
+                columns.push(['Remark3month', 'Remark'])
+                columns.push(['Postponereason', 'Postpone Reason'])
+                columns.push(['Prevmeetingid', 'Prev Meeting'])
+                columns.push(['Createdid', 'Created By']);
+                columns.push(['Createddate', 'Created Date'])
+                columns.push(['Nextmeetingdate', 'Next Meeting Date'])
+                columns.push(['Korumsetpercent', 'Korum Set Percent'])
+                columns.push(['Momapproveddate', 'MOM Approved Date'])
+                columns.push(['Momapprovedby', 'MOM Approved By'])
+            }
+
+
+            if (table == 'SHC_Assignment') {
+                columns.push(['Id', 'Id'])
+                columns.push(['Agendaid', 'Agenda']);
+                columns.push(['Picid', 'PIC'])
+                columns.push(['Comiteeid', 'Committee'])
+                columns.push(['Targetdate', 'Target Date'])
+                columns.push(['Createddate', 'Created Date'])
+                columns.push(['Createdby', 'Created By'])
+                columns.push(['deleted', 'Deleted'])
+                columns.push(['Categoryid', 'Category'])
+                columns.push(['Statusid', 'Status']);
+                columns.push(['Remark', 'Remark']);
+                columns.push(['Targetcompletiondate', 'Target Completion Date'])
+                columns.push(['Nodayscompletion', 'No. Days Completion'])
+                columns.push(['Acceptedbypic', 'Accepted By PIC'])
+                columns.push(['Rejectedbypic', 'Rejected By PIC'])
+                columns.push(['RespondDate', 'Respond Date'])
+                columns.push(['Actualcompletiondate', 'Actual Completion Date'])
+                columns.push(['Actiontaken', 'Action Taken'])
+                columns.push(['Assignmentcode', 'Assignment Code'])
+                columns.push(['Step', 'Step'])
+                columns.push(['Rejectreason', 'Reject Reason'])
+            }
+
+            if (table == 'Trail_SHC_Meeting') {
+                columns.push(['Id_trail', 'Trail Id'])
+                columns.push(['Meetingcode', 'Meeting Code'])
+                columns.push(['Meetingcode', 'Meeting Code'])
+                columns.push(['Meetingdate', 'Meeting Date'])
+                columns.push(['Starttime', 'Start Time'])
+                columns.push(['Endtime', 'End Time'])
+                columns.push(['location', 'Location'])
+                columns.push(['SHC_id', 'SHC'])
+                columns.push(['Notmeetkorum', 'Not Meet Korum'])
+                columns.push(['deleted', 'Deleted'])
+                columns.push(['Statusid', 'Status'])
+                columns.push(['Remark3month', 'Remark'])
+                columns.push(['Postponereason', 'Postpone Reason'])
+                columns.push(['Prevmeetingid', 'Prev Meeting'])
+                columns.push(['Createdid', 'Created By']);
+                columns.push(['Createddate', 'Created Date'])
+                columns.push(['Nextmeetingdate', 'Next Meeting Date'])
+                columns.push(['Korumsetpercent', 'Korum Set Percent'])
+                columns.push(['Momapproveddate', 'MOM Approved Date'])
+                columns.push(['Momapprovedby', 'MOM Approved By'])
+                columns.push(['Modifyby', 'Modify By'])
+                columns.push(['Modifydate', 'Modify Date'])
+            }
+
+            if (table == 'Trail_SHC_Assignment') {
+                columns.push(['Id_trail', 'Trail Id'])
+                columns.push(['Id', 'Id'])
+                columns.push(['Agendaid', 'Agenda']);
+                columns.push(['Picid', 'PIC'])
+                columns.push(['Comiteeid', 'Committee'])
+                columns.push(['Targetdate', 'Target Date'])
+                columns.push(['Createddate', 'Created Date'])
+                columns.push(['Createdby', 'Created By'])
+                columns.push(['deleted', 'Deleted'])
+                columns.push(['Categoryid', 'Category'])
+                columns.push(['Statusid', 'Status']);
+                columns.push(['Remark', 'Remark']);
+                columns.push(['Targetcompletiondate', 'Target Completion Date'])
+                columns.push(['Nodayscompletion', 'No. Days Completion'])
+                columns.push(['Acceptedbypic', 'Accepted By PIC'])
+                columns.push(['Rejectedbypic', 'Rejected By PIC'])
+                columns.push(['RespondDate', 'Respond Date'])
+                columns.push(['Actualcompletiondate', 'Actual Completion Date'])
+                columns.push(['Actiontaken', 'Action Taken'])
+                columns.push(['Assignmentcode', 'Assignment Code'])
+                columns.push(['Step', 'Step'])
+                columns.push(['Rejectreason', 'Reject Reason'])
+                columns.push(['Modifyby', 'Modify By'])
+                columns.push(['Modifydate', 'Modify Date'])
+            }
+
+            if (table == 'tbl_chem_reg_B2') {
+                columns.push(['chem_reg_id', 'Chem Reg Id'])
+                columns.push(['chem_hazard', 'Chem Hazard'])
+                columns.push(['prod_name', 'Product Name'])
+                columns.push(['brand', 'Brand'])
+                columns.push(['chem_name', 'Chemical Name'])
+                columns.push(['class_label_attch1_path', 'Class Label Attch2 Path'])
+                columns.push(['class_label_attch1_name', 'Class Label Attch2 Name'])
+                columns.push(['class_label_attch2_path', 'Class Label Attch2 Path'])
+                columns.push(['class_label_attch2_name', 'Class Label Attch2 Name'])
+                columns.push(['class_label_attch3_path', 'Class Label Attch3 Path'])
+                columns.push(['class_label_attch3_name', 'Class Label Attch3 Name'])
+                columns.push(['SDS_malay_path', 'SDS Malay Path'])
+                columns.push(['SDS_malay_name', 'SDS Malay Name'])
+                columns.push(['SDS_eng_path', 'SDS Eng Path'])
+                columns.push(['SDS_eng_name', 'SDS Eng Name'])
+                columns.push(['SDS_date', 'SDS Date'])
+                columns.push(['SDS_expiry_date', 'SDS Expiry Date'])
+                columns.push(['chem_pack', 'Chem Pack'])
+                columns.push(['chem_carcinogenic', 'Chem carcinogenic'])
+                columns.push(['chem_mutagenic', 'Chem mutagenic'])
+                columns.push(['chem_respiratory', 'Chem Respiratory'])
+                columns.push(['chem_containLCC', 'Chem contain LCC'])
+                columns.push(['chem_forlabs', 'Chem Forlabs'])
+                columns.push(['no_worker_male', 'No Worker Male'])
+                columns.push(['no_worker_female', 'No Worker Female'])
+                columns.push(['type_control_engcontrol', 'Type Control Engcontrol'])
+                columns.push(['type_control_PPE', 'Type Control PPE'])
+                columns.push(['chem_formchemical', 'Chem Formchemical'])
+                columns.push(['chem_quantity', 'Chem Quantity'])
+                columns.push(['chem_unit', 'Chem unit'])
+                columns.push(['chem_CASNo', 'Chem CAS No'])
+                columns.push(['active_ingr', 'Active Ingredients'])
+                columns.push(['comply_classH', 'Comply Class H'])
+                columns.push(['comply_classS', 'Comply Class S'])
+                columns.push(['comply_classE', 'Comply Class E'])
+                columns.push(['supplier_name', 'Supplier Name'])
+                columns.push(['supplier_address', 'Supplier Address'])
+                columns.push(['supplier_tel', 'Supplier Phone'])
+                columns.push(['supplier_email', 'Supplier Email'])
+                columns.push(['chem_approval', 'Chem Approval'])
+                columns.push(['save_status', 'Save Status'])
+                columns.push(['usagechemicaltype', 'Usage Chemical Type'])
+                columns.push(['prod_id', 'Prod'])
+                columns.push(['chem_reg_B2_id2', 'Chem Reg B2 Id 2'])
+                columns.push(['deleted', 'Deleted'])
+                columns.push(['division', 'Division'])
+                columns.push(['dept', 'Department'])
+                columns.push(['unit', 'Unit'])
+                columns.push(['createdDate', 'Created Date'])
+                columns.push(['revisedDate', 'Revised Date'])
+                columns.push(['revisedNo', 'Revised No'])
+            }
+
+
+            //if (table == 'View_chem_reg_B2') {
+            //    columns.push(['Chemical_hazard', 'Chemical Hazard'])
+            //    columns.push(['productname', 'Product Name'])
+            //    columns.push(['desc', 'Description'])
+            //    columns.push(['chemicalname', 'Chemical Name'])
+            //    columns.push(['SDS_date', 'SDS Date'])
+            //    columns.push(['SDS_expiry_date', 'SDS expiry date'])
+            //    columns.push(['chem_pack', 'Chem Pack'])
+            //    columns.push(['chem_carcinogenic', 'Chem Carcinogenic'])
+            //    columns.push(['chem_mutagenic', 'Chem Mutagenic']);
+            //}
+
+            if (table == 'tbl_chem_approved_list') {
+                columns.push(['chem_approv_list_id', 'Approved Chemical Id'])
+                columns.push(['division', 'Division'])
+                columns.push(['dept', 'Department'])
+                columns.push(['unit', 'Unit'])
+                columns.push(['prodname', 'Product Name'])
+                columns.push(['brand', 'Brand'])
+                columns.push(['SDS_language', 'SDS Language'])
+                columns.push(['SDS_eng_path', 'SDS Eng Path'])
+                columns.push(['SDS_eng_name', 'SDS Eng Name'])
+                columns.push(['SDS_malay_path', 'SDS Malay Path'])
+                columns.push(['SDS_malay_name', 'SDS Malay Name'])
+                columns.push(['SDS_date', 'SDS Date'])
+                columns.push(['SDS_expiry_date', 'SDS Expiry Date']);
+                columns.push(['deleted', 'Deleted'])
+                columns.push(['createdDate', 'Created Date'])
+
+            }
+
+            if (table == 'LC_LegalRegister'){
+                columns.push(['Id', 'Id'])
+                columns.push(['Premisename', 'Premise Name'])
+                columns.push(['DivisionId', 'Division'])
+                columns.push(['DeptId', 'Dept'])
+                columns.push(['ZoneId', 'Zone'])
+                columns.push(['Documentno', 'Document No.'])
+                columns.push(['Revisionno', 'Revision No.'])
+                columns.push(['Revisiondate', 'Revision Date'])
+                columns.push(['ApprovalDate', 'Approval Date'])
+                columns.push(['StatusId', 'Status'])
+                columns.push(['LeadUserId', 'Lead User'])
+                columns.push(['LeadUserPosition', 'Lead User Position'])
+                columns.push(['Remarks', 'Remarks'])
+                columns.push(['NotifyUserId', 'Notify User'])
+                columns.push(['ApproverUserId', 'Approver User'])
+                columns.push(['ApproverUserPosition', 'Approver User Position'])
+                columns.push(['ApproverRemarks', 'Approver Remarks'])
+                columns.push(['Isdeleted', 'Is Deleted'])
+                columns.push(['CreatedbyId', 'Created By'])
+                columns.push(['CreatedDate', 'Created Date'])
+            }
+
+            columns.forEach(function (current) {
+                let row = {}
+                row.id = current[0]
+                row.text = current[1]
+                data.push(row)
+            })
+
+            if ($('#columnSelect').data('select2')) {
+                $("#columnSelect").select2("val", "");
+                $("#columnSelect").empty();
+                $("#columnSelect").select2('destroy');
+            }
+            $("#columnSelect").select2({ data: data });
+
+        }
+
+        var input;
+
+        function getLog() {
+            event.preventDefault()
+            $("#generateBtn").prop('disabled', true)
+            notify("warning", "Loading logs! Please wait...");
+            let log = {
+                Column: $('#columnSelect').val(),
+                TableName: $('#tableSelect').val(),
+                DateTo: $('#dateToInput').val(),
+                DateFrom: $('#dateFromInput').val(),
+                Division: $('#divisionSelect').val(),
+                Department: $('#departmentSelect').val(),
+                Unit: $('#unitSelect').val(),
+                Category: $('#nclCategorySelect').val(),
+                Classification: $('#nclClassificationSelect').val(),
+                Agency: $('#nclAgencySelect').val(),
+                nclncrId: $('#nclNcrId').val(),
+                RootCause: $('#ncrRootCauseSelect').val(),
+                Elements: $('#ncrRegulationSelect').val(),
+                Status: $('input[name="Status"]:checked').val()
+            }
+
+            if (log.Column.length < 1) {
+                notify("danger", "Please choose at least one column!")
+                $("#generateBtn").prop('disabled', false)
+                return;
+            }
+
+            input = {
+                TableName: log.TableName,
+                ColumnList: log.Column,
+                ColumnArray: columns,
+                FilterWhere: ""
+            };
+
+            var dateFrom = log.DateFrom + " 23:59:59";
+            var dateTo = log.DateTo + " 00:00:00";
+
+            if (log.TableName == 'SHC') {
+                input.FilterWhere = "CreatedDate >= '" + log.DateFrom + "' AND CreatedDate <= '" + dateTo + "'";
+                input.FilterWhere = log.Division != null && log.Division != undefined ? input.FilterWhere + ' AND DivisionId = ' + log.Division : input.FilterWhere;
+            }
+
+            if (log.TableName == 'Trail_SHC') {
+                input.FilterWhere = "CreatedDate >= '" + log.DateFrom + "' AND CreatedDate <= '" + dateTo + "'";
+            }
+
+            if (log.TableName == 'Users') {
+                input.TableName = 'AspNetUsers'
+                input.FilterWhere = "createdDate >= '" + log.DateFrom + "' AND createdDate <= '" + dateTo + "'";
+                input.FilterWhere = log.Division != null && log.Division != undefined ? input.FilterWhere + ' AND division = ' + log.Division : input.FilterWhere;
+                input.FilterWhere = log.Department != null && log.Department != undefined ? input.FilterWhere + ' AND department = ' + log.Department : input.FilterWhere;
+                input.FilterWhere = log.Status == '0' ? input.FilterWhere + ' AND deleted = 0' : log.Status != null && log.Status != undefined ? input.FilterWhere + ' AND deleted = 1' : input.FilterWhere;
+            }
+
+            if (log.TableName == 'NCR') {
+                input.FilterWhere = "created_date >= '" + dateFrom + "' AND created_date <= '" + dateTo + "'";
+                input.FilterWhere = log.Status == '0' ? input.FilterWhere + ' AND deleted = 0' : log.Status != null && log.Status != undefined ? input.FilterWhere + ' AND deleted = 1' : input.FilterWhere;
+                input.FilterWhere = log.Division != null && log.Division != undefined ? input.FilterWhere + ' AND division_id = ' + log.Division : input.FilterWhere;
+                input.FilterWhere = log.Department != null && log.Department != undefined ? input.FilterWhere + ' AND department_id = ' + log.Department : input.FilterWhere;
+                input.FilterWhere = log.RootCause != null && log.RootCause != undefined && log.RootCause != '' ? input.FilterWhere + ' AND investigation = ' + log.RootCause : input.FilterWhere;
+                input.FilterWhere = log.Elements != null && log.Elements != undefined && log.Elements != '' ? input.FilterWhere + ' AND requirement = ' + log.Elements : input.FilterWhere;
+                input.FilterWhere = log.nclncrId != null && log.nclncrId != undefined && log.nclncrId != '' ? input.FilterWhere + ' AND NCR_code = ' + `'${log.nclncrId}'` : input.FilterWhere;
+            }
+
+            if (log.TableName == 'NCL') {
+                input.FilterWhere = "created_date >= '" + dateFrom+ "' AND created_date <= '" + dateTo + "'";
+                input.FilterWhere = log.Status == '0' ? input.FilterWhere + ' AND deleted = 0' : log.Status != null && log.Status != undefined ? input.FilterWhere + ' AND deleted = 1' : input.FilterWhere;
+                input.FilterWhere = log.Division != null && log.Division != undefined ? input.FilterWhere + ' AND division_id = ' + log.Division : input.FilterWhere;
+                input.FilterWhere = log.Department != null && log.Department != undefined ? input.FilterWhere + ' AND department_id = ' + log.Department : input.FilterWhere;
+                input.FilterWhere = log.Category != null && log.Category != undefined && log.Category != '' ? input.FilterWhere + " AND category_id = '" + log.Category + "'" : input.FilterWhere;
+                input.FilterWhere = log.Agency != null && log.Agency != undefined && log.Agency != '' ? input.FilterWhere + " AND issue_by_id = '" + log.Agency + "'" : input.FilterWhere;
+                input.FilterWhere = log.Classification != null && log.Classification != undefined && log.Classification != '' ? input.FilterWhere + " AND class_id = '" + log.Classification + "'" : input.FilterWhere;
+                input.FilterWhere = log.nclncrId != null && log.nclncrId != undefined && log.nclncrId != '' ? input.FilterWhere + ' AND NCL_code = ' + `'${log.nclncrId}'` : input.FilterWhere;
+            }
+
+            if (log.TableName == 'SHC_Meeting') {
+                input.FilterWhere = "CreatedDate >= '" + log.DateFrom + "' AND CreatedDate <= '" + dateTo + "'";
+                input.FilterWhere = log.Status == '0' ? input.FilterWhere + ' AND deleted = 0' : log.Status != null && log.Status != undefined ? input.FilterWhere + ' AND deleted = 1' : input.FilterWhere;
+            }
+
+            if (log.TableName == 'SHC_Assignment') {
+                input.FilterWhere = "CreatedDate >= '" + log.DateFrom + "' AND CreatedDate <= '" + dateTo + "'";
+                input.FilterWhere = log.Status == '0' ? input.FilterWhere + ' AND deleted = 0' : log.Status != null && log.Status != undefined ? input.FilterWhere + ' AND deleted = 1' : input.FilterWhere;
+            }
+
+            if (log.TableName == 'Trail_SHC_Meeting') {
+                input.FilterWhere = "CreatedDate >= '" + log.DateFrom + "' AND CreatedDate <= '" + dateTo + "'";
+                input.FilterWhere = log.Status == '0' ? input.FilterWhere + ' AND deleted = 0' : log.Status != null && log.Status != undefined ? input.FilterWhere + ' AND deleted = 1' : input.FilterWhere;
+            }
+
+            if (log.TableName == 'Trail_SHC_Assignment') {
+                input.FilterWhere = "CreatedDate >= '" + log.DateFrom + "' AND CreatedDate <= '" + dateTo + "'";
+                input.FilterWhere = log.Status == '0' ? input.FilterWhere + ' AND deleted = 0' : log.Status != null && log.Status != undefined ? input.FilterWhere + ' AND deleted = 1' : input.FilterWhere;
+            }
+
+            if (log.TableName == 'tbl_chem_reg_B2') {
+                // input.FilterWhere = "CreatedDate >= '" + log.DateFrom + "' AND CreatedDate <= '" + dateTo + "'";
+                input.FilterWhere = "SDS_date >= '" + log.DateFrom + "' AND SDS_date <= '" + dateTo + "'";
+                input.FilterWhere = log.Status == '0' ? input.FilterWhere + ' AND deleted = 0' : log.Status != null && log.Status != undefined ? input.FilterWhere + ' AND deleted = 1' : input.FilterWhere;
+                // input.FilterWhere = log.Division != null && log.Division != undefined ? input.FilterWhere + ' AND division_id = ' + log.Division : input.FilterWhere;
+                // input.FilterWhere = log.Department != null && log.Department != undefined ? input.FilterWhere + ' AND department_id = ' + log.Department : input.FilterWhere;
+                // input.FilterWhere = log.Unit != null && log.Unit != undefined ? input.FilterWhere + ' AND unit_id = ' + log.Unit : input.FilterWhere;
+            }
+
+            if (log.TableName == 'tbl_chem_approved_list') {
+                input.FilterWhere = "SDS_date >= '" + log.DateFrom + "' AND SDS_date <= '" + dateTo + "'";
+                input.FilterWhere = log.Status == '0' ? input.FilterWhere + ' AND deleted = 0' : log.Status != null && log.Status != undefined ? input.FilterWhere + ' AND deleted = 1' : input.FilterWhere;
+                input.FilterWhere = log.Division != null && log.Division != undefined ? input.FilterWhere + ' AND div = ' + log.Division : input.FilterWhere;
+                input.FilterWhere = log.Department != null && log.Department != undefined ? input.FilterWhere + ' AND dept = ' + log.Department : input.FilterWhere;
+                //input.FilterWhere = log.Unit != null && log.Unit != undefined ? input.FilterWhere + ' AND unit_id = ' + log.Unit : input.FilterWhere;
+            }
+
+            if (log.TableName == 'LC_LegalRegister') {
+                input.FilterWhere = "CreatedDate >= '" + log.DateFrom + "' AND CreatedDate <= '" + dateTo + "'";
+                input.FilterWhere = log.Status == '0' ? input.FilterWhere + ' AND isDeleted = 0' : log.Status != null && log.Status != undefined ? input.FilterWhere + ' AND isDeleted = 1' : input.FilterWhere;
+                input.FilterWhere = log.Division != null && log.Division != undefined ? input.FilterWhere + ' AND DivisionId = ' + log.Division : input.FilterWhere;
+                input.FilterWhere = log.Department != null && log.Department != undefined ? input.FilterWhere + ' AND DeptId = ' + log.Department : input.FilterWhere;
+                //input.FilterWhere = log.Unit != null && log.Unit != undefined ? input.FilterWhere + ' AND unit_id = ' + log.Unit : input.FilterWhere;
+            }
+
+            loadTable();
+
+        }
+
+        function loadTable() {
+            if (table) {
+                $('#example').DataTable().destroy();
+                $('#example').empty();
+            }
+            $("#example").append("<thead><tr></tr></thead>");
+
+            input.ColumnList.forEach((col) => {
+                 $("#example thead tr").append(`<th>${col}</th>`);
+            })
+
+            table = $("#example").DataTable({
+                "paging": true,
+                "searching": true,
+                "processing": true, // for show progress bar
+                "serverSide": true, // for process server side
+                //"filter": true, // this is for disable filter (search box)
+                "orderMulti": false, // for disable multiple column at once
+                //"order": [[3, "desc"]],
+                //"lengthMenu": [ [10, 25, 50, 100, -1], [10, 25, 50, 100, "All"] ],
+                "ajax": {
+                    "url": "/api/log/getlog",
+                    "type": "POST",
+                    "datatype": "json",
+                    "data": input
+                },
+                "scrollX": true,
+                "columns":  input.ColumnList.map((col) => { return { "data": col, "className": col, "autoWidth": true } }),
+                "deferRender": true,
+                "drawCallback": function() {
+                    getRelationalData()
+                     $("#example").DataTable().columns.adjust();
+                     $("#btnsExport").slideDown();
+                }
+            });
+            $("#generateBtn").prop('disabled', false)
+
+            notify("success", "Logs has been loaded successfully!");
+
+            $("th").each(function (index) {
+                try {
+                    let currCol = $(this).text();
+                    $(this).text(columns.find(x => x[0] == currCol)[1])
+                }
+                catch (e){}
+            })
+
+        }
+
+        function exportToCsv(){
+            //$("#loadingRange").val(0);
+            //$("#loadingExport").modal("show");
+            notify("warning", "Exporting data... Please wait!")
+            swal({
+                showCancelButton: false, // There won't be any cancel button
+                showConfirmButton: false, // There won't be any confirm button
+                allowOutsideClick: false,
+		        title: `${sweet_loader}Exporting data... Please wait!`,
+                text: "This may take a while...",
+                html: true,
+	        });
+            $.ajax({
+                url: "/hse/getlogfull",
+                xhrFields: {
+                    withCredentials: true
+                },
+                data: input,
+                type: "POST"
+            }).done(function (datas) {
+                datas = JSON.parse(datas)
+                //currentPercent = 0
+                //totalPercent = data.length * columns.length
+                //$("#loadingRange").attr("max", totalPercent);
+                datas.forEach(function(row, rowIndex) {
+                    let meetingCode;
+                    Object.keys(row).forEach(function(key){
+                        if (key == "Meeting Code") meetingCode = row[key];
+                        datas[rowIndex][key] = getRelationalDataExport(key, row[key], meetingCode);
+                    })
+                });
+                let csvData = new Blob([Papa.unparse(datas)], { type: 'text/csv' });
+                let a = document.createElement('a');
+                let csvUrl = URL.createObjectURL(csvData);
+                a.target      = '_blank';
+                a.download    = `HSE_LOG_${new Date().toISOString()}.csv`;
+                a.href =  csvUrl;
+
+                document.body.appendChild(a);
+                a.click(); // This will download the data file named "my_data.csv".
+                swal.close()
+                notify("success", "Data exported!")
+            })
+        }
+
+        function downloadPDF (){
+            function buildTableBody(data, columns) {
+                let body = [];
+
+                let col = [];
+                columns.forEach(function (item) {
+                    col.push({ text: item, style: 'tableHeader' });
+                });
+
+                body.push(col);
+
+                data.forEach(function (row) {
+                    let dataRow = [];
+                    let meetingCode;
+                    columns.forEach(function (column) {
+                        if (column == "Meeting Code") meetingCode = row[column];
+                        let formattedData = getRelationalDataExport(column, row[column], meetingCode);
+                        dataRow.push(formattedData != null ? formattedData : "");
+                    })
+
+                    body.push(dataRow);
+                });
+
+                return body;
+            }
+
+            function table(data, columns) {
+                return {
+                    table: {
+                        headerRows: 1,
+                        body: buildTableBody(data, columns)
+                    }
+                };
+            }
+
+            notify("warning", "Exporting data... Please wait!")
+            swal({
+                showCancelButton: false, // There won't be any cancel button
+                showConfirmButton: false, // There won't be any confirm button
+                allowOutsideClick: false,
+		        title: `${sweet_loader}Exporting data... Please wait!`,
+                text: "This may take a while...",
+                html: true,
+	        });
+            $.ajax({
+                url: "/hse/getlogfull",
+                xhrFields: {
+                    withCredentials: true
+                },
+                data: input,
+                type: "POST"
+            }).done(function (datas) {
+                let data = JSON.parse(datas)
+
+                let csv_file_name = `HSE_LOG_${new Date().toISOString()}`;
+
+                let dd = {
+                    pageSize: $("#globalPageSize").text(),
+                    pageOrientation: 'landscape',
+                    content: [
+                        table(data, Object.keys(data[0]))
+                    ],
+                    styles: {
+                        header: {
+                            fontSize: 5,
+                            bold: true,
+                            margin: [0, 0, 0, 10]
+                        },
+                        subheader: {
+                            fontSize: 5,
+                            bold: true,
+                            margin: [0, 10, 0, 5]
+                        },
+                        tableExample: {
+                            margin: [0, 5, 0, 15]
+                        },
+                        tableHeader: {
+                            bold: true,
+                            fontSize: 5,
+                            color: 'black'
+                        }
+                    },
+                    defaultStyle: {
+                        alignment: 'justify',
+                        fontSize: 5,
+                    }
+                }
+                pdfMake.createPdf(dd).download(csv_file_name + '.pdf');
+
+                swal.close()
+                notify("success", "Data exported!")
+            })
+        };
+
+        function previewPDF (){
+            function buildTableBody(data, columns) {
+                let body = [];
+
+                let col = [];
+                columns.forEach(function (item) {
+                    col.push({ text: item, style: 'tableHeader' });
+                });
+
+                body.push(col);
+
+                data.forEach(function (row) {
+                    let dataRow = [];
+                    let meetingCode;
+                    columns.forEach(function (column) {
+                        if (column == "Meeting Code") meetingCode = row[column];
+                        let formattedData = getRelationalDataExport(column, row[column], meetingCode);
+                        dataRow.push(formattedData != null ? formattedData : "");
+                    })
+
+                    body.push(dataRow);
+                });
+
+                return body;
+            }
+
+            function table(data, columns) {
+                return {
+                    table: {
+                        headerRows: 1,
+                        body: buildTableBody(data, columns)
+                    }
+                };
+            }
+
+            notify("warning", "Exporting data... Please wait!")
+            swal({
+                showCancelButton: false, // There won't be any cancel button
+                showConfirmButton: false, // There won't be any confirm button
+                allowOutsideClick: false,
+		        title: `${sweet_loader}Exporting data... Please wait!`,
+                text: "This may take a while...",
+                html: true,
+	        });
+            $.ajax({
+                url: "/hse/getlogpreview",
+                xhrFields: {
+                    withCredentials: true
+                },
+                data: input,
+                type: "POST"
+            }).done(function (datas) {
+                let data = JSON.parse(datas)
+
+                let csv_file_name = `HSE_LOG_${new Date().toISOString()}`;
+
+                let dd = {
+                    pageSize: $("#globalPageSize").text(),
+                    pageOrientation: 'landscape',
+                    content: [
+                        table(data, Object.keys(data[0]))
+                    ],
+                    styles: {
+                        header: {
+                            fontSize: 5,
+                            bold: true,
+                            margin: [0, 0, 0, 10]
+                        },
+                        subheader: {
+                            fontSize: 5,
+                            bold: true,
+                            margin: [0, 10, 0, 5]
+                        },
+                        tableExample: {
+                            margin: [0, 5, 0, 15]
+                        },
+                        tableHeader: {
+                            bold: true,
+                            fontSize: 5,
+                            color: 'black'
+                        }
+                    },
+                    defaultStyle: {
+                        alignment: 'justify',
+                        fontSize: 5,
+                    }
+                }
+                pdfMake.createPdf(dd).open();
+
+                swal.close()
+                notify("success", "Data exported!")
+            })
+        };
+
+        var nclCategories = JSON.parse('@Html.Raw(JsonConvert.SerializeObject(ViewBag.NclCategories))');
+        var nclClassifications = JSON.parse('@Html.Raw(JsonConvert.SerializeObject(ViewBag.NclClassifications))');
+        var nclAgencies = JSON.parse('@Html.Raw(JsonConvert.SerializeObject(ViewBag.NclAgencies))');
+        var ncrRequirements = JSON.parse('@Html.Raw(JsonConvert.SerializeObject(ViewBag.NclRegulations))');
+        var ncrRootCauses = [];
+        var chemBrands = JSON.parse('@Html.Raw(JsonConvert.SerializeObject(ViewBag.ChemBrands))');
+        var chemTypePpe = JSON.parse('@Html.Raw(JsonConvert.SerializeObject(ViewBag.ChemTypePpe))');
+        var chemTypeEC = JSON.parse('@Html.Raw(JsonConvert.SerializeObject(ViewBag.ChemTypeEC))');
+        var chemFormChemical = JSON.parse('@Html.Raw(JsonConvert.SerializeObject(ViewBag.ChemFormChemical))');
+        var chemHazardH = JSON.parse('@Html.Raw(JsonConvert.SerializeObject(ViewBag.ChemHazardH))');
+        var chemHazardS = JSON.parse('@Html.Raw(JsonConvert.SerializeObject(ViewBag.ChemHazardS))');
+        var chemHazardE = JSON.parse('@Html.Raw(JsonConvert.SerializeObject(ViewBag.ChemHazardE))');
+
+        $('#ncrRootCauseSelect option').each(function() {
+            if ($(this).val() == "") return;
+            ncrRootCauses.push({ id: $(this).val(), desc: $(this).text() })
+        })
+
+        var users = [];
+        var divisions = [];
+        var departments = [];
+        var zones = [];
+        var subzones = [];
+        var units = [];
+        var statuses = [];
+        var types = [];
+        var sections = [
+            { id: 0, desc: 'Draft' },
+            { id: 1, desc: 'Created' },
+            { id: 2, desc: 'Verified' },
+            { id: 3, desc: 'Action Taken' },
+            { id: 4, desc: 'Endorsed' }
+        ];
+        var steps = [
+            { id: 0, desc: 'Draft' },
+            { id: 1, desc: 'Detailed' },
+            { id: 2, desc: 'Action Plan' },
+            { id: 3, desc: 'Action Approval' },
+            { id: 4, desc: 'Evidence Submission' },
+            { id: 5, desc: 'Evidence Acceptence' },
+            { id: 6, desc: 'Verified' }
+        ];
+
+        var nclIdColumns = ['ncl id']
+        var ncrIdColumns = ['ncr id']
+        var dateColumns = ['due date', 'date issued', 'created date', 'report date']
+        var userColumns = ['created by', 'im', 'pic', 'auditee', 'new approved id', 'mom approved by', 'approver user', 'lead user', 'chem approval', 'modify by'];
+        var usersColumns = ['notified person', 'notify user'];
+        var categoryColumns = ['category'];
+        var classColumns = ['classification'];
+        var divColumns = ['division'];
+        var agencyColumns = ['issue by'];
+        var deptColumns = ['department', 'dept', 'location or parties audited/inspection'];
+        var zoneColumns = ['zone'];
+        var subzoneColumns = ['subzone'];
+        var unitColumns = ['unit'];
+        var statusColumns = ['status'];
+        var shcTypeColumns = ['shc type'];
+        var typeColumns = ['type'];
+        var legalColumns = ['legality'];
+        var sectionColumns = ['section'];
+        var requirementColumns = ['requirement'];
+        var stepColumns = ['ncr step']
+        var shcColumns = ['shc']
+        var prevMeetColumns = ['prev meeting']
+        var brandColumns = ['brand']
+        var boolColumns = ['chem hazard', 'chem pack', 'chem carcinogenic', 'chem mutagenic', 'chem respiratory', 'chem contain lcc', 'chem forlabs']
+        var typePpeColumns = ['type control ppe']
+        var typeEcColumns = ['type control engcontrol']
+        var formChemColumns = ['chem formchemical']
+        var hazardHColumns = ['comply class h']
+        var hazardSColumns = ['comply class s']
+        var hazardEColumns = ['comply class e']
+        var genderColumns = ['gender']
+        var rootCausesColumns = ['root cause category']
+
+        function getRelationalData() {
+
+            $("th").each(function (indexTh){
+                let currentElem = $(this);
+                let currCol = currentElem.text();
+
+                if (userColumns.includes(currCol.toLowerCase())){
+                    $("tbody tr").each(function (indexTd){
+                        let chosenElem = $(this).children().eq(indexTh)
+                        let currUser = users.find(x => x.user_id == chosenElem.text());
+                        if (typeof currUser !== 'undefined') chosenElem.text(currUser.fullname);
+                    })
+                }
+                else if (dateColumns.includes(currCol.toLowerCase()) || currCol.toLowerCase().includes('date')){
+                    $("tbody tr").each(function (indexTd){
+                        let chosenElem = $(this).children().eq(indexTh)
+                        let currDate = dateToStringV3(new Date(chosenElem.text()));
+                        if (typeof currDate !== 'undefined' && !currDate.includes('undefined') && !currDate.includes('NaN')) chosenElem.text(currDate);
+                    })
+                }
+                else if (agencyColumns.includes(currCol.toLowerCase())){
+                    $("tbody tr").each(function (indexTd){
+                        let chosenElem = $(this).children().eq(indexTh)
+                        let currAgency = nclAgencies.find(x => x.issue_id == chosenElem.text());
+                        if (typeof currAgency !== 'undefined') chosenElem.text(currAgency.issue_desc);
+                    })
+                }
+                else if (usersColumns.includes(currCol.toLowerCase())) {
+                    $("tbody tr").each(function (indexTd){
+                        let chosenElem = $(this).children().eq(indexTh)
+                        let userIdsStr = `${chosenElem.text()}`
+                        let userIds = userIdsStr.split(",");
+                        let fullNames = "";
+                        userIds.forEach(function(userId) {
+                            let currUser = users.find(x => x.user_id == userId);
+                            fullNames += typeof currUser !== 'undefined' ? currUser.fullname : userId;
+                            fullNames += ", "
+                        })
+                        chosenElem.text(fullNames.replace(/(^, )|(, $)/g, ""))
+                    })
+                }
+                else if (categoryColumns.includes(currCol.toLowerCase())){
+                    $("tbody tr").each(function (indexTd){
+                        let chosenElem = $(this).children().eq(indexTh)
+                        let catIdsStr = `${chosenElem.text()}`
+                        let catIds = catIdsStr.split(",");
+                        let fullCats = "";
+                        catIds.forEach(function(catId) {
+                            let currCat = nclCategories.find(x => x.category_id == catId);
+                            fullCats += typeof currCat !== 'undefined' ? currCat.category_desc : catId;
+                            fullCats += ", "
+                        })
+                        chosenElem.text(fullCats.replace(/(^, )|(, $)/g, ""))
+                    })
+                }
+                else if (classColumns.includes(currCol.toLowerCase())){
+                    $("tbody tr").each(function (indexTd){
+                        let chosenElem = $(this).children().eq(indexTh)
+                        let currClass = nclClassifications.find(x => x.class_id == chosenElem.text());
+                        if (typeof currClass !== 'undefined') chosenElem.text(currClass.class_desc);
+                    })
+                }
+                else if (divColumns.includes(currCol.toLowerCase())){
+                    $("tbody tr").each(function (indexTd){
+                        let chosenElem = $(this).children().eq(indexTh)
+                        let currDiv = divisions.find(x => x.division_id == chosenElem.text());
+                        if (typeof currDiv !== 'undefined') chosenElem.text(currDiv.division_desc);
+                    })
+                }
+                else if (deptColumns.includes(currCol.toLowerCase())){
+                    $("tbody tr").each(function (indexTd){
+                        let chosenElem = $(this).children().eq(indexTh)
+                        let currDept = departments.find(x => x.department_id == chosenElem.text());
+                        if (typeof currDept !== 'undefined') chosenElem.text(currDept.department_desc);
+                    })
+                }
+                else if (zoneColumns.includes(currCol.toLowerCase())){
+                    $("tbody tr").each(function (indexTd){
+                        let chosenElem = $(this).children().eq(indexTh)
+                        let currZone = zones.find(x => x.zone_id == chosenElem.text());
+                        if (typeof currZone !== 'undefined') chosenElem.text(currZone.zone_desc);
+                    })
+                }
+                else if (subzoneColumns.includes(currCol.toLowerCase())){
+                    $("tbody tr").each(function (indexTd){
+                        let chosenElem = $(this).children().eq(indexTh)
+                        let currSubzone = subzones.find(x => x.subzone_id == chosenElem.text());
+                        if (typeof currSubzone !== 'undefined') chosenElem.text(currSubzone.subzone_desc);
+                    })
+                }
+                else if (unitColumns.includes(currCol.toLowerCase())){
+                    $("tbody tr").each(function (indexTd){
+                        let chosenElem = $(this).children().eq(indexTh)
+                        let currUnit = units.find(x => x.unit_id == chosenElem.text());
+                        if (typeof currUnit !== 'undefined') chosenElem.text(currUnit.unit_desc);
+                    })
+                }
+                else if (statusColumns.includes(currCol.toLowerCase())){
+                    $("tbody tr").each(function (indexTd){
+                        let chosenElem = $(this).children().eq(indexTh)
+                        let currStatus = statuses.find(x => x.status_id == chosenElem.text());
+                        if (typeof currStatus !== 'undefined') chosenElem.text(currStatus.status_desc);
+                    })
+                }
+                else if (typeColumns.includes(currCol.toLowerCase())){
+                    $("tbody tr").each(function (indexTd){
+                        let chosenElem = $(this).children().eq(indexTh)
+                        let currType = types.find(x => x.type_id == chosenElem.text());
+                        if (typeof currType !== 'undefined') chosenElem.text(currType.type_desc);
+                    })
+                }
+                else if (shcTypeColumns.includes(currCol.toLowerCase())){
+                    $("tbody tr").each(function (indexTd){
+                        let chosenElem = $(this).children().eq(indexTh)
+                        switch (chosenElem.text()) {
+                            case "1":
+                                chosenElem.text("Function");
+                                break;
+                            case "2":
+                                chosenElem.text("Building");
+                                break;
+                            default:
+                                break;
+                        }
+                    })
+                }
+                else if (legalColumns.includes(currCol.toLowerCase())){
+                    $("tbody tr").each(function (indexTd){
+                        let chosenElem = $(this).children().eq(indexTh)
+                        switch (chosenElem.text()) {
+                            case "0":
+                                chosenElem.text("Non Legal");
+                                break;
+                            case "1":
+                                chosenElem.text("Legal");
+                                break;
+                            default:
+                                chosenElem.text("N/A");
+                                break;
+                        }
+                    })
+                }
+                else if (sectionColumns.includes(currCol.toLowerCase())){
+                    $("tbody tr").each(function (indexTd){
+                        let chosenElem = $(this).children().eq(indexTh)
+                        let currSection = sections.find(x => x.id == chosenElem.text());
+                        if (typeof currSection !== 'undefined') chosenElem.text(currSection.desc);
+                    })
+                }
+                else if (requirementColumns.includes(currCol.toLowerCase())){
+                    $("tbody tr").each(function (indexTd){
+                        let chosenElem = $(this).children().eq(indexTh)
+                        let currReq = ncrRequirements.find(x => x.regulation_id == chosenElem.text());
+                        if (typeof currReq !== 'undefined') chosenElem.text(currReq.regulation_desc);
+                    })
+                }
+                else if (stepColumns.includes(currCol.toLowerCase())){
+                    $("tbody tr").each(function (indexTd){
+                        let chosenElem = $(this).children().eq(indexTh)
+                        let currStep = steps.find(x => x.id == chosenElem.text());
+                        if (typeof currStep !== 'undefined') chosenElem.text(currStep.desc);
+                    })
+                }
+                else if (shcColumns.includes(currCol.toLowerCase())){
+                    let format = new Intl.NumberFormat('en-US', {
+                        minimumIntegerDigits: 4
+                    });
+                    $("tbody tr").each(function (indexTd){
+                        let chosenElem = $(this).children().eq(indexTh)
+                        let currShc = `SHC${format.format(chosenElem.text())}`;
+                        if (typeof currShc !== 'undefined' && !currShc.includes('undefined') && !currShc.includes('NaN')) chosenElem.text(currShc.replace(/\,/g,''));
+                    })
+                }
+                else if (prevMeetColumns.includes(currCol.toLowerCase())){
+                    let format = new Intl.NumberFormat('en-US', {
+                        minimumIntegerDigits: 8
+                    });
+                    $("tbody tr").each(function (indexTd){
+                        let thIndex = $('thead th.Meetingcode').eq(0).index();
+                        let chosenElem = $(this).children().eq(indexTh)
+                        if (chosenElem.text() == "") return chosenElem.text("No Previous Meeting");
+                        if (thIndex == -1) return;
+                        let meetingCode = $(this).children().eq(thIndex).text()
+                        let currMeet = `${meetingCode.split("/")[0]}/MEETING-${format.format(chosenElem.text())}`;
+                        if (typeof currMeet !== 'currMeet' && !currMeet.includes('currMeet') && !currMeet.includes('currMeet')) chosenElem.text(currMeet.replace(/\,/g,''));
+                    })
+                }
+                else if (brandColumns.includes(currCol.toLowerCase())){
+                    $("tbody tr").each(function (indexTd){
+                        let chosenElem = $(this).children().eq(indexTh)
+                        let currBrand = chemBrands.find(x => x.id == chosenElem.text());
+                        if (typeof currBrand !== 'undefined') chosenElem.text(currBrand.desc);
+                    })
+                }
+                else if (boolColumns.includes(currCol.toLowerCase())){
+                    $("tbody tr").each(function (indexTd){
+                        let chosenElem = $(this).children().eq(indexTh)
+                        let currBool = chosenElem.text() == "1" ? "YES" : "NO";
+                        if (typeof currBool !== 'undefined') chosenElem.text(currBool);
+                    })
+                }
+                else if (typePpeColumns.includes(currCol.toLowerCase())){
+                    $("tbody tr").each(function (indexTd){
+                        let chosenElem = $(this).children().eq(indexTh)
+                        let ppeIdsStr = `${chosenElem.text()}`
+                        let ppeIds = ppeIdsStr.split(",");
+                        let fullPpes = "";
+                        ppeIds.forEach(function(ppeId) {
+                            let currPpe = chemTypePpe.find(x => x.id == ppeId);
+                            fullPpes += typeof currPpe !== 'undefined' ? currPpe.descr : ppeId;
+                            fullPpes += ", "
+                        })
+                        chosenElem.text(fullPpes.replace(/(^, )|(, $)/g, ""))
+                    })
+                }
+                else if (typeEcColumns.includes(currCol.toLowerCase())){
+                    $("tbody tr").each(function (indexTd){
+                        let chosenElem = $(this).children().eq(indexTh)
+                        let currEC = chemTypeEC.find(x => x.id == chosenElem.text());
+                        if (typeof currEC !== 'undefined') chosenElem.text(currEC.descr);
+                    })
+                }
+                else if (formChemColumns.includes(currCol.toLowerCase())){
+                    $("tbody tr").each(function (indexTd){
+                        let chosenElem = $(this).children().eq(indexTh)
+                        let currFormChem = chemFormChemical.find(x => x.id == chosenElem.text());
+                        if (typeof currFormChem !== 'undefined') chosenElem.text(currFormChem.descr);
+                    })
+                }
+                else if (hazardHColumns.includes(currCol.toLowerCase())){
+                    $("tbody tr").each(function (indexTd){
+                        let chosenElem = $(this).children().eq(indexTh)
+                        let currHazH = chemHazardH.find(x => x.id == chosenElem.text());
+                        if (typeof currHazH !== 'undefined') chosenElem.text(currHazH.descr);
+                    })
+                }
+                else if (hazardSColumns.includes(currCol.toLowerCase())){
+                    $("tbody tr").each(function (indexTd){
+                        let chosenElem = $(this).children().eq(indexTh)
+                        let currHazS = chemHazardS.find(x => x.id == chosenElem.text());
+                        if (typeof currHazS !== 'undefined') chosenElem.text(currHazS.descr);
+                    })
+                }
+                else if (hazardEColumns.includes(currCol.toLowerCase())){
+                    $("tbody tr").each(function (indexTd){
+                        let chosenElem = $(this).children().eq(indexTh)
+                        let currHazE = chemHazardE.find(x => x.id == chosenElem.text());
+                        if (typeof currHazE !== 'undefined') chosenElem.text(currHazE.descr);
+                    })
+                }
+                else if (rootCausesColumns.includes(currCol.toLowerCase())){
+                    $("tbody tr").each(function (indexTd){
+                        let chosenElem = $(this).children().eq(indexTh)
+                        let currRootCause = ncrRootCauses.find(x => x.id == chosenElem.text());
+                        if (typeof currRootCause !== 'undefined') chosenElem.text(currRootCause.desc);
+                    })
+                }
+                else if (genderColumns.includes(currCol.toLowerCase())){
+                    $("tbody tr").each(function (indexTd){
+                        let chosenElem = $(this).children().eq(indexTh)
+                        let gender;
+                        switch(chosenElem.text()){
+                            case "1":
+                                gender = "Male";
+                                break;
+                            case "2":
+                                gender = "Female";
+                                break;
+                            default:
+                                gender = undefined;
+                        }
+                        if (typeof gender !== 'undefined') chosenElem.text(gender);
+                    })
+                }
+                else if (nclIdColumns.includes(currCol.toLowerCase())) {
+                    $("tbody tr").each(function (indexTd) {
+                        let chosenElem = $(this).children().eq(indexTh)
+                        let nclId = `NCL${padLeadingZeros(chosenElem.text(), 7)}`
+                        if (typeof chosenElem.text() !== 'undefined') chosenElem.text(nclId);
+                    })
+                }
+                else if (ncrIdColumns.includes(currCol.toLowerCase())) {
+                    $("tbody tr").each(function (indexTd) {
+                        let chosenElem = $(this).children().eq(indexTh)
+                        let ncrId = `NCR${padLeadingZeros(chosenElem.text(), 7)}`
+                        if (typeof chosenElem.text() !== 'undefined') chosenElem.text(ncrId);
+                    })
+                }
+            })
+
+        }
+
+        function getRelationalDataExport(col, data, meetingCode = "") {
+
+            if (userColumns.includes(col.toLowerCase())){
+                let currUser = users.find(x => x.user_id == data);
+                if (typeof currUser !== 'undefined') return currUser.fullname;
+            }
+            else if (dateColumns.includes(col.toLowerCase()) || col.toLowerCase().includes('date')){
+                let currDate = dateToStringV3(new Date(data));
+                if (typeof currDate !== 'undefined' && !currDate.includes('undefined') && !currDate.includes('NaN')) return currDate;
+            }
+            else if (agencyColumns.includes(col.toLowerCase())){
+                let currAgency = nclAgencies.find(x => x.issue_id == data);
+                if (typeof currAgency !== 'undefined') return currAgency.issue_desc;
+            }
+            else if (usersColumns.includes(col.toLowerCase())) {
+                let userIdsStr = data;
+                let userIds = userIdsStr.split(",");
+                let fullNames = "";
+                userIds.forEach(function(userId) {
+                    let currUser = users.find(x => x.user_id == userId);
+                    fullNames += typeof currUser !== 'undefined' ? currUser.fullname : userId;
+                    fullNames += ", "
+                })
+                return fullNames.replace(/(^, )|(, $)/g, "")
+            }
+            else if (categoryColumns.includes(col.toLowerCase())){
+                let catIdsStr = data
+                let catIds = catIdsStr.split(",");
+                let fullCats = "";
+                catIds.forEach(function(catId) {
+                    let currCat = nclCategories.find(x => x.category_id == catId);
+                    fullCats += typeof currCat !== 'undefined' ? currCat.category_desc : catId;
+                    fullCats += ", "
+                })
+                return fullCats.replace(/(^, )|(, $)/g, "")
+            }
+            else if (classColumns.includes(col.toLowerCase())){
+                let currClass = nclClassifications.find(x => x.class_id == data);
+                if (typeof currClass !== 'undefined') return currClass.class_desc;
+            }
+            else if (divColumns.includes(col.toLowerCase())){
+                let currDiv = divisions.find(x => x.division_id == data);
+                if (typeof currDiv !== 'undefined') return currDiv.division_desc;
+            }
+            else if (deptColumns.includes(col.toLowerCase())){
+                let currDept = departments.find(x => x.department_id == data);
+                if (typeof currDept !== 'undefined') return currDept.department_desc;
+            }
+            else if (zoneColumns.includes(col.toLowerCase())){
+                let currZone = zones.find(x => x.zone_id == data);
+                if (typeof currZone !== 'undefined') return currZone.zone_desc;
+            }
+            else if (subzoneColumns.includes(col.toLowerCase())){
+                let currSubzone = subzones.find(x => x.subzone_id == data);
+                if (typeof currSubzone !== 'undefined') return currSubzone.subzone_desc;
+            }
+            else if (unitColumns.includes(col.toLowerCase())){
+                let currUnit = units.find(x => x.unit_id == data);
+                if (typeof currUnit !== 'undefined') return currUnit.unit_desc;
+            }
+            else if (statusColumns.includes(col.toLowerCase())){
+                let currStatus = statuses.find(x => x.status_id == data);
+                if (typeof currStatus !== 'undefined') return currStatus.status_desc;
+            }
+            else if (typeColumns.includes(col.toLowerCase())){
+                let currType = types.find(x => x.type_id == data);
+                if (typeof currType !== 'undefined') return currType.type_desc;
+            }
+            else if (shcTypeColumns.includes(col.toLowerCase())){
+                switch (data) {
+                    case "1":
+                        return "Function";
+                        break;
+                    case "2":
+                        return "Building";
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else if (legalColumns.includes(col.toLowerCase())){
+                switch (data) {
+                    case 0:
+                        return "Non Legal";
+                        break;
+                    case 1:
+                        return "Legal";
+                        break;
+                    default:
+                        return "N/A";
+                        break;
+                }
+            }
+            else if (sectionColumns.includes(col.toLowerCase())){
+                let currSection = sections.find(x => x.id == data);
+                if (typeof currSection !== 'undefined') return currSection.desc;
+            }
+            else if (requirementColumns.includes(col.toLowerCase())){
+                let currReq = ncrRequirements.find(x => x.regulation_id == data);
+                if (typeof currReq !== 'undefined') return currReq.regulation_desc;
+            }
+            else if (stepColumns.includes(col.toLowerCase())){
+                let currStep = steps.find(x => x.id == data);
+                if (typeof currStep !== 'undefined') return currStep.desc;
+            }
+            else if (shcColumns.includes(col.toLowerCase())){
+                let format = new Intl.NumberFormat('en-US', {
+                    minimumIntegerDigits: 4
+                });
+                let currShc = `SHC${format.format(data)}`;
+                if (typeof currShc !== 'undefined' && !currShc.includes('undefined') && !currShc.includes('NaN')) return currShc.replace(/\,/g,'');
+            }
+            else if (prevMeetColumns.includes(col.toLowerCase())){
+                let format = new Intl.NumberFormat('en-US', {
+                    minimumIntegerDigits: 8
+                });
+                if (data == "") return "No Previous Meeting";
+                if (meetingCode == "") return data;
+                let currMeet = `${meetingCode.split("/")[0]}/MEETING-${format.format(data)}`;
+                if (typeof currMeet !== 'currMeet' && !currMeet.includes('currMeet') && !currMeet.includes('currMeet')) return currMeet.replace(/\,/g,'');
+            }
+            else if (brandColumns.includes(col.toLowerCase())){
+                let currBrand = chemBrands.find(x => x.id == data);
+                if (typeof currBrand !== 'undefined') return currBrand.desc;
+            }
+            else if (boolColumns.includes(col.toLowerCase())){
+                let currBool = data == "1" ? "YES" : "NO";
+                if (typeof currBool !== 'undefined') return currBool;
+            }
+            else if (typePpeColumns.includes(col.toLowerCase())){
+                let ppeIdsStr = data;
+                let ppeIds = ppeIdsStr.split(",");
+                let fullPpes = "";
+                ppeIds.forEach(function(ppeId) {
+                    let currPpe = chemTypePpe.find(x => x.id == ppeId);
+                    fullPpes += typeof currPpe !== 'undefined' ? currPpe.descr : ppeId;
+                    fullPpes += ", "
+                })
+                return fullPpes.replace(/(^, )|(, $)/g, "")
+            }
+            else if (typeEcColumns.includes(col.toLowerCase())){
+                let currEC = chemTypeEC.find(x => x.id == data);
+                if (typeof currEC !== 'undefined') return currEC.descr;
+            }
+            else if (formChemColumns.includes(col.toLowerCase())){
+                let currFormChem = chemFormChemical.find(x => x.id == data);
+                if (typeof currFormChem !== 'undefined') return currFormChem.descr;
+            }
+            else if (hazardHColumns.includes(col.toLowerCase())){
+                let currHazH = chemHazardH.find(x => x.id == data);
+                if (typeof currHazH !== 'undefined') return currHazH.descr;
+            }
+            else if (hazardSColumns.includes(col.toLowerCase())){
+                let currHazS = chemHazardS.find(x => x.id == data);
+                if (typeof currHazS !== 'undefined') return currHazS.descr;
+            }
+            else if (hazardEColumns.includes(col.toLowerCase())){
+                let currHazE = chemHazardE.find(x => x.id == data);
+                if (typeof currHazE !== 'undefined') return currHazE.descr;
+            }
+            else if (rootCausesColumns.includes(col.toLowerCase())){
+                let currRootCause = ncrRootCauses.find(x => x.id == data);
+                if (typeof currRootCause !== 'undefined') return currRootCause.desc;
+            }
+            else if (genderColumns.includes(col.toLowerCase())){
+                let gender;
+                switch(data){
+                    case "1":
+                        gender = "Male";
+                        break;
+                    case "2":
+                        gender = "Female";
+                        break;
+                    default:
+                        gender = undefined;
+                }
+                if (typeof gender !== 'undefined') return gender;
+            }
+            else if (nclIdColumns.includes(col.toLowerCase())) {
+                let nclId = `NCL${padLeadingZeros(data, 7)}`
+                if (typeof nclId !== 'undefined') return nclId;
+            }
+            else if (ncrIdColumns.includes(col.toLowerCase())) {
+                let ncrId = `NCR${padLeadingZeros(data, 7)}`
+                if (typeof ncrId !== 'undefined') return ncrId;
+            }
+
+            return data;
+        }
+
+        var totalPercent;
+        var currentPercent = 0;
+
+        // JSON to CSV Converter
+        function ConvertToCSVOld(data) {
+            const items = data
+            const replacer = (key, value) => value === null ? '' : value // specify how you want to handle null values here
+            const header = Object.keys(items[0])
+            let meetingCode;
+
+            const csv = [
+              header.join(','), // header row first
+              ...items.map(row => header.map((fieldName, index) => {
+                if (fieldName == "Meeting Code") meetingCode = row[fieldName];
+                let formattedData = getRelationalDataExport(fieldName, row[fieldName], meetingCode);
+                //currentPercent += 1;
+                //$("#loadingRange").val(currentPercent)
+                if (typeof formattedData == "string"){
+                    formattedData = formattedData.replace(`"`, `''`).replace(`\"`, `''`);
+                }
+                console.log(formattedData);
+                console.log(JSON.stringify(formattedData, replacer))
+                return JSON.stringify(formattedData, replacer)
+              }).join(','))
+            ].join('\r\n')
+
+            return csv
+        }
+
+        function isNumeric(str) {
+            if (typeof str != "string") return false // we only process strings!
+            return !isNaN(str) && // use type coercion to parse the _entirety_ of the string (`parseFloat` alone does not do this)...
+                    !isNaN(parseFloat(str)) // ...and ensure strings of whitespace fail
+        }
+
+        function dateToStringV3(date) {
+            //This function only return this format - dd-MMM-yyyy
+            const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            let day = date.getDate();
+            day = day.toString().length != 2 ? '0' + day : day;
+            //month = monthNames[date.getMonth()];
+            month = date.getMonth() + 1;
+            return day + '/' + month + '/' + date.getFullYear();
+        }
+
+        function loadAllData(){
+            if (zones.length == 0){
+                $("#generateBtn").prop('disabled', true)
+                notify("warning", "Initializing data. This will take a moment... Please wait!");
+                $("#generateBtn").text("Initializing... Please wait!")
+                loadAllStatus()
+                loadAllType()
+                loadAllZone()
+                loadAllSubzone()
+                loadAllUnit()
+                loadAllDepartment()
+                loadAllDivision()
+                loadAllUsers()
+            }
+        }
+
+        function loadAllStatus() {
+            $.ajax({
+                url: `/sys/getallstatus`,
+                xhrFields: {
+                    withCredentials: true
+                }
+            }).done(function (data) {
+                statuses = data;
+            })
+        }
+
+        function loadAllType() {
+            $.ajax({
+                url: `/sys/getalltype`,
+                xhrFields: {
+                    withCredentials: true
+                }
+            }).done(function (data) {
+                types = data;
+            })
+        }
+
+        function loadAllDivision() {
+            $.ajax({
+                url: `/sys/getalldivision?showDeleted=true`,
+                xhrFields: {
+                    withCredentials: true
+                }
+            }).done(function (data) {
+                divisions = data;
+            })
+        }
+
+        function loadAllDepartment() {
+            $.ajax({
+                url: `/sys/getalldepartment?showDeleted=true`,
+                xhrFields: {
+                    withCredentials: true
+                }
+            }).done(function (data) {
+                departments = data;
+            })
+        }
+
+        function loadAllZone() {
+            $.ajax({
+                url: `/sys/getallzone?showDeleted=true`,
+                xhrFields: {
+                    withCredentials: true
+                }
+            }).done(function (data) {
+                zones = data;
+            })
+        }
+
+        function loadAllSubzone() {
+            $.ajax({
+                url: `/sys/getallsubzone?showDeleted=true`,
+                xhrFields: {
+                    withCredentials: true
+                }
+            }).done(function (data) {
+                subzones = data;
+            })
+        }
+
+        function loadAllUnit() {
+            $.ajax({
+                url: `/sys/getallunit?showDeleted=true`,
+                xhrFields: {
+                    withCredentials: true
+                }
+            }).done(function (data) {
+                units = data;
+            })
+        }
+
+        function loadAllUsers() {
+            if (users.length == 0) {
+                $.ajax({
+                    url: `/users/getallsimple`,
+                    xhrFields: {
+                        withCredentials: true
+                    }
+                }).done(function (data) {
+                    users = data;
+                    notify("success", "Data initialized successfully! You can now generate logs...");
+                    $("#generateBtn").prop('disabled', false)
+                    $("#generateBtn").html("<b>Generate</b>")
+                })
+            }
+        }
+
+        function padLeadingZeros(num, size) {
+            var s = num + "";
+            while (s.length < size) s = "0" + s;
+            return s;
+        }
+
+        var sweet_loader = '<div class="sweet_loader"><svg viewBox="0 0 140 140" width="140" height="140"><g class="outline"><path d="m 70 28 a 1 1 0 0 0 0 84 a 1 1 0 0 0 0 -84" stroke="rgba(0,0,0,0.1)" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></g><g class="circle"><path d="m 70 28 a 1 1 0 0 0 0 84 a 1 1 0 0 0 0 -84" stroke="#71BBFF" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dashoffset="200" stroke-dasharray="300"></path></g></svg></div>';
+
+
+        $(document).ready(function () {
+
+            // divisionSelect select2 definition
+            $('#divisionSelect').select2({
+                placeholder: "Please select a Division",
+                minimumResultsForSearch: -1,
+                ajax: {
+                    url: '/sys/getalldivision',
+                    processResults: function (data) {
+                        return {
+                            results: $.map(data, function (obj, index) {
+                                return { id: obj.division_id, text: `${obj.division_desc} - ${obj.division_code}` };
+                            })
+                        }
+                    },
+                    delay: 250,
+                },
+                cache: true
+            })
+
+            // divisionSelect bind child
+            $("#divisionSelect").change(function () {
+                $("#departmentSelect").val('').trigger('change')
+                if ($(this).find(":selected").val()) {
+                    $("#departmentSelect").prop("disabled", false)
+                } else {
+                    $("#departmentSelect").prop("disabled", true)
+                }
+            })
+
+            // departmentSelect select2 definition
+            $('#departmentSelect').select2({
+                placeholder: "Please select a Department",
+                minimumResultsForSearch: -1,
+                ajax: {
+                    url: '/sys/getselectdepartment',
+                    data: function (params) {
+                        let parentValue = $("#divisionSelect").find(":selected").val()
+                        let query = {
+                            divisionid: parentValue
+                        }
+                        return query;
+                    },
+                    processResults: function (data) {
+                        return {
+                            results: $.map(data, function (obj, index) {
+                                return { id: obj.department_id, text: `${obj.department_desc} - ${obj.department_code}` };
+                            })
+                        }
+                    },
+                    delay: 250,
+                },
+                cache: true
+            })
+
+            // departmentSelect bind child
+            $("#departmentSelect").change(function () {
+                $("#unitSelect").val('').trigger('change')
+                if ($(this).find(":selected").val()) {
+                    $("#unitSelect").prop("disabled", false)
+                } else {
+                    $("#unitSelect").prop("disabled", true)
+                }
+            })
+
+            // unitSelect select2 definition
+            $('#unitSelect').select2({
+                placeholder: "Please select a Unit",
+                minimumResultsForSearch: -1,
+                ajax: {
+                    url: '/sys/getselectunit',
+                    data: function () {
+                        let parentValue = $("#departmentSelect").find(":selected").val()
+                        let query = {
+                            departmentid: parentValue
+                        }
+                        return query;
+                    },
+                    processResults: function (data) {
+                        return {
+                            results: $.map(data, function (obj, index) {
+                                return { id: obj.unit_id, text: `${obj.unit_desc} - ${obj.unit_code}` };
+                            })
+                        }
+                    },
+                    delay: 250,
+                },
+                cache: true
+            })
+        })
+    </script>*@
+
+}

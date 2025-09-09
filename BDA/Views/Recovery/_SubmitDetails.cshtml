@@ -1,0 +1,189 @@
+﻿@model BDA.ViewModel.RecoveryViewModel
+@{
+    ViewData["Title"] = "Recover";
+}
+
+@section Styles{
+
+    <style>
+        .btn-create {
+            background-color: #5d5386;
+            color: white;
+        }
+
+        .btn-apply:hover {
+            background-color: white;
+            color: black;
+        }
+
+        .btn-cancel:hover {
+            background-color: red;
+            color: white;
+        }
+
+        .btn-create:hover {
+            background-color: limegreen;
+            color: white;
+        }
+
+        .btn-lost:hover {
+            background-color: #FFC300;
+            color: white;
+        }
+
+        select.filter {
+            height: 33px !important;
+        }
+
+        .form-staff {
+            margin-bottom: 2rem;
+        }
+    </style>
+}
+
+<div id="pnl_main_form" class="widget has-shadow">
+    <div class="widget-body">
+        <div class="padding-left-20 padding-right-20">
+            <div class="form-group row">
+                <div class="col-sm-2 form-control-label d-flex align-items-center">Recovery Type.&nbsp;<i class="ion-information-circled" data-toggle="tooltip" title="Pembayaran balik secara penuh(Full) atau separuh (partial)"></i><span class="text-danger ml-2">*</span></div>
+                <div class="col-xl-4">
+                    @Html.DropDownListFor(x => x.RecoveryType, Enumerable.Empty<SelectListItem>(), new { @class = "form-control custom-select select2", id = "ddlRecoveryType", required = "required" })
+                    @Html.HiddenFor(x => x.RecoveryType)
+                    @*<select id="ddlRecoveryPercent" name="ddlVendorType" class="selectpicker show-menu-arrow form-control" tabindex="-98">
+            <option value="1">Partial Refund</option>
+            <option value="2">Full Refund</option>
+        </select>*@
+                </div>
+                <div class="col-sm-2 form-control-label d-flex align-items-center">
+                    Total recovery amount (RM)&nbsp;<i class="ion-information-circled" data-toggle="tooltip" title="Jumlah asal wang cagaran yang telah dikeluarkan"></i><span class="text-danger ml-2">*</span>
+                </div>
+                <div class="col-xl-4">
+                    @*@Html.EditorFor(x => x.TotalRecoveryAmount, new { @class = "form-control", required = "required" })*@
+                    @Html.TextBoxFor(x => x.TotalRecoveryAmount, "{0:c}", new { @class = "form-control", required = "required" })
+                    @*<input id="numTotAmt" class="form-control" value="<<Auto Populated>>">*@
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="pnl_first_form" class="widget has-shadow" style="display:none">
+    <div class="widget-body">
+        <h3>Partial Recovery</h3>
+        <div class="padding-left-20 padding-right-20">
+            <div class="form-group row">
+                <div class="col-sm-2 form-control-label d-flex align-items-center">Amount (First Partial)<span class="text-danger ml-2">*</span></div>
+                <div class="col-xl-4 mb-1">
+                    @*<input type="text" class="form-control">*@
+                    @Html.TextBoxFor(x => x.FirstRecoveryAmount, "{0:c}", new { @class = "form-control", required = "required" })
+                </div>
+                <p> </p>
+            </div>
+            <h4>Supporting Document&nbsp;<i class="ion-information-circled" data-toggle="tooltip" title="Documents related to recovery. e.g.: Project Completion Report/Letter from PBT"></i><span class="text-danger ml-2">*</span></h4>
+            <table id="suppDoc" class="display" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Name</th>
+                        <th>Attachment</th>
+                        <th></th>
+                    </tr>
+                </thead>
+            </table>
+            <button type="button" id="addRow" class="btn btn-secondary ripple">Add Attachment</button>
+        </div>
+    </div>
+</div>
+<div id="pnl_second_form" class="widget has-shadow" style="display:none">
+    <div class="widget-body">
+        <h3>Partial Recovery</h3>
+        <div class="padding-left-20 padding-right-20">
+            <div class="form-group row">
+                <div class="col-sm-2 form-control-label d-flex align-items-center">Amount (Second Partial)<span class="text-danger ml-2">*</span></div>
+                <div class="col-xl-4 mb-1">
+                    @*<input type="text" class="form-control">*@
+                    @Html.TextBoxFor(x => x.SecondRecoveryAmount, "{0:c}", new { @class = "form-control", required = "required" })
+                </div>
+                <p> </p>
+            </div>
+            <h4>Supporting Document&nbsp;<i class="ion-information-circled" data-toggle="tooltip" title="Documents related to recovery. e.g.: Project Completion Report/Letter from PBT"></i><span class="text-danger ml-2">*</span></h4>
+            <table id="suppDoc2" class="display" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Name</th>
+                        <th>Attachment</th>
+                        <th></th>
+                    </tr>
+                </thead>
+            </table>
+            <br />
+            <button type="button" id="addRow2" class="btn btn-secondary ripple" disabled>Add Attachment</button>
+        </div>
+    </div>
+</div>
+<div id="pnl_third_form" class="widget has-shadow" style="display:none">
+    <div class="widget-body">
+        <h3>Full Recovery</h3>
+        <div class="padding-left-20 padding-right-20">
+            <div class="form-group row">
+                @*<div class="col-sm-2 form-control-label d-flex align-items-center">Amount (Full 100%)<span class="text-danger ml-2">*</span></div>*@
+                <div class="col-xl-4 mb-1">
+                    <br/>
+                    @*<input type="text" class="form-control">*@
+                    @*@Html.TextBoxFor(x => x., new { @class = "form-control" })*@
+                </div>
+                <p> </p>
+            </div>
+            <h4>Supporting Document&nbsp;<i class="ion-information-circled" data-toggle="tooltip" title="Documents related to recovery. e.g.: Project Completion Report/Letter from PBT"></i><span class="text-danger ml-2">*</span></h4>
+            <table id="suppDoc3" class="display" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Name</th>
+                        <th>Attachment</th>
+                        <th></th>
+                    </tr>
+                </thead>
+            </table>
+            <br />
+            <button type="button" id="addRow3" class="btn btn-secondary ripple">Add Attachment</button>
+        </div>
+    </div>
+</div>
+@section Scripts{
+
+    <script src="~/assets/js/components/wizard/form-wizard.min.js"></script>
+    <script src="~/assets/vendors/js/bootstrap-select/bootstrap-select.min.js"></script>
+
+    <script src="assets/vendors/js/base/jquery.min.js"></script>
+    <script src="assets/vendors/js/base/core.min.js"></script>
+    <!-- End Vendor Js -->
+    <!-- Begin Page Vendor Js -->
+    <script src="assets/vendors/js/nicescroll/nicescroll.min.js"></script>
+    <script src="assets/vendors/js/app/app.min.js"></script>
+
+    <script>
+
+        var check = function () {
+            if (document.getElementById('txtPassword').value ==
+                document.getElementById('txtRepassword').value) {
+                document.getElementById('message').style.color = 'green';
+                document.getElementById('message').innerHTML = 'Password matching';
+            } else {
+                document.getElementById('message').style.color = 'red';
+                document.getElementById('message').innerHTML = 'Password not matching';
+            }
+        }
+        $("#btnSubmit").on('click', function (e) {
+            console.log('submit');
+            $("#formAddUser").submit();
+        });
+
+    </script>
+}
+
+
+
+
+
+

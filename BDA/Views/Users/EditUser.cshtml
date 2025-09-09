@@ -1,0 +1,1080 @@
+﻿@model BDA.ViewModel.UserViewModel
+@{
+    ViewData["Title"] = "EditUser";
+    //Layout = "~/Views/Shared/_FormLayout.cshtml";
+}
+
+@section Styles{
+
+    <style>
+        .btn-create {
+            background-color: #5d5386;
+            color: white;
+        }
+
+        .btn-apply:hover {
+            background-color: white;
+            color: black;
+        }
+
+        .btn-cancel:hover {
+            background-color: red;
+            color: white;
+        }
+
+        .btn-create:hover {
+            background-color: limegreen;
+            color: white;
+        }
+
+        .btn-lost:hover {
+            background-color: #FFC300;
+            color: white;
+        }
+
+        select.filter {
+            height: 33px !important;
+        }
+
+        .form-staff {
+            margin-bottom: 2rem;
+        }
+        /*<link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.css" />
+        <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid-theme.min.css" />*/
+
+    </style>
+}
+    <div class="content-inner">
+        <div class="container-fluid">
+            <!-- Begin Page Header-->
+            <div class="row">
+                <div class="page-header">
+                    <div class="d-flex align-items-center">
+                        <h2 class="page-header-title">Edit User</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row flex-row">
+                <div class="col-xl-12 col-md-12">
+
+                    <div class="widget has-shadow">
+                        @using (Html.BeginForm("Update", "Users", Model, FormMethod.Post, false, new { @id = "formEditUser", @class = "form-horizontal" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <div class="widget-body">
+                                <form id="userForm">
+                                    <fieldset>
+                                        <legend class="form-staff">Staff Details</legend>
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="form-staff row">
+                                                    <div class="col-sm-2 form-control-label d-flex align-items-center boldLabel">User Type</div>
+                                                    <div class="col-xl-4">
+                                                        <div class="form-control-label d-flex align-items-center">@Model.AuthenticationMethod</div>
+                                                    </div>
+                                                    <div id="pnlInternal1" class="col-xl-6">
+                                                        <a id="btnChangePassword" href="#" data-target="#save-edit-user" class="btn btn-warning" data-toggle="modal">
+                                                            Change Password
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="form-staff row">
+                                                    <div class="col-sm-2 form-control-label d-flex align-items-center">Staff No</div>
+                                                    <div class="col-xl-4">
+                                                        @Html.TextBoxFor(x => x.UserName, new { @class = "form-control" })
+                                                        @*<input type="text" id="txtStaffNo" disabled class="form-control" value="@Model.UserName">*@
+                                                    </div>
+                                                    <div class="col-sm-2 form-control-label d-flex align-items-center">Status</div>
+                                                    <div class="col-xl-4" style="margin-top:10px">
+                                                        <div class="styled-checkbox">
+                                                            @Html.CheckBoxFor(x => x.IsActive, new { id = "check-1" }) @*<label for="JKRInvolved"> Ya</label>*@
+                                                            @*<input type="checkbox" name="IsActive" id="IsActive" checked="@Model.IsActive">*@
+                                                            <label for="check-1">Active</label>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <div class="form-staff row">
+                                                    <div class="col-sm-2 form-control-label d-flex align-items-center">Staff Name</div>
+                                                    <div class="col-xl-4">
+                                                        @Html.TextBoxFor(x => x.FullName, new { @class = "form-control" })
+                                                        @*<input type="text" id="txtRefNo" disabled class="form-control" value="@Model.FullName">*@
+                                                    </div>
+                                                    <div class="col-sm-2 form-control-label d-flex align-items-center">E-mail</div>
+                                                    <div class="col-xl-4">
+                                                        @Html.TextBoxFor(x => x.Email, new { @class = "form-control" })
+                                                        @*<input type="text" id="txtERMSDocNo" disabled class="form-control" value="@Model.Email">*@
+                                                    </div>
+                                                </div>
+                                                <div class="form-staff row">
+                                                    <div class="col-sm-2 form-control-label d-flex align-items-center">Office Phone No</div>
+                                                    <div class="col-xl-4">
+                                                        @Html.TextBoxFor(x => x.OfficeNo, new { @class = "form-control" })
+                                                        @*<input type="text" id="txtRefNo" class="form-control">*@
+                                                    </div>
+                                                    <div class="col-sm-2 form-control-label d-flex align-items-center">Mobile Phone No</div>
+                                                    <div class="col-xl-4">
+                                                        @Html.TextBoxFor(x => x.PhoneNumber, new { @class = "form-control" })
+                                                        @*<input type="text" id="txtERMSDocNo" class="form-control" value="@Model.PhoneNumber">*@
+                                                    </div>
+                                                </div>
+                                                <div class="form-staff row">
+                                                    <div class="col-sm-2 form-control-label d-flex align-items-center">Unit</div>
+                                                    <div class="col-xl-4">
+                                                        @Html.TextBoxFor(x => x.UnitName, new { @class = "form-control" })
+                                                        @*<input type="text" id="txtERMSDocNo" class="form-control" value="@Model.UnitName">*@
+                                                    </div>
+                                                    <div class="col-sm-2 form-control-label d-flex align-items-center">Division</div>
+                                                    <div class="col-xl-4">
+                                                        @Html.TextBoxFor(x => x.DivisionName, new { @class = "form-control" })
+                                                        @*<input type="text" id="txtRefNo" class="form-control" value="@Model.DivisionName">*@
+                                                    </div>
+                                                </div>
+                                                <div class="form-staff row">
+                                                    <div class="col-sm-2 form-control-label d-flex align-items-center">Designation</div>
+                                                    <div class="col-xl-4">
+                                                        @Html.TextBoxFor(x => x.Designation, new { @class = "form-control" })
+                                                        @*<input type="text" id="txtRefNo" class="form-control" value="@Model.DivisionName">*@
+                                                    </div>
+                                                <div class="col-sm-2 form-control-label d-flex align-items-center">Resigned/Retired</div>
+                                                <div class="col-xl-4" style="margin-top:10px">
+                                                    <div class="styled-checkbox">
+                                                        @Html.CheckBoxFor(x => x.IsRemoved, new { id = "check-2" })
+                                                        <label for="check-2">Delete</label>
+                                                    </div>
+                                                </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </form>
+                                <div class="form-staff row">
+                                    <div id="saveBtn" class="col-xl-2">
+                                        <a id="btnSave" href="#" data-target="#save-edit-user" class="btn btn-success" data-toggle="modal">
+                                            Save
+                                        </a>
+
+                                    </div>
+                                    <div class="col-xl-7">
+                                    </div>
+                                 @*    <div id="changePasswordBtn" class="col-xl-3">
+                                        <a id="btnChangePassword" href="@Url.Action("ChangePassword", new {userName = Model.UserName })" class="btn btn-warning" style="">Change Password</a>
+                                    </div> *@
+                                </div>
+                            </div>
+                        }
+                        <div class="widget-body">
+                            <div class="table-responsive">
+
+                                <a id="btnAssignRole" href="#" data-target="#assign-role-modal" class="btn btn-secondary" data-toggle="modal">
+                                    <i class="la la-plus"></i>
+                                    Assign Role
+                                </a>
+                                <a id="btnAssignArea" href="#" data-target="#assign-role-area-modal" class="btn btn-secondary" data-toggle="modal" style="display: none;">
+                                    <i class="la la-plus"></i>
+                                    Assign New Area
+                                </a>
+                                <br />
+                                <br />
+                                @*<div id="tblAssignRole" style="width:100%" class="table table-hover mb-0 display">
+        </div>*@
+                                <table id="tblAssignRole" class="table table-hover mb-0 display table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <td>Role</td>
+                                            <td>Division</td>
+                                            <td>Function</td>
+                                            <td>Zone</td>
+                                            <td>Unit</td>
+                                            <td>Action</td>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @Html.Partial("~/Views/Users/_ActionButton.cshtml")
+
+        <div id="assign-role-modal" class="modal fade" style="display: none;" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content" style="padding:40px;padding-bottom:20px">
+                    <div class="modal-header">
+                        <h4 class="modal-title" style="font-weight:bold">Assign Role</h4>
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span aria-hidden="true">×</span>
+                            <span class="sr-only">close</span>
+                        </button>
+                    </div>
+                    @using (Html.BeginForm("CreateUserRole", "Users", Model, FormMethod.Post, false, new { @id = "formCreateRole", @class = "form-horizontal" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <div class="modal-body">
+                            <div class="form-group row mb-3">
+                                <div class="col-sm-12 mb-3">
+                                    <label class="form-control-label">Role<span class="text-danger ml-2">*</span></label>
+                                    @Html.DropDownListFor(x => x.RoleId, Enumerable.Empty<SelectListItem>(), new { @class = "form-control select2", id = "ddlRoleList" })
+                                </div>
+                            </div>
+                            @*<div id="divOption" style="display:none">*@
+                            <div id="pnlDiv" class="form-group row mb-3" style="display:none">
+                                <div class="col-sm-12 mb-3">
+                                    <label class="form-control-label">Division<span class="text-danger ml-2">*</span></label>
+                                    @Html.DropDownListFor(x => x.DivisionId, Enumerable.Empty<SelectListItem>(), new { @class = "form-control select2", id = "ddlDivisionList" })
+                                </div>
+                            </div>
+                            <div id="pnlFunc" class="form-group row mb-3" style="display:none">
+                                <div class="col-sm-12 mb-3">
+                                    <label class="form-control-label">Function<span class="text-danger ml-2">*</span></label>
+                                    @Html.DropDownListFor(x => x.FunctionId, Enumerable.Empty<SelectListItem>(), new { @class = "form-control select2", id = "ddlFunctionList" })
+                                </div>
+                            </div>
+                            <div id="pnlZone" class="form-group row mb-3" style="display:none">
+                                <div class="col-sm-12 mb-3">
+                                    <label class="form-control-label">Zone<span class="text-danger ml-2">*</span></label>
+                                    @Html.DropDownListFor(x => x.ZoneId, Enumerable.Empty<SelectListItem>(), new { @class = "form-control select2", id = "ddlZoneList" })
+                                </div>
+                            </div>
+                            <div id="pnlUnit" class="form-group row mb-3" style="display:none">
+                                <div class="col-sm-12 mb-3">
+                                    <label class="form-control-label">Unit<span class="text-danger ml-2">*</span></label>
+                                    @Html.DropDownListFor(x => x.UnitId, Enumerable.Empty<SelectListItem>(), new { @class = "form-control select2", id = "ddlUnitList" })
+                                </div>
+                            </div>
+                            @*</div>*@
+                        </div>
+                        <div class="modal-footer">
+                            <button id="btnSubmit" type="button" class="btn btn-success">Add</button> @*data-dismiss="modal"*@
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div id="assign-role-area-modal" class="modal fade" style="display: none;" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content" style="padding:40px;padding-bottom:20px">
+                    <div class="modal-header">
+                        <h4 class="modal-title" style="font-weight:bold">Assign Role - Area</h4>
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span aria-hidden="true">×</span>
+                            <span class="sr-only">close</span>
+                        </button>
+                    </div>
+                    @using (Html.BeginForm("CreateUserRole", "Users", Model, FormMethod.Post, false, new { @id = "formCreateRole2", @class = "form-horizontal" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <div class="modal-body">
+                            <div class="form-group row mb-3">
+                                <div class="col-sm-12 mb-3">
+                                    <label class="form-control-label">Role<span class="text-danger ml-2">*</span></label>
+                                    @Html.DropDownListFor(x => x.RoleId, Enumerable.Empty<SelectListItem>(), new { @class = "form-control select2", id = "ddlRoleList2" })
+                                </div>
+                            </div>
+                            @*<div id="divOption" style="display:none">*@
+                            <div id="pnlDiv2" class="form-group row mb-3" style="display:none">
+                                <div class="col-sm-12 mb-3">
+                                    <label class="form-control-label">Division<span class="text-danger ml-2">*</span></label>
+                                    @Html.DropDownListFor(x => x.DivisionId, Enumerable.Empty<SelectListItem>(), new { @class = "form-control select2", id = "ddlDivisionList2" })
+                                </div>
+                            </div>
+                            <div id="pnlFunc2" class="form-group row mb-3" style="display:none">
+                                <div class="col-sm-12 mb-3">
+                                    <label class="form-control-label">Function<span class="text-danger ml-2">*</span></label>
+                                    @Html.DropDownListFor(x => x.FunctionId, Enumerable.Empty<SelectListItem>(), new { @class = "form-control select2", id = "ddlFunctionList2" })
+                                </div>
+                            </div>
+                            <div id="pnlZone2" class="form-group row mb-3" style="display:none">
+                                <div class="col-sm-12 mb-3">
+                                    <label class="form-control-label">Zone<span class="text-danger ml-2">*</span></label>
+                                    @Html.DropDownListFor(x => x.ZoneId, Enumerable.Empty<SelectListItem>(), new { @class = "form-control select2", id = "ddlZoneList2" })
+                                </div>
+                            </div>
+                            <div id="pnlUnit2" class="form-group row mb-3" style="display:none">
+                                <div class="col-sm-12 mb-3">
+                                    <label class="form-control-label">Unit<span class="text-danger ml-2">*</span></label>
+                                    @Html.DropDownListFor(x => x.UnitId, Enumerable.Empty<SelectListItem>(), new { @class = "form-control select2", id = "ddlUnitList2" })
+                                </div>
+                            </div>
+                            @*</div>*@
+                        </div>
+                        <div class="modal-footer">
+                            <button id="btnSubmit2" type="button" class="btn btn-success">Add</button> @*data-dismiss="modal"*@
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <!-- End Container -->
+        <!-- Begin Page Footer-->
+        <!-- End Page Footer -->
+        <a href="#" class="go-top"><i class="la la-arrow-up"></i></a>
+        <!-- Offcanvas Sidebar -->
+        <!-- End Offcanvas Sidebar -->
+    </div>
+
+@section Scripts{
+
+    <script src="~/assets/vendors/js/datatables/datatables.min.js"></script>
+    <script src="~/assets/vendors/js/datatables/dataTables.select.min.js"></script>
+    <script src="~/assets/vendors/js/datatables/dataTables.buttons.min.js"></script>
+    <script src="~/assets/vendors/js/datatables/buttons.flash.js"></script>
+    <script src="~/assets/vendors/js/datatables/buttons.print.min.js"></script>
+    <script src="~/assets/vendors/js/datatables/buttons.html5.js"></script>
+
+    <script src="~/assets/vendors/js/tablefilter/jquery.tablefilter.js"></script>
+    <script src="~/assets/vendors/js/tablefilter/jquery.tabledatafilter.min.js"></script>
+    <script>
+
+        var staffId = '@Model.UserName';
+        var active = '@Model.IsActive';
+        var remove = '@Model.IsRemoved';
+        var divId;
+        var funcId;
+        var zoneId;
+        var unitId;
+
+        $('#btnChangePassword').on('click', function (e) {
+            href = "/Users/ChangePassword?userName=" + '@Model.UserName';
+            window.location.href = href;
+               });
+
+        function refresh() {
+            setTimeout(function () { location.reload(); }, 500);
+        }
+
+        function getUserRole(staffId) {
+
+            $.ajax({
+                type: "GET",
+                url: "/Users/GetFirstUserRoleByStaffId?id=" + staffId,
+                data: staffId, // serializes the form's elements.
+                success: function (data) {
+                    console.log(data);
+                    if (data != null) {
+                        $('#btnAssignRole').hide();
+                        $('#btnAssignArea').show();
+                    }
+
+                    if (data.roleShort == "E" || data.roleShort == "IA" || data.roleShort == "BA" || data.roleShort == "TR" || data.roleShort == "TB" || data.roleShort == "HBM") {
+                        $('#btnAssignRole').hide();
+                        $('#btnAssignArea').hide();
+                    }
+
+                    //$("#assign-role-area-modal #ddlRoleList2").css('color', 'blue');
+
+                    var roleDDL = {
+                        id: data.roleShort,
+                        text: data.role
+                    };
+                    var roleOption = new Option(roleDDL.text, roleDDL.id, true, true);
+                    $('#assign-role-area-modal #ddlRoleList2').append(roleOption).trigger('change');
+
+                    var divDDL = {
+                        id: data.divId,
+                        text: data.division
+                    };
+                    var divOption = new Option(divDDL.text, divDDL.id, true, true);
+
+                    var funcDDL = {
+                        id: data.funcId,
+                        text: data.function
+                    };
+                    var funcOption = new Option(funcDDL.text, funcDDL.id, true, true);
+
+                    var zoneDDL = {
+                        id: data.zoneId,
+                        text: data.zone
+                    };
+                    var zoneOption = new Option(zoneDDL.text, zoneDDL.id, true, true);
+
+                    var unitDDL = {
+                        id: data.unitId,
+                        text: data.unit
+                    };
+                    var unitOption = new Option(unitDDL.text, unitDDL.id, true, true);
+                    //
+                    //SetSelectedValue(data.role, "#assign-role-area-modal #ddlRoleList2");
+
+                    if (data.division != "") {
+                        $("#pnlDiv2").show();
+                        $('#assign-role-area-modal #ddlDivisionList2').append(divOption).trigger('change');
+                        //SetSelectedValue(data.division, "#assign-role-area-modal #ddlDivisionList2");
+                        //$("#assign-role-area-modal #ddlDivisionList2").attr("disabled", "disabled");
+                    }
+
+                    if (data.function != "") {
+                        $("#pnlFunc2").show();
+                        //$("#assign-role-area-modal #FunctionId").val(data.funcId);
+                        $('#assign-role-area-modal #ddlFunctionList2').append(funcOption).trigger('change');
+                        //$("#assign-role-area-modal #ddlFunctionList2").attr("disabled", "disabled");
+                    }
+
+                    if (data.zone != "") {
+                        $("#pnlZone2").show();
+                        $('#assign-role-area-modal #ddlZoneList2').append(zoneOption).trigger('change');
+                        //$("#assign-role-area-modal #ddlZoneList2").attr("disabled", "disabled");
+                    }
+
+                    if (data.unit != "") {
+                        $("#pnlUnit2").show();
+                        $('#assign-role-area-modal #ddlUnitList2').append(unitOption).trigger('change');
+                        //$("#assign-role-area-modal #ddlUnitList2").attr("disabled", "disabled");
+                    }
+
+                    if (data.roleShort == "HOU" || data.roleShort == "GM/SGM") {
+                        divId = data.divId;
+                        $("#assign-role-area-modal #ddlFunctionList2").removeAttr('disabled');
+
+                        $("#ddlFunctionList2").select2({
+                            dropdownParent: $("#assign-role-area-modal"),
+                            minimumResultsForSearch: -1,
+                            ajax: {
+                                url: "/Function/GetAllFunctionByDivisionId?Id=" + divId,
+                                dataType: 'json',
+                                type: "GET",
+                                data: {
+                                    Id: divId
+                                },
+                                processResults: function (result) {
+                                    console.log(result);
+                                    return {
+                                        results: $.map(result, function (item) {
+                                            return {
+                                                text: item.name,
+                                                id: item.id
+                                            }
+                                        })
+                                    };
+                                }
+                            }
+                        });
+
+                    }
+
+                    if (data.roleShort == "HZ" || data.roleShort == "SM") {
+                        funcId = data.funcId;
+                        $("#assign-role-area-modal #ddlZoneList2").removeAttr('disabled');
+
+                        $("#ddlZoneList2").select2({
+                            dropdownParent: $("#assign-role-area-modal"),
+                            minimumResultsForSearch: -1,
+                            ajax: {
+                                url: "/Zone/GetAllZoneByFunctionId?Id=" + funcId,
+                                dataType: 'json',
+                                type: "GET",
+                                data: {
+                                    Id: funcId
+                                },
+                                processResults: function (result) {
+                                    console.log(result);
+                                    return {
+                                        results: $.map(result, function (item) {
+                                            return {
+                                                text: item.name,
+                                                id: item.id
+                                            }
+                                        })
+                                    };
+                                }
+                            }
+                        });
+
+                    }
+
+                    if (data.roleShort == "E" || data.roleShort == "M") {
+                        zoneId = data.zoneId;
+                        $("#assign-role-area-modal #ddlUnitList2").removeAttr('disabled');
+
+                        $("#ddlUnitList2").select2({
+                            dropdownParent: $("#assign-role-area-modal"),
+                            minimumResultsForSearch: -1,
+                            ajax: {
+                                url: "/Unit/GetAllUnitByZoneId?Id=" + zoneId,
+                                dataType: 'json',
+                                type: "GET",
+                                data: {
+                                    Id: zoneId
+                                },
+                                processResults: function (result) {
+                                    console.log(result);
+                                    return {
+                                        results: $.map(result, function (item) {
+                                            return {
+                                                text: item.name,
+                                                id: item.id
+                                            }
+                                        })
+                                    };
+                                }
+                            }
+                        });
+
+                    }
+                }
+            });
+        }
+
+        function deleteUserRole(id) {
+
+            $.ajax({
+                type: "DELETE",
+                url: "/Users/DeleteUserRole?id=" + id,
+                data: id, // serializes the form's elements.
+                success: function (data) {
+                    console.log(data);
+                    if (data.response.statusCode == 200) {
+                        ShowNoty("success", data.message);
+                        refresh();
+                    } else {
+                        ShowNoty("error", data.message);
+                    }
+                }
+            });
+        }
+
+        $("#btnSubmit").on('click', function (e) {
+            console.log('submit');
+            $("#formCreateRole").submit();
+        });
+
+        $("#btnSubmit2").on('click', function (e) {
+            console.log('submit2');
+            $("#formCreateRole2").submit();
+        });
+
+        $("#btnSave").on('click', function (e) {
+            console.log('save');
+            $("#formEditUser").submit();
+        });
+
+        $(document).ready(function () {
+
+            var login = '@Model.AuthenticationMethod';
+
+                if (login == "Active Directory") {
+                    $("#pnlInternal1").hide();
+                }
+                else if (login == "Internal") {
+                    $("#pnlInternal1").show();
+                }
+      
+
+                getUserRole(staffId);
+                $("#ddlRoleList").append("<option value=''>Please choose</option>");
+                $("#ddlDivisionList").append("<option value=''>Please choose</option>");
+                $("#ddlFunctionList").append("<option value=''>Please choose</option>");
+                $("#ddlZoneList").append("<option value=''>Please choose</option>");
+                $("#ddlUnitList").append("<option value=''>Please choose</option>");
+
+                    var table = $('#tblAssignRole').DataTable({
+                    dom: "Bfrtip",
+                    "processing": true,
+                    //serverSide: true,
+                    "ajax": {
+                        url:  "@Url.Action("GetAllUserRolesByStaffId", "Users")",
+                        type: "GET",
+                        data: function (d) {
+                            d.id = staffId;
+                        },
+                        dataFilter: function (result) {
+                            var jData = JSON.parse(result);
+                            var dtData = JSON.stringify({ "data": jData });
+                            return dtData;
+                        }
+                },
+           
+                order: [[1, 'asc']],
+                columns: [
+                        { data: "role" },
+                        { data: "division" },
+                        { data: "function" },
+                        { data: "zone" },
+                        { data: "unit" },
+                        {
+                            data: "roleId",
+                            "render": function (data, type, row) {
+                                var id = data;
+                                
+                                //var href = "javascript: openAlert()"
+
+                                if (type == "display") {
+                                    //data = '<a href="javascript:openAlert(id)" style="border-radius: 0%;background-color: #f4f4f4;border-color: #ddd;" class="btn btn-lost btn-block mb-2">Delete</a>';
+                                    data = '<a href = javascript:deleteUserRole("' + id  + '")  style="border-radius: 0%;background-color: #f4f4f4;border-color: #ddd;" class="btn btn-lost btn-block mb-2">Delete</a>';
+                                }
+                                return data;
+                            }
+                        }
+                    ],
+                    "bPaginate": false,
+                    "bLengthChange": false,
+                    "bFilter": false,
+                    "bInfo": false,
+                    "bAutoWidth": false,
+                    orderCellsTop: false,
+                    fixedHeader: true,
+                    "lengthChange": false,
+            });
+
+            //$('.table thead filterCol').appendTo('table thead');
+
+        
+            $("#check-1").change(function () {
+                if (this.checked) {
+                    active = true;
+                } else {
+                    active = false;
+                }
+            });
+
+
+            $("#check-2").change(function () {
+                if (this.checked) {
+                    remove = true;
+                } else {
+                    remove = false;
+                }
+            });
+
+            $("#formCreateRole").submit(function (e) {
+
+                e.preventDefault(); // avoid to execute the actual submit of the form.
+
+                ShowNoty("warning", "Assign Role");
+
+                var form = $(this);
+                var url = form.attr('action');
+
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: form.serialize(), // serializes the form's elements.
+                    success: function (data) {
+                        console.log(data);
+                        if (data.response.statusCode == 200) {
+                            ShowNoty("success", data.message);
+                            refresh();
+                        } else {
+                            ShowNoty("error", data.message);
+                        }
+                    }
+                });
+            });
+
+            $("#formCreateRole2").submit(function (e) {
+
+                e.preventDefault(); // avoid to execute the actual submit of the form.
+
+                ShowNoty("warning", "Assign Role");
+
+                var form = $(this);
+                var url = form.attr('action');
+
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: form.serialize(), // serializes the form's elements.
+                    success: function (data) {
+                        console.log(data);
+                        if (data.response.statusCode == 200) {
+                            ShowNoty("success", data.message);
+                            refresh();
+                        } else {
+                            ShowNoty("error", data.message);
+                        }
+                    }
+                });
+            });
+
+
+            $("#formEditUser").submit(function (e) {
+
+                e.preventDefault(); // avoid to execute the actual submit of the form.
+
+                ShowNoty("warning", "Saving User..");
+
+                var form = $(this);
+                var url = form.attr('action');
+                var fdata = new FormData();
+
+                fdata.append("IsActive", active);
+                fdata.append("IsRemoved", remove);
+
+                $("input, textarea").each(function (x, y) {
+                    fdata.append($(y).attr("name"), $(y).val());
+                });
+
+                for (var value of fdata.values()) {
+                    console.log(value);
+                }
+                for (var key of fdata.keys()) {
+                    console.log(key);
+                }
+
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: fdata, // serializes the form's elements.
+                    processData: false,
+                    contentType: false,
+                    success: function (data) {
+                        if (data.response.statusCode == 200) {
+                            ShowNoty("success", data.message); 
+                        } else {
+                            ShowNoty("error", data.message);
+                        }
+                    }
+                });
+            });
+
+
+            $("#ddlRoleList").select2({
+                dropdownParent: $("#assign-role-modal"),
+                minimumResultsForSearch: -1,
+                ajax: {
+                    url: "/Roles/GetAllRoles",
+                    dataType: 'json',
+                    type: "GET",
+                    processResults: function (data) {
+                        return {
+                            results: $.map(data, function (item) {
+                                return {
+                                    text: item.name,
+                                    id: item.id,
+                                    needDivision: item.needDivision,
+                                    needFunction: item.needFunction,
+                                    needZone: item.needZone,
+                                    needUnit: item.needUnit,
+                                }
+                            })
+                        };
+                    }
+                }
+            });
+
+            $("#ddlRoleList2").select2({
+                dropdownParent: $("#assign-role-area-modal"),
+                minimumResultsForSearch: -1
+            });
+
+            $("#ddlDivisionList2").select2({
+                dropdownParent: $("#assign-role-area-modal"),
+                minimumResultsForSearch: -1
+            });
+         
+            $("#ddlFunctionList2").select2({
+                dropdownParent: $("#assign-role-area-modal"),
+                minimumResultsForSearch: -1
+            });
+
+            $("#ddlZoneList2").select2({
+                dropdownParent: $("#assign-role-area-modal"),
+                minimumResultsForSearch: -1
+            });
+
+            $('#ddlRoleList').on('select2:select', function (e) {
+                $("#pnlDiv").css("display", "none");
+                $("#pnlFunc").css("display", "none");
+                $("#pnlZone").css("display", "none");
+                $("#pnlUnit").css("display", "none");
+                var data = e.params.data;
+                if (data.selected) {
+                    var division = data.needDivision;
+                    var func = data.needFunction;
+                    var zone = data.needZone;
+                    var unit = data.needUnit;
+                    var loaType = data.loaType;
+                    console.log(loaType);
+                    //alert(division);
+                    if (unit == true) {
+                        $("#pnlDiv").css("display", "block");
+
+                        $("#ddlDivisionList").select2({
+                            dropdownParent: $("#assign-role-modal"),
+                            minimumResultsForSearch: -1,
+                            ajax: {
+                                url: "/Division/GetAllDivision?divType=" + loaType,
+                                dataType: 'json',
+                                type: "GET",
+                                processResults: function (data) {
+                                    return {
+                                        results: $.map(data, function (item) {
+                                            return {
+                                                text: item.name,
+                                                id: item.id
+                                            }
+                                        })
+                                    };
+                                }
+                            }
+                        });
+
+                        $('#ddlDivisionList').on('select2:select', function (e) {
+                            var data = e.params.data;
+                            if (data.selected) {
+                                var id = data.id;
+                                $("#pnlFunc").css("display", "block");
+                                $("#ddlFunctionList").select2({
+                                    dropdownParent: $("#assign-role-modal"),
+                                    minimumResultsForSearch: -1,
+                                    ajax: {
+                                        url: "/Function/GetAllFunctionByDivisionId",
+                                        dataType: 'json',
+                                        type: "GET",
+                                        data: {
+                                            Id: id
+                                        },
+                                        processResults: function (result) {
+                                            console.log(result);
+                                            return {
+                                                results: $.map(result, function (item) {
+                                                    return {
+                                                        text: item.name,
+                                                        id: item.id
+                                                    }
+                                                })
+                                            };
+                                        }
+                                    }
+                                });
+                            }
+                        });
+
+                        $('#ddlFunctionList').on('select2:select', function (e) {
+                            var data = e.params.data;
+                            if (data.selected) {
+                                var id = data.id;
+                                $("#pnlZone").css("display", "block");
+                                $("#ddlZoneList").select2({
+                                    dropdownParent: $("#assign-role-modal"),
+                                    minimumResultsForSearch: -1,
+                                    ajax: {
+                                        url: "/Zone/GetAllZoneByFunctionId",
+                                        dataType: 'json',
+                                        type: "GET",
+                                        data: {
+                                            Id: id
+                                        },
+                                        processResults: function (result) {
+                                            console.log(result);
+                                            return {
+                                                results: $.map(result, function (item) {
+                                                    return {
+                                                        text: item.name,
+                                                        id: item.id
+                                                    }
+                                                })
+                                            };
+                                        }
+                                    }
+                                });
+                            }
+                        });
+
+                        $('#ddlZoneList').on('select2:select', function (e) {
+                            var data = e.params.data;
+                            if (data.selected) {
+                                var id = data.id;
+                                $("#pnlUnit").css("display", "block");
+                                $("#ddlUnitList").select2({
+                                    dropdownParent: $("#assign-role-modal"),
+                                    minimumResultsForSearch: -1,
+                                    ajax: {
+                                        url: "/Unit/GetAllUnitByZoneId",
+                                        dataType: 'json',
+                                        type: "GET",
+                                        data: {
+                                            Id: id
+                                        },
+                                        processResults: function (result) {
+                                            console.log(result);
+                                            return {
+                                                results: $.map(result, function (item) {
+                                                    return {
+                                                        text: item.name,
+                                                        id: item.id
+                                                    }
+                                                })
+                                            };
+                                        }
+                                    }
+                                });
+                            }
+                        });
+
+                    }
+                    else if (zone == true && unit == false) {
+                        $("#pnlDiv").css("display", "block");
+
+                        $("#ddlDivisionList").select2({
+                            dropdownParent: $("#assign-role-modal"),
+                            minimumResultsForSearch: -1,
+                            ajax: {
+                                url: "/Division/GetAllDivision?divType=" + loaType,
+                                dataType: 'json',
+                                type: "GET",
+                                processResults: function (data) {
+                                    return {
+                                        results: $.map(data, function (item) {
+                                            return {
+                                                text: item.name,
+                                                id: item.id
+                                            }
+                                        })
+                                    };
+                                }
+                            }
+                        });
+
+                        $('#ddlDivisionList').on('select2:select', function (e) {
+                            var data = e.params.data;
+                            if (data.selected) {
+                                var id = data.id;
+                                $("#pnlFunc").css("display", "block");
+                                $("#ddlFunctionList").select2({
+                                    dropdownParent: $("#assign-role-modal"),
+                                    minimumResultsForSearch: -1,
+                                    ajax: {
+                                        url: "/Function/GetAllFunctionByDivisionId",
+                                        dataType: 'json',
+                                        type: "GET",
+                                        data: {
+                                            Id: id
+                                        },
+                                        processResults: function (result) {
+                                            console.log(result);
+                                            return {
+                                                results: $.map(result, function (item) {
+                                                    return {
+                                                        text: item.name,
+                                                        id: item.id
+                                                    }
+                                                })
+                                            };
+                                        }
+                                    }
+                                });
+                            }
+                        });
+
+                        $('#ddlFunctionList').on('select2:select', function (e) {
+                            var data = e.params.data;
+                            if (data.selected) {
+                                var id = data.id;
+                                $("#pnlZone").css("display", "block");
+                                $("#ddlZoneList").select2({
+                                    dropdownParent: $("#assign-role-modal"),
+                                    minimumResultsForSearch: -1,
+                                    ajax: {
+                                        url: "/Zone/GetAllZoneByFunctionId",
+                                        dataType: 'json',
+                                        type: "GET",
+                                        data: {
+                                            Id: id
+                                        },
+                                        processResults: function (result) {
+                                            console.log(result);
+                                            return {
+                                                results: $.map(result, function (item) {
+                                                    return {
+                                                        text: item.name,
+                                                        id: item.id
+                                                    }
+                                                })
+                                            };
+                                        }
+                                    }
+                                });
+                            }
+                        });
+                    }
+                    else if (func == true && zone == false) {
+                        $("#pnlDiv").css("display", "block");
+
+                        $("#ddlDivisionList").select2({
+                            dropdownParent: $("#assign-role-modal"),
+                            minimumResultsForSearch: -1,
+                            ajax: {
+                                url: "/Division/GetAllDivision?divType=" + loaType,
+                                dataType: 'json',
+                                type: "GET",
+                                processResults: function (data) {
+                                    return {
+                                        results: $.map(data, function (item) {
+                                            return {
+                                                text: item.name,
+                                                id: item.id
+                                            }
+                                        })
+                                    };
+                                }
+                            }
+                        });
+
+                        $('#ddlDivisionList').on('select2:select', function (e) {
+                            var data = e.params.data;
+                            if (data.selected) {
+                                var id = data.id;
+                                $("#pnlFunc").css("display", "block");
+                                $("#ddlFunctionList").select2({
+                                    dropdownParent: $("#assign-role-modal"),
+                                    minimumResultsForSearch: -1,
+                                    ajax: {
+                                        url: "/Function/GetAllFunctionByDivisionId",
+                                        dataType: 'json',
+                                        type: "GET",
+                                        data: {
+                                            Id: id
+                                        },
+                                        processResults: function (result) {
+                                            console.log(result);
+                                            return {
+                                                results: $.map(result, function (item) {
+                                                    return {
+                                                        text: item.name,
+                                                        id: item.id
+                                                    }
+                                                })
+                                            };
+                                        }
+                                    }
+                                });
+                            }
+                        });
+                    } else if (division == true && func == false) {
+                        $("#pnlDiv").css("display", "block");
+
+                        $("#ddlDivisionList").select2({
+                            dropdownParent: $("#assign-role-modal"),
+                            minimumResultsForSearch: -1,
+                            ajax: {
+                                url: "/Division/GetAllDivision?divType=" + loaType,
+                                dataType: 'json',
+                                type: "GET",
+                                processResults: function (data) {
+                                    return {
+                                        results: $.map(data, function (item) {
+                                            return {
+                                                text: item.name,
+                                                id: item.id
+                                            }
+                                        })
+                                    };
+                                }
+                            }
+                        });
+                    }
+                }
+            });
+        });
+
+
+    </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.js"></script>
+    @*<script src="~/assets/js/components/wizard/form-wizard.min.js"></script>
+        <script src="~/assets/vendors/js/bootstrap-select/bootstrap-select.min.js"></script>*@
+}
+
+

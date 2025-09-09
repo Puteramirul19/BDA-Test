@@ -1,0 +1,627 @@
+﻿@model BDA.ViewModel.BankDetailsViewModel
+@{
+    ViewData["Title"] = "ManageBankDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles{
+
+    <style>
+        .btn-create {
+            background-color: #5d5386;
+            color: white;
+        }
+
+        .btn-apply:hover {
+            background-color: white;
+            color: black;
+        }
+
+        .btn-cancel:hover {
+            background-color: red;
+            color: white;
+        }
+
+        .btn-create:hover {
+            background-color: limegreen;
+            color: white;
+        }
+
+        .btn-lost:hover {
+            background-color: #FFC300;
+            color: white;
+        }
+
+        select.filter {
+            height: 33px !important;
+        }
+
+        input[type='checkbox'] {
+            width: 20px;
+            height: 20px;
+        }
+    </style>
+}
+<div class="content-inner">
+    <div class="container-fluid">
+        <!-- Begin Page Header-->
+        <div class="row">
+            <div class="page-header">
+                <div class="d-flex align-items-center">
+                    <h2 class="page-header-title">Bank Details</h2>
+                    <div>
+                        <!--<div class="page-header-tools">
+                            <a class="btn btn-gradient-01" href="#">Add Widget</a>
+                        </div>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Page Header -->
+        <!-- Begin Row -->
+        <div class="row flex-row">
+            <div class="col-xl-3 col-md-6 col-sm-6">
+                <a href="#" data-target="#add-bankDetails-modal" data-toggle="modal" class="btn btn-lg btn-create">
+                    Add New Bank Details
+                </a>
+            </div>
+        </div>
+        <!-- End Row -->
+        <!-- Begin Row -->
+        <div class="row flex-row">
+            <br />
+        </div>
+        <!--<div class="row flex-row">
+            <h2 class="page-header-title">My Applications</h2>
+            <br />
+            <br />
+        </div>-->
+        <div class="row flex-row">
+            <div class="col-xl-12 col-md-12">
+                <div class="table-responsive">
+                    <div class="widget has-shadow">
+                        @*<div class="widget-header bordered no-actions d-flex align-items-center">
+                                <h4>History</h4>
+                            </div>*@
+                        <div class="widget-body">
+                            <div class="table-responsive">
+                                <table id="tblDashboard" class="table table-hover mb-0 display" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th>Type</th>
+                                            <th>Bank Name</th>
+                                            <th>Bank PIC</th>
+                                            <th>BankPIC Position</th>
+                                            <th>Address Line 1</th>
+                                            <th>Address Line 2</th>
+                                            <th>Street</th>
+                                            <th>State</th>
+                                            <th>Account No 1</th>
+                                            <th>Account No 2</th>
+                                            <th>Account No 3</th>
+                                            <th>Charge Account No</th>
+                                            <th>Email</th>
+                                            <th>Status</th>
+                                            <th></th>
+                                        </tr>
+                                        <tr class="filterrow">
+                                            <th class="select-filter">
+                                                <select id="search-type" class="form-control filter" style="height:40px !important;" placeholder="Status">
+                                                    <option value="">All</option>
+                                                    <option value="Application">Application</option>
+                                                    <option value="Cancellation">Cancellation</option>
+                                                    <option value="Lost">Lost</option>
+                                                </select>
+                                            </th>
+                                                @*<th class="input-filter"><input id="search-type" type="text" class="form-control tchatchaca" style="height:40px !important;" placeholder="Search.."></th>*@
+                                            <th class="input-filter"><input id="search-bankName" type="text" class="form-control tchatchaca" style="height:40px !important;" placeholder="Search.."></th>
+                                            <th class="input-filter"><input id="search-bankPIC" type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                            <th class="input-filter"><input id="search-bankPICPosition" type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                            <th class="input-filter"><input id="search-addLine1" type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                            <th class="input-filter"><input id="search-addLine2" type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                            <th class="input-filter"><input id="search-street" type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                            <th class="input-filter"><input id="search-state" type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                            <th class="input-filter"><input id="search-accountNo1" type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                            <th class="input-filter"><input id="search-accountNo2" type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                            <th class="input-filter"><input id="search-accountNo3" type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                            <th class="input-filter"><input id="search-chargeAccountNo" type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                            <th class="input-filter"><input id="search-email" type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                            <th class="select-filter">
+                                                <select id="search-status" class="form-control filter" style="height:40px !important;" placeholder="Status">
+                                                    <option value="">All</option>
+                                                    <option value="true">Active</option>
+                                                    <option value="false">Inactive</option>
+                                                </select>
+                                            </th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Container -->
+    <!-- Begin Page Footer-->
+    <!-- End Page Footer -->
+    <a href="#" class="go-top"><i class="la la-arrow-up"></i></a>
+    <!-- Offcanvas Sidebar -->
+    <!-- End Offcanvas Sidebar -->
+</div>
+
+<div id="add-bankDetails-modal" class="modal fade" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" style="font-weight:bold">Add Bank Details</h4>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">×</span>
+                    <span class="sr-only">close</span>
+                </button>
+            </div>
+            @using (Html.BeginForm("Create", "BankDetails", Model, FormMethod.Post, false, new { @id = "formAddBankDetails", @class = "form-horizontal" }))
+            {
+                @Html.AntiForgeryToken()
+                <div class="modal-body">
+                    <div class="padding-left-20 padding-right-20">
+                        <div class="form-group row">
+                            <div class="col-sm-4 form-control-label d-flex align-items-center">Type</div>
+                            <div class="col-xl-8">
+                                <select name="Type" id="Type" class = "form-control" >
+                                    <option value="Application">Application</option>
+                                    <option value="Cancellation">Cancellation</option>
+                                    <option value="Lost">Lost</option>
+                                </select>
+                                @*@Html.DropDownListFor(x => x.Type, Enumerable.Empty<SelectListItem>(), new { @class = "form-control select2", id = "ddlCompanyCode" })*@
+                                @*@Html.TextBoxFor(x => x.Type, new { @class = "form-control" })*@
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-4 form-control-label d-flex align-items-center">Bank Name</div>
+                            <div class="col-xl-8">
+                                @Html.TextBoxFor(x => x.BankName, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-4 form-control-label d-flex align-items-center">Bank PIC</div>
+                            <div class="col-xl-8">
+                                @Html.TextBoxFor(x => x.BankPIC, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-4 form-control-label d-flex align-items-center">BankPIC Position</div>
+                            <div class="col-xl-8">
+                                @Html.TextBoxFor(x => x.BankPICPosition, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-4 form-control-label d-flex align-items-center">Address Line 1</div>
+                            <div class="col-xl-8">
+                                @Html.TextBoxFor(x => x.AddressLine1, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-4 form-control-label d-flex align-items-center">Address Line 2</div>
+                            <div class="col-xl-8">
+                                @Html.TextBoxFor(x => x.AddressLine2, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-4 form-control-label d-flex align-items-center">Street</div>
+                            <div class="col-xl-8">
+                                @Html.TextBoxFor(x => x.Street, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-4 form-control-label d-flex align-items-center">State</div>
+                            <div class="col-xl-8">
+                                @Html.TextBoxFor(x => x.State, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-4 form-control-label d-flex align-items-center">Account No 1</div>
+                            <div class="col-xl-8">
+                                @Html.TextBoxFor(x => x.AccountNo1, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-4 form-control-label d-flex align-items-center">Account No 2</div>
+                            <div class="col-xl-8">
+                                @Html.TextBoxFor(x => x.AccountNo2, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-4 form-control-label d-flex align-items-center">Account No 3</div>
+                            <div class="col-xl-8">
+                                @Html.TextBoxFor(x => x.AccountNo3, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-4 form-control-label d-flex align-items-center">Charge Account No</div>
+                            <div class="col-xl-8">
+                                @Html.TextBoxFor(x => x.ChargeAccountNo, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-4 form-control-label d-flex align-items-center">Email</div>
+                            <div class="col-xl-8">
+                                @Html.TextBoxFor(x => x.Email, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        @*<div class="form-group row">
+            <div class="col-sm-4 form-control-label d-flex align-items-center">Status</div>
+            <div class="col-xl-8">
+                @Html.CheckBoxFor(x => x.IsActive, new { @id = "status", @class = "form-control" })
+            </div>
+        </div>*@
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="btnSubmit" type="button" class="btn btn-success">Add</button> @*data-dismiss="modal"*@
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<div id="edit-bankdetails-modal" class="modal fade" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" style="font-weight:bold">Edit Bank Details</h4>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">×</span>
+                    <span class="sr-only">close</span>
+                </button>
+            </div>
+            @using (Html.BeginForm("Update", "BankDetails", Model, FormMethod.Post, false, new { @id = "formEditBankDetails", @class = "form-horizontal" }))
+            {
+                @Html.AntiForgeryToken()
+                <div class="modal-body">
+                    <div class="padding-left-20 padding-right-20">
+                        <div class="form-group row">
+                            <div class="col-sm-4 form-control-label d-flex align-items-center">Type</div>
+                            <div class="col-xl-8">
+                                @Html.HiddenFor(x => x.Id, new { @id = "idBank", @class = "form-control" })
+                                <select name="Type" id="type" class="form-control">
+                                    <option value="Application">Application</option>
+                                    <option value="Cancellation">Cancellation</option>
+                                    <option value="Lost">Lost</option>
+                                </select>
+                                @*@Html.TextBoxFor(x => x.Type,  new { @id = "type", @class = "form-control" })*@
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-4 form-control-label d-flex align-items-center">Bank Name</div>
+                            <div class="col-xl-8">
+                                @Html.TextBoxFor(x => x.BankName, new { @id = "bankName", @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-4 form-control-label d-flex align-items-center">BankPIC</div>
+                            <div class="col-xl-8">
+                                @Html.TextBoxFor(x => x.BankPIC, new { @id = "bankPIC", @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-4 form-control-label d-flex align-items-center">Bank PIC Position</div>
+                            <div class="col-xl-8">
+                                @Html.TextBoxFor(x => x.BankPICPosition, new { @id = "bankPICPosition", @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-4 form-control-label d-flex align-items-center">Address Line 1</div>
+                            <div class="col-xl-8">
+                                @Html.TextBoxFor(x => x.AddressLine1, new { @id = "addLine1", @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-4 form-control-label d-flex align-items-center">Address Line 2</div>
+                            <div class="col-xl-8">
+                                @Html.TextBoxFor(x => x.AddressLine2, new { @id = "addLine2", @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-4 form-control-label d-flex align-items-center">Street</div>
+                            <div class="col-xl-8">
+                                @Html.TextBoxFor(x => x.Street, new { @id = "street", @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-4 form-control-label d-flex align-items-center">State</div>
+                            <div class="col-xl-8">
+                                @Html.TextBoxFor(x => x.State, new { @id = "state", @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-4 form-control-label d-flex align-items-center">Account No 1</div>
+                            <div class="col-xl-8">
+                                @Html.TextBoxFor(x => x.AccountNo1, new { @id = "accountNo1", @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-4 form-control-label d-flex align-items-center">Account No 2</div>
+                            <div class="col-xl-8">
+                                @Html.TextBoxFor(x => x.AccountNo2, new { @id = "accountNo2", @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-4 form-control-label d-flex align-items-center">Account No 3</div>
+                            <div class="col-xl-8">
+                                @Html.TextBoxFor(x => x.AccountNo3, new { @id = "accountNo3", @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-4 form-control-label d-flex align-items-center">Charge Account No</div>
+                            <div class="col-xl-8">
+                                @Html.TextBoxFor(x => x.ChargeAccountNo, new { @id = "chargeAccountNo", @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-4 form-control-label d-flex align-items-center">Email</div>
+                            <div class="col-xl-8">
+                                @Html.TextBoxFor(x => x.Email, new { @id = "email", @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-4 form-control-label d-flex align-items-center">Status</div>
+                            <div class="col-xl-8">
+                                @Html.CheckBoxFor(x => x.IsActive, new { @id = "status", @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="btnEdit" type="button" class="btn btn-success">Update</button> @*data-dismiss="modal"*@
+                </div>
+            }
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script src="~/assets/vendors/js/datatables/datatables.min.js"></script>
+    <script src="~/assets/vendors/js/datatables/dataTables.select.min.js"></script>
+    <script src="~/assets/vendors/js/datatables/dataTables.buttons.min.js"></script>
+    <script src="~/assets/vendors/js/datatables/buttons.flash.js"></script>
+    <script src="~/assets/vendors/js/datatables/buttons.print.min.js"></script>
+    <script src="~/assets/vendors/js/datatables/buttons.html5.js"></script>
+
+    <script src="~/assets/vendors/js/tablefilter/jquery.tablefilter.js"></script>
+    <script src="~/assets/vendors/js/tablefilter/jquery.tabledatafilter.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+
+    <script>
+        var division;
+        var fun;
+
+        function refresh() {
+            setTimeout(function () { location.reload(); }, 500);
+        }
+
+        $("#btnSubmit").on('click', function (e) {
+            $("#formAddBankDetails").submit();
+        });
+
+        $("#btnEdit").on('click', function (e) {
+            console.log('submit');
+            $("#formEditBankDetails").submit();
+        });
+
+        $(document).ready(function () {
+
+            $('#edit-bankdetails-modal').on('shown.bs.modal', function (e) {
+
+                var bankId = $(e.relatedTarget).data('id');
+             
+                var bulk = $(e.relatedTarget).data('bulk');
+                var status = $(e.relatedTarget).data('status');
+
+                var part = bulk;
+                var strs = part.split("|");
+
+                var bankPIC = strs[0];
+                var bankPICPosition = strs[1];
+                var addLine1 = strs[2];
+                var addLine2 = strs[3];
+                var street = strs[4];
+                var state = strs[5];
+                var accountNo1 = strs[6];
+                var chargeAccountNo = strs[7];
+                var bankName = strs[8];
+                var email = strs[9];
+                var accountNo2 = strs[10];
+                var accountNo3 = strs[11];
+                var type = strs[12];
+
+                console.log(bulk);
+                //alert(funcName);
+                //var divName = $(e.relatedTarget).data('divName');
+                $(".modal-body #idBank").val(bankId);
+                $(".modal-body #type").val(type);
+                $(".modal-body #bankName").val(bankName);
+                $(".modal-body #bankPIC").val(bankPIC);
+                $(".modal-body #bankPICPosition").val(bankPICPosition);
+                $(".modal-body #addLine1").val(addLine1);
+                $(".modal-body #addLine2").val(addLine2);
+                $(".modal-body #state").val(state);
+                $(".modal-body #street").val(street);
+                $(".modal-body #accountNo1").val(accountNo1);
+                $(".modal-body #accountNo2").val(accountNo2);
+                $(".modal-body #accountNo3").val(accountNo3);
+                $(".modal-body #chargeAccountNo").val(chargeAccountNo);
+                $(".modal-body #email").val(email);
+                $(".modal-body #status").prop('checked', status);
+
+            });
+            var table = $('#tblDashboard').DataTable({
+                dom: "Bfrtip",
+                "processing": true,
+                //serverSide: true,
+                "ajax": {
+                    url: "@Url.Action("GetAllBankDetails", "BankDetails")",
+                    type: "GET",
+                    data: function (d) {
+                        d.id = $('#search-id').val();
+                        d.type = $('#search-type option:selected').val();
+                        d.bankName = $('#search-bankName').val();
+                        d.bankPIC = $('#search-bankPIC').val();
+                        d.bankPICPosition = $('#search-bankPICPosition').val();
+                        d.addLine1 = $('#search-addLine1').val();
+                        d.addLine2 = $('#search-addLine2').val();
+                        d.state = $('#search-state').val();
+                        d.street = $('#search-street').val();
+                        d.accountNo1 = $('#search-accountNo1').val();
+                        d.accountNo2 = $('#search-accountNo2').val();
+                        d.accountNo3 = $('#search-accountNo3').val();
+                        d.chargeAccountNo = $('#search-chargeAccountNo').val();
+                        d.email = $('#search-email').val();
+                        d.isActive = $('#search-status option:selected').val();
+                    },
+                    dataFilter: function (result) {
+                        var jData = JSON.parse(result);
+                        var dtData = JSON.stringify({ "data": jData });
+                        return dtData;
+                    }
+                },
+                order: [[1, 'asc']],
+                columns: [
+                    { data: "type" },
+                    { data: "bankName" },
+                    { data: "bankPIC" },
+                    { data: "bankPICPosition" },
+                    { data: "addLine1" },
+                    { data: "addLine2" },
+                    { data: "street" },
+                    { data: "state" },
+                    { data: "accountNo1" },
+                    { data: "accountNo2" },
+                    { data: "accountNo3" },
+                    { data: "chargeAccountNo" },
+                    { data: "email" },
+                    {
+                        data: "isActive",
+                        "render": function (data, type, row) {
+                            if (data == true) return "Active";
+                            else return "InActive";
+                        }
+                    },
+                    {
+                        data: "id",
+                        "render": function (data, type, row) {
+                            var id = data;
+                            var href = "";
+                            if (type == "display") {
+                                data = '<a id="test" href="' + href + '" style="border-radius: 0%;background-color: #f4f4f4;border-color: #ddd;" class="btn btn-lost btn-block mb-2" data-target="#edit-bankdetails-modal" data-toggle="modal" data-id="' + id + '" data-bulk="' + row.bankPIC + "|" + row.bankPICPosition + "|" + row.addLine1 + "|" + row.addLine2 + "|" + row.street + "|" + row.state + "|" + row.accountNo1 + "|" + row.chargeAccountNo + "|" + row.bankName + "|" + row.email + "|" + row.accountNo2 + "|" + row.accountNo3 + "|" + row.type + '" data-status="' + row.isActive + '">Edit</a>';
+
+                            }
+                            return data;
+                        }
+                    },
+                ],
+                "bPaginate": true,
+                "bLengthChange": false,
+                "bFilter": false,
+                "bInfo": true,
+                "bAutoWidth": false,
+                orderCellsTop: true,
+                fixedHeader: true,
+                "lengthChange": false,
+            });
+
+            $('.table thead filterCol').appendTo('table thead');
+
+            $.each($('.input-filter', table.table().header()), function () {
+                var column = table.column($(this).index());
+
+                $('input', this).on('keyup change', function () {
+                    table.ajax.reload();
+                });
+            });
+
+            $.each($('.select-filter', table.table().header()), function () {
+                var column = table.column($(this).index());
+
+                $('select', this).on('change', function () {
+                    table.ajax.reload();
+                });
+            });
+
+            $("#formAddBankDetails").submit(function (e) {
+
+                e.preventDefault(); // avoid to execute the actual submit of the form.
+
+                ShowNoty("warning", "Saving Bank Details..");
+
+                var form = $(this);
+                var url = form.attr('action');
+
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: form.serialize(), // serializes the form's elements.
+                    success: function (data) {
+                        console.log(data);
+                        if (data.response.statusCode == 200) {
+                            ShowNoty("success", data.message);
+                        } else {
+                            ShowNoty("error", data.message);
+                        }
+                        refresh();
+                    }
+                });
+            });
+
+            $("#formEditBankDetails").submit(function (e) {
+
+                e.preventDefault(); // avoid to execute the actual submit of the form.
+
+                ShowNoty("warning", "Updating Bank Details..");
+
+                var form = $(this);
+                var url = form.attr('action');
+                var fdata = new FormData();
+
+                //// You can update the jquery selector to use a css class if you want
+                //, input[type='hidden']
+                $("input[type='text']").each(function (x, y) {
+                    fdata.append($(y).attr("name"), $(y).val());
+                });
+
+                for (var value of fdata.values()) {
+                    console.log(value);
+                }
+
+                for (var key of fdata.keys()) {
+                    console.log(key);
+                }
+
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: form.serialize(), // serializes the form's elements.
+                    success: function (data) {
+                        console.log(data);
+                        if (data.response.statusCode == 200) {
+                            ShowNoty("success", data.message);
+                        } else {
+                            ShowNoty("error", data.message);
+                        }
+                        refresh();
+                    }
+                });
+            });
+        });
+        
+
+    </script>
+    }
+
+
+
+
+
+

@@ -1,0 +1,471 @@
+﻿@{
+    ViewData["Title"] = "Recovery Bank Draft List";
+    var reqRecovery = User.HasClaim("_permission", "RequestRecovery");
+}
+
+@section Styles{
+
+    <style>
+        .btn-create {
+            background-color: #5d5386;
+            color: white;
+        }
+
+        .btn-apply:hover {
+            background-color: white;
+            color: black;
+        }
+
+        .btn-cancel:hover {
+            background-color: red;
+            color: white;
+        }
+
+        .btn-recover:hover {
+            background-color: limegreen;
+            color: white;
+        }
+
+        .btn-lost:hover {
+            background-color: #FFC300;
+            color: white;
+        }
+
+        select.filter {
+            height: 33px !important;
+        }
+    </style>
+}
+<div class="content-inner active">
+    <div class="container-fluid">
+        <!-- Begin Page Header-->
+        <div class="row">
+            <div class="page-header">
+                <div class="d-flex align-items-center">
+                    <h2 class="page-header-title">Bank Drafts Recovery</h2>
+                    <div>
+                        <!--<div class="page-header-tools">
+                            <a class="btn btn-gradient-01" href="#">Add Widget</a>
+                        </div>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Page Header -->
+        <!-- Begin Row -->
+        <!-- End Row -->
+        <!-- Begin Row -->
+        <div class="row flex-row">
+            @if(reqRecovery)
+            {
+                <div class="col-xl-3 col-md-6 col-sm-6">
+                    <a id="btnCreateCancel" href="/Recovery/Create" class="btn btn-create">Create New Recovery</a>
+                </div>
+            }
+
+        </div>
+        <br />
+        <div class="row flex-row">
+            <div class="col-xl-12">
+                <!-- Form -->
+                <div class="widget-body sliding-tabs">
+                    <ul class="nav nav-tabs form-tab" id="ul-form-tab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="base-tab-1" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="true">Pending Action</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="base-tab-2" data-toggle="tab" href="#tab-2" role="tab" aria-controls="tab-2" aria-selected="false">Action Taken</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content pt-3">
+                        <div class="tab-pane fade active show" id="tab-1" role="tabpanel" aria-labelledby="base-tab-1">
+                            <div class="row flex-row">
+                                <div class="col-xl-12 col-md-12">
+                                    <div class="table-responsive">
+                                        <div class="widget has-shadow">
+                                            <div class="widget-body">
+                                                <div class="table-responsive">
+                                                    <table id="tblInProgress" class="table table-hover mb-0 display" style="width:100%">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Ref No.</th>
+                                                                <th>BD No.</th>
+                                                                <th>Proj No</th>
+                                                                <th>Project Completion Date</th>
+                                                                <th>Name on BD</th>
+                                                                <th>Requester</th>
+                                                                <th>Co. Code</th>
+                                                                <th>Business Area</th>
+                                                                <th>Recovery Type</th>
+                                                                <th>BD Amount(RM)</th>
+                                                                <th>Status</th>
+                                                                <th>Action Needed</th>
+                                                                <th></th>
+                                                            </tr>
+                                                            <tr class="filterrow">
+                                                                <th class="input-filter"><input id="search-refNo" type="text" class="form-control tchatchaca" style="height:40px !important;" placeholder="Search.."></th>
+                                                                <th class="input-filter"><input id="search-bdNo" type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                                                <th class="input-filter"><input id="search-projNo" type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                                                <th class="input-filter"><input id="search-projComDate" type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                                                <th class="input-filter"><input id="search-nameOnBD" type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                                                <th class="input-filter"><input id="search-requester" type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                                                <th class="input-filter"><input id="search-coCode" type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                                                <th class="input-filter"><input id="search-BA" type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                                                <th class="input-filter"><input id="search-recoveryType" type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                                                <th class="input-filter"><input id="search-BDAmount" type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                                                @*<th class="input-filter"><input id="search-status" type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>*@
+                                                                <th class="select-filter">
+                                                                    <select id="search-status" class="form-control filter" style="height:40px !important;" placeholder="Status">
+                                                                        <option value="">All</option>
+                                                                        <option value="Created">Created</option>
+                                                                        <option value="Processed">Processed</option>
+                                                                        <option value="Submitted">Submitted</option>
+                                                                        <option value="Withdrawn">Withdrawn</option>
+                                                                        <option value="Received">Received</option>
+                                                                        <option value="Complete">Completed</option>
+                                                                    </select>
+                                                                </th>
+                                                                <th class="select-filter">
+                                                                    <select id="search-actionNeeded" class="form-control filter" style="height:40px !important;" placeholder="Type">
+                                                                        <option value="">All</option>
+                                                                        <option value="Process">Process</option>
+                                                                        <option value="Submit">Submit</option>
+                                                                        <option value="Receive">Receive</option>
+                                                                        <option value="Confirm BD">Confirm BD</option>
+                                                                        @*<option value=" AwaitingBDAcceptance">AwaitingBDSubmission</option>*@
+                                                                    </select>
+                                                                </th>
+                                                                <th></th>
+                                                            </tr>
+                                                        </thead>
+                                                        @*<tbody>
+                                                            <tr>
+                                                                <td>TNB/WC/00001/C</td>
+                                                                <td>BD123</td>
+                                                                <td>PROJ123</td>
+                                                                <td>JKR</td>
+                                                                <td>Sulaiman Desa</td>
+                                                                <td>6001</td>
+                                                                <td>6101</td>
+                                                                <td>RM120,000.00</td>
+                                                                <td>Approved</td>
+                                                                <td class="td-actions" style="text-align:center">
+                                                                    <div class="col-xl-12 col-md-6 col-sm-6">
+                                                                        <a href="/Cancellation/Create" class="btn btn-lost btn-block mb-2" style="border-radius: 0%;background-color: #f4f4f4;border-color: #ddd;">View</a>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>TNB/WC/00002/C</td>
+                                                                <td>BD345</td>
+                                                                <td>PROJ345</td>
+                                                                <td>MBPJ</td>
+                                                                <td>Ismail Farid</td>
+                                                                <td>4001</td>
+                                                                <td>4201</td>
+                                                                <td>RM203,000.00</td>
+                                                                <td>Submitted</td>
+                                                                <td class="td-actions" style="text-align:center">
+                                                                    <div class="col-xl-12 col-md-6 col-sm-6">
+                                                                        <a href="/Cancellation/Create" class="btn btn-lost btn-block mb-2" style="border-radius: 0%;background-color: #f4f4f4;border-color: #ddd;">View</a>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>*@
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="tab-2" role="tabpanel" aria-labelledby="base-tab-2">
+                            <div class="row flex-row">
+                                <div class="col-xl-12 col-md-12">
+                                    <div class="table-responsive">
+                                        <div class="widget has-shadow">
+                                            <div class="widget-body">
+                                                <div class="table-responsive">
+                                                    <table id="tblRecovered" class="table table-hover mb-0 display" style="width:100%">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Ref No.</th>
+                                                                <th>BD No.</th>
+                                                                <th>Proj No/ Assignment</th>
+                                                                <th>Nama atas deraf bank</th>
+                                                                <th>Requester</th>
+                                                                <th>Co. Code</th>
+                                                                <th>Business Area</th>
+                                                                <th>Recovery Type</th>
+                                                                <th>BD Amount(RM)</th>
+                                                                <th>Status</th>
+                                                                <th></th>
+                                                            </tr>
+                                                            <tr class="filterrow">
+                                                                <th class="input-filter"><input id="search-refNo2" type="text" class="form-control tchatchaca" style="height:40px !important;" placeholder="Search.."></th>
+                                                                <th class="input-filter"><input id="search-bdNo2" type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                                                <th class="input-filter"><input id="search-projNo2" type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                                                <th class="input-filter"><input id="search-nameOnBD2" type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                                                <th class="input-filter"><input id="search-requester2" type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                                                <th class="input-filter"><input id="search-CoCode2" type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                                                <th class="input-filter"><input id="search-BA2" type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                                                <th class="input-filter"><input id="search-recoveryType2" type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                                                <th class="input-filter"><input id="search-BDAmount2" type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                                                @*<th class="input-filter"><input id="search-status2" type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>*@
+                                                                <th class="select-filter">
+                                                                    <select id="search-status2" class="form-control filter" style="height:40px !important;" placeholder="Status">
+                                                                        <option value="">All</option>
+                                                                        <option value="Created">Created</option>
+                                                                        <option value="Processed">Processed</option>
+                                                                        <option value="Submitted">Submitted</option>
+                                                                        <option value="Withdrawn">Withdrawn</option>
+                                                                        <option value="Received">Received</option>
+                                                                        <option value="Complete">Completed</option>
+                                                                    </select>
+                                                                </th>
+                                                                <th></th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @*<tr>
+                                                                <td>TNB/WC/00003/C</td>
+                                                                <td>BD123</td>
+                                                                <td>PROJ123</td>
+                                                                <td>JKR</td>
+                                                                <td>Sulaiman Desa</td>
+                                                                <td>6001</td>
+                                                                <td>6101</td>
+                                                                <td>RM160,000.00</td>
+                                                                <td>Approved</td>
+                                                                <td class="td-actions" style="text-align:center">
+                                                                    <div class="col-xl-12 col-md-6 col-sm-6">
+                                                                        <a href="/Cancellation/Create" class="btn btn-lost btn-block mb-2" style="border-radius: 0%;background-color: #f4f4f4;border-color: #ddd;">View</a>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>TNB/WC/00004/C</td>
+                                                                <td>BD345</td>
+                                                                <td>PROJ345</td>
+                                                                <td>MBPJ</td>
+                                                                <td>Ismail Farid</td>
+                                                                <td>4001</td>
+                                                                <td>4201</td>
+                                                                <td>RM206,000.00</td>
+                                                                <td>Submitted</td>
+                                                                <td class="td-actions" style="text-align:center">
+                                                                    <div class="col-xl-12 col-md-6 col-sm-6">
+                                                                        <a href="/Cancellation/Create" class="btn btn-lost btn-block mb-2" style="border-radius: 0%;background-color: #f4f4f4;border-color: #ddd;">View</a>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>*@
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Form -->
+            </div>
+        </div>
+    </div>
+    <!-- End Container -->
+    <!-- Begin Page Footer-->
+    <!-- End Page Footer -->
+    <a href="#" class="go-top"><i class="la la-arrow-up"></i></a>
+    <!-- Offcanvas Sidebar -->
+    <!-- End Offcanvas Sidebar -->
+</div>
+
+@section Scripts{
+    <script src="~/assets/vendors/js/tablefilter/jquery.tablefilter.js"></script>
+    <script src="~/assets/vendors/js/tablefilter/jquery.tabledatafilter.min.js"></script>
+    @*<script src="~/assets/vendors/js/tablefilter/jquery.tableditfixedheader.min.js"></script>*@
+    <script>
+
+        $(document).ready(function () {
+            $(function () {
+                $("nav").addClass("shrinked");
+            });
+          
+                    var table = $('#tblInProgress').DataTable({
+                    dom: "Bfrtip",
+                        "processing": true,
+                        "columnDefs": [
+                            { className: "dt-body-right", "targets": [9] },
+                        ],
+                    //serverSide: true,
+                    "ajax": {
+                        url:  "@Url.Action("GetMyRecovery", "Application")",
+                        type: "GET",
+                        data: function (d) {
+                            d.refNo = $('#search-refNo').val();
+                            d.bdNo = $('#search-bdNo').val();
+                            d.projectNo = $('#search-projNo').val();
+                            d.projectComDate = $('#search-projComDate').val();
+                            d.nameOnBd = $('#search-nameOnBD').val();
+                            d.requester = $('#search-requester').val();
+                            d.coCode = $('#search-coCode').val();
+                            d.BA = $('#search-BA').val();
+                            d.recoveryType = $('#search-recoveryType').val();
+                            d.bdAmount = $('#search-BDAmount').val();
+                            d.Status = $('#search-status option:selected').val();
+                            d.actionNeeded = $('#search-actionNeeded option:selected').val();
+                        },
+                        dataFilter: function (result) {
+                            var jData = JSON.parse(result);
+                            var dtData = JSON.stringify({ "data": jData });
+                            return dtData;
+                        }
+                     },
+                    order: [[1, 'asc']],
+                    columns: [
+                        { data: "refNo" },
+                        { data: "bdNo" },
+                        { data: "projectNo" },
+                        { data: "projectComDate" },
+                        { data: "nameOnBd" },
+                        { data: "requester" },
+                        { data: "coCode" },
+                        { data: "ba" },
+                        { data: "recoveryType" },
+                        { data: "bdAmount" },
+                        { data: "status" },
+                        { data: "actionNeeded" },
+                        {
+                            data: "id",
+                            "render": function (data, type, row) {
+                                var id = data;
+                                var href = "/Recovery/Edit/" + id;
+                                if (type == "display") {
+                                    data = '<a href="' + href + '" style="border-radius: 0%;background-color: #f4f4f4;border-color: #ddd;" class="btn btn-lost btn-block mb-2">View</a>';
+                                }
+                                return data;
+                            }
+                        }
+                    ],
+                    "bPaginate": true,
+                    "bLengthChange": false,
+                    "bFilter": false,
+                    "bInfo": true,
+                    "bAutoWidth": false,
+                    orderCellsTop: true,
+                    fixedHeader: true,
+                    "lengthChange": false,
+            });
+
+            $('#tblInProgress thead filterCol').appendTo('table thead');
+
+            $.each($('.input-filter', table.table().header()), function () {
+                var column = table.column($(this).index());
+
+                $('input', this).on('keyup change', function () {
+                    table.ajax.reload();
+                });
+            });
+
+            $.each($('.select-filter', table.table().header()), function () {
+                var column = table.column($(this).index());
+
+                $('select', this).on('change', function () {
+                    table.ajax.reload();
+                });
+            });
+
+            $('#tblInProgress').dataTable.ext.errMode = 'throw';
+
+                    var table2 = $('#tblRecovered').DataTable({
+                    dom: "Bfrtip",
+                        "processing": true,
+                        "columnDefs": [
+                            { className: "dt-body-right", "targets": [8] },
+                        ],
+                    //serverSide: true,
+                    //serverSide: true,
+                    "ajax": {
+                        url:  "@Url.Action("GetMyCompleteRecovery", "Application")",
+                        type: "GET",
+                        data: function (d) {
+                            d.refNo = $('#search-refNo2').val();
+                            d.bdNo = $('#search-BDNo2').val();
+                            d.projectNo = $('#search-projNo2').val();
+                            d.nameOnBd = $('#search-nameOnBD2').val();
+                            d.requester = $('#search-requester2').val();
+                            d.coCode = $('#search-coCode2').val();
+                            d.BA = $('#search-BA2').val();
+                            d.recoveryType = $('#search-recoveryType2').val();
+                            d.ba = $('#search-BA2').val();
+                            d.bdAmount = $('#search-BDAmount2').val();
+                            d.Status = $('#search-status2 option:selected').val();
+                        },
+                        dataFilter: function (result) {
+                            var jData = JSON.parse(result);
+                            var dtData = JSON.stringify({ "data": jData });
+                            return dtData;
+                        }
+                     },
+                    order: [[1, 'asc']],
+                    columns: [
+                        { data: "refNo" },
+                        { data: "bdNo" },
+                        { data: "projectNo" },
+                        //{ data: "projectComDate" },
+                        { data: "nameOnBd" },
+                        { data: "requester" },
+                        { data: "coCode" },
+                        { data: "ba" },
+                        { data: "recoveryType" },
+                        { data: "bdAmount" },
+                        { data: "status" },
+                        {
+                            data: "id",
+                            "render": function (data, type, row) {
+                                var id = data;
+                                var href = "/Recovery/Edit/" + id;
+                                if (type == "display") {
+                                    data = '<a href="' + href + '" style="border-radius: 0%;background-color: #f4f4f4;border-color: #ddd;" class="btn btn-lost btn-block mb-2">View</a>';
+                                }
+                                return data;
+                            }
+                        }
+                    ],
+                    "bPaginate": true,
+                    "bLengthChange": false,
+                    "bFilter": false,
+                    "bInfo": true,
+                    "bAutoWidth": false,
+                    orderCellsTop: true,
+                    fixedHeader: true,
+                    "lengthChange": false,
+            });
+
+            $('#tblRecovered thead filterCol').appendTo('table thead');
+
+            $.each($('.input-filter', table2.table().header()), function () {
+                var column = table2.column($(this).index());
+
+                $('input', this).on('keyup change', function () {
+                    table2.ajax.reload();
+                });
+            });
+
+            $.each($('.select-filter', table2.table().header()), function () {
+                var column = table2.column($(this).index());
+
+                $('select', this).on('change', function () {
+                    table2.ajax.reload();
+                });
+            });
+
+            $('#tblRecovered').dataTable.ext.errMode = 'throw';
+        });
+
+
+    </script>
+}

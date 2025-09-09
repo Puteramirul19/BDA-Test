@@ -1,0 +1,651 @@
+﻿@model BDA.ViewModel.UnitViewModel
+@{
+    ViewData["Title"] = "ManageUnit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles{
+
+    <style>
+        .btn-create {
+            background-color: #5d5386;
+            color: white;
+        }
+
+        .btn-apply:hover {
+            background-color: white;
+            color: black;
+        }
+
+        .btn-cancel:hover {
+            background-color: red;
+            color: white;
+        }
+
+        .btn-create:hover {
+            background-color: limegreen;
+            color: white;
+        }
+
+        .btn-lost:hover {
+            background-color: #FFC300;
+            color: white;
+        }
+
+        select.filter {
+            height: 33px !important;
+        }
+
+        input[type='checkbox'] {
+            width: 20px;
+            height: 20px;
+        }
+    </style>
+}
+<div class="content-inner">
+    <div class="container-fluid">
+        <!-- Begin Page Header-->
+        <div class="row">
+            <div class="page-header">
+                <div class="d-flex align-items-center">
+                    <h2 class="page-header-title">Units</h2>
+                    <div>
+                        <!--<div class="page-header-tools">
+                            <a class="btn btn-gradient-01" href="#">Add Widget</a>
+                        </div>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Page Header -->
+        <!-- Begin Row -->
+        <div class="row flex-row">
+
+            <div class="col-xl-3 col-md-6 col-sm-6">
+                <a href="#" data-target="#add-unit-modal" data-toggle="modal" class="btn btn-lg btn-create">
+                    Add New Unit
+                </a>
+            </div>
+        </div>
+        <!-- End Row -->
+        <!-- Begin Row -->
+        <div class="row flex-row">
+            <br />
+        </div>
+        <!--<div class="row flex-row">
+            <h2 class="page-header-title">My Applications</h2>
+            <br />
+            <br />
+        </div>-->
+        <div class="row flex-row">
+            <div class="col-xl-12 col-md-12">
+                <div class="table-responsive">
+                    <div class="widget has-shadow">
+                        @*<div class="widget-header bordered no-actions d-flex align-items-center">
+                                <h4>History</h4>
+                            </div>*@
+                        <div class="widget-body">
+                            <div class="table-responsive">
+                                <table id="tblDashboard" class="table table-hover mb-0 display" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th>Code</th>
+                                            <th>Name</th>
+                                            <th>Division</th>
+                                            <th>Function</th>
+                                            <th>Zone</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
+                                        </tr>
+                                        <tr class="filterrow">
+                                            <th class="input-filter"><input id="search-code" type="text" class="form-control tchatchaca" style="height:40px !important;" placeholder="Search.."></th>
+                                            <th class="input-filter"><input id="search-name" type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                            <th class="input-filter"><input id="search-divName" type="text" class="form-control tchatchaca" style="height:40px !important;" placeholder="Search.."></th>
+                                            <th class="input-filter"><input id="search-funcName" type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                            <th class="input-filter"><input id="search-zoneName" type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                            <th class="select-filter">
+                                                <select id="search-status" class="form-control filter" style="height:40px !important;" placeholder="Status">
+                                                    <option value="">All</option>
+                                                    <option value="true">Active</option>
+                                                    <option value="false">Inactive</option>
+                                                </select>
+                                            </th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Container -->
+    <!-- Begin Page Footer-->
+    <!-- End Page Footer -->
+    <a href="#" class="go-top"><i class="la la-arrow-up"></i></a>
+    <!-- Offcanvas Sidebar -->
+    <!-- End Offcanvas Sidebar -->
+</div>
+
+<div id="add-unit-modal" class="modal fade" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" style="font-weight:bold">Add Unit</h4>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">×</span>
+                    <span class="sr-only">close</span>
+                </button>
+            </div>
+            @using (Html.BeginForm("Create", "Unit", Model, FormMethod.Post, false, new { @id = "formAddUnit", @class = "form-horizontal" }))
+            {
+                @Html.AntiForgeryToken()
+                <div class="modal-body">
+                    <div class="padding-left-20 padding-right-20">
+                        <div class="form-group row">
+                            <div class="col-sm-4 form-control-label d-flex align-items-center">Code</div>
+                            <div class="col-xl-8">
+                                @Html.TextBoxFor(x => x.Code, new { @class = "form-control", required = "required" })
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-4 form-control-label d-flex align-items-center">Name</div>
+                            <div class="col-xl-8">
+                                @Html.TextBoxFor(x => x.Name, new { @class = "form-control", required = "required" })
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-4 form-control-label d-flex align-items-center">Division</div>
+                            <div class="col-xl-8">
+                                @Html.DropDownListFor(x => x.DivisionId, Enumerable.Empty<SelectListItem>(), new { @class = "form-control select2", id = "ddlDivisionList", required = "required" })
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-4 form-control-label d-flex align-items-center">Function</div>
+                            <div class="col-xl-8">
+                                @Html.DropDownListFor(x => x.FunctionId, Enumerable.Empty<SelectListItem>(), new { @class = "form-control select2", id = "ddlFunctionList", required = "required" })
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-4 form-control-label d-flex align-items-center">Zone</div>
+                            <div class="col-xl-8">
+                                @Html.DropDownListFor(x => x.ZoneId, Enumerable.Empty<SelectListItem>(), new { @class = "form-control select2", id = "ddlZoneList", required = "required" })
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="btnSubmit" type="button" class="btn btn-success">Add</button> @*data-dismiss="modal"*@
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<div id="edit-unit-modal" class="modal fade" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" style="font-weight:bold">Edit Unit</h4>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">×</span>
+                    <span class="sr-only">close</span>
+                </button>
+            </div>
+            @using (Html.BeginForm("Update", "Unit", Model, FormMethod.Post, false, new { @id = "formEditUnit", @class = "form-horizontal" }))
+            {
+                @Html.AntiForgeryToken()
+                <div class="modal-body">
+                    <div class="padding-left-20 padding-right-20">
+                        <div class="form-group row">
+                            <div class="col-sm-4 form-control-label d-flex align-items-center">Code</div>
+                            <div class="col-xl-8">
+                                @Html.HiddenFor(x => x.Id, new { @id = "idUnit", @class = "form-control" })
+                                @Html.TextBoxFor(x => x.Code, new { @id = "codeUnit", @class = "form-control", required = "required" })
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-4 form-control-label d-flex align-items-center">Name</div>
+                            <div class="col-xl-8">
+                                @Html.TextBoxFor(x => x.Name, new { @id = "nameUnit", @class = "form-control", required = "required" })
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-4 form-control-label d-flex align-items-center">Division</div>
+                            <div class="col-xl-8">
+                                @Html.HiddenFor(x => x.DivisionId, new { @id = "idDivision", @class = "form-control" })
+                                @Html.DropDownListFor(x => x.DivisionId, Enumerable.Empty<SelectListItem>(), new { @class = "form-control select2", @id = "ddlDivisionList2", required = "required" })
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-4 form-control-label d-flex align-items-center">Function</div>
+                            <div class="col-xl-8">
+                                @Html.HiddenFor(x => x.FunctionId, new { @id = "idFunction", @class = "form-control" })
+                                @Html.DropDownListFor(x => x.FunctionId, Enumerable.Empty<SelectListItem>(), new { @class = "form-control select2", @id = "ddlFunctionList2", required = "required" })
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-4 form-control-label d-flex align-items-center">Zone</div>
+                            <div class="col-xl-8">
+                                @Html.HiddenFor(x => x.ZoneId, new { @id = "idZone", @class = "form-control" })
+                                @Html.DropDownListFor(x => x.ZoneId, Enumerable.Empty<SelectListItem>(), new { @class = "form-control select2", @id = "ddlZoneList2", required = "required" })
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-4 form-control-label d-flex align-items-center">Status</div>
+                            <div class="col-xl-8">
+                                @Html.CheckBoxFor(x => x.IsActive, new { @id = "statusUnit", @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="btnEdit" type="button" class="btn btn-success">Update</button> @*data-dismiss="modal"*@
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+    <script src="~/assets/vendors/js/datatables/datatables.min.js"></script>
+    <script src="~/assets/vendors/js/datatables/dataTables.select.min.js"></script>
+    <script src="~/assets/vendors/js/datatables/dataTables.buttons.min.js"></script>
+    <script src="~/assets/vendors/js/datatables/buttons.flash.js"></script>
+    <script src="~/assets/vendors/js/datatables/buttons.print.min.js"></script>
+    <script src="~/assets/vendors/js/datatables/buttons.html5.js"></script>
+
+    <script src="~/assets/vendors/js/tablefilter/jquery.tablefilter.js"></script>
+    <script src="~/assets/vendors/js/tablefilter/jquery.tabledatafilter.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="~/js/jquery.validate.js"></script>
+
+    <script>
+        function refresh() {
+            setTimeout(function () { location.reload(); }, 500);
+        }
+
+        $("#btnSubmit").on('click', function (e) {
+            console.log('submit');
+            $("#formAddUnit").submit();
+        });
+
+        $("#btnEdit").on('click', function (e) {
+            console.log('submit');
+            $("#formEditUnit").submit();
+        });
+
+        $(document).ready(function () {
+
+
+            $("#ddlDivisionList").append("<option value=''>Please choose</option>");
+            $("#ddlFunctionList").append("<option value=''>Please choose</option>");
+            $("#ddlZoneList").append("<option value=''>Please choose</option>");
+            @*SetSelectedValue('@Model.ZoneId', ".modal-body #ddlZoneList2");*@
+            @*alert('@Model.ZoneId');*@
+             $('#edit-unit-modal').on('shown.bs.modal', function (e) {
+
+                 var unitId = $(e.relatedTarget).data('id');
+                 var unitCode = $(e.relatedTarget).data('code');
+                 var bulk = $(e.relatedTarget).data('bulk');
+                 var unitStatus = $(e.relatedTarget).data('status');
+
+                 var part= bulk;
+                 var strs = part.split(",");
+
+                 var unitName = strs[0];
+                 var divId = strs[1];
+                 var divName = strs[2];
+                 var funcName = strs[3];
+                 var funcId = strs[4];
+                 var zoneId = strs[5];
+                 var zoneName = strs[6];
+                 //alert(divName + "" + funcName + "" + zoneName);
+
+                 $(".modal-body #idUnit").val(unitId);
+                 $(".modal-body #codeUnit").val(unitCode);
+                 $(".modal-body #nameUnit").val(unitName);
+                 $(".modal-body #idDivision").val(divId);
+                 SetSelectedValue(divName, ".modal-body #ddlDivisionList2");
+                 $(".modal-body #idFunction").val(funcId);
+                 SetSelectedValue(funcName, ".modal-body #ddlFunctionList2");
+                 $(".modal-body #idZone").val(zoneId);
+                 //alert(zoneName);
+                 SetSelectedValue(zoneName, ".modal-body #ddlZoneList2");
+                 $(".modal-body #statusUnit").prop('checked', unitStatus);
+
+            });
+              var table =   $('#tblDashboard').DataTable({
+                    dom: "Bfrtip",
+                    "processing": true,
+                    //serverSide: true,
+                    "ajax": {
+                        url:  "@Url.Action("GetAllUnits", "Unit")",
+                        type: "GET",
+                        data: function (d) {
+                            d.code = $('#search-code').val();
+                            d.name = $('#search-name').val();
+                            d.divName = $('#search-divName').val();
+                            d.funcName = $('#search-funcName').val();
+                            d.zoneName = $('#search-zoneName').val();
+                            d.status = $('#search-status option:selected').val();
+                        },
+                        dataFilter: function (result) {
+                            var jData = JSON.parse(result);
+                            var dtData = JSON.stringify({ "data": jData });
+                            return dtData;
+                        }
+                     },
+                    order: [[1, 'asc']],
+                    columns: [
+                        { data: "code" },
+                        { data: "name" },
+                        { data: "divName" },
+                        { data: "funcName" },
+                        { data: "zoneName" },
+                        {
+                            data: "isActive",
+                            "render": function (data, type, row) {
+                                if (data == true) return "Active";
+                                else return "InActive";
+                            }
+                        },
+                        {
+                            data: "id",
+                            "render": function (data, type, row) {
+                                var id = data;
+                                var href = "";
+                                if (type == "display") {
+                                    data = '<a id="test" href="' + href + '" style="border-radius: 0%;background-color: #f4f4f4;border-color: #ddd;" class="btn btn-lost btn-block mb-2" data-target="#edit-unit-modal" data-toggle="modal" data-id="' + id + '" data-code="' + row.code + '" data-bulk="' + row.name + "," + row.divId + "," + row.divName + "," + row.funcName + "," + row.funcId + "," + row.zoneId + "," + row.zoneName + '" data-status="' + row.isActive + '">Edit</a>';
+
+                                }
+                                return data;
+                            }
+                        },
+                    ],
+                    "bPaginate": true,
+                    "bLengthChange": false,
+                    "bFilter": false,
+                    "bInfo": true,
+                    "bAutoWidth": false,
+                    orderCellsTop: true,
+                    fixedHeader: true,
+                    "lengthChange": false,
+            });
+
+            $('.table thead filterCol').appendTo('table thead');
+
+            $.each($('.input-filter', table.table().header()), function () {
+                var column = table.column($(this).index());
+
+                $('input', this).on('keyup change', function () {
+                    table.ajax.reload();
+                });
+            });
+
+            $.each($('.select-filter', table.table().header()), function () {
+                var column = table.column($(this).index());
+
+                $('select', this).on('change', function () {
+                    table.ajax.reload();
+                });
+            });
+
+            $("#ddlDivisionList").select2({
+                dropdownParent: $("#add-unit-modal"),
+                minimumResultsForSearch: -1,
+                ajax: {
+                    url: "/Division/GetAllDivision",
+                    dataType: 'json',
+                    type: "GET",
+                    processResults: function (data) {
+                        return {
+                            results: $.map(data, function (item) {
+                                return {
+                                    text: item.name,
+                                    id: item.id
+                                }
+                            })
+                        };
+                    }
+                }
+            });
+            $('#ddlDivisionList').on('select2:select', function (e) {
+                var data = e.params.data;
+                if (data.selected) {
+                    var id = data.id;
+                    //$('#spnDivisionId').html(data.id);
+                    $("#ddlFunctionList").select2({
+                        dropdownParent: $("#add-unit-modal"),
+                        minimumResultsForSearch: -1,
+                        ajax: {
+                            url: "/Function/GetAllFunctionByDivisionId",
+                            dataType: 'json',
+                            type: "GET",
+                            data: {
+                                Id: id
+                            },
+                            processResults: function (result) {
+                                console.log(result);
+                                return {
+                                    results: $.map(result, function (item) {
+                                        return {
+                                            text: item.name,
+                                            id: item.id
+                                        }
+                                    })
+                                };
+                            }
+                        }
+                    });
+                }
+            });
+            $('#ddlFunctionList').on('select2:select', function (e) {
+                var data = e.params.data;
+                if (data.selected) {
+                    var id = data.id;
+                    //$('#spnDivisionId').html(data.id);
+                    $("#ddlZoneList").select2({
+                        dropdownParent: $("#add-unit-modal"),
+                        minimumResultsForSearch: -1,
+                        ajax: {
+                            url: "/Zone/GetAllZoneByFunctionId",
+                            dataType: 'json',
+                            type: "GET",
+                            data: {
+                                Id: id
+                            },
+                            processResults: function (result) {
+                                console.log(result);
+                                return {
+                                    results: $.map(result, function (item) {
+                                        return {
+                                            text: item.name,
+                                            id: item.id
+                                        }
+                                    })
+                                };
+                            }
+                        }
+                    });
+                }
+            });
+
+            $("#ddlDivisionList2").select2({
+                dropdownParent: $("#edit-unit-modal"),
+                minimumResultsForSearch: -1,
+                ajax: {
+                    url: "/Division/GetAllDivision",
+                    dataType: 'json',
+                    type: "GET",
+                    processResults: function (data) {
+                        return {
+                            results: $.map(data, function (item) {
+                                return {
+                                    text: item.name,
+                                    id: item.id
+                                }
+                            })
+                        };
+                    }
+                }
+            });
+            $('#ddlDivisionList2').on('select2:select', function (e) {
+                var data = e.params.data;
+                if (data.selected) {
+                    var id = data.id;
+                    //$('#spnDivisionId').html(data.id);
+                    $("#ddlFunctionList2").select2({
+                        dropdownParent: $("#edit-unit-modal"),
+                        minimumResultsForSearch: -1,
+                        ajax: {
+                            url: "/Function/GetAllFunctionByDivisionId",
+                            dataType: 'json',
+                            type: "GET",
+                            data: {
+                                Id: id
+                            },
+                            processResults: function (result) {
+                                console.log(result);
+                                return {
+                                    results: $.map(result, function (item) {
+                                        return {
+                                            text: item.name,
+                                            id: item.id
+                                        }
+                                    })
+                                };
+                            }
+                        }
+                    });
+                }
+            });
+            $('#ddlFunctionList2').on('select2:select', function (e) {
+                var data = e.params.data;
+                if (data.selected) {
+                    var id = data.id;
+                    //$('#spnDivisionId').html(data.id);
+                    $("#ddlZoneList2").select2({
+                        dropdownParent: $("#edit-unit-modal"),
+                        minimumResultsForSearch: -1,
+                        ajax: {
+                            url: "/Zone/GetAllZoneByFunctionId",
+                            dataType: 'json',
+                            type: "GET",
+                            data: {
+                                Id: id
+                            },
+                            processResults: function (result) {
+                                console.log(result);
+                                return {
+                                    results: $.map(result, function (item) {
+                                        return {
+                                            text: item.name,
+                                            id: item.id
+                                        }
+                                    })
+                                };
+                            }
+                        }
+                    });
+                }
+
+               //// $(".modal-body #idZone").val(id);
+               // alert(item.id);
+            });
+
+
+            $('#ddlZoneList2').on('select2:select', function (e) {
+                var data = e.params.data;
+                if (data.selected) {
+                    fun = data.id;
+                }
+                $(".modal-body #idZone").val(data.id);
+                //alert(data.id);
+            });
+            });
+           
+
+        $("#formAddUnit").submit(function (e) {
+
+            e.preventDefault(); // avoid to execute the actual submit of the form.
+
+            if ($("#formAddUnit").valid()) {
+
+                ShowNoty("warning", "Saving Unit..");
+
+                var form = $(this);
+                var url = form.attr('action');
+
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: form.serialize(), // serializes the form's elements.
+                    success: function (data) {
+                        console.log(data);
+                        if (data.response.statusCode == 200) {
+                            ShowNoty("success", data.message);
+                        } else {
+                            ShowNoty("error", data.message);
+                        }
+                        refresh();
+                    }
+                });
+            }
+          
+        });
+
+        $("#formEditUnit").submit(function (e) {
+
+            e.preventDefault(); // avoid to execute the actual submit of the form.
+
+            if ($("#formEditUnit").valid()) {
+                ShowNoty("warning", "Saving Unit..");
+
+                var form = $(this);
+                var url = form.attr('action');
+                //var fdata = new FormData();
+
+                ////// You can update the jquery selector to use a css class if you want
+                //$("input[type='text'], input[type='hidden']").each(function (x, y) {
+                //    fdata.append($(y).attr("name"), $(y).val());
+                //});
+
+                //for (var value of fdata.values()) {
+                //    console.log(value);
+                //}
+
+                //for (var key of fdata.keys()) {
+                //    console.log(key);
+                //}
+
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: form.serialize(), // serializes the form's elements.
+                    success: function (data) {
+                        console.log(data);
+                        if (data.response.statusCode == 200) {
+                            ShowNoty("success", data.message);
+                        } else {
+                            ShowNoty("error", data.message);
+                        }
+                        refresh();
+                    }
+                });
+            }
+           
+        });
+
+    </script>
+}
+
+
+
+
+

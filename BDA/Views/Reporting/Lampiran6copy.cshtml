@@ -1,0 +1,247 @@
+﻿@{
+    ViewData["Title"] = "Reporting";
+}
+
+@section Styles{
+
+    <style>
+        .btn-create {
+            background-color: #5d5386;
+            color: white;
+        }
+
+        .btn-apply:hover {
+            background-color: white;
+            color: black;
+        }
+
+        .btn-cancel:hover {
+            background-color: red;
+            color: white;
+        }
+
+        .btn-recover:hover {
+            background-color: limegreen;
+            color: white;
+        }
+
+        .btn-lost:hover {
+            background-color: #FFC300;
+            color: white;
+        }
+
+        select.filter {
+            height: 33px !important;
+        }
+    </style>
+}
+<div class="content-inner active">
+    <div class="container-fluid">
+        <!-- Begin Page Header-->
+        <div class="row">
+            <div class="page-header">
+                <div class="d-flex align-items-center">
+                    <div>
+                        <h2 class="page-header-title">Reports</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="widget has-shadow">
+            <div class="row flex-row">
+                <div class="col-xl-12">
+                    <div class="row flex-row">
+                        <div class="col-xl-12 col-md-12">
+                            <div class="table-responsive">
+                                <div class="widget has-shadow">
+                                    <h2 style="padding-top:30px;padding-left:30px">Lampiran 6</h2>
+                                    <div class="widget-body">
+                                        <p style="margin-left:10px"><b>BD Details</b></p>
+                                        <div class="table-responsive">
+                                            <table id="tblLampiran6" class="table table-bordered table-hover mb-0 display" styles="width:100%">
+                                                <thead>
+                                                    <tr>
+                                                        <th>No</th>
+                                                        <th>Ref No</th>
+                                                        <th>Assignment</th>
+                                                        <th>DocumentNo</th>
+                                                        <th>BusA</th>
+                                                        <th>State</th>
+                                                        <th>PK</th>
+                                                        <th>Doc Date</th>
+                                                        <th>Pstng Date</th>
+                                                        <th>Amount (RM)</th>
+                                                        <th>Name</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>1</td>
+                                                        <td>TNB\WC\0001</td>
+                                                        <td>BANK DRAFT</td>
+                                                        <td>22860</td>
+                                                        <td>6000</td>
+                                                        <td>HQ_6000</td>
+                                                        <td>50</td>
+                                                        <td>06/09/2007</td>
+                                                        <td>07/09/2007</td>
+                                                        <td>(18,336,108.45) </td>
+                                                        <td>BANK DRAFT JKR P. P - 06.09.2007 </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>2</td>
+                                                        <td>TNB\WC\0002</td>
+                                                        <td>BANK DRAFT</td>
+                                                        <td>22860</td>
+                                                        <td>6000</td>
+                                                        <td>HQ_6000</td>
+                                                        <td>50</td>
+                                                        <td>06/09/2007</td>
+                                                        <td>07/09/2007</td>
+                                                        <td>(9,714,716.00)</td>
+                                                        <td>BANK DRAFT JKR P. P - 06.09.2007 </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>3</td>
+                                                        <td>TNB\WC\0003</td>
+                                                        <td>D-PMS-S08 0304-41</td>
+                                                        <td>110438</td>
+                                                        <td>6000</td>
+                                                        <td>HQ_6000</td>
+                                                        <td>50</td>
+                                                        <td>18/09/2007</td>
+                                                        <td>23/09/2007</td>
+                                                        <td>(9,714,716.00)</td>
+                                                        <td>D-PMS-S08 0304-41 18.09.07</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>4</td>
+                                                        <td>TNB\WC\0004</td>
+                                                        <td>D-PMS-S08 0304-41</td>
+                                                        <td>110438</td>
+                                                        <td>6000</td>
+                                                        <td>HQ_6000</td>
+                                                        <td>50</td>
+                                                        <td>18/09/2007</td>
+                                                        <td>23/09/2007</td>
+                                                        <td>(9,714,716.00)</td>
+                                                        <td>D-PMS-S08 0304-41 18.09.07</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>5</td>
+                                                        <td>TNB\WC\0005</td>
+                                                        <td>D-PMS-S08 0304-41</td>
+                                                        <td>110438</td>
+                                                        <td>6000</td>
+                                                        <td>HQ_6000</td>
+                                                        <td>50</td>
+                                                        <td>18/09/2007</td>
+                                                        <td>23/09/2007</td>
+                                                        <td>(9,714,716.00)</td>
+                                                        <td>D-PMS-S08 0304-41 18.09.07</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>6</td>
+                                                        <td>TNB\WC\0006</td>
+                                                        <td>D-PMS-S08 0304-41</td>
+                                                        <td>110438</td>
+                                                        <td>6000</td>
+                                                        <td>HQ_6000</td>
+                                                        <td>50</td>
+                                                        <td>18/09/2007</td>
+                                                        <td>23/09/2007</td>
+                                                        <td>(4,714,716.00)</td>
+                                                        <td>D-PMS-S08 0304-41 18.09.07</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>7</td>
+                                                        <td>TNB\WC\0007</td>
+                                                        <td>B\DRAFT - 22.11.07</td>
+                                                        <td>396408</td>
+                                                        <td>6000</td>
+                                                        <td>HQ_6000</td>
+                                                        <td>50</td>
+                                                        <td>22/11/2007</td>
+                                                        <td>23/11/2007</td>
+                                                        <td>(4,714,716.00)</td>
+                                                        <td>B\DRAFT - 22.11.07</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>8</td>
+                                                        <td>TNB\WC\0008</td>
+                                                        <td>B\DRAFT - 15.01.08</td>
+                                                        <td>396408</td>
+                                                        <td>6000</td>
+                                                        <td>HQ_6000</td>
+                                                        <td>50</td>
+                                                        <td>15/01/2008</td>
+                                                        <td>16/01/2008</td>
+                                                        <td>(414,716.00)</td>
+                                                        <td>B\DRAFT - 15.01.08</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>9</td>
+                                                        <td>TNB\WC\0009</td>
+                                                        <td>Batal Bank Deraf</td>
+                                                        <td>717417</td>
+                                                        <td>6000</td>
+                                                        <td>HQ_6000</td>
+                                                        <td>50</td>
+                                                        <td>12/11/2005</td>
+                                                        <td>30/11/2005</td>
+                                                        <td>(24,933.00)</td>
+                                                        <td>Batal B\deraf - YDPMP Selayang - 21.8.14 no.06947</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>10</td>
+                                                        <td>TNB\WC\0010</td>
+                                                        <td>Batal Bank Deraf</td>
+                                                        <td>717417</td>
+                                                        <td>6000</td>
+                                                        <td>HQ_6000</td>
+                                                        <td>50</td>
+                                                        <td>22/12/2005</td>
+                                                        <td>30/12/2005</td>
+                                                        <td>(144,933.00)</td>
+                                                        <td>Batal B\deraf - YDPMP Selayang - 22.12.12 no.06947</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Form -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Container -->
+    <!-- Begin Page Footer-->
+    <!-- End Page Footer -->
+    <a href="#" class="go-top"><i class="la la-arrow-up"></i></a>
+    <!-- Offcanvas Sidebar -->
+    <!-- End Offcanvas Sidebar -->
+</div>
+
+@section Scripts{
+
+    <script src="~/assets/js/components/wizard/form-wizard.min.js"></script>
+    <script src="~/assets/vendors/js/bootstrap-select/bootstrap-select.min.js"></script>
+    <script src="~/assets/js/components/chartjs/chartjs.min.js"></script>
+    <script src="~/assets/vendors/js/tablefilter/jquery.tablefilter.js"></script>
+    <script src="~/assets/vendors/js/tablefilter/jquery.tabledatafilter.min.js"></script>
+    @*<script src="~/assets/vendors/js/tablefilter/jquery.tableditfixedheader.min.js"></script>*@
+    <script>
+
+        $(document).ready(function () {
+            $(function () {
+                $("nav").addClass("shrinked");
+            });
+        });
+
+
+    </script>
+}

@@ -1,0 +1,505 @@
+﻿@{
+    ViewData["Title"] = "Reporting";
+}
+
+
+@section Styles  {
+
+    <link rel="stylesheet" href="~/assets/css/bootstrap-select/bootstrap-select.min.css">
+}
+<body>
+    <div class="content-inner active">
+        <div class="container-fluid">
+            <div style="padding-bottom:20px">
+                <h2 class="page-header-title">Reports</h2>
+            </div>
+            <div class="widget has-shadow" style="margin-left:-30px">
+                <h2 style="padding-top:30px;padding-left:30px">Lampiran 2</h2>
+                <div class="widget-body">
+                    <div class="form-group row" style="margin-top:20px;color:#5d5386;font-size:18px;font-weight:bold;text-align:center">
+                        <div class="col-xl-2">
+                            <label>Division</label>
+                        </div>
+                        <div class="col-xl-9">
+                            <label>Date Range</label>
+                        </div>
+                    </div>
+                    <div class="form-group row" style="margin-left:0px">
+                        <div class="col-xl-2" style="margin-left:-10px">
+                            <select name="ddlCoCode" id="ddlCoCode" class="form-control"></select>
+                        </div>
+                        <p style="font-weight:bold;margin-top:5px;margin-left:40px">From</p>
+                        <div class="col-xl-2">
+                            <select id="ddlMonthFrom" name="ddlMonthFrom" class="form-control" tabindex="-98" style="background-color:white">
+                                <option value="0" selected disabled>Month</option>
+                                <option value="1">January</option>
+                                <option value="2">February</option>
+                                <option value="3">March</option>
+                                <option value="4">April</option>
+                                <option value="5">May</option>
+                                <option value="6">June</option>
+                                <option value="7">July</option>
+                                <option value="8">August</option>
+                                <option value="9">September</option>
+                                <option value="10">October</option>
+                                <option value="11">November</option>
+                                <option value="12">December</option>
+                            </select>
+                        </div>
+                        <div class="col-xl-2">
+                            <select id="ddlYearFrom" name="ddlYearFrom" class="form-control" tabindex="-98">
+                                <option value="0" selected disabled>Year</option>
+                            </select>
+                        </div>
+                        <p style="font-weight:bold;padding-left:20px;padding-right:20px;margin-top:5px">To</p>
+                        <div class="col-xl-2">
+                            <select id="ddlMonthTo" name="ddlMonthTo" class="form-control" tabindex="-98" style="background-color:white">
+                                <option value="0" selected disabled>Month</option>
+                                <option value="1">January</option>
+                                <option value="2">February</option>
+                                <option value="3">March</option>
+                                <option value="4">April</option>
+                                <option value="5">May</option>
+                                <option value="6">June</option>
+                                <option value="7">July</option>
+                                <option value="8">August</option>
+                                <option value="9">September</option>
+                                <option value="10">October</option>
+                                <option value="11">November</option>
+                                <option value="12">December</option>
+                            </select>
+                        </div>
+                        <div class="col-xl-2">
+                            <select id="ddlYearTo" name="ddlYearTo" class="form-control" tabindex="-98">
+                                <option value="0" selected disabled>Year</option>
+                            </select>
+                        </div>
+                        @*<div class="col-xl-2">
+            <button id="btnPull" class="btn btn-success">Show</button>
+        </div>*@
+
+
+                    </div>
+                    <button onclick="saveAsPDF();" class="btn btn- btn-info">PDF</button>
+                    <div id="chart-container">
+
+                        <div id="canvas2a">
+                            <canvas id="barchart2a" width="400" height="100"></canvas>
+                        </div>
+                        <div>
+                            <table id="tblLampiran2a" class="table table-hover table-bordered mb-0 display" style="background-color:white;padding-right:30px;margin-left:-10px;font-size:10px">
+                                <tr id="rowMonth">
+                                    <td>Month</td>
+                                </tr>
+                                <tr id="rowAmount">
+                                    <td>RM (Million)</td>
+                                </tr>
+                                <tr id="rowDiff">
+                                    <td>Diff RM (Million)</td>
+                                </tr>
+                                <tr id="rowPercentage">
+                                    <td>Percentage %</td>
+                                </tr>
+                            </table>
+                        </div>
+
+
+                        <br /><br />
+                        <div id="canvas2b">
+                            <canvas id="barchart2b" width="400" height="100"></canvas>
+                        </div>
+                        <div>
+                            <table id="tblLampiran2b" class="table table-hover table-bordered mb-0 display" style="background-color:white;padding-right:30px;margin-left:-10px;font-size:10px">
+                                <tr id="rowMonth">
+                                    <td>Month</td>
+                                </tr>
+                                <tr id="rowAmount">
+                                    <td>RM (Million)</td>
+                                </tr>
+                                <tr id="rowDiff">
+                                    <td>Diff RM (Million)</td>
+                                </tr>
+                                <tr id="rowPercentage">
+                                    <td>Percentage %</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                </div>
+        </div>
+    </div>
+</body>
+
+@section Scripts{
+    @*<script src="~/assets/vendors/js/base/jquery.min.js"></script>*@
+
+    <script src="~/assets/js/components/wizard/form-wizard.min.js"></script>
+    <script src="~/assets/vendors/js/bootstrap-select/bootstrap-select.min.js"></script>
+    <script src="~/assets/js/components/chartjs/chartjs.min.js"></script>
+    <!-- End Page Snippets -->
+    <script src="~/assets/vendors/js/tablefilter/jquery.tablefilter.js"></script>
+    <script src="~/assets/vendors/js/tablefilter/jquery.tabledatafilter.min.js"></script>
+    <script src="~/assets/vendors/js/chart/chart.min.js"></script>
+
+
+    @*<script src="~/assets/vendors/js/canvas/canvasjs.min.js"></script>*@
+    <script>
+            $(function () {
+                $("nav").addClass("shrinked");
+
+                var startYear = 2015;
+                var endYear = new Date().getFullYear();
+                var $ddlYearTo = $("#ddlYearTo");
+                var ddlYearFrom = $("#ddlYearFrom");
+
+                for (var year = startYear; year <= endYear; year++) {
+                    $ddlYearTo.append('<option value="' + year + '">' + year + '</option>');
+                    ddlYearFrom.append('<option value="' + year + '">' + year + '</option>');
+                }
+                
+            });
+
+
+    </script>
+    @*<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>*@
+    @*<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>*@
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.5/jspdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+
+    <script type="text/javascript">
+        var sumAmount = 0;
+        var sumRecovery = 0;
+        var months = ["", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        var smonths = ["", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        var d = new Date();
+        var currMonth = d.getMonth() + 1;
+        var currYear = d.getFullYear();
+        var monthName = months[currMonth];
+        var monthFrom = $("#ddlMonthFrom").val(1);
+        var yearFrom = $("#ddlYearFrom").val(currYear);
+        var monthTo = $("#ddlMonthTo").val(currMonth);
+        var yearTo = $("#ddlYearTo").val(currYear);
+        var monthList = "";
+        var sumList = "";
+        var sumRecList = "";
+        var coCode = "4001";
+        $("#ddlCoCode").val(coCode); 
+        var data = {
+
+            id: 4001,
+            text: '4001 - Corporate'
+        };
+
+        function convert(currency) {
+
+            // Using replace() method
+            // to make currency string suitable
+            // for parseFloat() to convert
+            var temp = currency.replace(/[^0-9.-]+/g, "");
+
+            // Converting string to float
+            // or double and return
+            return parseFloat(temp);
+
+        }
+
+        function saveAsPDF() {
+            html2canvas(document.getElementById("chart-container"), {
+                onrendered: function (canvas) {
+                    var img = canvas.toDataURL(); //image data of canvas
+                   
+                    var doc = new jsPDF('l', 'mm', 'a4');
+                    var width = doc.internal.pageSize.width;
+                    var height = doc.internal.pageSize.height;
+                    doc.addImage(img, 'JPEG', 10, 20, width-30, height-50, 'center');
+                    doc.save('Lampiran2.pdf');
+
+                    //var pdf = new jsPDF();
+                    //var dataURL = canvas.toDataURL();
+                    //pdf.addImage(dataURL, 'JPEG', 0, 0);
+                    //pdf.save("download.pdf");
+                }
+            });
+        }
+        //$("#btnPull").on('click', function () {
+
+        //    $.ajax({
+        //        type: "GET",
+        //        url: "/Reporting/GenerateApplicationForDifferenceLampiran2",
+        //        processData: false,
+        //        contentType: false,
+        //        success: function (data) {
+        //            //$("#tblLampiran1 tbody tr").remove();
+        //            //for (var i = 0; i < data.length; i++) {
+        //            //    console.log(data[i]);
+
+        //            //    $('#tblLampiran1').append('<tr><td>' + data[i].state + '</td><td style="text-align:center">' + data[i].noOfBDIssued + '</td><td style="text-align:right">' + data[i].amount + '</td><td style="text-align:center">' + data[i].noOfRecovery + '</td><td style="text-align:right">' + data[i].amountRev + '</td><td style="text-align:center">' + data[i].noOfOutstanding + '</td><td style="text-align:right">' + data[i].outstandingAmount + '</td></tr>');
+
+
+        //            //}
+        //        }
+        //    });
+
+        //});
+
+
+        function reloadTable() {
+            $("#barchart2a").remove();
+            $("#canvas2a").append('<canvas id="barchart2a" width="400" height="100"></canvas>');
+            $("#tblLampiran2a tr").remove();
+            $("#tblLampiran2a").append('<tr id="rowMonth"><td>Month</td></tr>');
+            $("#tblLampiran2a").append('<tr id="rowAmount"><td>RM (Million)</td></tr>');
+            $("#tblLampiran2a").append('<tr id="rowDiff"><td>Diff RM (Million)</td></tr>');
+            $("#tblLampiran2a").append('<tr id="rowPercentage"><td>Percentage %</td></tr>');
+
+            $("#barchart2b").remove();
+            $("#canvas2b").append('<canvas id="barchart2b" width="400" height="100"></canvas>');
+            $("#tblLampiran2b tr").remove();
+            $("#tblLampiran2b").append('<tr id="rowMonth"><td>Month</td></tr>');
+            $("#tblLampiran2b").append('<tr id="rowAmount"><td>RM (Million)</td></tr>');
+            $("#tblLampiran2b").append('<tr id="rowDiff"><td>Diff RM (Million)</td></tr>');
+            $("#tblLampiran2b").append('<tr id="rowPercentage"><td>Percentage %</td></tr>');
+
+            console.log($("#ddlYearFrom").val(),$("#ddlYearTo").val())
+            if ($("#ddlYearFrom").val() && $("#ddlYearTo").val()) {
+                $.ajax({
+                    type: "GET",
+                    url: "/Reporting/GetReportForLampiran2?monthFrom=" + $("#ddlMonthFrom").val() + "&yearFrom=" + $("#ddlYearFrom").val() + "&monthTo=" + $("#ddlMonthTo").val() + "&yearTo=" + $("#ddlYearTo").val() + "&coCode=" + $("#ddlCoCode").val(),
+                    //"/Reporting/GetReportForLampiran2?monthFrom=2&yearFrom=2017&monthTo=2&yearTo=2018",
+                    processData: false,
+                    contentType: false,
+                    success: function (data) {
+                        monthList = "";
+                        sumList = "";
+                        sumRecList = "";
+                        for (var i = 0; i < data.length; i++) {
+                            $('#tblLampiran2a #rowMonth').append('<td>' + smonths[data[i].month] + "-" + data[i].year + '</td>');
+                            $('#tblLampiran2a #rowAmount').append('<td>' + data[i].sumAmount + '</td>');
+
+                            if (data[i].diffAmount1 < 0) {
+                                $('#tblLampiran2a #rowDiff').append('<td>( ' + parseFloat(-data[i].diffAmount1).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') + ' )</td>');
+                            }
+                            else {
+                                $('#tblLampiran2a #rowDiff').append('<td>' + data[i].diffAmount + '</td>');
+                            }
+
+                            if (data[i].percentage < 0) {
+                                $('#tblLampiran2a #rowPercentage').append('<td>( ' + -data[i].percentage + ' )</td>');
+                            }
+                            else {
+                                $('#tblLampiran2a #rowPercentage').append('<td>' + data[i].percentage + '</td>');
+                            }
+                            //$('#tblLampiran2a #rowPercentage').append('<td>' + data[i].percentage + '</td>');
+                            monthList = monthList + smonths[data[i].month] + "-" + data[i].year + ",";
+                            sumList = sumList + data[i].sumAmount1 + ",";
+
+                            $('#tblLampiran2b #rowMonth').append('<td>' + smonths[data[i].month] + "-" + data[i].year + '</td>');
+                            $('#tblLampiran2b #rowAmount').append('<td>' + data[i].sumRecovery + '</td>');
+
+                            if (data[i].diffRec1 < 0) {
+                                $('#tblLampiran2b #rowDiff').append('<td>( ' + parseFloat(-data[i].diffRec1).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') + ' )</td>');
+                            }
+                            else {
+                                $('#tblLampiran2b #rowDiff').append('<td>' + data[i].diffRec + '</td>');
+                            }
+
+                            if (data[i].percentageRec < 0) {
+                                $('#tblLampiran2b #rowPercentage').append('<td>( ' + -data[i].percentageRec + ' )</td>');
+                            }
+                            else {
+                                $('#tblLampiran2b #rowPercentage').append('<td>' + data[i].percentageRec + '</td>');
+                            }
+                            //$('#tblLampiran2b #rowDiff').append('<td>' + data[i].diffRec + '</td>');
+                            //$('#tblLampiran2b #rowPercentage').append('<td>' + data[i].percentageRec + '</td>');
+
+                            //monthList = monthList + smonths[data[i].month] + "-" + data[i].year + ",";
+                            sumRecList = sumRecList + data[i].sumRecovery1 + ",";
+                        }
+                        var arrayMonth = monthList.split(",");
+                        var arraySum = sumList.split(",");
+                        var arrayRec = sumRecList.split(",");
+
+                        console.log(data);
+
+                        for (var i = 0; i < data.length; i++) {
+
+                            // Bar chart
+                            new Chart(document.getElementById("barchart2a"), {
+                                type: 'bar',
+                                data: {
+                                    labels: arrayMonth,
+                                    //[smonths[data[0].month] + "-" + data[0].year, smonths[data[1].month] + "-" + data[1].year, smonths[data[2].month] + "-" + data[2].year, smonths[data[3].month] + "-" + data[3].year, smonths[data[4].month] + "-" + data[4].year, smonths[data[5].month] + "-" + data[5].year, smonths[data[6].month] + "-" + data[6].year, smonths[data[7].month] + "-" + data[7].year, smonths[data[8].month] + "-" + data[8].year, smonths[data[9].month] + "-" + data[9].year, smonths[data[10].month] + "-" + data[10].year, smonths[data[11].month] + "-" + data[11].year],
+                                    datasets: [
+                                        {
+                                            label: "BD Amount",
+                                            backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850", "#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850", "#3e95cd", "#8e5ea2", "#3cba9f"],
+                                            data: arraySum
+                                            //[data[0].sumAmount1, data[1].sumAmount1, data[2].sumAmount1, data[3].sumAmount1, data[4].sumAmount1, data[5].sumAmount1, data[6].sumAmount1, data[7].sumAmount1, data[8].sumAmount1, data[9].sumAmount1, data[10].sumAmount1, data[11].sumAmount1]
+                                        }
+                                    ]
+                                },
+                                options: {
+                                    legend: { display: false },
+                                    title: {
+                                        display: true,
+                                        text: 'BD Issued from ' + smonths[$("#ddlMonthFrom").val()] + '-' + $("#ddlYearFrom").val() + ' to ' + smonths[$("#ddlMonthTo").val()] + '-' + $("#ddlYearTo").val() + ' & Percentage Increased'
+                                    },
+                                    tooltips: {
+                                        callbacks: {
+                                            label: function (tooltipItem) {
+                                                return "BD Amount : " + tooltipItem.yLabel.toLocaleString("ms-MY", { style: "currency", currency: "MYR" }) + "";
+                                            }
+                                        }
+                                    },
+                                    scales: {
+                                        xAxes: [{
+                                            ticks: {}
+                                        }],
+                                        yAxes: [{
+                                            ticks: {
+                                                beginAtZero: true,
+                                                callback: function (value, index, values) {
+                                                    return value.toLocaleString("ms-MY", { style: "currency", currency: "MYR" });
+                                                }
+                                            }
+                                        }]
+                                    }
+                                }
+                            });
+
+                            //Bar chart
+                            new Chart(document.getElementById("barchart2b"), {
+                                type: 'bar',
+                                data: {
+                                    labels: arrayMonth,
+                                    //[data[0].state, data[1].state, data[2].state, data[3].state, data[4].state, data[5].state, data[6].state, data[7].state, data[8].state, data[9].state, data[10].state, data[11].state, data[12].state],
+                                    datasets: [
+                                        {
+                                            label: "BD Recovered",
+                                            backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850", "#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850", "#3e95cd", "#8e5ea2", "#3cba9f"],
+                                            data: arrayRec
+                                            //[data[0].noOfRecovery, data[1].noOfRecovery, data[2].noOfRecovery, data[3].noOfRecovery, data[4].noOfRecovery, data[5].noOfRecovery, data[6].noOfRecovery, data[7].noOfRecovery, data[8].noOfRecovery, data[9].noOfRecovery, data[10].noOfRecovery, data[11].noOfRecovery, data[12].noOfRecovery]
+                                        }
+                                    ]
+                                },
+                                options: {
+                                    legend: { display: false },
+                                    title: {
+                                        display: true,
+                                        text: 'BD Recovery from ' + smonths[$("#ddlMonthFrom").val()] + ' - ' + $("#ddlYearFrom").val() + ' to ' + smonths[$("#ddlMonthTo").val()] + ' - ' + $("#ddlYearTo").val() + ' Percentage Increased'
+                                    },
+                                    tooltips: {
+                                        callbacks: {
+                                            label: function (tooltipItem) {
+                                                return "BD Amount : " + tooltipItem.yLabel.toLocaleString("ms-MY", { style: "currency", currency: "MYR" }) + "";
+                                            }
+                                        }
+                                    },
+                                    scales: {
+                                        xAxes: [{
+                                            ticks: {}
+                                        }],
+                                        yAxes: [{
+                                            ticks: {
+                                                beginAtZero: true,
+                                                callback: function (value, index, values) {
+                                                    return value.toLocaleString("ms-MY", { style: "currency", currency: "MYR" });
+                                                }
+                                            }
+                                        }]
+                                    }
+                                }
+                            });
+
+                        }
+                    }
+                });
+            }
+        }
+
+        $(document).ready(function () {
+            
+            var newOption = new Option(data.text, data.id, false, false);
+            $('#ddlCoCode').append(newOption).trigger('change');
+
+            reloadTable();
+
+            $("#ddlMonthFrom").select2({
+                minimumResultsForSearch: -1,
+            });
+
+            $("#ddlYearFrom").select2({
+                minimumResultsForSearch: -1,
+            });
+
+            $("#ddlMonthTo").select2({
+                minimumResultsForSearch: -1,
+            });
+
+            $("#ddlYearTo").select2({
+                minimumResultsForSearch: -1,
+            });
+            $("#ddlCoCode").select2({
+                minimumResultsForSearch: -1,
+                ajax: {
+                    url: "/Reporting/GetAllCompanyCode",
+                    dataType: 'json',
+                    type: "GET",
+                    processResults: function (data) {
+                        console.log(data);
+                        return {
+                            results: $.map(data, function (item) {
+                                return {
+                                    text: item.name,
+                                    id: item.id
+                                }
+
+                            })
+                        };
+
+                    }
+                }
+            });
+
+            $('#ddlCoCode').on('select2:select', function (e) {
+                var data = e.params.data;
+                if (data.selected) {
+                    var coCode = data.id;
+
+                    reloadTable();
+                    //alert(coCode);
+                    //month = $('#ddlMonth').val();
+                    //year = $('#ddlYear').val();
+                    //$("#ddlCoCode").val(coCode);
+                    //table.ajax.url("/Reporting/GetReportForState?month=" + month + "&year=" + year + "&coCode=" + coCode + "").load();
+                }
+            });
+
+
+        });
+
+        $("#ddlMonthFrom").change(function () {
+            reloadTable();
+
+            console.log("month:" + month + " year:" + year);
+        });
+
+        $("#ddlYearFrom").change(function () {
+            reloadTable();
+
+        });
+
+        $("#ddlMonthTo").change(function () {
+            reloadTable();
+            console.log("month:" + month + " year:" + year);
+        });
+
+        $("#ddlYearTo").change(function () {
+            reloadTable();
+        });
+
+      
+
+    </script>
+}

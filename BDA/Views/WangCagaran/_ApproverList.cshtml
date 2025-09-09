@@ -1,0 +1,51 @@
+﻿@model BDA.ViewModel.BankDraftViewModel
+@*@{ 
+    var verifierId = "";
+    var approverId = "";
+    if (Model != null)
+    {
+        verifierId = Model.VerifierId;
+        approverId = Model.ApproverId;
+    }
+
+}*@
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+<div class="widget-header d-flex align-items-center" aria-expanded="true">
+    <h3>
+        Approval
+    </h3>
+</div>
+<div id="pnl_approver" class="widget-body">
+    <div class="padding-left-20 padding-right-20">
+        <div class="form-group row">
+            <div class="col-sm-12">
+                <div id="duringApply" class="row before-submit">
+                    <div class="col-lg-12">
+                        <label class="form-control-label">Verifier<span class="text-danger ml-2">*</span></label>
+                        @Html.DropDownListFor(x => x.VerifierId, Enumerable.Empty<SelectListItem>(), new { @class = "form-control select2", id = "ddlVerifier", required = "required" })
+                        @*<input type="hidden" id="hdnVerifier" value="@verifierId" class="form-control">*@
+                        @Html.HiddenFor(x => x.VerifierId, new { required = "required" })
+                    </div>
+                    <div class="col-lg-12">
+                        <label class="form-control-label">Approver<span class="text-danger ml-2">*</span></label>
+                        @Html.DropDownListFor(x => x.ApproverId, Enumerable.Empty<SelectListItem>(), new { @class = "form-control select2", id = "ddlApprover", required = "required" })
+                        @*<input type="hidden" id="hdnApprover" value="@approverId" class="form-control">*@
+                        @Html.HiddenFor(x => x.ApproverId, new { required = "required" })
+                    </div>
+                </div>
+                <div id="afterSubmit" class="row after-submit" style="display:none">
+                    <div class="col-lg-12">
+                        <label class="form-control-label">Verifier</label>
+                        <p style="font-weight:bold">@ViewBag.VerifierId</p>
+                    </div>
+                    <div class="col-lg-12">
+                        <label class="form-control-label">Approver</label>
+                        <p style="font-weight:bold">@ViewBag.ApproverId</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

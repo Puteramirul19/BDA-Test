@@ -1,0 +1,176 @@
+﻿@model BDA.ViewModel.RecoveryViewModel;
+@{
+    ViewData["Title"] = "Recover Wang Cagaran";
+}
+
+
+
+@section Styles  {
+
+    <!-- Tweaks for older IEs-->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
+
+    <link rel="stylesheet" href="~/assets/css/bootstrap-select/bootstrap-select.min.css">
+    <style>
+    </style>
+}
+@{
+    <div class="content-inner active">
+        <div class="container-fluid">
+            <!-- Begin Page Header-->
+            <div class="row">
+                <div class="page-header">
+                    <div class="d-flex align-items-center">
+                        <h2 class="page-header-title">Bank Draft Recovery</h2>
+                        <div>
+                            <ul class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="db-default.html"><i class="ti ti-home"></i></a></li>
+                                <li class="breadcrumb-item"><a href="#">New Application</a></li>
+                                <li class="breadcrumb-item active">Wang Cagaran</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Page Header -->
+            <div class="row flex-row">
+                <div class="col-xl-12">
+                    <!-- Form -->
+                    <div class="widget has-shadow">
+                        @*<div class="widget-header bordered no-actions d-flex align-items-center">
+                                <h4>Wang Cagaran</h4>
+                            </div>*@
+                        <div class="widget-body">
+                            <div class="row flex-row justify-content-center">
+                                <div class="col-xl-12">
+                                    <div id="rootwizard">
+                                        @Html.Partial("_StatusBar.cshtml")
+                                        <div class="tab-content" style="font-family: Arial">
+
+                                            <div class="body-content">
+                                                <div>
+                                                    @*style="text-align:center; border-bottom: 2px solid; border-bottom-color:blue"*@
+                                                    @*<h4>Submitted by: En. Requestor</h4>*@
+                                                    <br>
+                                                </div>
+
+                                                <div class="widget has-shadow">
+                                                    <div class="widget-body sliding-tabs">
+                                                        <ul class="nav nav-tabs form-tab" id="ul-form-tab" role="tablist">
+                                                            <li class="nav-item">
+                                                                <a class="nav-link active" id="base-tab-1" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="true">Create Details</a>
+                                                            </li>
+                                                            <li class="nav-item">
+                                                                <a class="nav-link disabled" id="base-tab-2" data-toggle="tab" href="#tab-2" role="tab" aria-controls="tab-2" aria-selected="false">Process Details</a>
+                                                            </li>
+                                                            <li class="nav-item">
+                                                                <a class="nav-link disabled" id="base-tab-3" data-toggle="tab" href="#tab-3" role="tab" aria-controls="tab-3" aria-selected="false">Submit Details</a>
+                                                            </li>
+                                                        </ul>
+                                                        <div class="tab-content pt-3">
+                                                            <div class="tab-pane fade active show" id="tab-1" role="tabpanel" aria-labelledby="base-tab-1">
+                                                                @using (Html.BeginForm("Create", "WangHangus", Model, FormMethod.Post, false, new { @id = "formCreateRecovery", @class = "form-horizontal needs-validation", @novalidate = "novalidate" }))
+                                                                {
+                                                                    @Html.Partial("_CreateDetails.cshtml")
+                                                                    @Html.Partial("_ActionHistory.cshtml")
+                                                                    @Html.Partial("_Comments.cshtml")
+                                                                }
+                                                            </div>
+                                                            <div class="tab-pane fade" id="tab-2" role="tabpanel" aria-labelledby="base-tab-2">
+
+                                                            </div>
+                                                            <div class="tab-pane fade" id="tab-3" role="tabpanel" aria-labelledby="base-tab-3">
+
+                                                            </div>
+                                                            <div class="tab-pane fade" id="tab-4" role="tabpanel" aria-labelledby="base-tab-4">
+
+                                                            </div>
+                                                            <div class="tab-pane fade" id="tab-5" role="tabpanel" aria-labelledby="base-tab-5">
+                                                                @*@Html.Partial("_ActionHistory.cshtml")*@
+                                                            </div>
+                                                        </div>
+                                                        @Html.Partial("_ActionButton.cshtml")
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            @*<a id="btnAddAccounting" class="btn btn-secondary ripple" data-toggle="modal" data-target="#add-accounting-table-modal">Add</a>*@
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Form -->
+                </div>
+            </div>
+            <!-- End Row -->
+        </div>
+        <!-- End Container -->
+        <!-- Begin Page Footer-->
+        <!-- End Page Footer -->
+        <a href="#" class="go-top"><i class="la la-arrow-up"></i></a>
+        <!-- Offcanvas Sidebar -->
+        @*@Html.Partial("_Log.cshtml")*@
+        <!-- End Offcanvas Sidebar -->
+    </div>
+}
+
+@section Scripts{
+    @*Validation script*@
+    <!--  validation script  -->
+    <script src="~/assets/vendors/jsgrid-1.5.3/src/jsgrid.validation.js"></script>
+    <script src="~/js/jquery.validate.js"></script>
+    @*added by Hanif 08112019*@
+
+    <script src="~/assets/js/components/wizard/form-wizard.min.js"></script>
+    <script src="~/assets/vendors/js/bootstrap-select/bootstrap-select.min.js"></script>
+
+    <script>
+        $(function () {
+            $("nav").addClass("shrinked");
+            $("#CreateGroupBtn").show();
+            $("#li-1").click();
+        });
+
+        $('#btn-end-created').on('click', function (e) {
+            window.location.href = '/Recovery/Process'
+        });
+
+        //$("#btnLoadBDDetails").on('click', function () {
+        //    $("#txtReqName").val("10");
+        //    $("#txtERMSDocNo").val("ERMS123");
+        //    $("#txtCompCode").val("6001");
+        //    $("#txtPBTName").val("JKR");
+        //    $("#txtBusinessArea").val("6101");
+        //    $("#txtProjNo").val("PORJ123");
+        //});
+
+
+        $(".btn-search-results").on('click', function () {
+            $("#txtBDDetails").val("BD00001");
+            //$("#txtReqName").val("10");
+            $("#txtERMSDocNo").val("01233455");
+            $("#txtCompCode").val("HQ_6000");
+            $("#txtPBTName").val("PENGARAH JKR PAHANG / MSVT APMM - SSU CHERATING");
+            $("#txtBusinessArea").val("6000");
+            $("#txtProjNo").val("PROJ00001");
+            $("#BDAmount").val("120,000.00");
+        });
+
+            //$("#btnLoadProjDetails").on('click', function () {
+            //    $("#txtBDDetails").val("BD123");
+            //    $("#txtReqName").val("10");
+            //    $("#txtERMSDocNo").val("ERMS123");
+            //    $("#txtCompCode").val("6001");
+            //    $("#txtPBTName").val("JKR");
+            //    $("#txtBusinessArea").val("6101");
+            //    $("#txtProjNo").val("PORJ123");
+            //});
+    </script>
+
+}
+
+

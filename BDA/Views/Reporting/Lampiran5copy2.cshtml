@@ -1,0 +1,413 @@
+﻿@{
+    ViewData["Title"] = "Reporting";
+}
+
+@section Styles{
+
+    <style>
+        .btn-create {
+            background-color: #5d5386;
+            color: white;
+        }
+
+        .btn-apply:hover {
+            background-color: white;
+            color: black;
+        }
+
+        .btn-cancel:hover {
+            background-color: red;
+            color: white;
+        }
+
+        .btn-recover:hover {
+            background-color: limegreen;
+            color: white;
+        }
+
+        .btn-lost:hover {
+            background-color: #FFC300;
+            color: white;
+        }
+
+        select.filter {
+            height: 33px !important;
+        }
+    </style>
+}
+<div class="content-inner active">
+    <div class="container-fluid">
+        <!-- Begin Page Header-->
+        <div class="row">
+            <div class="page-header">
+                <div class="d-flex align-items-center">
+                    <div>
+                        <h2 class="page-header-title">Reports</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="widget has-shadow">
+            <h2 style="padding-top:30px;padding-left:30px">Lampiran 5</h2>
+            <div class="widget-body">
+                <div class="form-group row">
+                    <div class="col-xl-2">
+                        <select id="ddlMonth" name="ddlMonth" class="selectpicker show-menu-arrow form-control" tabindex="-98" style="background-color:white">
+                            <option value="0" selected disabled>Month</option>
+                            <option value="1">January</option>
+                            <option value="2">February</option>
+                            <option value="3">March</option>
+                            <option value="4">April</option>
+                            <option value="5">May</option>
+                            <option value="6">June</option>
+                            <option value="7">July</option>
+                            <option value="8">August</option>
+                            <option value="9">September</option>
+                            <option value="10">October</option>
+                            <option value="11">November</option>
+                            <option value="12">December</option>
+                        </select>
+                    </div>
+                    <div class="col-xl-2">
+                        <select id="ddlYear" name="ddlYear" class="selectpicker show-menu-arrow form-control" tabindex="-98">
+                            <option value="0" selected disabled>Year</option>
+                            <option value="2015">2015</option>
+                            <option value="2016">2016</option>
+                            <option value="2017">2017</option>
+                            <option value="2018">2018</option>
+                            <option value="2019">2019</option>
+                            <option value="2020">2020</option>
+                        </select>
+                    </div>
+                    <div class="col-xl-2">
+                        <button id="btnPull" class="btn btn-success">Show</button>
+                    </div>
+                </div>
+                @*<div class="form-group row">
+                        <div class="col-sm-1 form-control-label d-flex align-items-center">Filter</div>
+                        <div class="col-xl-3">
+                            <select name="ddlCancelReason" id="ddlCancelReason" class="custom-select form-control">
+                                <option selected disabled value="0">Month</option>
+                                <option value="1">January</option>
+                                <option value="2">February</option>
+                                <option value="3">March</option>
+                                <option value="4">April</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-1 form-control-label d-flex align-items-center"></div>
+                        <div class="col-xl-3">
+                            <select name="ddlCancelReason" id="ddlCancelReason" class="custom-select form-control">
+                                <option selected disabled value="0">Year</option>
+                                <option value="1">2020</option>
+                                <option value="2">2019</option>
+                                <option value="3">2018</option>
+                                <option value="4">2017</option>
+                            </select>
+                        </div>
+                    </div>*@
+            </div>
+            <div class="row flex-row">
+                <div class="col-xl-12">
+                    <div class="row flex-row">
+                        <div class="col-xl-12 col-md-12">
+                            <div class="table-responsive">
+                                <div class="widget has-shadow">
+                                    <div class="widget-body">
+                                        <p><b>Monthly BD Recovery by State as at June 2019</b></p>
+                                        <div>
+                                            <table id="tblLampiran5" class="table table-bordered table-hover mb-0 display" style="width:100%">
+                                                <thead>
+                                                    <tr>
+                                                        <th style="text-align:center">State</th>
+                                                        <th style="text-align:center">Year</th>
+                                                        <th style="text-align:center">No. of BD Issued</th>
+                                                        <th style="text-align:center">Amount (RM)</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @*<tr>
+                                                        <td>HQ_6000</td>
+                                                        <td>2015</td>
+                                                        <td>1</td>
+                                                        <td>50,000.00</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td></td>
+                                                        <td>2016</td>
+                                                        <td>1</td>
+                                                        <td>30,000.00</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td></td>
+                                                        <td>2018</td>
+                                                        <td>11</td>
+                                                        <td>3,997,775.25</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td></td>
+                                                        <td>2019</td>
+                                                        <td>1</td>
+                                                        <td>74,000.00</td>
+                                                    </tr>
+                                                    <tr style="font-weight:600;background-color:#dee2e6">
+                                                        <td>HQ_6000 Total</td>
+                                                        <td></td>
+                                                        <td>67</td>
+                                                        <td>6,504.703.00</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Johor</td>
+                                                        <td>2015</td>
+                                                        <td>2</td>
+                                                        <td>20,000.00</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td></td>
+                                                        <td>2016</td>
+                                                        <td>1</td>
+                                                        <td>30,000.00</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td></td>
+                                                        <td>2018</td>
+                                                        <td>7</td>
+                                                        <td>3,997,775.25</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td></td>
+                                                        <td>2019</td>
+                                                        <td>1</td>
+                                                        <td>74,000.00</td>
+                                                    </tr>
+                                                    <tr style="font-weight:600;background-color:#dee2e6">
+                                                        <td>Johor Total</td>
+                                                        <td></td>
+                                                        <td>11</td>
+                                                        <td>5,504.703.00</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Kelantan</td>
+                                                        <td>2015</td>
+                                                        <td>2</td>
+                                                        <td>20,000.00</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td></td>
+                                                        <td>2016</td>
+                                                        <td>1</td>
+                                                        <td>30,000.00</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td></td>
+                                                        <td>2018</td>
+                                                        <td>7</td>
+                                                        <td>3,997,775.25</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td></td>
+                                                        <td>2019</td>
+                                                        <td>1</td>
+                                                        <td>74,000.00</td>
+                                                    </tr>
+                                                    <tr style="font-weight:600;background-color:#dee2e6">
+                                                        <td>Kelantan Total</td>
+                                                        <td></td>
+                                                        <td>11</td>
+                                                        <td>5,504.703.00</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Kedah</td>
+                                                        <td>2015</td>
+                                                        <td>2</td>
+                                                        <td>20,000.00</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td></td>
+                                                        <td>2016</td>
+                                                        <td>1</td>
+                                                        <td>30,000.00</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td></td>
+                                                        <td>2018</td>
+                                                        <td>7</td>
+                                                        <td>3,997,775.25</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td></td>
+                                                        <td>2019</td>
+                                                        <td>1</td>
+                                                        <td>74,000.00</td>
+                                                    </tr>
+                                                    <tr style="font-weight:600;background-color:#dee2e6">
+                                                        <td>Kedah Total</td>
+                                                        <td></td>
+                                                        <td>18</td>
+                                                        <td>7,430,000.00</td>
+                                                    </tr>
+                                                    <tr style="font-weight:600;background-color:#877cb5">
+                                                        <td>GRAND TOTAL</td>
+                                                        <td></td>
+                                                        <td>91</td>
+                                                        <td>58,720,337.10</td>
+                                                    </tr>*@
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <br /><br />
+                                        <p><b>Monthly BD Recovery for the Month of June 2019</b></p>
+                                        <div>
+                                            <table id="tblLampiran5TotalByState" class="table table-bordered table-hover mb-0 display" style="width:100%">
+                                                <thead>
+                                                    <tr>
+                                                        <th style="text-align:center">State</th>
+                                                        <th style="text-align:center">No. of BD Issued</th>
+                                                        <th style="text-align:center">Amount (RM)</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @*<tr>
+                                                        <td>HQ_6000</td>
+                                                        <td>67</td>
+                                                        <td>50,000.00</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Johor</td>
+                                                        <td>11</td>
+                                                        <td>5,504,703.00</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Kelantan</td>
+                                                        <td>11</td>
+                                                        <td>5,504,703.00</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Kedah</td>
+                                                        <td>18</td>
+                                                        <td>7,430,000.00</td>
+                                                    </tr>
+                                                    <tr style="font-weight:600;background-color:#877cb5">
+                                                        <td>GRAND TOTAL</td>
+                                                        <td>91</td>
+                                                        <td>58,720,337.10</td>
+                                                    </tr>*@
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <br /><br />
+                                        <br />
+                                        <p><b>Previous Month Comparison</b></p>
+                                        <table id="tblLampiran4TotalByState" class="table table-hover mb-0 display" style="width:20%">
+                                            <thead>
+
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>May</td>
+                                                    <td>7,002,078.00</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>June</td>
+                                                    <td>736,051.00</td>
+                                                </tr>
+                                                <tr style="border: solid">
+                                                    <td>Diff</td>
+                                                    <td>6,266,027.00</td>
+                                                </tr>
+                                                <tr>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>6,266,027/7,002,078.00</td>
+                                                    <td>63%</td>
+                                                    <td>Reduction</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Form -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Container -->
+    <!-- Begin Page Footer-->
+    <!-- End Page Footer -->
+    <a href="#" class="go-top"><i class="la la-arrow-up"></i></a>
+    <!-- Offcanvas Sidebar -->
+    <!-- End Offcanvas Sidebar -->
+</div>
+
+@section Scripts{
+
+    <script src="~/assets/js/components/wizard/form-wizard.min.js"></script>
+    <script src="~/assets/vendors/js/bootstrap-select/bootstrap-select.min.js"></script>
+    <script src="~/assets/js/components/chartjs/chartjs.min.js"></script>
+    <script src="~/assets/vendors/js/tablefilter/jquery.tablefilter.js"></script>
+    <script src="~/assets/vendors/js/tablefilter/jquery.tabledatafilter.min.js"></script>
+    @*<script src="~/assets/vendors/js/tablefilter/jquery.tableditfixedheader.min.js"></script>*@
+    <script>
+
+        $(document).ready(function () {
+            $(function () {
+                $("nav").addClass("shrinked");
+            });
+        });
+
+        var totalBdNo = 0;
+        var totalAmount = 0;
+
+        $("#btnPull").on('click', function () {
+            //console.log($("#ddlMonth option:selected").text());
+            //$("#tblLampiran3 tr").append('<td id="rowState">State</td>');
+            $.ajax({
+                type: "GET",
+                url: "/Reporting/GetReportForLampiran4?month=" + $("#ddlMonth").val() + "&year=" + $("#ddlYear").val() + "",
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    $("#tblLampiran5 tbody tr").remove();
+                    for (var i = 0; i < data.length; i++) {
+                        //console.log(data[data.length-1]);
+                        //console.log(data[i]); 
+                        $('#tblLampiran5').append('<tr><td>' + data[i].state + '</td><td style="text-align:center">' + data[i].year + '</td><td style="text-align:center">' + data[i].noOfRecovery + '</td><td style="text-align:right">' + data[i].amountRev + '</td></tr>');
+
+                        if (data[i].state == data[i + 1].state) {
+                            totalBdNo += data[i].noOfRecovery;
+                            totalAmount += data[i].amountRev;
+                        }
+                        if (data[i + 1].state != data[i].state) {
+                            totalBdNo += data[i].noOfRecovery;
+                            totalAmount += data[i].amountRev;
+                            $('#tblLampiran5').append('<tr style="background-color:#dee2e6"><td style="font-weight:bold" colspan="2">' + data[i].state + ' Total<td style="font-weight:bold;text-align:center">' + totalBdNo + '</td><td style="font-weight:bold;text-align:right">' + totalAmount.toFixed(2) + '</td></tr>');
+                            totalBdNo = 0;
+                            totalAmount = 0;
+                        }
+                    }
+                }
+            });
+
+            $.ajax({
+                type: "GET",
+                url: "/Reporting/GetReportForLampiran4ByState?month=" + $("#ddlMonth").val() + "&year=" + $("#ddlYear").val() + "",
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    $("#tblLampiran5TotalByState tbody tr").remove();
+                    for (var i = 0; i < data.length; i++) {
+                        console.log(data[i]);
+                        $('#tblLampiran5TotalByState').append('<tr><td>' + data[i].state + '</td><td style="text-align:center">' + data[i].noOfRecovery + '</td><td style="text-align:right">' + data[i].amountRev + '</td></tr>');
+
+                    }
+                }
+            });
+        });
+
+    </script>
+}

@@ -1,0 +1,536 @@
+﻿@{
+    ViewData["Title"] = "My Application";
+}
+
+@section Styles{
+
+    <style>
+        .btn-create {
+            background-color: #5d5386;
+            color: white;
+        }
+
+        .btn-apply:hover {
+            background-color: white;
+            color: black;
+        }
+
+        .btn-cancel:hover {
+            background-color: red;
+            color: white;
+        }
+
+        .btn-recover:hover {
+            background-color: limegreen;
+            color: white;
+        }
+
+        .btn-lost:hover {
+            background-color: #FFC300;
+            color: white;
+        }
+
+        select.filter {
+            height: 33px !important;
+        }
+    </style>
+}
+<div class="content-inner">
+    <div class="container-fluid">
+        <!-- Begin Page Header-->
+        <div class="row">
+            <div class="page-header">
+                <div class="d-flex align-items-center">
+                    <h2 class="page-header-title">Manage Application</h2>
+                    <div>
+                        <!--<div class="page-header-tools">
+                        <a class="btn btn-gradient-01" href="#">Add Widget</a>
+                    </div>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Page Header -->
+        <!-- Begin Row -->
+        <!-- End Row -->
+        <!-- Begin Row -->
+       
+        <div class="row flex-row">
+            <div class="col-xl-12">
+                <!-- Form -->
+                <div class="widget has-shadow">
+                    <div class="widget-body">
+                        <div class="widget-body sliding-tabs">
+                            <ul class="nav nav-tabs form-tab" id="ul-form-tab" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="base-tab-1" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="true">In Progress</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="base-tab-2" data-toggle="tab" href="#tab-2" role="tab" aria-controls="tab-2" aria-selected="false">Completed</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content pt-3">
+                                <div class="tab-pane fade active show" id="tab-1" role="tabpanel" aria-labelledby="base-tab-1">
+                                    <div class="row flex-row">
+                                        <div class="col-xl-12 col-md-12">
+                                            <div class="table-responsive">
+                                                <div class="widget has-shadow">
+                                                    @*<div class="widget-header bordered no-actions d-flex align-items-center">
+                                                        <h4>History</h4>
+                                                    </div>*@
+                                                    <div class="widget-body">
+                                                        <div class="table-responsive">
+                                                            <table id="tblActionPending" class="table table-hover mb-0 display" style="width:100%">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>Reference No.</th>
+                                                                        @*<th>Division</th>
+        <th>Function</th>
+        <th>Zone</th>
+        <th>Unit</th>*@
+                                                                        <th>Requester</th>
+                                                                        <th>BD No.</th>
+                                                                        <th>Name On BD</th>
+                                                                        <th>Project No.</th>
+                                                                        <th>Amount (RM)</th>
+                                                                        <th>Application Type</th>
+                                                                        <th>Submission Date</th>
+                                                                        <th>Status</th>
+                                                                        @*<th>Action Needed</th>*@
+                                                                        <th></th>
+                                                                    </tr>
+                                                                    <tr class="filterrow">
+                                                                        <th class="input-filter"><input id='search-refNo' type="text" class="form-control tchatchaca" style="height:40px !important;" placeholder="Search.."></th>
+                                                                        @*<th class="input-filter"><input id='search-division' type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+        <th class="input-filter"><input id='search-function' type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+        <th class="input-filter"><input id='search-zone' type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+        <th class="input-filter"><input id='search-unit' type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>*@
+                                                                        <th class="input-filter"><input id='search-requester' type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                                                        <th class="input-filter"><input id='search-BDNo' type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                                                        <th class="input-filter"><input id='search-NameOnBD' type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                                                        <th class="input-filter"><input id='search-projectNo' type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                                                        <th class="input-filter"><input id='search-amount' type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                                                        <th class="select-filter">
+                                                                            <select id="search-applicationType" class="form-control filter" style="height:40px !important;" placeholder="Type">
+                                                                                <option value="">All</option>
+                                                                                <option value="WangCagaran">Wang Cagaran</option>
+                                                                                <option value="WangHangus">Wang Hangus</option>                                                            
+                                                                            </select>
+                                                                        </th>
+                                                                        <th class="input-filter"><input id='search-submitDate' type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                                                        <th class="select-filter">
+                                                                            <select id="search-status" class="form-control filter" style="height:40px !important;" placeholder="Status">
+                                                                                <option value="">All</option>
+                                                                                <option value="Draft">Draft</option>
+                                                                                <option value="Submitted">Submitted</option>
+                                                                                <option value="Verified">Verified</option>
+                                                                                <option value="Approved">Approved</option>
+                                                                                <option value="Rejected">Rejected</option>
+                                                                                <option value="Accepted">Accepted</option>
+                                                                                <option value="Declined">Declined</option>
+                                                                                <option value="Processed">Processed</option>
+                                                                                <option value="Issued">Issued</option>
+                                                                                <option value="Complete">Completed</option>
+                                                                            </select>
+                                                                        </th>
+                                                                        @*<th class="select-filter">
+                                                                            <select id="search-actionNeeded" class="form-control filter" style="height:40px !important;" placeholder="Type">
+                                                                                <option value="">All</option>
+                                                                                <option value="Resubmit">Resubmit</option>
+                                                                                <option value="Verify">Verify</option>
+                                                                                <option value="Approve">Approve</option>
+                                                                                <option value="Accept">Accept</option>
+                                                                                <option value="Process">Process</option>
+                                                                                <option value="Issue">Issue</option>
+                                                                                <option value="Accept BD">Accept BD</option>
+                                                                            </select>
+                                                                        </th>*@
+                                                                        <th></th>
+                                                                    </tr>
+                                                                </thead>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="tab-2" role="tabpanel" aria-labelledby="base-tab-2">
+                                    <div class="row flex-row">
+                                        <div class="col-xl-12 col-md-12">
+                                            <div class="table-responsive">
+                                                <div class="widget has-shadow">
+                                                    @*<div class="widget-header bordered no-actions d-flex align-items-center">
+                                                        <h4>History</h4>
+                                                    </div>*@
+                                                    <div class="widget-body">
+                                                        <div class="table-responsive">
+                                                            <table id="tblActionTaken" class="table table-hover mb-0 display" style="width:100%">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>Reference No.</th>
+                                                                        @*<th>Division</th>
+        <th>Function</th>
+        <th>Zone</th>
+        <th>Unit</th>*@
+                                                                        <th>Requester</th>
+                                                                        <th>BD No.</th>
+                                                                        <th>Name On BD</th>
+                                                                        <th>Project No.</th>
+                                                                        <th>Amount (RM)</th>
+                                                                        <th>Application Type</th>
+                                                                        @*<th>Submission Date</th>*@
+                                                                        <th>Action Taken</th>
+                                                                        <th>Action Date</th>
+                                                                        <th>Status</th>
+                                                                        <th></th>
+                                                                    </tr>
+                                                                    <tr class="filterrow">
+                                                                        <th class="input-filter"><input id='search-refNo2' type="text" class="form-control tchatchaca" style="height:40px !important;" placeholder="Search.."></th>
+
+                                                                        <th class="input-filter"><input id='search-requester2' type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                                                        <th class="input-filter"><input id='search-BDNo2' type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                                                        <th class="input-filter"><input id='search-NameOnBD2' type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                                                        <th class="input-filter"><input id='search-projectNo2' type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                                                        <th class="input-filter"><input id='search-amount2' type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                                                        <th class="select-filter">
+                                                                            <select id="search-applicationType2" class="form-control filter" style="height:40px !important;" placeholder="Type">
+                                                                                <option value="">All</option>
+                                                                                <option value="WangCagaran">Wang Cagaran</option>
+                                                                                <option value="WangHangus">Wang Hangus</option>
+                                                                            </select>
+                                                                        </th>
+                                                                        <th class="select-filter">
+                                                                            <select id="search-actionTaken" class="form-control filter" style="height:40px !important;" placeholder="Type">
+                                                                                <option value="">All</option>
+                                                                                <option value="Resubmit">Submit</option>
+                                                                                <option value="Verify">Verify</option>
+                                                                                <option value="Approve">Approve</option>
+                                                                                <option value="Reject">Reject</option>
+                                                                                <option value="Accept">Accept</option>
+                                                                                <option value="Decline">Decline</option>
+                                                                                <option value="Process">Process</option>
+                                                                                <option value="Issue">Issue</option>
+                                                                                <option value="Accept BD">Accept BD</option>
+                                                                            </select>
+                                                                        </th>
+                                                                        <th class="input-filter"><input id='search-actionDate' type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                                                        <th class="select-filter">
+                                                                            @*@Html.Partial("_searchStatusAfter.cshtml")*@
+                                                                            <select id="search-status2" class="form-control filter" style="height:40px !important;" placeholder="Status">
+            <option value="">All</option>
+            <option value="Submitted">Submitted</option>
+            <option value="Verified">Verified</option>
+            <option value="Approved">Approved</option>
+            <option value="Rejected">Rejected</option>
+            <option value="Accepted">Accepted</option>
+            <option value="Declined">Declined</option>
+            <option value="Processed">Processed</option>
+            <option value="Issued">Issued</option>
+            <option value="Complete">Completed</option>
+        </select>
+                                                                        </th>
+                                                                        <th></th>
+                                                                    </tr>
+                                                                </thead>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Form -->
+            </div>
+        </div>
+    </div>
+    <!-- End Container -->
+    <!-- Begin Page Footer-->
+    <!-- End Page Footer -->
+    <a href="#" class="go-top"><i class="la la-arrow-up"></i></a>
+    <!-- Offcanvas Sidebar -->
+    <!-- End Offcanvas Sidebar -->
+</div>
+
+@section Scripts{
+    <script src="~/assets/vendors/js/tablefilter/jquery.tablefilter.js"></script>
+    <script src="~/assets/vendors/js/tablefilter/jquery.tabledatafilter.min.js"></script>
+    @*<script src="~/assets/vendors/js/tablefilter/jquery.tableditfixedheader.min.js"></script>*@
+
+    <script>
+
+        $(document).ready(function () {
+            console.log('@User.IsInRole("TGBS Banking")');
+
+            if ('@User.IsInRole("TGBS Banking")' === true) {
+                $("#stsTBAfter").show();
+            }
+            else{
+                $("#stsRequesterAfter").show();
+            }
+
+            var table = $('#tblActionPending').DataTable({
+                    dom: "Bfrtip",
+                "processing": true,
+                "columnDefs": [
+                    { className: "dt-body-right", "targets": [5] },
+                ],
+                    //serverSide: true,
+                    "ajax": {
+                        url:  "@Url.Action("GetMyPendingApplication", "Application")",
+                        type: "GET",
+                        data: function (d) {
+                            d.refNo = $('#search-refNo').val();
+                            d.division = $('#search-division').val();
+                            d.function = $('#search-function').val();
+                            d.zone = $('#search-zone').val();
+                            d.unit = $('#search-unit').val();
+                            d.requesterName = $('#search-requester').val();
+                            d.BDNo = $('#search-BDNo').val();
+                            d.nameOnBd = $('#search-NameOnBD').val();
+                            d.projectNo = $('#search-projectNo').val();
+                            d.amount = $('#search-amount').val();
+                            d.applicationType = $('#search-applicationType option:selected').val();
+                            d.submitDate = $('#search-submitDate').val();
+                            d.actionNeeded = $('#search-actionNeeded option:selected').val();
+                            d.status = $('#search-status option:selected').val();
+                        },
+                        dataFilter: function (result) {
+                            var jData = JSON.parse(result);
+                            var dtData = JSON.stringify({ "data": jData });
+                            return dtData;
+                        }
+                     },
+                    order: [[1, 'asc']],
+                    columns: [
+                        { data: "refNo" },
+                        //{ data: "division" },
+                        //{ data: "function" },
+                        //{ data: "zone" },
+                        //{ data: "unit" },
+                        { data: "requesterName" },
+                        { data: "bdNo" },
+                        { data: "nameOnBd" },
+                        { data: "projectNo" },
+                        { data: "amount" },
+                        { data: "applicationType" },
+                        { data: "submitDate" },
+                        { data: "status" },
+                        //{ data: "actionNeeded" },
+                        {
+                            data: "id",
+                            "render": function (data, type, row) {
+                                var id = data;
+                                var href = "/" + row["applicationType"] + "/Edit/" + id;
+                                if (type == "display") {
+                                    data = '<a href="' + href + '" style="border-radius: 0%;background-color: #f4f4f4;border-color: #ddd;" class="btn btn-lost btn-block mb-2">View</a>';
+                                }
+                                return data;
+                            }
+                        }
+                    ],
+                    "bPaginate": true,
+                    "bLengthChange": false,
+                    "bFilter": false,
+                    "bInfo": true,
+                    "bAutoWidth": false,
+                    orderCellsTop: true,
+                    fixedHeader: true,
+                    "lengthChange": false,
+            });
+
+            $('#tblActionPending thead filterCol').appendTo('table thead');
+
+            $.each($('.input-filter', table.table().header()), function () {
+                var column = table.column($(this).index());
+
+                $('input', this).on('keyup change', function () {
+                    table.ajax.reload();
+                });
+            });
+
+            $.each($('.select-filter', table.table().header()), function () {
+                var column = table.column($(this).index());
+
+                $('select', this).on('change', function () {
+                    table.ajax.reload();
+                });
+            });
+
+            $('#tblActionPending').dataTable.ext.errMode = 'throw';
+
+                  var table2 = $('#tblActionTaken').DataTable({
+                    dom: "Bfrtip",
+                      "processing": true,
+                      "columnDefs": [
+                          { className: "dt-body-right", "targets": [5] },
+                      ],
+                    //serverSide: true,
+                    "ajax": {
+                        url:  "@Url.Action("GetMyTakenApplication", "Application")",
+                        type: "GET",
+                        data: function (d) {
+                            d.refNo = $('#search-refNo2').val();
+                            d.division = $('#search-division2').val();
+                            d.function = $('#search-function2').val();
+                            d.zone = $('#search-zone2').val();
+                            d.unit = $('#search-unit2').val();
+                            d.requesterName = $('#search-requester2').val();
+                            d.bDNo = $('#search-BDNo2').val();
+                            d.nameOnBd = $('#search-NameOnBD2').val();
+                            d.projectNo = $('#search-projectNo2').val();
+                            d.amount = $('#search-amount2').val();
+                            d.applicationType = $('#search-applicationType2 option:selected').val();
+                            d.submitDate = $('#search-submitDate2').val();
+                            d.actionTaken = $('#search-actionTaken option:selected').val();
+                            d.actionDate = $('#search-actionDate').val();
+                            d.status = $('#search-status2 option:selected').val();
+                        },
+                        dataFilter: function (result) {
+                            var jData = JSON.parse(result);
+                            var dtData = JSON.stringify({ "data": jData });
+                            return dtData;
+                        }
+                     },
+                    order: [[1, 'asc']],
+                    columns: [
+                        { data: "refNo" },
+                        //{ data: "division" },
+                        //{ data: "function" },
+                        //{ data: "zone" },
+                        //{ data: "unit" },
+                        { data: "requesterName" },
+                        { data: "bdNo" },
+                        { data: "nameOnBd" },
+                        { data: "projectNo" },
+                        { data: "amount" },
+                        { data: "applicationType" },
+                        //{ data: "submitDate" },
+                        { data: "actionTaken" },
+                        { data: "actionDate" },
+                        { data: "status" },
+                        {
+                            data: "id",
+                            "render": function (data, type, row) {
+                                var id = data;
+                                var href = "/" + row["applicationType"] + "/Edit/" + id;
+                                if (type == "display") {
+                                    data = '<a href="' + href + '" style="border-radius: 0%;background-color: #f4f4f4;border-color: #ddd;" class="btn btn-lost btn-block mb-2">View</a>';
+                                }
+                                return data;
+                            }
+                        }
+                    ],
+                    "bPaginate": true,
+                    "bLengthChange": false,
+                    "bFilter": false,
+                    "bInfo": true,
+                    "bAutoWidth": false,
+                    orderCellsTop: true,
+                    fixedHeader: true,
+                    "lengthChange": false,
+            });
+
+            $('#tblActionTaken thead filterCol').appendTo('table thead');
+
+            $.each($('.input-filter', table2.table().header()), function () {
+                var column = table2.column($(this).index());
+
+                $('input', this).on('keyup change', function () {
+                    table2.ajax.reload();
+                });
+            });
+
+            $.each($('.select-filter', table2.table().header()), function () {
+                var column = table2.column($(this).index());
+
+                $('select', this).on('change', function () {
+                    table2.ajax.reload();
+                });
+            });
+
+            $('#tblActionTaken').dataTable.ext.errMode = 'throw';
+            // Setup - add a text input to each footer cell
+            //$('#tblActionPending thead filterCol').appendTo('#tblActionPending thead');
+            //var table = $('#tblActionPending').DataTable({
+            //    orderCellsTop: true,
+            //    fixedHeader: true,
+            //    "lengthChange": false
+            //});
+            //$.each($('.input-filter', table.table().header()), function () {
+            //    var column = table.column($(this).index());
+
+            //    $('input', this).on('keyup change', function () {
+            //        if (column.search() !== this.value) {
+            //            column
+            //                .search(this.value)
+            //                .draw();
+            //        }
+            //    });
+            //});
+
+            //// Apply the search
+            //$.each($('.select-filter', table.table().header()), function () {
+            //    var column = table.column($(this).index());
+
+            //    $('select', this).on('change', function () {
+            //        if (column.search() !== this.value) {
+            //            column
+            //                .search(this.value)
+            //                .draw();
+
+            //        } else if (column.search() !== "") {
+            //            column
+            //                .draw();
+            //        }
+            //    });
+            //});
+
+            //$('#tblActionTaken thead filterCol').appendTo('#tblActionTaken thead');
+            //var table = $('#tblActionTaken').DataTable({
+            //    orderCellsTop: true,
+            //    fixedHeader: true,
+            //    "lengthChange": false
+            //});
+
+            //$.each($('.input-filter', table.table().header()), function () {
+            //    var column = table.column($(this).index());
+
+            //    $('input', this).on('keyup change', function () {
+            //        if (column.search() !== this.value) {
+            //            column
+            //                .search(this.value)
+            //                .draw();
+            //        }
+            //    });
+            //});
+
+            // Apply the search
+            //$.each($('.select-filter', table.table().header()), function () {
+            //    var column = table.column($(this).index());
+
+            //    $('select', this).on('change', function () {
+            //        if (column.search() !== this.value) {
+            //            column
+            //                .search(this.value)
+            //                .draw();
+
+            //        } else if (column.search() !== "") {
+            //            column
+            //                .draw();
+            //        }
+            //    });
+            //});
+        });
+
+
+    </script>
+}

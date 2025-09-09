@@ -1,0 +1,410 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    @*<title>@ViewData["Title"] - BDA</title>*@
+    <title>BDA</title>
+
+    @*<environment include="Development">
+            <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+            <link rel="stylesheet" href="~/css/site.css" />
+        </environment>
+        <environment exclude="Development">
+            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+                  asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+                  asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
+            <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+        </environment>*@
+
+    <!-- Google Fonts -->
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+    <script>
+        WebFont.load({
+            google: { "families": ["Montserrat:400,500,600,700", "Noto+Sans:400,700"] },
+            active: function () {
+                sessionStorage.fonts = true;
+            }
+        });
+
+
+    </script>
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="~/assets/img/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="~/assets/img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="~/assets/img/favicon-16x16.png">
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="~/assets/vendors/css/base/bootstrap.min.css">
+    <link rel="stylesheet" href="~/assets/vendors/css/base/elisyam-1.5.min.css">
+    <link rel="stylesheet" href="~/assets/css/owl-carousel/owl.carousel.min.css">
+    <link rel="stylesheet" href="~/assets/css/owl-carousel/owl.theme.min.css">
+    <!-- Tweaks for older IEs-->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
+    <style>
+
+        thead input {
+            width: 100%;
+        }
+    </style>
+    @RenderSection("Styles", required: false)
+</head>
+
+<body>
+    <!-- Begin Preloader -->
+    <div id="preloader">
+        <div class="canvas">
+            <img src="~/assets/img/logo.png" alt="logo" class="loader-logo">
+            <div class="spinner"></div>
+        </div>
+    </div>
+    <!-- End Preloader -->
+    <div class="page">
+        <!-- Begin Header -->
+        <header class="header">
+            <nav class="navbar fixed-top">
+                <!-- Begin Search Box-->
+                <div class="search-box">
+                    <button class="dismiss"><i class="ion-close-round"></i></button>
+                    <form id="searchForm" action="#" role="search">
+                        <input type="search" placeholder="Search something ..." class="form-control">
+                    </form>
+                </div>
+                <!-- End Search Box-->
+                <!-- Begin Topbar -->
+                <div class="navbar-holder d-flex align-items-center align-middle justify-content-between">
+                    <!-- Begin Logo -->
+                    <div class="navbar-header">
+                        <a href="/home/index" class="navbar-brand">
+                            <div class="brand-image brand-big">
+                                <img src="~/assets/img/tnb-logo-1.jpeg" alt="logo" class="logo-small">
+                            </div>
+                            <div class="brand-image brand-small">
+                                <img src="~/assets/img/tnb-logo-1.jpeg" alt="logo" class="logo-small">
+                            </div>
+                        </a>
+                        <!-- Toggle Button -->
+                        <a id="toggle-btn" href="#" class="menu-btn active">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </a>
+                        <!-- End Toggle -->
+                    </div>
+                    <!-- End Logo -->
+                    <!-- Begin Navbar Menu -->
+                    <ul class="nav-menu list-unstyled d-flex flex-md-row align-items-md-center pull-right">
+                        <!-- Search -->
+                        <li class="nav-item d-flex align-items-center"><a id="search" href="#"><i class="la la-search"></i></a></li>
+                        <!-- End Search -->
+                        <!-- Begin Notifications -->
+                        <li class="nav-item dropdown">
+                            <a id="notifications" rel="nofollow" data-target="#" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link"><i class="la la-bell animated infinite swing"></i><span class="badge-pulse"></span></a>
+                            <ul aria-labelledby="notifications" class="dropdown-menu notification">
+                                <li>
+                                    <div class="notifications-header">
+                                        <div class="title">Notifications (4)</div>
+                                        <div class="notifications-overlay"></div>
+                                        <img src="~/assets/img/notifications/01.jpg" alt="..." class="img-fluid">
+                                    </div>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <div class="message-icon">
+                                            <i class="la la-user"></i>
+                                        </div>
+                                        <div class="message-body">
+                                            <div class="message-body-heading">
+                                                New user registered
+                                            </div>
+                                            <span class="date">2 hours ago</span>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <div class="message-icon">
+                                            <i class="la la-calendar-check-o"></i>
+                                        </div>
+                                        <div class="message-body">
+                                            <div class="message-body-heading">
+                                                New event added
+                                            </div>
+                                            <span class="date">7 hours ago</span>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <div class="message-icon">
+                                            <i class="la la-history"></i>
+                                        </div>
+                                        <div class="message-body">
+                                            <div class="message-body-heading">
+                                                Server rebooted
+                                            </div>
+                                            <span class="date">7 hours ago</span>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <div class="message-icon">
+                                            <i class="la la-twitter"></i>
+                                        </div>
+                                        <div class="message-body">
+                                            <div class="message-body-heading">
+                                                You have 3 new followers
+                                            </div>
+                                            <span class="date">10 hours ago</span>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a rel="nofollow" href="#" class="dropdown-item all-notifications text-center">View All Notifications</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <!-- End Notifications -->
+                        <!-- User -->
+                        <li class="nav-item dropdown">
+                            <a id="user" rel="nofollow" data-target="#" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link la la-user rounded-circle">
+                                @*<img src="assets/img/avatar/avatar-01.jpg" alt="..." class="avatar rounded-circle">*@
+                            </a>
+                            <ul aria-labelledby="user" class="user-size dropdown-menu">
+                                @*<li class="welcome">
+                                        <a href="#" class="edit-profil">
+                                            <i class="la la-gear"></i>
+                                            <img src="~/assets/img/avatar/avatar-01.jpg" alt="..." class="rounded-circle">
+                                        </a>
+                                    </li>*@
+                                <li>
+                                    <a href="pages-profile.html" class="dropdown-item">
+                                        Profile
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="app-mail.html" class="dropdown-item">
+                                        Messages
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="dropdown-item no-padding-bottom">
+                                        Settings
+                                    </a>
+                                </li>
+                                <li class="separator"></li>
+                                <li>
+                                    <a href="pages-faq.html" class="dropdown-item no-padding-top">
+                                        Faq
+                                    </a>
+                                </li>
+                                <li><a rel="nofollow" href="pages-login.html" class="dropdown-item logout text-center"><i class="ti-power-off"></i></a></li>
+                            </ul>
+                        </li>
+                        <!-- End User -->
+                        <!-- Begin Quick Actions -->
+                        @*<li class="nav-item"><a href="#off-canvas" class="open-sidebar"><i class="la la-ellipsis-h"></i></a></li>*@
+                        <!-- End Quick Actions -->
+                    </ul>
+                    <!-- End Navbar Menu -->
+                </div>
+                <!-- End Topbar -->
+            </nav>
+        </header>
+        <!-- End Header -->
+        <!-- Begin Page Content -->
+        <div class="page-content d-flex align-items-stretch has-shadow" style="background-color:azure">
+            <div class="default-sidebar">
+                <!-- Begin Side Navbar -->
+                <nav class="side-navbar box-scroll sidebar-scroll">
+                    <!-- Begin Main Navigation -->
+
+                    <ul class="list-unstyled">
+                        <li>
+                            <a href="/home/dashboard" aria-expanded="false"><i class="la la-columns"></i><span>Dashboard</span></a>
+                        </li>
+                        <li>
+                            <a href="#dropdown-app" aria-expanded="false" data-toggle="collapse"><i class="la la-file"></i><span>Create Application</span></a>
+                            <ul id="dropdown-app" class="collapse list-unstyled pt-0">
+                                <li><a href="/wangcagaran/apply">Wang Cagaran</a></li>
+                                <li><a href="app-chat.html">Wang Hangus</a></li>
+                                <li><a href="/wangcagaran/apply">Cancel Application</a></li>
+                                <li><a href="/wangcagaran/apply">Recover Application</a></li>
+                                <li><a href="/wangcagaran/apply">Lost Application</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#" aria-expanded="false"><i class="la la-list"></i><span>My Application</span></a>
+                        </li>
+                        <li>
+                            <a href="#" aria-expanded="false"><i class="la la-th-list"></i><span>Manage Application</span></a>
+                        </li>
+                        <li>
+                            <a href="#" aria-expanded="false"><i class="la la-th"></i><span>Manage All Application</span></a>
+                        </li>
+                        <li>
+                            <a href="#dropdown-authentication" aria-expanded="false" data-toggle="collapse"><i class="la la-file-text"></i><span>Reports</span></a>
+                            <ul id="dropdown-authentication" class="collapse list-unstyled pt-0">
+                                <li><a href="apply.html">Monthly</a></li>
+                                <li><a href="app-chat.html">Annually</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#dropdown-generic" aria-expanded="false" data-toggle="collapse"><i class="la la-gear"></i><span>Settings</span></a>
+                            <ul id="dropdown-generic" class="collapse list-unstyled pt-0">
+                                <li><a href="/businessadmin/manageuser">User</a></li>
+                                <li><a href="/businessadmin/managerole">Roles</a></li>
+                                <li><a href="app-chat.html">States</a></li>
+                                <li><a href="app-chat.html">Category</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <!-- End Main Navigation -->
+                </nav>
+                <!-- End Side Navbar -->
+            </div>
+            <!-- End Left Sidebar -->
+            @RenderBody()
+            <!-- End Content -->
+
+
+        </div>
+        <footer class="main-footer" style="padding: 15px 100px; margin-left: 160px">
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 d-flex align-items-center justify-content-xl-start justify-content-lg-start justify-content-md-start justify-content-center">
+                    <p class="text-gradient-02">Copyright © 2019 Tenaga Nasional Berhad. All rights reserved.</p>
+                </div>
+                <!--<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 d-flex align-items-center justify-content-xl-end justify-content-lg-end justify-content-md-end justify-content-center">
+                    <ul class="nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="documentation.html">Documentation</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="changelog.html">Changelog</a>
+                        </li>
+                    </ul>
+                </div>-->
+            </div>
+        </footer>
+        <!-- End Page Content -->
+    </div>
+    @*<nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">BDA</a>
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+                        <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
+                        <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>*@
+
+    <partial name="_CookieConsentPartial" />
+
+    @*<div class="container body-content">
+
+            <hr />
+            <footer>
+                <p>&copy; 2019 - BDA</p>
+            </footer>
+        </div>*@
+
+    @*<environment include="Development">
+            <script src="~/lib/jquery/dist/jquery.js"></script>
+            <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+            <script src="~/js/site.js" asp-append-version="true"></script>
+        </environment>
+        <environment exclude="Development">
+            <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"
+                    asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                    asp-fallback-test="window.jQuery"
+                    crossorigin="anonymous"
+                    integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT">
+            </script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"
+                    asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
+                    asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
+                    crossorigin="anonymous"
+                    integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd">
+            </script>
+            <script src="~/js/site.min.js" asp-append-version="true"></script>
+        </environment>*@
+    <!-- Begin Vendor Js -->
+    <script src="~/assets/vendors/js/base/jquery-3.6.0.min.js"></script>
+    <script src="~/assets/vendors/js/base/core.min.js"></script>
+    <!-- End Vendor Js -->
+    <!-- Begin Page Vendor Js -->
+    <script src="~/assets/vendors/js/nicescroll/nicescroll.min.js"></script>
+    <script src="~/assets/vendors/js/chart/chart.min.js"></script>
+    <script src="~/assets/vendors/js/progress/circle-progress.min.js"></script>
+    <script src="~/assets/vendors/js/calendar/moment.min.js"></script>
+    <script src="~/assets/vendors/js/calendar/fullcalendar.min.js"></script>
+    <script src="~/assets/vendors/js/owl-carousel/owl.carousel.min.js"></script>
+    <script src="~/assets/vendors/js/app/app.js"></script>
+    <!-- End Page Vendor Js -->
+    <!-- Begin Page Snippets -->
+    @*<script src="~/assets/js/dashboard/db-default.js"></script>*@
+    <!-- End Page Snippets -->
+    @*<script src="~/assets/vendors/js/tabledit/jquery.tablefilter.js"></script>
+        <script src="~/assets/vendors/js/tabledit/jquery.tabledatafilter.min.js"></script>
+        <script src="~/assets/vendors/js/tabledit/jquery.tableditfixedheader.min.js"></script>*@
+
+    @*Edited by Hanif 11092019*@
+    <script src="~/assets/vendors/js/bootstrap-wizard/bootstrap.wizard.min.js"></script>
+    <script src="~/assets/vendors/js/app/app.min.js"></script>
+    <script src="~/assets/vendors/js/datepicker/moment.min.js"></script>
+    <script src="~/assets/vendors/js/datepicker/daterangepicker.js"></script>
+    <!-- End Page Vendor Js -->
+    <!-- Begin Page Snippets -->
+    <script src="~/assets/js/components/datepicker/datepicker.js"></script>
+    <script src="~/assets/js/components/wizard/form-wizard.min.js"></script>
+
+
+    <script src="~/assets/vendors/js/tabledit/jquery.tabledit.min.js"></script>
+    <!-- End Page Vendor Js -->
+    <!-- Begin Page Snippets -->
+    <script src="~/assets/js/components/tabledit/tabledit.js"></script>
+    <script src="~/assets/js/dashboard/db-default.js"></script>
+    <script>
+
+        $(document).ready(function () {
+            // Setup - add a text input to each footer cell
+            $('#example thead filterCol').appendTo('#example thead');
+            $('#example thead tr:eq(1) th').each(function (i) {
+                var title = $(this).text();
+                $(this).html('<input type="text" placeholder="Search ' + title + '" />');
+
+                $('input', this).on('keyup change', function () {
+                    if (table.column(i).search() !== this.value) {
+                        table
+                            .column(i)
+                            .search(this.value)
+                            .draw();
+                    }
+                });
+            });
+
+            var table = $('#example').DataTable({
+                orderCellsTop: true,
+                fixedHeader: true
+            });
+        });
+
+
+    </script>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

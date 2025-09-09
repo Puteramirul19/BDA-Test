@@ -1,0 +1,437 @@
+﻿@{
+    ViewData["Title"] = "Reporting";
+}
+
+@section Styles{
+
+    <style>
+        .btn-create {
+            background-color: #5d5386;
+            color: white;
+        }
+
+        .btn-apply:hover {
+            background-color: white;
+            color: black;
+        }
+
+        .btn-cancel:hover {
+            background-color: red;
+            color: white;
+        }
+
+        .btn-recover:hover {
+            background-color: limegreen;
+            color: white;
+        }
+
+        .btn-lost:hover {
+            background-color: #FFC300;
+            color: white;
+        }
+
+        select.filter {
+            height: 33px !important;
+        }
+
+        .dataTable > thead > tr > th[class*="sort"]:before,
+        .dataTable > thead > tr > th[class*="sort"]:after {
+            content: "" !important;
+        }
+    </style>
+}
+<div class="content-inner active">
+    <div class="container-fluid">
+        <!-- Begin Page Header-->
+        <div class="row">
+            <div class="page-header">
+                <div class="d-flex align-items-center">
+                    <div>
+                        <h2 class="page-header-title">Reports</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="widget has-shadow">
+            <div class="row flex-row">
+                <div class="col-xl-12">
+                    <div class="row flex-row">
+                        <div class="col-xl-12 col-md-12">
+                            <div class="table-responsive">
+                                <div class="widget has-shadow">
+                                    <h2 style="padding-top:30px;padding-left:30px" id="title6">Lampiran 6</h2>
+                                    <div class="widget-body">
+                                        <p style="margin-left:10px;font-size:17px" id="header6"><b>BD Details</b></p>
+                                        <div class="form-group row" style="margin-top:20px;color:#5d5386;font-size:16px;font-weight:bold;margin-left:-2px">
+                                            <div class="col-xl-2">
+                                                <label>Division</label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-xl-2">
+                                                <select name="ddlCoCode" id="ddlCoCode" class="form-control"></select>
+                                            </div>
+                                            <button onclick="saveAsPDF();" class="btn btn- btn-info">PDF</button>
+                                        </div>
+                                        <div class="table-responsive">
+                                            <table id="tblLampiran6" class="table table-bordered table-hover mb-0" styles="width:100%">
+                                                <thead>
+                                                    <tr>
+                                                        <th>No</th>
+                                                        <th>Ref. No</th>@*added by Hanif 15032020*@
+                                                        <th>Assignment</th>
+                                                        <th>DocumentNo</th>
+                                                        <th>BusA</th>
+                                                        <th>State</th>
+                                                        <th>PK</th>
+                                                        <th>Doc Date</th>
+                                                        <th>Posting Date</th>
+                                                        <th>Amount (RM)</th>
+                                                        <th>Name</th>
+                                                    </tr>
+                                                    <tr class="filterrow">
+                                                        <th class="input-filter"></th>
+                                                        <th class="input-filter"><input id='search-refNo' type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>@*added by Hanif 15032020*@
+                                                        <th class="input-filter"><input id='search-assignment' type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                                        <th class="input-filter"><input id='search-docNo' type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                                        <th class="input-filter"><input id='search-busA' type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                                        <th class="input-filter"><input id='search-state' type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                                        <th class="input-filter"><input id='search-pkType' type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                                        <th class="input-filter"><input id='search-docDate' type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                                        <th class="input-filter"><input id='search-ermsPostingDate' type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                                        <th class="input-filter"><input id="search-bdAmount" type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                                        <th class="input-filter"><input id="search-keteranganKerja" type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                                </thead>
+                                                <tbody></tbody>
+                                            </table>
+                                            <table id="tblLampiran6b" class="table table-bordered table-hover mb-0" styles="width:100%" style="display:none">
+                                                <thead>
+                                                    <tr>
+                                                        <th>No</th>
+                                                        <th>Ref. No</th>@*added by Hanif 15032020*@
+                                                        <th>Assignment</th>
+                                                        <th>DocumentNo</th>
+                                                        <th>BusA</th>
+                                                        <th>State</th>
+                                                        <th>PK</th>
+                                                        <th>Doc Date</th>
+                                                        <th>Posting Date</th>
+                                                        <th>Amount (RM)</th>
+                                                        <th>Name</th>
+                                                    </tr>
+                                                    <tr class="filterrow">
+                                                        <th class="input-filter"></th>
+                                                        <th class="input-filter"><input id='search-refNo2' type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>@*added by Hanif 15032020*@
+                                                        <th class="input-filter"><input id='search-assignment2' type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                                        <th class="input-filter"><input id='search-docNo2' type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                                        <th class="input-filter"><input id='search-busA2' type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                                        <th class="input-filter"><input id='search-state2' type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                                        <th class="input-filter"><input id='search-pkType2' type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                                        <th class="input-filter"><input id='search-docDate2' type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                                        <th class="input-filter"><input id='search-ermsPostingDate2' type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                                        <th class="input-filter"><input id="search-bdAmount2" type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                                        <th class="input-filter"><input id="search-keteranganKerja2" type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                                </thead>
+                                                <tbody></tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Form -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Container -->
+    <!-- Begin Page Footer-->
+    <!-- End Page Footer -->
+    <a href="#" class="go-top"><i class="la la-arrow-up"></i></a>
+    <!-- Offcanvas Sidebar -->
+    <!-- End Offcanvas Sidebar -->
+</div>
+
+@section Scripts{
+
+    <script src="~/assets/vendors/js/bootstrap-select/bootstrap-select.min.js"></script>
+    <script src="~/assets/vendors/js/datatables/datatables.min.js"></script>
+    <script src="~/assets/vendors/js/datatables/dataTables.buttons.min.js"></script>
+    <script src="~/assets/vendors/js/jspdf/jspdf.min.js"></script>
+    <script src="~/assets/vendors/js/jspdf/jspdf.plugin.autotable.js"></script>
+
+    @*<script src="https://code.jquery.com/jquery-3.3.1.js"></script>*@
+    @*<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/buttons/1.5.2/js/dataTables.buttons.min.js"></script>*@
+    @*<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+        <script src=https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js></script>
+        <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.html5.min.js"></scri*@pt>
+
+    @*<script src="~/assets/vendors/js/datatables/datatables.min.js"></script>
+        <script src="~/assets/vendors/js/datatables/dataTables.select.min.js"></script>
+        <script src="~/assets/vendors/js/datatables/dataTables.buttons.min.js"></script>
+        <script src="~/assets/vendors/js/datatables/buttons.flash.js"></script>
+        <script src="~/assets/vendors/js/datatables/buttons.print.min.js"></script>
+        <script src="~/assets/vendors/js/datatables/buttons.html5.js"></script>
+
+        <script src="~/assets/vendors/js/tablefilter/jquery.tablefilter.js"></script>
+        <script src="~/assets/vendors/js/tablefilter/jquery.tabledatafilter.min.js"></script>*@
+    <script>
+
+        var data = {
+
+            id: 4001,
+            text: '4001 - Corporate'
+        };
+
+        var coCode = "4001";
+
+        function convert(currency) {
+
+            // Using replace() method
+            // to make currency string suitable
+            // for parseFloat() to convert
+            var temp = currency.replace(/[^0-9.-]+/g, "");
+
+            // Converting string to float
+            // or double and return
+            return parseFloat(temp);
+
+        }
+
+        function saveAsPDF() {
+            //html2canvas(document.getElementById("chart-container"), {
+            //    onrendered: function (canvas) {
+            //        var img = canvas.toDataURL(); //image data of canvas
+
+            var doc = new jsPDF('l', 'mm', 'a4');
+            var width = doc.internal.pageSize.width;
+            var height = doc.internal.pageSize.height;
+            doc.setFontSize(12);
+            doc.setFontType("bold");
+
+            doc.text(15, 30, $("#title6").text());
+            doc.text(15, 40, $("#header6").text());
+
+            doc.autoTable({
+                startY: 50,
+                margin: { horizontal: 15 },
+                html: '#tblLampiran6b',
+                pageNumber: 2,
+                columnStyles: {
+                    9: { halign: 'right' },
+                },
+            })
+
+            doc.save('Lampiran6.pdf')
+
+        }
+
+        $(document).ready(function () {
+            $(function () {
+                $("nav").addClass("shrinked");
+            });
+
+            var newOption = new Option(data.text, data.id, false, false);
+            $('#ddlCoCode').append(newOption).trigger('change');
+
+            //SetSelectedValue("All Divisions", "#ddlCoCode");
+             //"Url.Action("GetReportForLampiran6", "Reporting")",
+            var table = $('#tblLampiran6').DataTable({
+                    dom: "frtip",
+                "processing": true,
+                //buttons: [
+                //    { extend: 'excelHtml5', footer: true, orientation: 'landscape', pageSize: 'LEGAL', title: function () { return $('#header6').text().toUpperCase(); }, },
+                //    { extend: 'csvHtml5', footer: true, orientation: 'landscape', pageSize: 'LEGAL', title: function () { return $('#header6').text().toUpperCase(); },},
+                //    { extend: 'pdfHtml5', footer: true, orientation: 'landscape', pageSize: 'LEGAL', title: function () { return $('#header6').text().toUpperCase(); }, }
+                //],
+                "columnDefs": [
+                    { className: "dt-body-right", "targets": [9] },
+                ],
+                    //serverSide: true,
+                    "ajax": {
+                        url: "/Reporting/GetReportForLampiran6?coCode=" + coCode + "",
+                        type: "GET",
+                        data: function (d) {
+                            d.refNo = $('#search-refNo').val();
+                            d.assignment = $('#search-assignment').val();
+                            d.docNo = $('#search-docNo').val();
+                            d.busA = $('#search-busA').val();
+                            d.state = $('#search-state').val();
+                            d.pkType = $('#search-pkType').val();
+                            d.docDate = $('#search-docDate').val();
+                            d.ermsPostingDate = $('#search-ermsPostingDate').val();
+                            d.bdAmount = $('#search-bdAmount').val();
+                            d.keteranganKerja = $('#search-keteranganKerja').val();
+                        },
+                        dataFilter: function (result) {
+                            var jData = JSON.parse(result);
+                            var dtData = JSON.stringify({ "data": jData });
+                            return dtData;
+                        }
+                     },
+                    order: [[1, 'asc']],
+                    columns: [
+                        { data: "index" },
+                        { data: "refNo" },
+                        { data: "assignment" },
+                        { data: "ermsDocNo" },
+                        { data: "busA" },
+                        { data: "state" },
+                        { data: "pkType" },
+                        { data: "docDate" },
+                        { data: "ermsPostingDate" },
+                        { data: "bdAmount" },
+                        { data: "keteranganKerja" }
+                    ],
+                    "bPaginate": true,
+                    "bLengthChange": false,
+                    "bFilter": false,
+                    "bInfo": true,
+                    "bAutoWidth": false,
+                    orderCellsTop: true,
+                    fixedHeader: true,
+                    "lengthChange": false,
+            });
+
+
+            $('#tblLampiran6 thead filterCol').appendTo('table thead');
+
+            $.each($('.input-filter', table.table().header()), function () {
+                var column = table.column($(this).index());
+
+                $('input', this).on('keyup change', function () {
+                    table.ajax.reload();
+                });
+            });
+
+            $.each($('.select-filter', table.table().header()), function () {
+                var column = table.column($(this).index());
+
+                $('select', this).on('change', function () {
+                    table.ajax.reload();
+                });
+            });
+
+            table.on('order.dt search.dt', function () {
+                table.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
+                    cell.innerHTML = i + 1;
+                });
+            }).draw();
+
+            $('#tblLampiran6').dataTable.ext.errMode = 'throw';
+
+             var table2 = $('#tblLampiran6b').DataTable({
+                    dom: "frtip",
+                "processing": true,
+                //buttons: [
+                //    { extend: 'excelHtml5', footer: true, orientation: 'landscape', pageSize: 'LEGAL', title: function () { return $('#header6').text().toUpperCase(); }, },
+                //    { extend: 'csvHtml5', footer: true, orientation: 'landscape', pageSize: 'LEGAL', title: function () { return $('#header6').text().toUpperCase(); },},
+                //    { extend: 'pdfHtml5', footer: true, orientation: 'landscape', pageSize: 'LEGAL', title: function () { return $('#header6').text().toUpperCase(); }, }
+                //],
+                "columnDefs": [
+                    { className: "dt-body-right", "targets": [9] },
+                ],
+                    //serverSide: true,
+                    "ajax": {
+                        url: "/Reporting/GetReportForLampiran6?coCode=" + coCode + "",
+                            //"Url.Action("GetReportForLampiran6", "Reporting")",
+                        type: "GET",
+                        data: function (d) {
+                            d.refNo = $('#search-refNo').val();
+                            d.assignment = $('#search-assignment').val();
+                            d.docNo = $('#search-docNo').val();
+                            d.busA = $('#search-busA').val();
+                            d.state = $('#search-state').val();
+                            d.pkType = $('#search-pkType').val();
+                            d.docDate = $('#search-docDate').val();
+                            d.ermsPostingDate = $('#search-ermsPostingDate').val();
+                            d.bdAmount = $('#search-bdAmount').val();
+                            d.keteranganKerja = $('#search-keteranganKerja').val();
+                        },
+                        dataFilter: function (result) {
+                            var jData = JSON.parse(result);
+                            var dtData = JSON.stringify({ "data": jData });
+                            return dtData;
+                        }
+                     },
+                    order: [[1, 'asc']],
+                    columns: [
+                        { data: "index" },
+                        { data: "refNo" },
+                        { data: "assignment" },
+                        { data: "ermsDocNo" },
+                        { data: "busA" },
+                        { data: "state" },
+                        { data: "pkType" },
+                        { data: "docDate" },
+                        { data: "ermsPostingDate" },
+                        {
+                            data: "bdAmount",
+                            "render": function (data, type, row) {
+                                var bdAmt = convert(data);
+                                if (type == "display") {
+                                    if (bdAmt < 0) {
+                                        bdAmt = -bdAmt;
+                                        data = '( ' + parseFloat(bdAmt).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') + ' )';
+                                    }
+
+                                }
+                                return data;
+                            }
+                        },
+                        { data: "keteranganKerja" }
+                    ],
+                    "bPaginate": false,
+                    "bLengthChange": false,
+                    "bFilter": false,
+                    "bInfo": false,
+                    "bAutoWidth": false,
+                    orderCellsTop: true,
+                    fixedHeader: true,
+
+            });
+
+            table2.on('order.dt search.dt', function () {
+                table2.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
+                    cell.innerHTML = i + 1;
+                });
+            }).draw();
+
+            $("#ddlCoCode").select2({
+                minimumResultsForSearch: -1,
+                ajax: {
+                    url: "/Reporting/GetAllCompanyCode",
+                    dataType: 'json',
+                    type: "GET",
+                    processResults: function (data) {
+                        console.log(data);
+                        return {
+                            results: $.map(data, function (item) {
+                                return {
+                                    text: item.name,
+                                    id: item.id
+                                }
+
+                            })
+                        };
+
+                    }
+                }
+            });
+
+            $('#ddlCoCode').on('select2:select', function (e) {
+                var data = e.params.data;
+                if (data.selected) {
+                    var id = data.id;
+                    $("#ddlCoCode").val(id);
+                    table.ajax.url("/Reporting/GetReportForLampiran6?coCode=" + id + "").load();
+                    table2.ajax.url("/Reporting/GetReportForLampiran6?coCode=" + id + "").load();
+                }
+            });
+        });
+
+
+    </script>
+}

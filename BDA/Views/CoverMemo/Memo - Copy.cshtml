@@ -1,0 +1,254 @@
+﻿@model BDA.ViewModel.MemoViewModel
+@{
+    Layout = null;
+    int no = 1;
+    decimal total = 0;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Covering Memo</title>
+    <style type="text/css">
+        .BDList th, .BDList tr, .BDList td {
+            border: 1px solid black;
+            height: 6px;
+        }
+
+        #footer {
+            position: absolute;
+            left: 0px;
+            bottom: 0px;
+            height: 30px;
+            width: 100%;
+            background: #999;
+        }
+
+        thead {
+            display: table-header-group
+        }
+
+        tfoot {
+            display: table-row-group
+        }
+
+        tr {
+            page-break-inside: avoid
+        }
+
+        #currency:first-letter {
+            text-transform: capitalize;
+        }
+    </style>
+</head>
+<body style="font-family:Arial; font-size:11pt">
+
+    <div class="content" style='page-break-after: auto;'>
+        <p><br /></p>
+        <p><br /></p>
+        <p><br /></p>
+        <p style="float:left">Rujukan Kami: TNB/KEW (UP) B 14/8/Deraf</p>
+        <p style="float:right">@Model.MemoDate.ToUpper()</p>
+        <p><br /></p>
+        <p>
+            <br />
+            @Html.Raw(Model.RequestorAddress)
+            @*<br />Senior Engineer,
+            <br />Project Implementation (KLG/PKLG-11kV/LV/SL)
+            <br />(Selangor/Putrajaya Cyberjaya Zone)
+            <br />Asset Development Unit
+            <br />Bahagian Pembahagian, TNB*@
+        </p>
+        <p>
+
+        <p style="color:#33493f;">
+            <b> (U.P: @Model.UP)</b>
+        </p>
+
+        <p style="color:#33493f;text-align:center">
+
+            <b>
+                PENYERAHAN DERAF BANK
+            </b>
+        </p>
+        <hr />
+        <p style="text-align:justify; width:98%">
+            @if (Model.ApplicationType == BDA.Data.BDType.WangCagaran.ToString())
+            {
+                @Html.Raw(Model.Line1)
+            }
+            else
+            {
+                @Html.Raw(Model.Line1)
+            }
+            @*Surat-surat dari <i>Unit Project Implementation (KLG/PKLG-11kV/LV/SL), Asset Development</i> yang bertarikh 23 Februari 2019 adalah dirujuk.*@
+        </p>
+        @if (Model.ApplicationType == BDA.Data.BDType.WangCagaran.ToString())
+        {
+            <p style="text-align:justify; width:98%">
+                2.   @Html.Raw(Model.Line2)
+                @*2.  Bersama-sama ini disertakan tujuh (7) keping deraf bank yang berjumlah RM 1,181,732.50 seperti berikut:*@
+            </p>
+
+        }
+        else
+        {
+            <p style="text-align:justify; width:98%">
+                2.   @Html.Raw(Model.Line2)
+                @*2.  Bersama-sama ini disertakan tujuh (7) keping deraf bank yang berjumlah RM 1,181,732.50 seperti berikut:*@
+            </p>
+        }
+
+
+        @if (Model.Penerimas.Count() <= 5)
+        {
+            <table   class="BDList" width="100%" cellpadding="7" cellspacing="0">
+                <thead style="font-weight:bold" border="1">
+                    <tr>
+                        <th style="text-align:center">Bil</th>
+                        <th width="50%" style="text-align:center">Nama Penerima</th>
+                        <th width="15%" style="text-align:center">Tarikh Deraf Bank</th>
+                        <th width="15%" style="text-align:center">No. Deraf Bank</th>
+                        <th width="15%" style="text-align:center">Jumlah (RM)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var bd in Model.Penerimas)
+                    {
+                        <tr>
+                            <td>@no.</td>
+                            @*<td>@bd.NamaPenerima<br /><span style="font-size:small">(No. Projek : @bd.ProjectNo)</span></td>*@
+                            <td>@bd.NamaPenerima<br /><span style="font-size:small">(No. Rujukan: @bd.ApplicationRefNo)</span></td> @*added by Hanif 15102020*@
+                            <td style="text-align:center">@Convert.ToDateTime(bd.BankDraftDate).ToString("dd.MM.yyyy")</td>
+                            <td style="text-align:center">@bd.BankDraftNo</td>
+                            <td style="text-align:right">@Convert.ToDecimal(bd.Jumlah).ToString("#,##0.00")</td>
+                        </tr>
+                        total = total + bd.Jumlah ?? 0;
+                        no++;
+                    }
+                    <tr>
+                        <td style="text-align:right" colspan="4"><b>Jumlah Besar</b></td>
+                        <td style="text-align:right"><b>@Convert.ToDecimal(total).ToString("#,##0.00")</b></td>
+                    </tr>
+                </tbody>
+            </table>
+        }
+
+
+        @if (Model.ApplicationType == BDA.Data.BDType.WangCagaran.ToString())
+        {
+            <p style="text-align:justify; width:98%">
+                3.    @Html.Raw(Model.Line3)
+                @*3.   Untuk makluman, TNB telah membayar wang cagaran kepada <b>PENGARAH JKR NEGERI MELAKA</b> sebanyak <b>RM 6,212,983.40</b>
+                dan <b>YANG DIPERTUA MAJLIS PERBANDARAN ALOR GAJAH</b> sebanyak <b>RM 88,390.00</b> setakat bulan <b>FEBRUARI 2019</b>.*@
+            </p>
+            <p style="text-align:justify; width:98%">
+                4.    @Html.Raw(Model.Line4)
+                @*4.   PIhak tuan dikehendaki untuk memastikan cagaran di atas <b>di TUNTUT</b> semula oleh <b>PEMULA</b> dengan kadar segara dari <b>PENGARAH JKR NEGERI MELAKA</b>
+                dan <b>YANG DIPERTUA MAJLIS PERBANDARAN ALOR GAJAH</b>  setelah kerja-kerja diselesaikan kerana Deraf Bank merupakan aliran tunai yang dikeluarkan oleh TNB.*@
+            </p>
+            <p style="text-align:justify; width:98%">
+                5.    @Html.Raw(Model.Line5)
+                @*5.   Selain dari itu, pihak tuan juga bertanggung jawab memastikan <b>PEMULA</b> membuat pembayaran deraf bank tersebut kepada <b>PENGARAH JKR NEGERI MELAKA</b>
+                dan <b>YANG DIPERTUA MAJLIS PERBANDARAN ALOR GAJAH</b>, serta mendapatkan resit asal pembayaran untuk disimpan bagi tujuan tuntutan setelah kerja selesai.*@
+            </p>
+            <p style="text-align:justify; width:98%">
+                6.    @Html.Raw(Model.LineETC)
+                @*6.  Oleh itu, pihak tuan adalah disaran merekodkan pemberian deraf bank dan merekodkan tarikh deraf bank dikembalikan kepada TNB.
+                Pemantauan berkala perlu dilakukan dan senarai status cagaran yang masih belum dituntut perlu dimajukan kepada pemula untuk memmastikan
+                tuntutan cagaran dilakukan dengan kadar segera.*@
+            </p>
+            @*<p>
+                7.  Tindakan perlu diambil ke atas pemula yang gagal menuntut cagaran di atas setelah kerja-kerja selesai tanpa sebarang justifikasi.
+                Kerjasama dan tindaka pihak tuan amatlah dihargai.
+            </p>*@
+
+        }
+        else
+        {
+            <p>
+                3. Sila tuan akui penerimaannya untuk rekod jabatan kami.
+            </p>
+
+        }
+
+        <p>
+            Sekian, terima kasih.
+        </p>
+        <p>
+            <center>
+                <b>
+                    <i>
+                        @*"BETTER. BRIGHTER."
+                        <br />"TNB MENGAMALKAN DASAR TIADA HADIAH"*@
+                        "BETTER WORLD. BRIGHTER LIVES."
+                    </i>
+                </b>
+            </center>
+        </p>
+        <p>
+            @*Yang benar,*@
+        </p>
+        <p>
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            @Html.Raw(Model.ApproverAddress)
+        </p>
+        @if (Model.ApplicationType == BDA.Data.BDType.WangCagaran.ToString())
+        {
+            <p>
+                <table width="100%">
+                    <tr>
+                        <td width="8%" style="vertical-align:top">Sk.</td>
+                        <td>@Html.Raw(Model.Signiture)</td>
+                    </tr>
+                </table>
+            </p>
+        }
+    </div>
+    @if (Model.Penerimas.Count() > 5)
+    {
+    <div class="content" style='page-break-before: always;'>
+        <u><span style="font-size:small">Lampiran 1</span></u><br/><br/>
+        <table  class="BDList" width="100%" cellpadding="7" cellspacing="0">
+            <thead style="display: table-header-group">
+                <tr>
+                    <th style="text-align:center">Bil</th>
+                    <th width="50%" style="text-align:center">Nama Penerima</th>
+                    <th width="15%" style="text-align:center">Tarikh Deraf Bank</th>
+                    <th width="15%" style="text-align:center">No. Deraf Bank</th>
+                    <th width="15%" style="text-align:center">Jumlah (RM)</th>
+                </tr>
+            </thead>
+            <tbody style="display: table-row-group">
+                @foreach (var bd in Model.Penerimas)
+                {
+                    <tr>
+                        <td style="text-align:center">@no</td>
+                        <td>@bd.NamaPenerima
+                            <br />
+                             <span style="font-size:small">(No. Projek : @bd.ProjectNo)</span>
+                            <br />
+                             <span style="font-size:small">(U/P : @Model.UP)</span>
+                        </td>
+                        <td style="text-align:center">@Convert.ToDateTime(bd.BankDraftDate).ToString("dd.MM.yyyy")</td>
+                        <td style="text-align:center">@bd.BankDraftNo</td>
+                        <td style="text-align:center">@Convert.ToDecimal(bd.Jumlah).ToString("#,##0.00")</td>
+                    </tr>
+                    total = total + bd.Jumlah ?? 0;
+                    no++;
+                }
+                <tr>
+                    <td style="text-align:right;font-weight:bold" colspan="4">Jumlah</td>
+                    <td style="text-align:center;font-weight:bold">@Convert.ToDecimal(total).ToString("#,##0.00")</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    }
+    </body>
+</html>

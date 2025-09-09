@@ -1,0 +1,185 @@
+﻿
+@{
+    ViewData["Title"] = "New Instruction Letter";
+    //Layout = "~/Views/Shared/_FormLayout.cshtml";
+}
+
+<div class="content-inner">
+    <div class="container-fluid">
+        <!-- Begin Page Header-->
+        <div class="row">
+            <div class="page-header">
+                <div class="d-flex align-items-center">
+                    <h2 class="page-header-title">Bulk Processing</h2>
+                    <div>
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="db-default.html"><i class="ti ti-home"></i></a></li>
+                            <li class="breadcrumb-item"><a href="#">Bulk Processing</a></li>
+                            <li class="breadcrumb-item active">Update Bank Draft</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Page Header -->
+        <!-- Begin Row -->
+        <div class="row flex-row">
+            <div class="col-xl-12">
+                <!-- Form -->
+                <div class="widget has-shadow">
+                    <div class="widget-header bordered no-actions d-flex align-items-center">
+                        <h4>Update Bank Draft</h4>
+                    </div>
+                    <div class="widget-body">
+                        <div class="row flex-row justify-content-center">
+                            <div class="col-xl-12">
+                                <div class="form-group row mb-3">
+                                    <div class="col-sm-12 mb-3">
+                                        <table id="tblBulkBankDraft" class="display" cellspacing="0" width="100%">
+                                            <thead>
+                                                <tr>
+                                                    <th></th>
+                                                    <th>Wang Cagaran Reference No</th>
+                                                    <th>No Bank Draft</th>
+                                                    <th>Postage No</th>
+                                                    <th>Received By</th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Form -->
+            </div>
+        </div>
+        <!-- End Row -->
+    </div>
+    <!-- End Container -->
+    <!-- Begin Page Footer-->
+    <!-- End Page Footer -->
+    <a href="#" class="go-top"><i class="la la-arrow-up"></i></a>
+    <!-- Offcanvas Sidebar -->
+    @*@Html.Partial("_Log.cshtml")*@
+    <!-- End Offcanvas Sidebar -->
+</div>
+
+
+@section Scripts{
+
+    <script src="~/assets/vendors/js/datatables/datatables.min.js"></script>
+    <script src="~/assets/vendors/js/datatables/dataTables.buttons.min.js"></script>
+    <script src="~/assets/vendors/js/datatables/buttons.flash.js"></script>
+    <script src="~/assets/vendors/js/datatables/buttons.print.min.js"></script>
+    <script src="~/assets/vendors/js/datatables/dataTables.select.min.js"></script>
+
+    <script src="~/assets/vendors/js/datatables.editor/editor.bootstrap.js"></script>
+    <script src="~/assets/vendors/js/datatables.editor/dataTables.editor.js"></script>
+    <script>
+        $(function () {
+
+        });
+
+        $('#btnSubmit').on('click', function (e) {
+            $("#tab1").hide();
+            $("#pnlSuccess").show();
+        });
+        $('#btnEdit').on('click', function (e) {
+            $("#tab1").show();
+            $("#pnlSuccess").hide();
+        });
+
+        var editor; // use a global for the submit and return data rendering in the examples
+
+        $(document).ready(function () {
+
+            editor = new $.fn.dataTable.Editor({
+                table: "#tblBulkBankDraft",
+                fields: []
+            });
+
+
+            editor.add({
+                type: "select",
+                label: "Reference No:",
+                name: "WCRefNo",
+                options: [
+                    { name: "TNB/WC/102938931", id: "TNB/WC/102938931" },
+                    { name: "TNB/WC/123097373", id: "TNB/WC/123097373" },
+                    { name: "TNB/WC/123334335", id: "TNB/WC/123334335" },
+                    { name: "TNB/WC/123646561", id: "TNB/WC/123646561" }
+                ],
+                optionsPair: {
+                    label: 'name',
+                    value: 'id'
+                }
+            });
+            editor.add({
+                label: "Bank Draft No:",
+                name: "NoBD"
+            });
+            editor.add({
+                label: "PostageNo:",
+                name: "PostageNo"
+            });
+            editor.add({
+                label: "Received By:",
+                name: "ReceivedBy"
+            });
+
+            // Activate an inline edit on click of a table cell
+            $('#tblBulkBankDraft').on('click', 'tbody td', function (e) {
+                editor.inline(this);
+            });
+
+            $('#tblBulkBankDraft').DataTable({
+                dom: "Bfrtip",
+                "data": [
+                    {
+                        "DT_RowId": "row_1",
+                        "WCRefNo": "TNB/WC/102938931",
+                        "NoBD": "169200823",
+                        "PostageNo": "MY-91283883-E",
+                        "ReceivedBy": "100892933"
+                    },
+                    {
+                        "DT_RowId": "row_2",
+                        "WCRefNo": "TNB/WC/123097373",
+                        "NoBD": "169123332",
+                        "PostageNo": "MY-91288223-E",
+                        "ReceivedBy": ""
+                    }
+                ],
+                order: [[1, 'asc']],
+                columns: [
+                    {
+                        data: null,
+                        defaultContent: '',
+                        className: 'select-checkbox',
+                        orderable: false
+                    },
+                    { data: "WCRefNo" },
+                    { data: "NoBD" },
+                    { data: "PostageNo" },
+                    { data: "ReceivedBy" }
+                ],
+                "bPaginate": false,
+                "bLengthChange": false,
+                "bFilter": false,
+                "bInfo": false,
+                "bAutoWidth": false,
+                select: {
+                    style: 'os',
+                    selector: 'td:first-child'
+                },
+                buttons: [
+                    //{ extend: "create", editor: editor },
+                    { extend: "edit", editor: editor }//,
+                    //{ extend: "remove", editor: editor }
+                ]
+            });
+        });
+    </script>
+}

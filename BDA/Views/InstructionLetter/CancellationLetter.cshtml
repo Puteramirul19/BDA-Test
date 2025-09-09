@@ -1,0 +1,438 @@
+﻿@model BDA.ViewModel.InstructionLetterViewModel
+@{
+    Layout = null;
+    int numFirst = 1;
+    int numSecond = 1;
+    decimal totalFirst = 0;
+    decimal totalSecond = 0;
+    decimal totalSecondFinal = 0;
+    int count = 0;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Instruction Letter</title>
+    <style type="text/css">
+        .BDList th, .BDList tr, .BDList td {
+            border: 1px solid black;
+            height: 6px;
+        }
+
+        #footer {
+            position: absolute;
+            left: 0px;
+            bottom: 0px;
+            height: 30px;
+            width: 100%;
+            background: #999;
+        }
+
+        thead {
+            display: table-header-group
+        }
+
+        tfoot {
+            display: table-row-group
+        }
+
+        tr {
+            page-break-inside: avoid
+        }
+
+        #currency:first-letter {
+            text-transform: capitalize;
+        }
+        pre {
+            font-family: Arial;
+            font-size: 11pt;
+        }
+    </style>
+</head>
+<body style="font-family:Arial; font-size:11pt;letter-spacing: 1px;">
+
+    <div class="content" style='page-break-after: auto;'>
+        <p><br /></p>
+        <p><br /></p>
+        <p><br /></p>
+        @*<p style="float:left">Rujukan Kami: TNB/KEW (UP) B 14/8/Deraf</p>
+        <p style="float:right">@Convert.ToDateTime(Model.LetterDate).ToString("dd MMMM yyyy")</p>TNB/KEW (UP) B 14/8/Deraf*@
+        <p style=" white-space: nowrap;">
+            <span style="float:left">Rujukan Kami: @Model.RujukanNo</span>
+            <span style="float:right;">@Convert.ToDateTime(Model.LetterDate).ToString("dd MMMM yyyy")</span>
+        </p>
+        <p><br /></p>
+        <p>
+            <br />@Model.AddressLine1,
+            <br />@Model.AddressLine2,
+            <br />@Model.AddressLine3,
+            <br />@Model.State
+        </p>
+        <p>
+            <b>
+                <u>
+                    U/Perhatian : @Model.BankPIC
+                </u>
+            </b>
+        </p>
+        <p>
+            Tuan/Puan,
+        </p>
+        <p>
+            <b>
+                <u>
+                    PEMBATALAN DERAF BANK PADA @Model.ValueDate (@Model.ValueDateDay)
+                </u>
+            </b>
+        </p>
+        <p>
+            Perkara di atas dirujuk.
+        </p>
+        <p>
+            Sila ambil tindakan untuk membatal dan menghentikan pembayaran deraf bank yang disertakan bersama ini. Butir- butir deraf bank adalah seperti berikut:
+        </p>
+        @if (Model.Penerimas.Count() <= 6)
+        {
+            <table style="font-weight:bold; border:0px; width:100%;" cellpadding="7px">
+                <thead>
+                    <tr>
+                        <th width="5%">&nbsp;</th>
+                        <th><u>Nama Penerima</u></th>
+                        <th width="15%" style="text-align:center"><u>Tempat</u></th>
+                        <th width="15%" style="text-align:center"><u>No. Deraf</u></th>
+                        <th width="20%" style="text-align:center"><u>Jumlah</u></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var wc in Model.Penerimas)
+                    {
+                        <tr>
+                            <td>@numFirst</td>
+                            <td>@wc.NamaPenerima</td>
+                            <td style="text-align:center">@wc.Tempat</td>
+                            <td style="text-align:center">@wc.BankDraftNo</td>
+                            <td style="text-align:right"> RM @Convert.ToDecimal(wc.Jumlah).ToString("#,##0.00")</td>
+                        </tr>
+                        totalFirst = totalFirst + wc.Jumlah ?? 0;
+                        numFirst++;
+                    }
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td style="text-align:center">JUMLAH</td>
+                        <td style="text-align:right; border: 1px solid black;border-right:0px;border-left:0px;">RM @Convert.ToDecimal(totalFirst).ToString("#,##0.00")</td>
+                    </tr>
+                </tbody>
+            </table>
+        }
+
+        @if (Model.Penerimas.Count() > 6)
+        {
+            <table style="font-weight:bold; border:0px; width:100%;" cellpadding="7px">
+                <thead>
+                    <tr>
+                        <th width="5%">&nbsp;</th>
+                        <th><u>Nama Penerima</u></th>
+                        <th width="20%" style="text-align:center"><u></u></th>
+                        <th width="20%" style="text-align:center"><u>Jumlah</u></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var wc in Model.Penerimas)
+                    {
+                        totalSecond = totalSecond + wc.Jumlah ?? 0;
+                    }
+                    <tr>
+                        <td></td>
+                        <td><b>SEPERTI DI LAMPIRAN A</b></td>
+                        <td style="text-align:center"></td>
+                        <td style="text-align:right">RM @Convert.ToDecimal(totalSecond).ToString("#,##0.00")</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td style="text-align:center">Jumlah</td>
+                        <td style="text-align:right; border: 1px solid black;border-right:0px;border-left:0px;">RM @Convert.ToDecimal(totalSecond).ToString("#,##0.00")</td>
+                    </tr>
+                </tbody>
+            </table>
+        }
+        <p>
+
+        </p>
+        <p>
+            Sila kreditkan jumlah deraf bank tersebut ke akaun TNB seperti berikut :-
+            @*<ul>
+            <li>
+                <b>@Model.BankAccount</b> bagi jumlah diatas
+            </li>
+            <li>
+                <b>@Model.ChargedBankAccount</b> untuk caj bank.
+            </li>
+        </ul>*@
+            <table>
+                <thead>
+                    <tr>
+                        <td style="width:100px"></td>
+                        <td></td>
+                        <td style="width:900px"></td>
+                    </tr>
+                </thead>
+                <tr>
+                    <td><b>No Akaun</b></td>
+                    <td><b> : </b></td>
+                    <td><b>@Model.BankAccount</b> bagi jumlah di atas</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td><b>@Model.ChargedBankAccount</b> untuk caj bank</td>
+                </tr>
+                <tr>
+                    <td><b>Bank Ref</b></td>
+                    <td><b> : </b></td>
+                    @*<td><b><pre>@Model.Remarks</pre> </b></td>*@
+                </tr>
+            </table>
+            <b><pre>@Model.Remarks</pre> </b>
+
+        </p>
+        <p>
+            <b>
+                @*Ref: @Model.Remarks.ToUpper()*@
+            </b>
+        </p>
+        <p>
+            Sekian, terima kasih.
+        </p>
+        <p>
+            <center>
+                <b>
+                    <i>
+                        "BETTER. BRIGHTER."
+                        @*<br />"TNB MENGAMALKAN DASAR TIADA HADIAH"*@
+                    </i>
+                </b>
+            </center>
+        </p>
+        <br />
+        <br />
+        <p>
+            Yang benar,
+        </p>
+        <p>
+            <br />
+            <br />
+            <br />
+            <table style="border:0px; width:100%">
+                <tr>
+                    <td style="border-top:1px solid" width="25%">Penandatangan Yang Diberikuasa</td>
+                    <td width="25%"></td>
+                    @*<td width="25%"></td>*@
+                    <td style="border-top:1px solid" width="25%">Penandatangan Yang Diberikuasa</td>
+                </tr>
+            </table>
+        </p>
+        <div style="float:right">
+            <span style="border:1px solid rgba(0,0,0,0.5); padding:5px">
+                FSTL-750-03-QR02
+            </span>
+        </div>
+    </div>
+    @if (Model.Penerimas.Count() > 6 && Model.Penerimas.Count() < 26)
+    {
+        <div class="content" style='page-break-before: always;'>
+            <div style="text-align:center">
+                <u><span style="font-size:large;font-weight:bold">LAMPIRAN A - PEMBATALAN DERAF BANK</span></u><br />
+                <u><span style="font-size:large;font-weight:bold"> @Model.ValueDate (@Model.ValueDateDay)</u>
+            </div>
+            @*<table style="border:2px; width:100%;" cellpadding="7px" border="1">*@
+            <table class="BDList" width="100%" cellpadding="7" cellspacing="0">
+                @*<thead style="display: table-row-group;">*@
+                <thead style="display: table-header-group">
+                    <tr>
+                        <th width="5%">&nbsp;</th>
+                        <th>NAMA PENERIMA</th>
+                        <th width="20%" style="text-align:center">TEMPAT</th>
+                        <th width="15%" style="text-align:center">NO. DERAF</th>
+                        <th width="15%" style="text-align:center">JUMLAH (RM)</th>
+                    </tr>
+                </thead>
+                <tbody style="display: table-row-group">
+                    @foreach (var wc in Model.Penerimas)
+                    {
+                        <tr>
+                            <td>@numSecond</td>
+                            <td>@wc.NamaPenerima</td>
+                            <td style="text-align:center">@wc.Tempat</td>
+                            <td style="text-align:center">@wc.BankDraftNo</td>
+                            <td style="text-align:right">@Convert.ToDecimal(wc.Jumlah).ToString("#,##0.00")</td>
+                        </tr>
+                        totalSecondFinal = totalSecondFinal + wc.Jumlah ?? 0;
+                        numSecond++;
+                    }
+
+                    <tr>
+                        <td style="font-weight:bold;text-align:right;" colspan="4">Jumlah</td>
+                        <td style="font-weight:bold;text-align:right">@Convert.ToDecimal(totalSecondFinal).ToString("#,##0.00")</td>
+                    </tr>
+
+                </tbody>
+            </table>
+            <br />
+            <div style="text-align:center">
+                <b>TENAGA NASIONAL BERHAD</b>
+            </div>
+            <p>
+                <br />
+                <br />
+                <br />
+                <table style="border:0px; width:100%">
+                    <tr>
+                        <td style="border-top:1px solid" width="25%">Penandatangan Yang Diberikuasa</td>
+                        <td width="25%"></td>
+                        <td style="border-top:1px solid" width="25%">Penandatangan Yang Diberikuasa</td>
+                    </tr>
+                </table>
+                <br />
+                <div style="float:right">
+                    <span style="border:1px solid rgba(0,0,0,0.5); padding:5px">
+                        FSTL-750-03-QR02
+                    </span>
+                </div>
+            </p>
+        </div>
+    }
+    @if (Model.Penerimas.Count() >= 26)
+    {
+        <div class="content" style='page-break-before: always;'>
+            <div style="text-align:center">
+                <u><span style="font-size:large;font-weight:bold">LAMPIRAN A - PEMBATALAN DERAF BANK</span></u><br />
+                <u><span style="font-size:large;font-weight:bold"> @Model.ValueDate (@Model.ValueDateDay)</u>
+            </div>
+            <table class="BDList" width="100%" cellpadding="7" cellspacing="0">
+                <thead style="display: table-header-group">
+                    <tr>
+                        <th width="5%">&nbsp;</th>
+                        <th>NAMA PENERIMA</th>
+                        <th width="20%" style="text-align:center">TEMPAT</th>
+                        <th width="15%" style="text-align:center">NO. DERAF</th>
+                        <th width="15%" style="text-align:center">JUMLAH (RM)</th>
+                    </tr>
+                </thead>
+                <tbody style="display: table-row-group">
+                    @foreach (var wc in Model.Penerimas)
+                    {
+
+                        <tr>
+                            <td>@numSecond</td>
+                            <td>@wc.NamaPenerima</td>
+                            <td style="text-align:center;">@wc.Tempat</td>
+                            <td style="text-align:center">@wc.BankDraftNo</td>
+                            <td style="text-align:right">@Convert.ToDecimal(wc.Jumlah).ToString("#,##0.00")</td>
+                        </tr>
+                        totalSecondFinal = totalSecondFinal + wc.Jumlah ?? 0;
+                        numSecond++;
+                        if (numSecond == 26)
+                        {
+                            break;
+                        }
+                    }
+
+                </tbody>
+            </table>
+            <br />
+            <div style="text-align:center">
+                <b>TENAGA NASIONAL BERHAD</b>
+            </div>
+            <p>
+                <br />
+                <br />
+                <br />
+                <table style="border:0px; width:100%">
+                    <tr>
+                        <td style="border-top:1px solid" width="25%">Penandatangan Yang Diberikuasa</td>
+                        <td width="25%"></td>
+                        <td style="border-top:1px solid" width="25%">Penandatangan Yang Diberikuasa</td>
+                    </tr>
+                </table>
+                <br />
+                <div style="float:right">
+                    <span style="border:1px solid rgba(0,0,0,0.5); padding:5px">
+                        FSTL-750-03-QR02
+                    </span>
+                </div>
+            </p>
+        </div>
+        <div class="content" style='page-break-before:always;'>
+            <div style="text-align:center">
+                <u><span style="font-size:large;font-weight:bold">LAMPIRAN A - PEMBATALAN DERAF BANK</span></u><br />
+                <u><span style="font-size:large;font-weight:bold"> @Model.ValueDate (@Model.ValueDateDay)</u>
+            </div>
+            <table class="BDList" width="100%" cellpadding="7" cellspacing="0">
+                <thead style="display: table-header-group">
+                    <tr>
+                        <th width="5%">&nbsp;</th>
+                        <th>NAMA PENERIMA</th>
+                        <th width="20%" style="text-align:center">TEMPAT</th>
+                        <th width="15%" style="text-align:center">NO. DERAF</th>
+                        <th width="20%" style="text-align:center">JUMLAH (RM)</th>
+                    </tr>
+                </thead>
+
+                <tbody style="display: table-row-group">
+
+
+                    @foreach (var wc in Model.Penerimas)
+                    {
+                        if (count < 26)
+                        { }
+                        else
+                        {
+                            <tr>
+                                <td>@numSecond</td>
+                                <td>@wc.NamaPenerima</td>
+                                <td style="text-align:center">@wc.Tempat</td>
+                            <td style="text-align:center">@wc.BankDraftNo</td>
+                                <td style="text-align:right">@Convert.ToDecimal(wc.Jumlah).ToString("#,##0.00")</td>
+                            </tr>
+                            totalSecondFinal = totalSecondFinal + wc.Jumlah ?? 0;
+                            numSecond++;
+                        }
+
+                        count++;
+                    }
+                    <tr>
+                        <td style="font-weight:bold;text-align:right;" colspan="4">Jumlah</td>
+                        <td style="font-weight:bold;text-align:right">@Convert.ToDecimal(totalSecondFinal).ToString("#,##0.00")</td>
+                    </tr>
+
+                </tbody>
+            </table>
+            <br />
+            <div style="text-align:center">
+                <b>TENAGA NASIONAL BERHAD</b>
+            </div>
+            <p>
+                <br />
+                <br />
+                <br />
+                <table style="border:0px; width:100%">
+                    <tr>
+                        <td style="border-top:1px solid" width="25%">Penandatangan Yang Diberikuasa</td>
+                        <td width="25%"></td>
+                        <td style="border-top:1px solid" width="25%">Penandatangan Yang Diberikuasa</td>
+                    </tr>
+                </table>
+                <br />
+                <div style="float:right">
+                    <span style="border:1px solid rgba(0,0,0,0.5); padding:5px">
+                        FSTL-750-03-QR02
+                    </span>
+                </div>
+            </p>
+        </div>
+    }
+</body>
+</html>

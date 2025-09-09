@@ -1,0 +1,837 @@
+﻿@model BDA.ViewModel.BankDraftViewModel
+
+@{
+    ViewData["Title"] = "Wang Cagaran";
+
+}
+
+
+@section Styles  {
+
+    <!-- Tweaks for older IEs-->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
+
+    <link rel="stylesheet" href="~/assets/css/bootstrap-select/bootstrap-select.min.css">
+    <style>
+    </style>
+}
+
+<div class="content-inner active">
+    <div class="container-fluid">
+        <!-- Begin Page Header-->
+        <div class="row">
+            <div class="page-header">
+                <div class="d-flex align-items-center">
+                    <h2 class="page-header-title">Permohonan Deraf Bank <span> - Wang Cagaran</span></h2>
+                    <div>
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="db-default.html"><i class="ti ti-home"></i></a></li>
+                            <li class="breadcrumb-item"><a href="#">New Application</a></li>
+                            <li class="breadcrumb-item active">Wang Cagaran</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Page Header -->
+        <div class="row flex-row">
+            <div class="col-xl-12">
+                <!-- Form -->
+                <div class="widget has-shadow">
+                    @*<div class="widget-header bordered no-actions d-flex align-items-center">
+                            <h4>Permohonan Deraf Bank</h4>
+                        </div>*@
+                    <div class="widget-body">
+                        <div class="row flex-row justify-content-center">
+                            <div class="col-xl-12">
+                                <div id="rootwizard">
+                                    @Html.Partial("_StatusPendingAction.cshtml")
+                                    @Html.Partial("_StatusBar.cshtml")
+                                    <div class="tab-content" style="font-family: Arial">
+
+                                        <div class="body-content">
+                                            <input type="hidden" id="hdnId" value="" class="form-control">
+                                            <div>
+                                                @*<h4>Submitted by: En. Requestor</h4>*@
+                                                <br>
+                                            </div>
+                                            <div class="widget has-shadow">
+                                                <div class="widget-body sliding-tabs">
+                                                    <ul class="nav nav-tabs form-tab" id="ul-form-tab" role="tablist">
+                                                        <li class="nav-item">
+                                                            <a class="nav-link active" id="base-tab-1" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="true">Main Application</a>
+                                                        </li>
+                                                        <li class="nav-item">
+                                                            <a class="nav-link disabled" id="base-tab-2" data-toggle="tab" href="#tab-2" role="tab" aria-controls="tab-2" aria-selected="false">Bank Details</a>
+                                                        </li>
+                                                        <li class="nav-item">
+                                                            <a class="nav-link disabled" id="base-tab-3" data-toggle="tab" href="#tab-3" role="tab" aria-controls="tab-3" aria-selected="false">Bank Draft Issued</a>
+                                                        </li>
+                                                        <li class="nav-item">
+                                                            <a class="nav-link disabled" id="base-tab-4" data-toggle="tab" href="#tab-4" role="tab" aria-controls="tab-4" aria-selected="false">Bank Draft Acceptance</a>
+                                                        </li>
+                                                    </ul>
+                                                    <div class="tab-content pt-3">
+                                                        <div class="tab-pane fade active show" id="tab-1" role="tabpanel" aria-labelledby="base-tab-1">
+                                                            @using (Html.BeginForm("Create", "BankDraft", Model, FormMethod.Post, false, new { @id = "formCreateApplication", @class = "form-horizontal needs-validation", @novalidate = "novalidate", enctype = "multipart/form-data" }))
+                                                            {
+                                                                @Html.AntiForgeryToken()
+                                                                @Html.HiddenFor(x => x.Status)
+                                                                @Html.Partial("_MainForm.cshtml")
+                                                                @Html.Partial("_Document.cshtml")
+                                                                @Html.Partial("_ApproverList.cshtml")
+                                                                @Html.Partial("_Comment2.cshtml")
+                                                                @Html.Partial("_Agreement.cshtml")
+                                                            }
+                                                        </div>
+                                                        <div class="tab-pane fade" id="tab-2" role="tabpanel" aria-labelledby="base-tab-2">
+                                                            @*@Html.Partial("_BankDetails.cshtml")*@
+                                                        </div>
+                                                        <div class="tab-pane fade" id="tab-3" role="tabpanel" aria-labelledby="base-tab-3">
+                                                            @*@Html.Partial("_BDIssued.cshtml")*@
+                                                        </div>
+                                                        <div class="tab-pane fade" id="tab-4" role="tabpanel" aria-labelledby="base-tab-4">
+                                                            @*@Html.Partial("_BDAcceptance.cshtml")*@
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            @Html.Partial("_ActionButton.cshtml")
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Form -->
+            </div>
+        </div>
+        <!-- End Row -->
+    </div>
+    <!-- End Container -->
+    <!-- Begin Page Footer-->
+    <!-- End Page Footer -->
+    <a href="#" class="go-top"><i class="la la-arrow-up"></i></a>
+    <!-- Offcanvas Sidebar -->
+    @*@Html.Partial("_Log.cshtml")*@
+    <!-- End Offcanvas Sidebar -->
+</div>
+
+<!-- Begin Modal -->
+
+
+
+@section Scripts{
+    <!--  validation script  -->
+    @*<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" type="text/javascript"></script>*@
+    <script src="~/assets/vendors/js/money/simple.money.format.js"></script>
+    @*added by Hanif 08112019*@
+    <script src="~/assets/js/components/wizard/form-wizard.min.js"></script>
+    @*<script src="~/assets/vendors/js/datatables/datatables.min.js"></script>*@
+    <script src="~/assets/vendors/js/tablefilter/jquery.tabledatafilter.min.js"></script>
+    <script src="~/js/jquery.validate.js"></script>
+    <script>
+
+        var state;
+        var jkrType;
+        var jkrInvolved = false;
+        var executive = '@User.IsInRole("Executive/Engineer")';
+        var manager = '@User.IsInRole("Manager/Senior Engineer")';
+        var amount = $('#jumlah').val();
+        var ba;
+        var coCode;
+        var counter2 = 0;
+        var coCodeId;
+        var coCodeCode;
+
+        function convert(currency) {
+
+            // Using replace() method
+            // to make currency string suitable
+            // for parseFloat() to convert
+            var temp = currency.replace(/[^0-9.-]+/g, "");
+
+            // Converting string to float
+            // or double and return
+            return parseFloat(temp);
+
+        }
+
+        $(function () {
+            $("nav").addClass("shrinked");
+            $("#submitGroupBtn").show();
+
+
+        });
+
+           function getVerifier() {
+
+              $.get("@Url.Action("GetAllVerifier", "BankDraft")", {
+                dataType: 'json'
+            })
+                .done(function (result) {
+                    if (result != null) {
+                        console.log(result[0].name);
+                        SetSelectedValue(result[0].name, "#ddlVerifier");
+                        $("#VerifierId").val(result[0].id);
+                    } else {
+
+                    }
+                })
+        }
+
+         function getVerifierSpecialCase() {
+
+              $.get("@Url.Action("GetAllVerifierForMore5M", "BankDraft")", {
+                dataType: 'json'
+            })
+                .done(function (result) {
+                    if (result != null) {
+                        console.log(result[0].name);
+                        SetSelectedValue(result[0].name, "#ddlVerifier");
+                        $("#VerifierId").val(result[0].id);
+                    } else {
+
+                    }
+                })
+        }
+
+        function getApprover() {
+
+              $.get("@Url.Action("GetAllWCApprover", "BankDraft")", {
+                dataType: 'json'
+            })
+                .done(function (result) {
+                    if (result != null) {
+                        console.log(result[0].name);
+                        SetSelectedValue(result[0].name, "#ddlApprover");
+                        $("#ApproverId").val(result[0].id);
+                    } else {
+
+                    }
+                })
+        }
+
+          function getApproverSpecialCase() {
+
+              $.get("@Url.Action("GetAllWCApproverForMore5M", "BankDraft")", {
+                dataType: 'json'
+            })
+                .done(function (result) {
+                    if (result != null) {
+                        console.log(result[0].name);
+                        SetSelectedValue(result[0].name, "#ddlApprover");
+                        $("#ApproverId").val(result[0].id);
+                    } else {
+
+                    }
+                })
+        }
+
+        $(document).ready(function () {
+            $("#ermsPostingDate").val("");
+            //$(".ddlBusinessArea").select2({
+            //    matcher: matchStart
+            //});
+            //// Initialize select2
+            ////$("#selUser").select2();
+
+            //// Read selected option
+            //$('#but_read').click(function () {
+            //    var username = $('#selUser option:selected').text();
+            //    var userid = $('#selUser').val();
+
+            //    $('#result').html("id : " + userid + ", name : " + username);
+
+            //});
+
+
+            var t = $('#suppDoc').DataTable({ searching: false, paging: false, info: false });
+            //var t = $('#suppDoc').DataTable();
+            var count = 1;
+            $('#addRow').on('click', function () {
+                t.row.add([
+                    count,
+                    //'Attachment ' + count,
+                    '<td class="td-actions"><div class="before-submit"><input type="text" id="fname' + counter2 + 'Id" name="fname" class="form-control"></div></td>',
+                    '<td class="td-actions"><div class="file-upload before-submit"><input id="document' + counter2 + 'Id" name="doc" type="file"></div></td>',
+                    '<a id="dustbinId"><i class="la la-trash"></i></a>'
+                ]).draw(false);
+
+                count++;
+                counter2++;
+            });
+
+            $('#suppDoc tbody').on('click', '#dustbinId', function () {
+                t
+                    .row($(this).parents('tr'))
+                    .remove()
+                    .draw();
+                count--;
+                counter2--;
+            });
+
+            // Automatically add a first row of data
+            $('#addRow').click();
+            $('#dustbinId').click();
+
+            //console.log(divType);
+
+            var totalAmount = $('#jumlah').val();
+            totalAmount = convert(totalAmount);
+
+            if ($('#jumlah').val() == "") {
+                getVerifier();
+                getApprover();
+
+                $("#ddlVerifier").select2({
+                    minimumResultsForSearch: -1,
+                    ajax: {
+                        url: "/BankDraft/GetAllVerifier",
+                        dataType: 'json',
+                        type: "GET",
+                        processResults: function (data) {
+                            console.log(data);
+                            return {
+                                results: $.map(data, function (item) {
+                                    return {
+                                        text: item.name,
+                                        id: item.id
+                                    }
+
+                                })
+                            };
+
+                        }
+                    }
+                });
+
+                //SetSelectedValue("", "#ddlVerifier");
+
+                $('#ddlVerifier').on('select2:select', function (e) {
+                    var data = e.params.data;
+                    if (data.selected) {
+                        var id = data.id;
+                        $("#VerifierId").val(id);
+                    }
+                });
+
+                $("#ddlApprover").select2({
+                    minimumResultsForSearch: -1,
+                    ajax: {
+                        url: "/BankDraft/GetAllWCApprover",
+                        dataType: 'json',
+                        type: "GET",
+                        processResults: function (data) {
+                            return {
+                                results: $.map(data, function (item) {
+                                    return {
+                                        text: item.name,
+                                        id: item.id
+                                    }
+
+                                })
+                            };
+                        }
+                    }
+                });
+
+                $('#ddlApprover').on('select2:select', function (e) {
+                    var data = e.params.data;
+                    if (data.selected) {
+                        var id = data.id;
+                        $("#ApproverId").val(id);
+                    }
+                });
+            }
+
+            //SetSelectedValue("--- Sila Pilih ---", "#ddlState");
+            //SetSelectedValue("--- Sila Pilih ---", "#ddlApprover");
+
+            $("#ddlState").append("<option value=''>Please Select</option>");
+            $("#ddlJKRType").append("<option value=''>Please Select</option>");
+            $("#ddlBusinessArea").append("<option value=''>(Please select Company Code first)</option>");
+            $("#ddlCoCode").append("<option value=''>Please Select</option>");
+            //$("#ddlVerifier").append("<option value=''>Sila Pilih</option>");
+
+            $('#jumlah').on('keyup click change paste input', function (event) {
+                $(this).val(function (index, value) {
+                    if (value != "") {
+                        //return '$' + value.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                        var decimalCount;
+                        value.match(/\./g) === null ? decimalCount = 0 : decimalCount = value.match(/\./g);
+
+                        if (decimalCount.length > 1) {
+                            value = value.slice(0, -1);
+                        }
+
+                        var components = value.toString().split(".");
+                        if (components.length === 1)
+                            components[0] = value;
+                        components[0] = components[0].replace(/\D/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                        if (components.length === 2) {
+                            components[1] = components[1].replace(/\D/g, '').replace(/^\d{3}$/, '');
+                        }
+
+                        if (components.join('.') != '')
+                            return 'RM ' + components.join('.');
+                        else
+                            return '';
+                    }
+                });
+            });
+
+            $('#jumlah').on('change', function () {
+
+                var totalAmount = $('#jumlah').val();
+                totalAmount = convert(totalAmount);
+
+                $('#ddlVerifier').empty();
+                $('#ddlApprover').empty();
+
+                // if (executive == 'True' && totalAmount > 5000000)
+
+                if (totalAmount > 5000000) {
+                    getVerifierSpecialCase()
+                    getApproverSpecialCase();
+
+                    $("#ddlVerifier").select2({
+                        minimumResultsForSearch: -1,
+                        ajax: {
+                            url: "/BankDraft/GetAllVerifierForMore5M",
+                            dataType: 'json',
+                            type: "GET",
+                            processResults: function (data) {
+                                console.log(data);
+                                return {
+                                    results: $.map(data, function (item) {
+                                        return {
+                                            text: item.name,
+                                            id: item.id
+                                        }
+
+                                    })
+                                };
+
+                            }
+                        }
+                    });
+
+                    //SetSelectedValue("", "#ddlVerifier");
+
+                    $('#ddlVerifier').on('select2:select', function (e) {
+                        var data = e.params.data;
+                        if (data.selected) {
+                            var id = data.id;
+                            $("#VerifierId").val(id);
+                        }
+                    });
+
+
+                    $("#ddlApprover").select2({
+                        minimumResultsForSearch: -1,
+                        ajax: {
+                            url: "/BankDraft/GetAllWCApproverForMore5M",
+                            dataType: 'json',
+                            type: "GET",
+                            processResults: function (data) {
+                                return {
+                                    results: $.map(data, function (item) {
+                                        return {
+                                            text: item.name,
+                                            id: item.id
+                                        }
+
+                                    })
+                                };
+                            }
+                        }
+                    });
+
+                    $('#ddlApprover').on('select2:select', function (e) {
+                        var data = e.params.data;
+                        if (data.selected) {
+                            var id = data.id;
+                            $("#ApproverId").val(id);
+                        }
+                    });
+                }
+                else {
+                    getVerifier();
+                    getApprover();
+
+                    $("#ddlVerifier").select2({
+                        minimumResultsForSearch: -1,
+                        ajax: {
+                            url: "/BankDraft/GetAllVerifier",
+                            dataType: 'json',
+                            type: "GET",
+                            processResults: function (data) {
+                                console.log(data);
+                                return {
+                                    results: $.map(data, function (item) {
+                                        return {
+                                            text: item.name,
+                                            id: item.id
+                                        }
+
+                                    })
+                                };
+
+                            }
+                        }
+                    });
+
+                    //SetSelectedValue("", "#ddlVerifier");
+
+                    $('#ddlVerifier').on('select2:select', function (e) {
+                        var data = e.params.data;
+                        if (data.selected) {
+                            var id = data.id;
+                            $("#VerifierId").val(id);
+                        }
+                    });
+
+                    $("#ddlApprover").select2({
+                        minimumResultsForSearch: -1,
+                        ajax: {
+                            url: "/BankDraft/GetAllWCApprover",
+                            dataType: 'json',
+                            type: "GET",
+                            processResults: function (data) {
+                                return {
+                                    results: $.map(data, function (item) {
+                                        return {
+                                            text: item.name,
+                                            id: item.id
+                                        }
+
+                                    })
+                                };
+                            }
+                        }
+                    });
+
+                    $('#ddlApprover').on('select2:select', function (e) {
+                        var data = e.params.data;
+                        if (data.selected) {
+                            var id = data.id;
+                            $("#ApproverId").val(id);
+                        }
+                    });
+                }
+            });
+
+            $("#ddlJKRType").select2({
+                minimumResultsForSearch: -1,
+                ajax: {
+                    url: "/WangCagaran/GetJKRType",
+                    dataType: 'json',
+                    type: "GET",
+                    processResults: function (data) {
+                        console.log(data);
+                        return {
+                            results: $.map(data, function (item) {
+                                return {
+                                    text: item.name,
+                                    id: item.id
+                                }
+
+                            })
+                        };
+                    }
+                }
+            });
+
+            $('#ddlJKRType').on('select2:select', function (e) {
+                var data = e.params.data;
+                if (data.selected) {
+                    jkrType = data.text;
+                }
+            });
+
+            $("#ddlBusinessArea").select2({
+                //minimumResultsForSearch: 1,
+                //matcher: matchStart,
+               
+                ajax: {
+                    //url: "/BankDraft/GetAllBusinessAreaBasedOnCompanyCode?coCode=" + coCodeId,
+                    url: "/BankDraft/GetAllBusinessArea",
+                    dataType: 'json',
+                    data: function (params) {
+                        console.log(params);
+                        return {
+                            search: params.term,// search term
+                            coCode: coCodeId 
+                        };
+                    },
+                    type: "GET",
+                    processResults: function (data) {
+                      
+                        console.log(data);
+                        return {
+                            results: $.map(data, function (item) {
+                                return {
+                                    text: item.description,
+                                    id: item.name
+                                }
+
+                            })
+                        };
+                    }
+                }
+            });
+
+            $('#ddlBusinessArea').on('select2:select', function (e) {
+                var data = e.params.data;
+                if (data.selected) {
+                    ba = data.id;
+                    //$("#WangCagaranViewModel.Negeri").val(data.text);
+
+                }
+            });
+
+            $("#ddlState").select2({
+                minimumResultsForSearch: -1,
+                ajax: {
+                    url: "/BankDraft/GetAllState",
+                    dataType: 'json',
+                    type: "GET",
+                    processResults: function (data) {
+                        console.log(data);
+
+                        return {
+                            results: $.map(data, function (item) {
+                                return {
+                                    text: item.name,
+                                    id: item.id
+                                }
+
+                            })
+                        };
+                    }
+                }
+            });
+
+            $('#ddlState').on('select2:select', function (e) {
+                var data = e.params.data;
+                if (data.selected) {
+                    state = data.text;
+                    //$("#WangCagaranViewModel.Negeri").val(data.text);
+
+                }
+            });
+
+            $("#ddlCoCode").select2({
+                minimumResultsForSearch: -1,
+                ajax: {
+                    url: "/BankDraft/GetAllCompanyCode",
+                    dataType: 'json',
+                    type: "GET",
+                    processResults: function (data) {
+                        console.log(data);
+                        return {
+                            results: $.map(data, function (item) {
+                                return {
+                                    text: item.name,
+                                    id: item.id,
+                                    code: item.code
+                                }
+
+                            })
+                        };
+                    }
+                }
+            });
+
+            $('#ddlCoCode').on('select2:select', function (e) {
+                var data = e.params.data;
+                if (data.selected) {
+                    coCode = data.text;
+                    coCodeId = data.code;
+                    coCodeCode = data.code;
+                    //alert(coCode);
+                    //alert(data.id);
+                    //$("#WangCagaranViewModel.Negeri").val(data.text);
+
+                }
+            });
+
+            $('#ddlCoCode').on('change', function () {
+                $("#ddlBusinessArea").empty();
+                $("#ddlBusinessArea").append("<option value=''>Please Select</option>");
+            });
+
+        });
+
+        $("#cbxJKR").change(function () {
+            if (this.checked) {
+                $("#groupJKR").show();
+                jkrInvolved = true;
+            } else {
+                $("#groupJKR").hide();
+                jkrInvolved = false;
+            }
+        });
+
+        $("#btnDraft").on('click', function (e) {
+            $("#Status").val("Draft");
+            $("#formCreateApplication").submit();
+        });
+
+        $("#btnSubmitConfirm").on('click', function (e) {
+            var totalAmount = $('#jumlah').val();
+            totalAmount = convert(totalAmount);
+
+            //var valid2 = $("#formCreateApplication").valid();
+            //var valid1 = $("#Comment").valid();
+
+            //if (valid1) {
+            //    alert('valid');
+            //}
+
+            if (executive == 'True') {
+                //$("#formCreateApplication").valid()
+                if ($("#formCreateApplication").valid()) {
+                    $("#Status").val("Submit");
+
+                    if (!$('#cbxActive').get(0).checked) {
+                        ShowNoty("error","Please tick terms & agreement before submitting!");
+                    }
+                    else if (!$('#cbxActive2').get(0).checked) {
+                        ShowNoty("error", "Please tick terms & agreement before submitting!");
+                    }
+                    else {
+                        $("#formCreateApplication").submit();
+                    }
+                    }
+                    else {
+                            ShowNoty("error", "Please fill all required fields!");
+                    }
+
+            }
+            else if (manager == 'True'){
+
+                // if (totalAmount <= 5000000) {
+                //     ShowNoty("error", "Not authoritive to apply wang cagaran that have less amount than RM5,000,000..");
+                // }
+                // else if (totalAmount > 5000000){
+                    if ($("#formCreateApplication").valid()) {
+                        $("#Status").val("Submit");
+                        if (!$('#cbxActive').get(0).checked) {
+
+                            ShowNoty("error", "Please tick terms & agreement before submitting!");
+                        }
+                        else if (!$('#cbxActive2').get(0).checked) {
+                            ShowNoty("error", "Please tick terms & agreement before submitting!");
+                        }
+                        else {
+                            $("#formCreateApplication").submit();
+                        }
+
+                    }
+                    else {
+                        ShowNoty("error", "Please fill all required fields!");
+                    }
+                // }
+            }
+
+        });
+
+        var count = 0;
+
+        $("#formCreateApplication").submit(function (e) {
+
+                e.preventDefault(); // avoid to execute the actual submit of the form.
+                $("#btnSubmit").attr('data-target', ''); //prevent double click during submit
+                ShowNoty("warning", "Saving Bank Draft..");
+
+                var form = $(this);
+                var url = form.attr('action');
+
+                var fdata = new FormData();
+                var totalAmount = $('#jumlah').val();
+                fdata.append("WangCagaranViewModel.Jumlah", convert(totalAmount));
+
+                var fileInput = $('#WCSuratKelulusanVM_File')[0];
+                var file = fileInput.files[0];
+                fdata.append("WCSuratKelulusan", file);
+
+                var fileInput = $('#WCUMAPVM_File')[0];
+                var file = fileInput.files[0];
+                fdata.append("WCUMAP", file);
+
+                for (var i = 0; i < counter2; i++) {
+
+                    var fileInput = $('#document' + i + 'Id')[0];
+                    var file = fileInput.files[0];
+                    fdata.append("WCFile", file);
+
+                    var fileName = $('#fname' + i + 'Id').val();
+                    fdata.append("WCFileName", fileName);
+
+                    console.log("fileName:" + fileName);
+                }
+                $("input[type='text'], input[type='hidden']").each(function (x, y) {
+                    fdata.append($(y).attr("name"), $(y).val());
+                });
+
+                fdata.append("WangCagaranViewModel.JKRInvolved", jkrInvolved);
+
+                // You can update the jquery selector to use a css class if you want
+                $("input,textarea").each(function (x, y) {
+                    fdata.append($(y).attr("name"), $(y).val());
+                });
+
+                fdata.append("WangCagaranViewModel.BusinessArea", ba);
+                fdata.append("WangCagaranViewModel.Negeri", state);
+                fdata.append("WangCagaranViewModel.JKRType", jkrType);
+                fdata.append("WangCagaranViewModel.CoCode", coCodeCode);
+
+                for (var value of fdata.values()) {
+                    console.log(value);
+                }
+                for (var key of fdata.keys()) {
+                    console.log(key);
+                }
+
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    //cache: false,
+                    enctype: 'multipart/form-data',
+                    data: fdata, //form.serialize(),//fdata, // // serializes the form's elements.
+                    //data: fdata ? fdata : form.serialize(),
+                    //cache: false,
+                    processData: false,
+                    contentType: false,
+                    success: function (data) {
+                        console.log(data + " data");
+                        if (data.response.statusCode == 200) {
+                            ShowNoty("success", data.message);
+                            href = "/Application/MyApplication";
+                            setTimeout(function () {
+                                window.location.href = href;
+                            }, 3000);
+                        } else {
+                            ShowNoty("error", data.message);
+                            $("#btnSubmit").attr('data-target', '#confirmation-submit-modal');
+                        }
+                    }
+                });
+
+
+        });
+
+    </script>
+}
+
+
+
+
+

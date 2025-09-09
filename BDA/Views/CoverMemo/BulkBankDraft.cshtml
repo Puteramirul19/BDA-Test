@@ -1,0 +1,630 @@
+﻿
+@{
+    ViewData["Title"] = "New Instruction Letter";
+    //Layout = "~/Views/Shared/_FormLayout.cshtml";
+}
+@section Styles{
+    <link href="~/assets/css/ui-lightness/jquery-ui.css" rel="stylesheet">
+    <link href="~/assets/icons/themify/css/themify-icons.css" rel="stylesheet">
+    <style>
+        input[readonly] {
+            background-color: #fdffe3;
+            border: none;
+        }
+
+        .ui-datepicker .ui-datepicker-prev,
+        .ui-datepicker .ui-datepicker-next {
+            position: absolute;
+            top: 2px;
+            width: 1.8em;
+            height: 1.8em;
+            background: #ffffff;
+            /*content: "H";*/
+        }
+    </style>
+}
+<div class="content-inner">
+    <div class="container-fluid">
+        <!-- Begin Page Header-->
+        <div class="row">
+            <div class="page-header">
+                <div class="d-flex align-items-center">
+                    <h2 class="page-header-title">Bulk Processing</h2>
+                    <div>
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="db-default.html"><i class="ti ti-home"></i></a></li>
+                            <li class="breadcrumb-item"><a href="#">Bulk Processing</a></li>
+                            <li class="breadcrumb-item active">Update Bank Draft</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Page Header -->
+        <!-- Begin Row -->
+        <div class="row flex-row">
+            <div class="col-xl-12">
+                <!-- Form -->
+                <div class="widget has-shadow">
+                    <div class="widget-header bordered no-actions d-flex align-items-center">
+                        <h4>Update Bank Draft</h4>
+                    </div>
+                    <div class="widget-body">
+                        <div class="widget-body sliding-tabs">
+                            <ul class="nav nav-tabs form-tab" id="ul-form-tab" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="base-tab-1" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="true">Action Pending</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="base-tab-2" data-toggle="tab" href="#tab-2" role="tab" aria-controls="tab-2" aria-selected="false">Submitted</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content pt-3">
+                                <div class="tab-pane fade active show" id="tab-1" role="tabpanel" aria-labelledby="base-tab-1">
+                                    <div class="row flex-row justify-content-center">
+                                        <div class="col-xl-12">
+                                            <div class="form-group row mb-3">
+                                                <div class="col-sm-12 mb-3">
+                                                    <div id="jsGrid"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="tab-pane fade show" id="tab-2" role="tabpanel" aria-labelledby="base-tab-2">
+                                    <div class="row flex-row justify-content-center">
+                                        <div class="col-xl-12">
+                                            <div class="form-group row mb-3">
+                                                <div class="col-sm-12 mb-3">
+                                                    <div id="jsGrid2"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="file" id="browse" name="fileupload" style="display: none" onChange="Handlechange();" />
+                    <input type="hidden" id="filename" />
+                </div>
+                <!-- End Form -->
+            </div>
+        </div>
+        <!-- End Row -->
+    </div>
+    <!-- End Container -->
+    <!-- Begin Page Footer-->
+    <!-- End Page Footer -->
+    <a href="#" class="go-top"><i class="la la-arrow-up"></i></a>
+    <!-- Offcanvas Sidebar -->
+    @*@Html.Partial("_Log.cshtml")*@
+    <!-- End Offcanvas Sidebar -->
+</div>
+
+
+@section Scripts{
+    @*<script src="db.js"></script>*@
+    @*<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.js"></script>*@
+
+    <script>
+        var fileinput = document.getElementById("browse");
+        var upload;
+        //var now = '09/06/2020';
+
+        function fileUpload() {
+           fileinput.click();
+        }
+
+        function Handlechange() {
+            var textinput = document.getElementById("filename");
+            textinput.value = fileinput.value;
+            upload = fileinput.files[0];
+            //console.log(upload);
+            return upload;
+        }
+
+        function RemoveAttachment(id, type) {
+            ShowNoty("warning", "Deleting Attachment..");
+            $.ajax({
+                type: "GET",
+                url: "/Cancellation/RemoveAttachment/" + id,
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    if (data.response.statusCode == 200) {
+                        $('#hdnWCSuratKelulusan').val("");
+                        $('#noFile-' + type).show();
+                        $('#hasFile-' + type).hide();
+                        ShowNoty("success", data.message);
+                    } else {
+                        ShowNoty("error", data.message);
+                    }
+                }
+            });
+        }
+
+
+        //var data;
+        $(function () {
+
+            //alert(now);
+            //$.ajax({ ... }).done(function (data)
+
+            var db = {
+
+                loadData: function (filter) {
+
+                    //var d = $.Deferred();
+
+                    //// send request to the server and filter data there
+                    //return $.ajax({
+                    //     type: "GET",
+                    //     url: "/BankDraft/GetAllBankDraftByStatus?_Status=Processed",
+                    //    data: filter,
+                    //    dataType: "json"
+                    //}).done(function (result) {
+                    //    //alert(result[0].bdRefNo);
+                    //    result = $.grep(result, function (item) {
+                    //        // some client-side filtering below
+                    //        //return (!filter.bdRefNo || item.bdRefNo == filter.bdRefNo)
+                    //        //    && (!filter.sendMethod || item.sendMethod == filter.sendMethod)
+                    //        //    && (!filter.postageNo || item.postageNo == filter.postageNo)
+                    //        //    && (!filter.contactNo || item.contactNo == filter.contactNo)
+                    //        //    && (!filter.bankDraftNoIssued || item.bankDraftNoIssued == filter.bankDraftNoIssued);
+                    //        //return (!filter.bdRefNo || item.bdRefNo.indexOf(filter.bdRefNo) > -1)
+                    //        //    && (!filter.sendMethod || item.sendMethod.indexOf(filter.sendMethod) > -1)
+                    //        //    && (!filter.postageNo || item.postageNo.indexOf(filter.postageNo) > -1)
+                    //        //    && (!filter.contactNo || item.contactNo.indexOf(filter.contactNo) > -1)
+                    //        //    && (!filter.bankDraftNoIssued || item.bankDraftNoIssued.indexOf(filter.bankDraftNoIssued) > -1);
+                    //        //return item.bdRefNo === filter.bdRefNo
+                    //        //    && item.sendMethod === filter.sendMethod
+                    //        //    && item.postageNo === filter.postageNo
+                    //        //    && item.contactNo === filter.contactNo
+                    //        //    && item.bankDraftNoIssued === filter.bankDraftNoIssued;
+                    //        return (!filter.sendMethod || item.sendMethod === filter.sendMethod);
+
+                    //    });
+                    //    d.resolve(result);
+                    //});
+
+                    //return d.promise();
+
+                  return data = $.ajax({
+                        type: "GET",
+                        url: "/BankDraft/GetAllBankDraftByStatus?_Status=Processed",
+                        dataType: "JSON",
+
+                    })
+
+                    //var d = $.Deferred();
+
+                    //// server-side filtering
+                    //$.ajax({
+                    //    type: "GET",
+                    //    url: "/BankDraft/GetAllBankDraftByStatus?_Status=Processed",
+                    //    data: filter,
+                    //    dataType: "json"
+                    //}).done(function (result) {
+                    //    // client-side filtering
+                    //    result = $.grep(result, function (client) {
+                    //        console.log(filter);
+                    //        return (!filter.SendMethod || client.SendMethod === "Self Collect");
+                    //        //(!filter.BDReferenceNo || client.BDReferenceNo.indexOf(filter.BDReferenceNo) > -1)
+                    //            //&& (!filter.CoverMemoRefNo || client.CoverMemoRefNo.indexOf(filter.CoverMemoRefNo) > -1)
+
+                    //        //&& (!filter.PostageNo || client.PostageNo.indexOf(filter.PostageNo) > -1)
+                    //        //&& (!filter.ContactNo || client.ContactNo.indexOf(filter.ContactNo) > -1)
+                    //        //&& (!filter.BankDrafNoIssued || client.BankDrafNoIssued.indexOf(filter.BankDrafNoIssued) > -1);
+                    //    });
+
+                    //    d.resolve(result);
+                    //})
+
+                    //return d.promise();
+
+                },
+
+                updateItem: function (d) {
+                    //alert('hello');
+                    $.ajax({
+                        contentType: 'application/json; charset=utf-8',
+                        dataType: 'json',
+                        type: 'POST',
+                        url: "@Url.Action("UpdateBankIssue", "BankDraft")",
+                        data: d.bdRefNo + "," + d.coverMemoRefNo + "," + d.bankDraftNoIssued + "," + d.sendMethod + "," + d.postageNo + "," + d.contactNo + "," + d.bankDraftDate,
+                        success: function (data) {
+                            if (data.response.statusCode == 200) {
+                                ShowNoty("success", data.message);
+                            } else {
+                                ShowNoty("error", data.message);
+                            }
+                        },
+                        failure: function (response) {
+                            ShowNoty("error", response);
+                        }
+                    });
+
+                },
+
+                deleteItem: function (deletingClient) {
+                    var clientIndex = $.inArray(deletingClient, this.clients);
+                    this.clients.splice(clientIndex, 1);
+                }
+
+            };
+
+            window.db = db;
+
+
+            db.sendMethod = [
+                { Name: "", Id: "" },
+                { Name: "Self Collect", Id: "SelfCollect" },
+                { Name: "By Post", Id: "ByPos" }
+            ];
+
+
+            var MyDateField = function (config) {
+                jsGrid.Field.call(this, config);
+            };
+
+            MyDateField.prototype = new jsGrid.Field({
+                sorter: function (date1, date2) {
+                    return new Date(date1) - new Date(date2);
+                },
+
+                itemTemplate: function (value) {
+                    if (value == null) return "";
+                    var date = new Date(value);
+                    return ((date.getDate() > 9) ? date.getDate() : ('0' + date.getDate()))
+                            + '/' + ((date.getMonth() > 8) ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1)))
+                            + '/' + date.getFullYear();
+                },
+
+                insertTemplate: function (value) {
+                    return this._insertPicker = $("<input>").datepicker({ defaultDate: new Date(), dateFormat: 'dd/mm/yyyy', css: 'form-control datepicker' });
+                },
+
+                editTemplate: function (value) {
+                    //value = Date.now;
+                    return this._editPicker = $("<input>").datepicker({ dateFormat: 'dd/mm/yy' }).datepicker("setDate", new Date(value));
+                    //return this._editPicker = $("<input>").datepicker({ dateFormat: 'dd/mm/yy', css: 'form-control datepicker' }).datepicker("setDate", new Date(value));
+                },
+
+                insertValue: function () {
+                    return this._insertPicker.datepicker("getDate").toISOString();
+                },
+
+                editValue: function () {
+                    return this._editPicker.datepicker("getDate").toISOString();
+                }
+            });
+
+            jsGrid.fields.myDateField = MyDateField;
+            //$("#jsGrid").jsGrid("bdRefNo", "editing", false).
+
+            //var SolRiaDateTimeField = function (config) {
+            //    jsGrid.Field.call(this, config);
+            //};
+            //SolRiaDateTimeField.prototype = new jsGrid.Field({
+            //    sorter: function (date1, date2) {
+            //        return new Date(date1) - new Date(date2);
+            //    },
+
+            //    itemTemplate: function (value) {
+            //        if (value === null) {
+            //            return '';
+            //        } else {
+            //            return moment(value).format('L LTS');
+            //        }
+            //    },
+
+            //    insertTemplate: function (value) {
+            //        this._insertPicker = $('<input>').datetimepicker({
+            //            format: 'L LTS',
+            //            defaultDate: moment(),
+            //            widgetPositioning: {
+            //                horizontal: 'auto',
+            //                vertical: 'bottom'
+            //            }
+            //        });
+
+            //        this._insertPicker.data('DateTimePicker').date(moment());
+            //        return this._insertPicker;
+            //    },
+
+            //    editTemplate: function (value) {
+            //        this._editPicker = $('<input>').datetimepicker({
+            //            format: 'L LTS',
+            //            widgetPositioning: {
+            //                horizontal: 'auto',
+            //                vertical: 'bottom'
+            //            }
+            //        });
+
+            //        if (value !== null) {
+            //            this._editPicker.data('DateTimePicker').defaultDate(moment(value));
+            //            this._editPicker.data('DateTimePicker').date(moment(value));
+            //        }
+            //        return this._editPicker;
+            //    },
+
+            //    insertValue: function () {
+            //        var insertValue = this._insertPicker.data('DateTimePicker').date();
+            //        if (typeof insertDate !== 'undefined' && insertDate !== null) {
+            //            return insertDate.format('L LTS');
+            //        } else {
+            //            return null;
+            //        }
+            //    },
+
+            //    editValue: function () {
+            //        var editValue = this._editPicker.data('DateTimePicker').date();
+            //        if (typeof editValue !== 'undefined' && editValue !== null) {
+            //            return editValue.format('L LTS');
+            //        } else {
+            //            return null;
+            //        }
+            //    }
+            //});
+            //jsGrid.fields.solRiaDateTimeField = SolRiaDateTimeField;
+
+             $.ajax({
+                        type: "GET",
+                        url: "/BankDraft/GetAllBankDraftByStatus?_Status=Processed",
+                        dataType: "json"
+                    }).done(function (data) {
+
+
+
+            $("#jsGrid").jsGrid({
+                width: "100%",
+                filtering: true,
+                editing: true,
+                inserting: false,
+                sorting: true,
+                paging: true,
+                autoload: true,
+                pageSize: 20,
+                pageButtonCount: 2,
+                //deleteConfirm: "Do you really want to delete the client?",
+                controller: db,
+
+                //onItemEditing: function (args) {
+                //    if (args.item.bdRefNo == false) {
+                //        args.cancel = true;
+                //    }
+                //},
+
+                fields: [
+                    { name: "bdRefNo", title: "Reference No", type: "text", width: 150, editing: false },
+                    //{ name: "coverMemoRefNo", title: "Cover Memo Ref No", type: "text", width: 150 },
+                    { name: "bankDraftDate", title: "Bank Draft Date", type: "myDateField", width: 150, align: "center" },
+                    { name: "sendMethod", title: "Sending Method", type: "select", items: db.sendMethod, valueField: "Id", textField: "Name" },
+                    { name: "postageNo", title: "Postage No", type: "text", width: 100 },
+                    { name: "contactNo", title: "Contact No", type: "text", width: 100 },
+                    { name: "bankDraftNoIssued", title: "No Bank Draft", type: "text", width: 100 },
+                    { type: "control", deleteButton: false, modeSwitchButton: false }
+                ],
+                controller: {
+
+                    loadData: function (filter) {
+                        //alert(filter.sendMethod);
+                        return $.grep(data, function (item) {
+                            // client-side filtering below (be sure conditions are correct)
+                            //return (!filter.sendMethod || item.sendMethod === filter.sendMethod)
+                            return (!filter.bdRefNo || item.bdRefNo === filter.bdRefNo)
+                                && (!filter.sendMethod || item.sendMethod === filter.sendMethod)
+                                && (!filter.postageNo || item.postageNo === filter.postageNo)
+                                && (!filter.contactNo || item.contactNo === filter.contactNo)
+                                && (!filter.bankDraftNoIssued || item.bankDraftNoIssued === filter.bankDraftNoIssued);
+                        });
+                    },
+
+                    updateItem: function (d) {
+
+                        if (d.sendMethod == "ByPos" && d.postageNo == "") {
+                            ShowNoty("error", "Postage No is required");
+                            $("#jsGrid").jsGrid("loadData");
+                        }
+                        else {
+                              $.ajax({
+                        contentType: 'application/json; charset=utf-8',
+                        dataType: 'json',
+                        type: 'POST',
+                        url: "@Url.Action("UpdateBankIssue", "BankDraft")",
+                        data: d.bdRefNo + "," + d.coverMemoRefNo + "," + d.bankDraftNoIssued + "," + d.sendMethod + "," + d.postageNo + "," + d.contactNo + "," + d.bankDraftDate,
+                        success: function (data) {
+                            if (data.response.statusCode == 200) {
+                                ShowNoty("success", data.message);
+                            } else {
+                                ShowNoty("error", data.message);
+                            }
+                        },
+                        failure: function (response) {
+                            ShowNoty("error", response);
+                        }
+                    });
+                        }
+
+
+
+                },
+
+                },
+            });
+                 })
+            //$("#jsGrid").jsGrid("loadData", { sendMethod: "By Pos" }).done(function () {
+            //    console.log("data loaded");
+            //});
+
+
+        });
+
+
+            var db2 = {
+
+                loadData: function (filter) {
+
+                    return $.ajax({
+                        type: "GET",
+                        url: "/BankDraft/GetAllBankDraftByStatus?_Status=Issued",
+                        dataType: "JSON"
+                    })
+                },
+
+                updateItem: function (d) {
+
+
+
+                    $.ajax({
+                        contentType: 'application/json; charset=utf-8',
+                        dataType: 'json',
+                        type: 'POST',
+                        url: "@Url.Action("UpdateBankIssue", "BankDraft")",
+                        data: d.bdRefNo + "," + d.coverMemoRefNo + "," + d.bankDraftNoIssued + "," + d.sendMethod + "," + d.postageNo + "," + d.contactNo + "," + d.bankDraftDate,
+                        success: function (data) {
+                            if (data.response.statusCode == 200) {
+                                ShowNoty("success", data.message);
+                            } else {
+                                ShowNoty("error", data.message);
+                            }
+                        },
+                        failure: function (response) {
+                            ShowNoty("error", response);
+                        }
+                    });
+
+                },
+
+                deleteItem: function (deletingClient) {
+                    var clientIndex = $.inArray(deletingClient, this.clients);
+                    this.clients.splice(clientIndex, 1);
+                }
+
+            };
+
+            window.db = db2;
+
+
+            db2.sendMethod = [
+                { Name: "", Id: "" },
+                { Name: "Self Collect", Id: "SelfCollect" },
+                { Name: "By Post", Id: "ByPos" }
+            ];
+
+
+            var MyDateField = function (config) {
+                jsGrid.Field.call(this, config);
+            };
+
+            MyDateField.prototype = new jsGrid.Field({
+                sorter: function (date1, date2) {
+                    return new Date(date1) - new Date(date2);
+                },
+
+                itemTemplate: function (value) {
+                    if (value == null) return "";
+                    var date = new Date(value);
+                    return ((date.getDate() > 9) ? date.getDate() : ('0' + date.getDate()))
+                            + '/' + ((date.getMonth() > 8) ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1)))
+                            + '/' + date.getFullYear();
+                },
+
+                insertTemplate: function (value) {
+                    return this._insertPicker = $("<input>").datepicker({ defaultDate: new Date(), dateFormat: 'dd/mm/yy' });
+
+                },
+
+                editTemplate: function (value) {
+                    return this._editPicker = $("<input>").datepicker({ dateFormat: 'dd/mm/yy' }).datepicker("setDate", new Date(value));
+                },
+
+                insertValue: function () {
+                    return this._insertPicker.datepicker("getDate").toISOString();
+                },
+
+                editValue: function () {
+                    return this._editPicker.datepicker("getDate").toISOString();
+                }
+            });
+
+            jsGrid.fields.myDateField = MyDateField;
+
+        $.ajax({
+            type: "GET",
+            url: "/BankDraft/GetAllBankDraftByStatus?_Status=Issued",
+            dataType: "json"
+        }).done(function (data) {
+
+            $("#jsGrid2").jsGrid({
+                width: "100%",
+                filtering: true,
+                editing: false,
+                inserting: false,
+                sorting: true,
+                paging: true,
+                autoload: true,
+                pageSize: 20,
+                pageButtonCount: 2,
+                //deleteConfirm: "Do you really want to delete the client?",
+                controller: db2,
+                fields: [
+                    { name: "bdRefNo", title: "Reference No", type: "text", width: 150, editing: false},
+                    //{ name: "coverMemoRefNo", title: "Cover Memo Ref No", type: "text", width: 150 },
+                    { name: "bankDraftDate", title: "Bank Draft Date", type: "myDateField", width: 150, align: "center" },
+                    { name: "sendMethod", title: "Sending Method", type: "select", items: db.sendMethod, valueField: "Id", textField: "Name" },
+                    { name: "postageNo", title: "Postage No", type: "text", width: 100 },
+                    { name: "contactNo", title: "Contact No", type: "text", width: 100 },
+                    { name: "bankDraftNoIssued", title: "No Bank Draft", type: "text", width: 100 },
+                    //{ type: "control", deleteButton: false, modeSwitchButton: false }
+                ],
+
+                 controller: {
+
+                    loadData: function (filter) {
+                        //alert(filter.sendMethod);
+                        return $.grep(data, function (item) {
+                            // client-side filtering below (be sure conditions are correct)
+                            //return (!filter.sendMethod || item.sendMethod === filter.sendMethod)
+                            return (!filter.bdRefNo || item.bdRefNo === filter.bdRefNo)
+                                && (!filter.sendMethod || item.sendMethod === filter.sendMethod)
+                                && (!filter.postageNo || item.postageNo === filter.postageNo)
+                                && (!filter.contactNo || item.contactNo === filter.contactNo)
+                                && (!filter.bankDraftNoIssued || item.bankDraftNoIssued === filter.bankDraftNoIssued);
+                        });
+                    },
+
+                    updateItem: function (d) {
+
+
+                    $.ajax({
+                        contentType: 'application/json; charset=utf-8',
+                        dataType: 'json',
+                        type: 'POST',
+                        url: "@Url.Action("UpdateBankIssue", "BankDraft")",
+                        data: d.bdRefNo + "," + d.coverMemoRefNo + "," + d.bankDraftNoIssued + "," + d.sendMethod + "," + d.postageNo + "," + d.contactNo + "," + d.bankDraftDate,
+                        success: function (data) {
+                            if (data.response.statusCode == 200) {
+                                ShowNoty("success", data.message);
+                            } else {
+                                ShowNoty("error", data.message);
+                            }
+                        },
+                        failure: function (response) {
+                            ShowNoty("error", response);
+                        }
+                    });
+
+                },
+
+                },
+            });
+
+            })
+
+    </script>
+}

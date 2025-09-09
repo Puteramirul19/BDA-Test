@@ -1,0 +1,276 @@
+﻿@{
+    ViewData["Title"] = "Manage UMA";
+}
+
+@section Styles {
+
+    <style>
+        .btn-create {
+            background-color: #5d5386;
+            color: white;
+        }
+
+        .btn-apply:hover {
+            background-color: white;
+            color: black;
+        }
+
+        .btn-cancel:hover {
+            background-color: red;
+            color: white;
+        }
+
+        .btn-recover:hover {
+            background-color: limegreen;
+            color: white;
+        }
+
+        .btn-lost:hover {
+            background-color: #FFC300;
+            color: white;
+        }
+
+        select.filter {
+            height: 33px !important;
+        }
+    </style>
+}
+<div class="content-inner">
+    <div class="container-fluid">
+        <!-- Begin Page Header-->
+        <div class="row">
+            <div class="page-header">
+                <div class="d-flex align-items-center">
+                    <h2 class="page-header-title">Manage Application</h2>
+                    <div>
+                        <!--<div class="page-header-tools">
+                            <a class="btn btn-gradient-01" href="#">Add Widget</a>
+                        </div>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Page Header -->
+        <!-- Begin Row -->
+        <!-- End Row -->
+        <!-- Begin Row -->
+
+        <div class="row flex-row">
+            <div class="col-xl-12">
+                <!-- Form -->
+                <div class="widget has-shadow">
+                    <div class="widget-body">
+                        <div class="widget-body sliding-tabs">
+                            <ul class="nav nav-tabs form-tab" id="ul-form-tab" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="base-tab-1" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="true">In Progress</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="base-tab-2" data-toggle="tab" href="#tab-2" role="tab" aria-controls="tab-2" aria-selected="false">Completed</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content pt-3">
+                                <div class="tab-pane fade active show" id="tab-1" role="tabpanel" aria-labelledby="base-tab-1">
+                                    <div class="row flex-row">
+                                        <div class="col-xl-12 col-md-12">
+                                            <div class="table-responsive">
+                                                <div class="widget has-shadow">
+                                                    @*<div class="widget-header bordered no-actions d-flex align-items-center">
+                                                        <h4>History</h4>
+                                                    </div>*@
+                                                    <div class="widget-body">
+                                                        <div class="table-responsive">
+                                                            <table id="tblActionPending" class="table table-hover mb-0 display" style="width:100%">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>Reference No.</th>
+                                                                        @*<th>Division</th>
+        <th>Function</th>
+        <th>Zone</th>
+        <th>Unit</th>*@
+                                                                        <th>Requester</th>
+                                                                        <th>BD No.</th>
+                                                                        <th>Name On BD</th>
+                                                                        <th>Project No.</th>
+                                                                        <th>Amount (RM)</th>
+                                                                        <th>Application Type</th>
+                                                                        <th>Submission Date</th>
+                                                                        <th>Status</th>
+                                                                        @*<th>Action Needed</th>*@
+                                                                        <th></th>
+                                                                    </tr>
+                                                                    <tr class="filterrow">
+                                                                        <th class="input-filter"><input id='search-refNo' type="text" class="form-control tchatchaca" style="height:40px !important;" placeholder="Search.."></th>
+                                                                        @*<th class="input-filter"><input id='search-division' type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+        <th class="input-filter"><input id='search-function' type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+        <th class="input-filter"><input id='search-zone' type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+        <th class="input-filter"><input id='search-unit' type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>*@
+                                                                        <th class="input-filter"><input id='search-requester' type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                                                        <th class="input-filter"><input id='search-BDNo' type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                                                        <th class="input-filter"><input id='search-NameOnBD' type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                                                        <th class="input-filter"><input id='search-projectNo' type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                                                        <th class="input-filter"><input id='search-amount' type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                                                        <th class="select-filter">
+                                                                            <select id="search-applicationType" class="form-control filter" style="height:40px !important;" placeholder="Type">
+                                                                                <option value="">All</option>
+                                                                                <option value="WangCagaran">Wang Cagaran</option>
+                                                                                <option value="WangHangus">Wang Hangus</option>
+                                                                            </select>
+                                                                        </th>
+                                                                        <th class="input-filter"><input id='search-submitDate' type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                                                        <th class="select-filter">
+                                                                            <select id="search-status" class="form-control filter" style="height:40px !important;" placeholder="Status">
+                                                                                <option value="">All</option>
+                                                                                <option value="Draft">Draft</option>
+                                                                                <option value="Submitted">Submitted</option>
+                                                                                <option value="Verified">Verified</option>
+                                                                                <option value="Approved">Approved</option>
+                                                                                <option value="Rejected">Rejected</option>
+                                                                                <option value="Accepted">Accepted</option>
+                                                                                <option value="Declined">Declined</option>
+                                                                                <option value="Processed">Processed</option>
+                                                                                <option value="Issued">Issued</option>
+                                                                                <option value="Complete">Completed</option>
+                                                                            </select>
+                                                                        </th>
+                                                                        @*<th class="select-filter">
+                                                                            <select id="search-actionNeeded" class="form-control filter" style="height:40px !important;" placeholder="Type">
+                                                                                <option value="">All</option>
+                                                                                <option value="Resubmit">Resubmit</option>
+                                                                                <option value="Verify">Verify</option>
+                                                                                <option value="Approve">Approve</option>
+                                                                                <option value="Accept">Accept</option>
+                                                                                <option value="Process">Process</option>
+                                                                                <option value="Issue">Issue</option>
+                                                                                <option value="Accept BD">Accept BD</option>
+                                                                            </select>
+                                                                        </th>*@
+                                                                        <th></th>
+                                                                    </tr>
+                                                                </thead>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="tab-2" role="tabpanel" aria-labelledby="base-tab-2">
+                                    <div class="row flex-row">
+                                        <div class="col-xl-12 col-md-12">
+                                            <div class="table-responsive">
+                                                <div class="widget has-shadow">
+                                                    @*<div class="widget-header bordered no-actions d-flex align-items-center">
+                                                        <h4>History</h4>
+                                                    </div>*@
+                                                    <div class="widget-body">
+                                                        <div class="table-responsive">
+                                                            <table id="tblActionTaken" class="table table-hover mb-0 display" style="width:100%">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>Reference No.</th>
+                                                                        @*<th>Division</th>
+        <th>Function</th>
+        <th>Zone</th>
+        <th>Unit</th>*@
+                                                                        <th>Requester</th>
+                                                                        <th>BD No.</th>
+                                                                        <th>Name On BD</th>
+                                                                        <th>Project No.</th>
+                                                                        <th>Amount (RM)</th>
+                                                                        <th>Application Type</th>
+                                                                        @*<th>Submission Date</th>*@
+                                                                        <th>Action Taken</th>
+                                                                        <th>Action Date</th>
+                                                                        <th>Status</th>
+                                                                        <th></th>
+                                                                    </tr>
+                                                                    <tr class="filterrow">
+                                                                        <th class="input-filter"><input id='search-refNo2' type="text" class="form-control tchatchaca" style="height:40px !important;" placeholder="Search.."></th>
+
+                                                                        <th class="input-filter"><input id='search-requester2' type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                                                        <th class="input-filter"><input id='search-BDNo2' type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                                                        <th class="input-filter"><input id='search-NameOnBD2' type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                                                        <th class="input-filter"><input id='search-projectNo2' type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                                                        <th class="input-filter"><input id='search-amount2' type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                                                        <th class="select-filter">
+                                                                            <select id="search-applicationType2" class="form-control filter" style="height:40px !important;" placeholder="Type">
+                                                                                <option value="">All</option>
+                                                                                <option value="WangCagaran">Wang Cagaran</option>
+                                                                                <option value="WangHangus">Wang Hangus</option>
+                                                                            </select>
+                                                                        </th>
+                                                                        <th class="select-filter">
+                                                                            <select id="search-actionTaken" class="form-control filter" style="height:40px !important;" placeholder="Type">
+                                                                                <option value="">All</option>
+                                                                                <option value="Resubmit">Submit</option>
+                                                                                <option value="Verify">Verify</option>
+                                                                                <option value="Approve">Approve</option>
+                                                                                <option value="Reject">Reject</option>
+                                                                                <option value="Accept">Accept</option>
+                                                                                <option value="Decline">Decline</option>
+                                                                                <option value="Process">Process</option>
+                                                                                <option value="Issue">Issue</option>
+                                                                                <option value="Accept BD">Accept BD</option>
+                                                                            </select>
+                                                                        </th>
+                                                                        <th class="input-filter"><input id='search-actionDate' type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                                                        <th class="select-filter">
+                                                                            @*@Html.Partial("_searchStatusAfter.cshtml")*@
+                                                                            <select id="search-status2" class="form-control filter" style="height:40px !important;" placeholder="Status">
+                                                                                <option value="">All</option>
+                                                                                <option value="Submitted">Submitted</option>
+                                                                                <option value="Verified">Verified</option>
+                                                                                <option value="Approved">Approved</option>
+                                                                                <option value="Rejected">Rejected</option>
+                                                                                <option value="Accepted">Accepted</option>
+                                                                                <option value="Declined">Declined</option>
+                                                                                <option value="Processed">Processed</option>
+                                                                                <option value="Issued">Issued</option>
+                                                                                <option value="Complete">Completed</option>
+                                                                            </select>
+                                                                        </th>
+                                                                        <th></th>
+                                                                    </tr>
+                                                                </thead>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Form -->
+            </div>
+        </div>
+    </div>
+    <!-- End Container -->
+    <!-- Begin Page Footer-->
+    <!-- End Page Footer -->
+    <a href="#" class="go-top"><i class="la la-arrow-up"></i></a>
+    <!-- Offcanvas Sidebar -->
+    <!-- End Offcanvas Sidebar -->
+</div>
+
+@section Scripts {
+    <script src="~/assets/vendors/js/tablefilter/jquery.tablefilter.js"></script>
+    <script src="~/assets/vendors/js/tablefilter/jquery.tabledatafilter.min.js"></script>
+    @*<script src="~/assets/vendors/js/tablefilter/jquery.tableditfixedheader.min.js"></script>*@
+
+    <script>
+
+        $(document).ready(function () {
+
+        };
+
+
+    </script>
+}

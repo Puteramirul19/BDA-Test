@@ -1,0 +1,92 @@
+﻿@model BDA.ViewModel.BankDraftViewModel
+@{
+    var surat = "";
+    var umap = "";
+
+    if (Model != null)
+    {
+        surat = Model.WCSuratKelulusanVM.FileName;
+        umap = Model.WCUMAPVM.FileName;
+    }
+
+}
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+<div class="widget-header d-flex align-items-center" aria-expanded="true">
+    <h3>Dokumen Sokongan</h3>
+</div>
+<div id="pnl_document" class="widget-body">
+    <div class="table-responsive padding-left-20 padding-right-20">
+        <table id="tblListVerifier" class="table table-hover mb-0 display table-bordered">
+            <thead>
+                <tr>
+                    <th style="width:8px">No</th>
+                    <th>Name</th>
+                    <th style="width:150px">Action</th>
+                </tr>
+
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>
+                        <p>Surat asal kelulusan kerja/permit dan syarat-syarat Pihak Berkuasa Tempatan/Agensi Kerajaan</p>
+                        <p style="color:grey;font-weight:bold">atau</p>
+                        <p>Salinan yang diakui sah (Certified True Copy) oleh Pemula yang memperakui atau meluluskan</p>
+                    </td>
+                    <td class="td-actions">
+                        @if (surat == "" || surat == null)
+                        {
+                            <div class="file-upload before-submit">
+                                @Html.TextBoxFor(m => m.WCSuratKelulusanVM.File, new { type = "file", name = "WCSuratKelulusan", @required = "required" })
+                            </div>
+                        }
+                        else
+                        {
+                            var file = surat;
+                            <div id="noFile-WCSuratKelulusan" class="file-upload before-submit" style="display:none">
+                                @Html.TextBoxFor(m => m.WCSuratKelulusanVM.File, new { type = "file", name = "WCSuratKelulusan", @required = "required" })
+                            </div>
+                            <div id="hasFile-WCSuratKelulusan">
+                                <input type="hidden" value="@file" id="hdnWCSuratKelulusan" />
+                                <a href="~/documents/@file"><i class="ti-printer"></i></a>
+                                <a onclick="RemoveAttachment('@Model.WCSuratKelulusanVM.Id','WCSuratKelulusan');"><i class="la la-trash delete before-submit" data-toggle="tooltip" data-placement="top" data-original-title="Remove attachment"></i></a>
+                            </div>
+                        }
+                        @*<a href="#"><i class="la la-chain" data-toggle="tooltip" data-placement="top" data-original-title="Add attachment" style="display:none"></i></a>
+                        <a href="#"><i class="la la-trash delete" data-toggle="tooltip" data-placement="top" data-original-title="Remove attachment" style="display:none"></i></a>
+                        <a href="#"><i class="la la-download" data-toggle="tooltip" data-placement="top" data-original-title="Download attachment" style="display:none"></i></a>
+                        <a href="#"><i class="ti-printer" style="display:none"></i></a>*@
+</tr>
+                <tr>
+                    <td>2</td>
+                    <td>
+                        Utility Mapping (UMAP)
+                        <p style="font-style:italic">*optional</p>
+                    </td>
+                    <td class="td-actions">
+                        @if (umap == "" || umap == null)
+                        {
+                            <div class="file-upload before-submit">
+                                @Html.TextBoxFor(m => m.WCUMAPVM.File, new { type = "file", name = "WCUMAP" })
+                            </div>
+                        }
+                        else
+                        {
+                            var file = umap;
+                            <div id="noFile-WCUMAP" class="file-upload before-submit" style="display:none">
+                                @Html.TextBoxFor(m => m.WCUMAPVM.File, new { type = "file", name = "WCUMAP" })
+                            </div>
+                            <div id="hasFile-WCUMAP">
+                                <input type="hidden" value="@file" id="hdnWCUMAP" />
+                                <a href="~/documents/@file"><i class="ti-printer"></i></a>
+                                <a onclick="RemoveAttachment('@Model.WCUMAPVM.Id','WCUMAP');"><i class="la la-trash delete before-submit" data-toggle="tooltip" data-placement="top" data-original-title="Remove attachment"></i></a>
+                            </div>
+                        }
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

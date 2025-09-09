@@ -1,0 +1,192 @@
+﻿@{
+    ViewData["Title"] = "Recovery Bank Draft List";
+}
+
+@section Styles{
+
+    <style>
+        .btn-create {
+            background-color: #5d5386;
+            color: white;
+        }
+
+        .btn-apply:hover {
+            background-color: white;
+            color: black;
+        }
+
+        .btn-cancel:hover {
+            background-color: red;
+            color: white;
+        }
+
+        .btn-recover:hover {
+            background-color: limegreen;
+            color: white;
+        }
+
+        .btn-lost:hover {
+            background-color: #FFC300;
+            color: white;
+        }
+
+        select.filter {
+            height: 33px !important;
+        }
+    </style>
+}
+<div class="content-inner">
+    <div class="container-fluid">
+        <!-- Begin Page Header-->
+        <div class="row">
+            <div class="page-header">
+                <div class="d-flex align-items-center">
+                    <h2 class="page-header-title">Bulk Processing</h2>
+                    <div>
+                        <!--<div class="page-header-tools">
+                            <a class="btn btn-gradient-01" href="#">Add Widget</a>
+                        </div>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Page Header -->
+        <!-- Begin Row -->
+        <!-- End Row -->
+        <!-- Begin Row -->
+        <br />
+        <div class="row flex-row">
+            <div class="col-xl-12 col-md-12">
+                <div class="table-responsive">
+                    <div class="widget has-shadow">
+                        <div class="widget-header bordered no-actions d-flex align-items-center">
+                            <h4>Instruction Letter to Bank - Cancellation</h4>
+                        </div>
+                        <div class="widget-body">
+                            <div class="table-responsive">
+                                <div class="row flex-row">
+                                    <div class="col-xl-3 col-md-6 col-sm-6">
+                                        <a id="btnCreateNewInsLetter" href="" class="btn btn-create">Create New Letter</a>
+                                    </div>
+                                </div>
+                                <table id="tblCancelInsLetter" class="table table-hover mb-0 display" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th>Letter No.</th>
+                                            <th>Reference No</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
+                                        </tr>
+                                        <tr class="filterrow">
+                                            <th class="input-filter"><input type="text" class="form-control tchatchaca" style="height:40px !important;" placeholder="Search.."></th>
+                                            <th class="input-filter"><input type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                            <th class="input-filter"><input type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                            <th class="input-filter"><input type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>TNB/LETTER/00100</td>
+                                            <td>TNB/C/00001</td>
+                                            <td>Processed</td>
+                                            <td><a id="btnViewLetter1" href="#" style="border-radius: 0%;background-color: #f4f4f4;border-color: #ddd;" class="btn btn-lost" title="View Memo"><i class="ti ti-printer"></i></a></td>
+                                        </tr>
+                                        <tr>
+                                            <td>TNB/LETTER/00092</td>
+                                            <td>TNB/C/00002</td>
+                                            <td>Processed</td>
+                                            <td><a id="btnViewLetter2" href="#" style="border-radius: 0%;background-color: #f4f4f4;border-color: #ddd;" class="btn btn-lost" title="View Memo"><i class="ti ti-printer"></i></a></td>
+                                        </tr>
+                                        <tr>
+                                            <td>TNB/LETTER/00083</td>
+                                            <td>TNB/C/00003</td>
+                                            <td>Processing</td>
+                                            <td><a id="btnViewLetter3" href="#" style="border-radius: 0%;background-color: #f4f4f4;border-color: #ddd;" class="btn btn-lost" title="View Memo"><i class="ti ti-printer"></i></a><a href="#" id="btnEditMemo3" style="border-radius: 0%;background-color: #f4f4f4;border-color: #ddd;" class="btn btn-lost" title="Edit Memo"><i class="ti ti-pencil-alt"></i></a><a href="#" style="border-radius: 0%;background-color: #f4f4f4;border-color: #ddd;" class="btn btn-lost" title="Submit to Requestor"><i class="ti ti-check-box"></i></a></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Container -->
+    <!-- Begin Page Footer-->
+    <!-- End Page Footer -->
+    <a href="#" class="go-top"><i class="la la-arrow-up"></i></a>
+    <!-- Offcanvas Sidebar -->
+    <!-- End Offcanvas Sidebar -->
+</div>
+
+@section Scripts{
+    <script src="~/assets/vendors/js/tablefilter/jquery.tablefilter.js"></script>
+    <script src="~/assets/vendors/js/tablefilter/jquery.tabledatafilter.min.js"></script>
+    @*<script src="~/assets/vendors/js/tablefilter/jquery.tableditfixedheader.min.js"></script>*@
+    <script>
+
+        $(document).ready(function () {
+            $('#btnCreateNewInsLetter').click(function (event) {
+                event.preventDefault();
+                window.open("/Cancellation/Instructionletter", "popupWindow", "width=600,height=600,scrollbars=yes");
+            });
+
+            $('#btnViewLetter1').click(function (event) {
+                event.preventDefault();
+                window.open("/Cancellation/InsLetterCancellation", "popupWindow", "width=600,height=600,scrollbars=yes");
+            });
+            $('#btnViewLetter2').click(function (event) {
+                event.preventDefault();
+                window.open("/Cancellation/InsLetterCancellation", "popupWindow", "width=600,height=600,scrollbars=yes");
+            });
+            $('#btnViewLetter3').click(function (event) {
+                event.preventDefault();
+                window.open("/Cancellation/InsLetterCancellation", "popupWindow", "width=600,height=600,scrollbars=yes");
+            });
+            $('#btnEditMemo3').click(function (event) {
+                event.preventDefault();
+                window.open("/Cancellation/InstructionLetter", "popupWindow", "width=600,height=600,scrollbars=yes");
+            });
+
+            // Setup - add a text input to each footer cell
+            $('#tblCancelInsLetter thead filterCol').appendTo('#tblCancelInsLetter thead');
+            var table = $('#tblCancelInsLetter').DataTable({
+                orderCellsTop: true,
+                fixedHeader: true,
+                "lengthChange": false
+            });
+
+            $.each($('.input-filter', table.table().header()), function () {
+                var column = table.column($(this).index());
+
+                $('input', this).on('keyup change', function () {
+                    if (column.search() !== this.value) {
+                        column
+                            .search(this.value)
+                            .draw();
+                    }
+                });
+            });
+
+            // Apply the search
+            $.each($('.select-filter', table.table().header()), function () {
+                var column = table.column($(this).index());
+
+                $('select', this).on('change', function () {
+                    if (column.search() !== this.value) {
+                        column
+                            .search(this.value)
+                            .draw();
+
+                    } else if (column.search() !== "") {
+                        column
+                            .draw();
+                    }
+                });
+            });
+        });
+
+
+    </script>
+}

@@ -1,0 +1,565 @@
+﻿@model BDA.ViewModel.StateMonthlyAmountViewModel
+@{
+    ViewData["Title"] = "Reporting";
+
+}
+
+@section Styles{
+
+    <style>
+
+        .btn-create {
+            background-color: #5d5386;
+            color: white;
+        }
+
+        .btn-apply:hover {
+            background-color: white;
+            color: black;
+        }
+
+        .btn-cancel:hover {
+            background-color: red;
+            color: white;
+        }
+
+        .btn-recover:hover {
+            background-color: limegreen;
+            color: white;
+        }
+
+        .btn-lost:hover {
+            background-color: #FFC300;
+            color: white;
+        }
+
+        select.filter {
+            height: 33px !important;
+        }
+
+        .dataTable > thead > tr > th[class*="sort"]:before,
+        .dataTable > thead > tr > th[class*="sort"]:after {
+            content: "" !important;
+        }
+
+        .dt-body-right {
+            text-align: right;
+        }
+
+        .dt-body-center {
+            text-align: center;
+        }
+    </style>
+}
+<div class="content-inner active">
+    <div class="container-fluid">
+        <!-- Begin Page Header-->
+        <div class="row">
+            <div class="page-header">
+                <div class="d-flex align-items-center">
+                    <div>
+                        <h2 class="page-header-title">Reports</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="widget has-shadow">
+            <h2 style="padding-top:30px;padding-left:30px" class="page-header-title" id="header1"><b>SUMMARY OF BD ISSUED & BD RECOVERY AS AT </b><b id="CurrMonthYear"></b></h2>
+            <h2 style="padding-top:30px;padding-left:30px" id="title1">Lampiran 1</h2>
+            <div class="widget-body">
+                <div class="form-group row">
+                    <div class="col-xl-2">
+                        <select id="ddlMonth" name="ddlMonth" class="selectpicker show-menu-arrow form-control" tabindex="-98" style="background-color:white">
+                            <option value="0" selected disabled>Month</option>
+                            <option value="1">January</option>
+                            <option value="2">February</option>
+                            <option value="3">March</option>
+                            <option value="4">April</option>
+                            <option value="5">May</option>
+                            <option value="6">June</option>
+                            <option value="7">July</option>
+                            <option value="8">August</option>
+                            <option value="9">September</option>
+                            <option value="10">October</option>
+                            <option value="11">November</option>
+                            <option value="12">December</option>
+                        </select>
+                    </div>
+                    <div class="col-xl-2">
+                        <select id="ddlYear" name="ddlYear" class="selectpicker show-menu-arrow form-control" tabindex="-98">
+                            <option value="0" selected disabled>Year</option>
+                            <option value="2015">2015</option>
+                            <option value="2016">2016</option>
+                            <option value="2017">2017</option>
+                            <option value="2018">2018</option>
+                            <option value="2019">2019</option>
+                            <option value="2020">2020</option>
+                        </select>
+                    </div>
+                    <div class="col-xl-2">
+                        <select name="ddlCoCode" id="ddlCoCode" class="form-control" tabindex="-98"></select>
+                    </div>
+                    @*<button onclick="saveAsPDF();">SAVE AS PDF</button>*@
+                </div>
+            </div>
+            <div class="row flex-row">
+                <div class="col-xl-12">
+                    <div class="row flex-row">
+                        <div class="col-xl-12 col-md-12">
+                            <div class="table-responsive">
+                                <div class="widget has-shadow">
+                                    <div class="widget-body">
+                                        <button onclick="saveAsPDF();" class="btn btn- btn-info">PDF</button>
+                                        <div class="table-responsive" id="chart-container">
+                                            <table id="tblLampiran1" class="table table-bordered table-hover mb-0" styles="width:100%">
+                                                <thead>
+                                                    <tr>
+                                                        <th style="text-align:center">State</th>
+                                                        <th style="text-align:center">No. of BD Issued</th>
+                                                        <th style="text-align:center">Issued Amount (RM)</th>
+                                                        <th style="text-align:center">No. of BD Recovered</th>
+                                                        <th style="text-align:center">Recovered Amount (RM)</th>
+                                                        <th style="text-align:center">Total BD After Recovery</th>
+                                                        <th style="text-align:center">Total BD Amount After Recovery(RM)</th>
+                                                        @*<th></th>*@
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @*@foreach (var item in Model.SMAs)
+                                                        {
+                                                        <tr>
+                                                            <td>@item.state</td>
+                                                            <td>@item.noOfBDIssued</td>
+                                                            <td>@item.amount</td>
+                                                            <td>@item.noOfRecovery</td>
+                                                            <td>@item.amountRev</td>
+                                                            <td>@item.noOfOutstanding </td>
+                                                            <td>@item.outstandingAmount</td>
+                                                        </tr>
+                                                        }*@
+                                                </tbody>
+                                                <tfoot>
+                                                    <tr style="background-color:#877cb5">
+                                                        <td style="font-weight:bold">GRAND TOTAL</td>
+                                                        <td id="totalBD" style="text-align:center;font-weight:bold">0</td>
+                                                        <td id="totalAmount" style="text-align:right;font-weight:bold">0</td>
+                                                        <td id="totalRec" style="text-align:center;font-weight:bold">0</td>
+                                                        <td id="totalRecAmount" style="text-align:right;font-weight:bold">0</td>
+                                                        <td id="totalBal" style="text-align:center;font-weight:bold">0</td>
+                                                        <td id="totalBalAmount" style="text-align:right;font-weight:bold">0</td>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @*<button id="btnPull2" class="btn btn-success">Generate</button>*@
+                        </div>
+                    </div>
+                    <!-- End Form -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Container -->
+    <!-- Begin Page Footer-->
+    <!-- End Page Footer -->
+    @*<a href="#" class="go-top"><i class="la la-arrow-up"></i></a>*@
+    <!-- Offcanvas Sidebar -->
+    <!-- End Offcanvas Sidebar -->
+</div>
+
+@section Scripts{
+    @*<script src="~/assets/vendors/js/datatables/datatables.min.js"></script>
+        <script src="~/assets/vendors/js/datatables/dataTables.select.min.js"></script>
+        <script src="~/assets/vendors/js/datatables/dataTables.buttons.min.js"></script>
+        <script src="~/assets/vendors/js/datatables/buttons.flash.js"></script>
+        <script src="~/assets/vendors/js/datatables/buttons.print.min.js"></script>
+        <script src="~/assets/vendors/js/datatables/buttons.html5.js"></script>*@
+
+    <script src="~/assets/vendors/js/bootstrap-select/bootstrap-select.min.js"></script>
+    <script src="~/assets/vendors/js/tablefilter/jquery.tablefilter.js"></script>
+    <script src="~/assets/vendors/js/tablefilter/jquery.tabledatafilter.min.js"></script>
+    <script src="~/assets/vendors/js/datatables/sum.js"></script>
+    <script src="~/assets/vendors/js/jspdf/jspdf.min.js"></script>
+    <script src="~/assets/vendors/js/jspdf/jspdf.plugin.autotable.js"></script>
+
+    @*<script src="~/assets/vendors/js/tablefilter/jquery.tableditfixedheader.min.js"></script>*@
+    <script>
+        var months = ["", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        var d = new Date();
+        var currMonth = d.getMonth() + 1;
+        var currYear = d.getFullYear();
+        var monthName = months[currMonth];
+        var month = $("#ddlMonth").val(currMonth);
+        var year = $("#ddlYear").val(currYear);
+        var coCode = "4001";
+
+        var data = {
+
+            id: 4001,
+            text: '4001 - Corporate'
+        };
+
+        //$("#myBox").select2({
+        //    containerCssClass: "error"
+        //});
+        //$("#ddlCoCode").select2("show-menu-arrow");
+
+        function convert(currency) {
+
+            // Using replace() method
+            // to make currency string suitable
+            // for parseFloat() to convert
+            var temp = currency.replace(/[^0-9.-]+/g, "");
+
+            // Converting string to float
+            // or double and return
+            return parseFloat(temp);
+
+        }
+
+        //function GetData() {
+        //    $.ajax({
+        //        type: "GET",
+        //        url: "/Reporting/GetAllCompanyCode",
+        //        dataType: "json",
+        //        success: function (data) {
+        //            $.each(data, function () {
+        //                console.log(this.id);
+        //                console.log(this.name);
+
+        //                var options = "<option " + "value='" + this.ID + "'>" + this.NAME + "";
+        //                $("#ddlCoCode").append(options);
+        //            });
+        //            $('#ddlCoCode').selectpicker('refresh');
+        //        },
+        //        failure: function () { alert("Failed!"); }
+        //    });
+        //}
+
+        function saveAsPDF() {
+            html2canvas(document.getElementById("chart-container"), {
+                onrendered: function (canvas) {
+                    var img = canvas.toDataURL(); //image data of canvas
+
+                    var doc = new jsPDF('P', 'mm', 'a4');
+                    var width = doc.internal.pageSize.width;
+                    var height = doc.internal.pageSize.height;
+                    doc.setFontSize(12);
+                    doc.setFontType("bold");
+
+                    doc.text(15, 30, $("#header1").text());
+                    doc.text(15, 40, $("#title1").text());
+                    doc.autoTable({
+                        html: '#tblLampiran1',
+                        //styles: {
+                        //    halign: 'right'
+                        //},
+                        startY: 60,
+                        margin: { horizontal: 15 },
+                        footStyles: {
+                            state: { halign: 'center' },
+                            bdNo: { halign: 'center' },
+                            bdAmount: { halign: 'right' },
+                            recNo: { halign: 'center' },
+                            recAmount: { halign: 'right' },
+                            outNo: { halign: 'center' },
+                            outAmount: { halign: 'right' },
+                        },
+                        foot: [
+                            ['state', 'bdNo', 'bdAmount', 'recNo', 'recAmount', 'outNo', 'outAmount']
+                        ],
+                        columnStyles: {
+                            bdNo: { halign: 'center' },
+                            bdAmount: { halign: 'right' },
+                            recNo: { halign: 'center' },
+                            recAmount: { halign: 'right' },
+                            outNo: { halign: 'center' },
+                            outAmount: { halign: 'right' },
+                        },
+                        columns: [
+                            { header: 'state', dataKey: 'state' },
+                            { header: 'bdNo', dataKey: 'bdNo' },
+                            { header: 'bdAmount', dataKey: 'bdAmount' },
+                            { header: 'recNo', dataKey: 'recNo' },
+                            { header: 'recAmount', dataKey: 'recAmount' },
+                            { header: 'outNo', dataKey: 'outNo' },
+                            { header: 'outAmount', dataKey: 'outAmount' }
+                        ],
+
+                    })
+
+
+                    doc.save('table.pdf')
+                    //doc.addImage(img, 'JPEG', 10, 20, width-60, height-100, 'center');
+                    //doc.save('test.pdf');
+
+                    //var pdf = new jsPDF();
+                    //var dataURL = canvas.toDataURL();
+                    //pdf.addImage(dataURL, 'JPEG', 0, 0);
+                    //pdf.save("download.pdf");
+                }
+            });
+        }
+
+        $(document).ready(function () {
+
+            $('#CurrMonthYear').text(monthName.toUpperCase() + " " + currYear);
+
+            $(function () {
+                $("nav").addClass("shrinked");
+            });
+            console.log("s" + currMonth + "s" + currYear);
+
+            //SetSelectedValue("All Divisions", "#ddlCoCode");
+
+            var newOption = new Option(data.text, data.id, false, false);
+            $('#ddlCoCode').append(newOption).trigger('change');
+
+            //$.ajax({
+            //    type: "GET",
+            //    url: "/Reporting/GetAllCompanyCode",
+            //    dataType: "json",
+            //    data: { data: data },
+            //    success: function (response) {
+            //        $.each(response, function (index, value) {
+            //            console.log(index + " HOI");
+            //            var selectId = value.id;
+            //            var selectName = value.name;
+            //            console.log(selectName);
+            //            console.log(selectId);
+            //            $('#ddlCoCode').append('<option value="12">December</option>');
+            //        });
+            //        $('#ddlCoCode').selectpicker('refresh');
+            //    },
+            //});
+
+            var table = $('#tblLampiran1').DataTable({
+                dom: "frtip",
+                //buttons: [
+                //    { extend: 'excelHtml5', footer: true, title: function () { return $('#header1').text().toUpperCase(); }, },
+                //    { extend: 'csvHtml5', footer: true, title: function () { return $('#header1').text().toUpperCase(); }, },
+                //    { extend: 'pdfHtml5', footer: true, title: function () { return $('#header1').text().toUpperCase(); }, }
+                //],
+                "processing": true,
+                "columnDefs": [
+                    { className: "dt-body-center", "targets": [1, 3, 5] },
+                    { className: "dt-body-right", "targets": [2, 4, 6] }
+                ],
+                drawCallback: function () {
+                    var api = this.api();
+                    var col1 = api.column(1, { page: 'current' }).data().sum();
+                    var col2 = parseFloat(api.column(2, { page: 'current' }).data().sum()).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+                    var col3 = api.column(3, { page: 'current' }).data().sum();
+                    var col4 = parseFloat(api.column(4, { page: 'current' }).data().sum()).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+                    var col5 = api.column(5, { page: 'current' }).data().sum();
+                    var col6 = parseFloat(api.column(6, { page: 'current' }).data().sum());
+                    $("#totalBD").text(col1);
+                    $("#totalAmount").text(col2);
+                    $("#totalRec").text(col3);
+                    $("#totalRecAmount").text(col4);
+                    if (col5 < 0) {
+                        col5 = -col5;
+                        data = '( ' + parseFloat(col5).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') + ' )';
+                    }
+                    //$("#totalBal").text("(" + col5 + ")");
+                    $("#totalBal").text(col5);
+                    if (col6 < 0) {
+                        col6 = -col6;
+                        data = '( ' + parseFloat(col6).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') + ' )';
+                    }
+                    $("#totalBalAmount").text(col6);
+                },
+                //serverSide: true,
+                //columnDefs: [
+                //    {
+                //        targets: -1,
+                //        className: 'dt-body-left'
+                //    }
+                //],
+                "ajax": {
+                    url: "/Reporting/GetReportForState?month=" + currMonth + "&year=" + currYear + "&coCode=" + coCode,
+                    type: "GET",
+                    data: function (d) {
+
+                    },
+                    dataFilter: function (result) {
+                        var jData = JSON.parse(result);
+                        var dtData = JSON.stringify({ "data": jData });
+                        return dtData;
+                    }
+                },
+
+                order: [[1, 'asc']],
+                columns: [
+                    { data: "state" },
+                    { data: "noOfBDIssued" },
+                    { data: "amount" },
+                    //{ data: "noOfRecovery" },
+                    {
+                        data: "noOfRecovery",
+                        "render": function (data, type, row) {
+                            var recNo = data;
+                            if (type == "display") {
+                                if (recNo < 0) {
+                                    data = '(' + recNo + ')';
+                                }
+
+                            }
+                            return data;
+                        }
+                    },
+                    { data: "amountRev" },
+                    {
+                        data: "noOfOutstanding",
+                        "render": function (data, type, row) {
+                            var outNo = data;
+                            if (type == "display") {
+                                if (outNo < 0) {
+                                    data = '( ' + -outNo + ' )';
+                                }
+
+                            }
+                            return data;
+                        }
+                    },
+                    {
+                        data: "outstandingAmount",
+                        "render": function (data, type, row) {
+                            var outAmt = convert(data);
+                            if (type == "display") {
+                                if (outAmt < 0) {
+                                    outAmt = -outAmt;
+                                    data = '( ' + parseFloat(outAmt).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') + ' )';
+                                }
+
+                            }
+                            return data;
+                        }
+                    },
+                    //{ data: "outstandingAmount" },
+                ],
+                "bPaginate": false,
+                "bLengthChange": false,
+                "bFilter": false,
+                "bInfo": false,
+                "bAutoWidth": false,
+                orderCellsTop: true,
+                fixedHeader: true,
+                "lengthChange": false,
+            });
+
+
+            $("#ddlMonth").change(function () {
+                var end = this.value;
+                month = $('#ddlMonth').val();
+                year = $('#ddlYear').val();
+                coCode = $('#ddlCoCode').val();
+                if (month != null && year != null) {
+                    table.ajax.url("/Reporting/GetReportForState?month=" + month + "&year=" + year + "&coCode=" + coCode + "").load();
+                    $('#CurrMonthYear').text(months[month] + " " + year);
+                }
+                console.log("month:" + month + " year:" + year);
+            });
+
+            $("#ddlYear").change(function () {
+                var end = this.value;
+                month = $('#ddlMonth').val();
+                year = $('#ddlYear').val();
+                coCode = $('#ddlCoCode').val();
+                if (month != null && year != null) {
+                    table.ajax.url("/Reporting/GetReportForState?month=" + month + "&year=" + year + "&coCode=" + coCode + "").load();
+                    $('#CurrMonthYear').text(months[month] + " " + year);
+                }
+                console.log("month:" + month + " year:" + year);
+
+            });
+
+            // $("#ddlCoCode").select2().data('select2').$dropdown.addClass('selectpicker show-menu-arrow');
+
+
+
+
+
+
+
+            $("#ddlCoCode").select2({
+                minimumResultsForSearch: -1,
+                ajax: {
+                    url: "/Reporting/GetAllCompanyCode",
+                    dataType: 'json',
+                    type: "GET",
+                    processResults: function (data) {
+                        console.log(data);
+                        return {
+                            results: $.map(data, function (item) {
+                                return {
+                                    text: item.name,
+                                    id: item.id
+                                }
+
+                            })
+                        };
+
+                    }
+                }
+            });
+
+            $('#ddlCoCode').on('select2:select', function (e) {
+                var data = e.params.data;
+                if (data.selected) {
+                    var coCode = data.id;
+                    //alert(coCode);
+                    month = $('#ddlMonth').val();
+                    year = $('#ddlYear').val();
+                    $("#ddlCoCode").val(coCode);
+                    table.ajax.url("/Reporting/GetReportForState?month=" + month + "&year=" + year + "&coCode=" + coCode + "").load();
+                }
+            });
+
+            $('.table thead filterCol').appendTo('table thead');
+
+            $.each($('.input-filter', table.table().header()), function () {
+                var column = table.column($(this).index());
+
+                $('input', this).on('keyup change', function () {
+                    table.ajax.reload();
+                });
+            });
+
+            $.each($('.select-filter', table.table().header()), function () {
+                var column = table.column($(this).index());
+
+                $('select', this).on('change', function () {
+                    table.ajax.reload();
+                });
+            });
+
+            $('#tblLampiran1').dataTable.ext.errMode = 'throw';
+
+        });
+
+                                                                                                            //$("#btnPull2").on('click', function () {
+
+                                                                                                            //    $.ajax({
+                                                                                                            //        type: "GET",
+                                                                                                            //        url: "/Reporting/GenerateApplication",
+                                                                                                            //        processData: false,
+                                                                                                            //        contentType: false,
+                                                                                                            //        success: function (data) {
+                                                                                                            //            $("#tblLampiran1 tbody tr").remove();
+                                                                                                            //            for (var i = 0; i < data.length; i++) {
+                                                                                                            //                console.log(data[i]);
+
+                                                                                                            //                $('#tblLampiran1').append('<tr><td>' + data[i].state + '</td><td style="text-align:center">' + data[i].noOfBDIssued + '</td><td style="text-align:right">' + data[i].amount + '</td><td style="text-align:center">' + data[i].noOfRecovery + '</td><td style="text-align:right">' + data[i].amountRev + '</td><td style="text-align:center">' + data[i].noOfOutstanding + '</td><td style="text-align:right">' + data[i].outstandingAmount + '</td></tr>');
+
+
+                                                                                                            //            }
+                                                                                                            //        }
+                                                                                                            //    });
+
+                                                                                                            //});
+    </script>
+}

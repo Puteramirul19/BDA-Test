@@ -1,0 +1,104 @@
+﻿@model BDA.ViewModel.CancellationViewModel
+@{
+    var bankDraft = "";
+    var memo = "";
+
+    if (Model != null)
+    {
+        bankDraft = Model.ScannedBankDraftVM.FileName;
+        memo = Model.ScannedMemoVM.FileName;
+    }
+
+}
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+<div class="widget-header d-flex align-items-center" aria-expanded="true">
+    <h3>
+        Supporting Document
+    </h3>
+</div>
+<div id="pnl_document" class="widget-body">
+    <div class="table-responsive padding-left-20 padding-right-20">
+        <table id="tblListVerifier" class="table table-hover mb-0 display table-bordered">
+            <thead>
+                <tr>
+                    <th style="width:8px">No</th>
+                    <th>Name</th>
+                    <th style="width:150px">Action</th>
+                </tr>
+
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>
+                        <p>Original Bank Draft (Scanned)<span class="text-danger ml-2">*</span></p>
+                        <p><b style="color:red;font-style:italic;font-size:12px">*Original Bank Draft (Physical) must be delivered to TGBS AP Banking Management</b></p>
+                    </td>
+                    <td class="td-actions">
+                        @if (bankDraft == "" || bankDraft == null)
+                        {
+                            <div class="file-upload before-submit">
+                                @Html.TextBoxFor(m => m.ScannedBankDraftVM.File, new { type = "file", name = "ScannedBankDraft" })
+                            </div>
+                        }
+                        else
+                        {
+                            var file = bankDraft;
+                            <div id="noFile-ScannedBankDraft" class="file-upload" style="display:none">
+                                @Html.TextBoxFor(m => m.ScannedBankDraftVM.File, new { type = "file", name = "ScannedBankDraft" })
+                            </div>
+                            <div id="hasFile-ScannedBankDraft">
+                                <table>
+                                    <tr>
+                                        <td rowspan="2" style="border-collapse: collapse;border:none;"><input type="hidden" value="@file" id="hdnScannedBankDraft" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border-collapse: collapse; border:none;"> <a onclick="window.open('../../../documents/@file','newwindow','width=900,height=750');"><i class="ti-printer"></i>@Model.ScannedBankDraftVM.FileName</a></td>
+                                        <td style="border-collapse: collapse; border:none;"><a onclick="RemoveAttachment('@Model.ScannedBankDraftVM.Id','ScannedBankDraft');"><i id="trashId1" class="la la-trash delete before-submit" data-toggle="tooltip" data-placement="top" data-original-title="Remove attachment"></i></a></td>
+                                    </tr>
+                                    <tr></tr>
+                                </table>
+                            </div>
+                        }
+                    </td>  
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>
+                        Memo (Scanned)
+                        <p style="font-style:italic">*optional</p>
+                    </td>
+                    <td class="td-actions">
+                        @if (memo == "" || memo == null)
+                        {
+                            <div class="file-upload before-submit">
+                                @Html.TextBoxFor(m => m.ScannedMemoVM.File, new { type = "file", name = "ScannedMemo" })
+                            </div>
+                        }
+                        else
+                        {
+                            var file = memo;
+                            <div id="noFile-ScannedMemo" class="file-upload" style="display:none">
+                                @Html.TextBoxFor(m => m.ScannedMemoVM.File, new { type = "file", name = "ScannedMemo" })
+                            </div>
+                            <div id="hasFile-ScannedMemo">
+                                <table>
+                                    <tr>
+                                        <td rowspan="2" style="border-collapse: collapse;border:none;"><input type="hidden" value="@file" id="hdnScannedMemo" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border-collapse: collapse; border:none;"> <a onclick="window.open('../../../documents/@file','newwindow','width=900,height=750');"><i class="ti-printer"></i>@Model.ScannedMemoVM.FileName</a></td>
+                                        <td style="border-collapse: collapse; border:none;"><a onclick="RemoveAttachment('@Model.ScannedMemoVM.Id','ScannedMemo');"><i id="trashId2" class="la la-trash delete before-submit" data-toggle="tooltip" data-placement="top" data-original-title="Remove attachment"></i></a></td>
+                                    </tr>
+                                    <tr></tr>
+                                </table>
+                            </div>
+                        }
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

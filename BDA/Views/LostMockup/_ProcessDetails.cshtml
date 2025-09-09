@@ -1,0 +1,186 @@
+﻿
+@{
+    ViewData["Title"] = "CreateDetails";
+}
+
+@section Styles{
+
+    <style>
+        .btn-create {
+            background-color: #5d5386;
+            color: white;
+        }
+
+        .btn-apply:hover {
+            background-color: white;
+            color: black;
+        }
+
+        .btn-cancel:hover {
+            background-color: red;
+            color: white;
+        }
+
+        .btn-create:hover {
+            background-color: limegreen;
+            color: white;
+        }
+
+        .btn-lost:hover {
+            background-color: #FFC300;
+            color: white;
+        }
+
+        select.filter {
+            height: 33px !important;
+        }
+
+        .form-staff {
+            margin-bottom: 2rem;
+        }
+    </style>
+}
+<div id="pnl_less_oneyear" class="widget-body">
+    <div class="padding-left-20 padding-right-20">
+        <div class="row flex-row">
+            <div class="col-xl-12 col-md-12">
+                <div class="table-responsive">
+                    <div class="widget has-shadow">
+                        <div class="widget-body">
+                            <div id="pnl_main_form" class="widget has-shadow">
+                                <div class="widget-body" style="padding-left:40px;padding-top:40px">
+                                    <div>
+                                        <div class="form-group row">
+                                            <div class="col-sm-2 form-control-label d-flex">Ins. Letter Ref No<span class="text-danger ml-2">*</span></div>
+                                            <div class="col-xl-5">
+                                                <div class="input-group">
+                                                    <input name="txtLetterRefNo" id="txtLetterRefNo" type="text" value="" class="form-control" onchange="funcLetterLink()" placeholder="Search Letter Reference No">
+                                                    <span class="input-group-btn before-process">
+                                                        <input id="btnNewLetter" type="button" class="btn btn-outline-primary btn-sm mr-1 mb-2 processed" title="Create" value="Create New">
+                                                        <input id="btnViewLetter" type="button" class="btn btn-outline-primary btn-sm mr-1 mb-2 processed" style="display:none" title="View" value="View">
+                                                        <input id="btnEditLetter" type="button" class="btn btn-outline-primary btn-sm mr-1 mb-2 processed" style="display:none" value="Edit" title="Edit">
+                                                    </span>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="pnl_first_form" class="widget has-shadow">
+                                <div class="widget-body" style="padding-left:40px;padding-top:40px">
+                                    <h3>Supporting Documents</h3>
+                                    <div class="form-group">
+                                        <div class="row" style="margin-top:20px;margin-left:20px">
+                                            <div class="col-sm-2 form-control-label d-flex">Signed Instruction Letter<span class="text-danger ml-2">*</span></div>
+                                            <div class="col-xl-3">
+                                                <div id="uploadSignedLetter" class="file-upload before-submit">
+                                                    <input id="" name="signedletter" type="file">
+                                                </div>
+                                                <div id="printSignedLetter">
+                                                    <a id="SignedLetter" href="#" class="btn btn-lost" title="View Ins letter"><i class="ti ti-printer"></i></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br />
+                                        @*<div class="row" style="margin-left:20px">
+                                            <div class="col-sm-2 form-control-label d-flex">Police Report<span class="text-danger ml-2">*</span></div>
+                                            <div class="col-xl-3">
+                                                <div id="uploadPoliceReport" class="file-upload before-submit">
+                                                    <input id="" name="policeReport" type="file">
+                                                </div>
+                                            </div>
+                                        </div>*@
+                                        <br />
+                                        <div class="row" style="margin-left:20px">
+                                            <div class="col-sm-2 form-control-label d-flex">Signed Indemnity Form<span class="text-danger ml-2">*</span></div>
+                                            <div class="col-xl-3">
+                                                <div id="uploadIndemnityForm" class="file-upload before-submit">
+                                                    <input id="" name="policeReport" type="file">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="pnl_more_oneyear" class="widget-body" style="display:none">
+    <div class="table-responsive padding-left-20 padding-right-20">
+        <table id="tblListVerifier" class="table table-hover mb-0 display table-bordered">
+            <thead>
+                <tr>
+                    <th style="width:8px">No</th>
+                    <th>Name</th>
+                    <th style="width:150px">Action</th>
+                </tr>
+
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>
+                        <p>UMA Pin Form 1/2015 (Scanned)<span class="text-danger ml-2">*</span></p>
+                    </td>
+                    <td class="td-actions">
+                        <div class="file-upload before-submit">
+                            <input id="" name="umaPinForm" type="file">
+                        </div>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>
+                        <p>Instruction Letter (Scanned)<span class="text-danger ml-2">*</span></p>
+                    </td>
+                    <td class="td-actions">
+                        <div class="file-upload before-submit">
+                            <input id="" name="insLetter" type="file">
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+@section Scripts{
+
+    <script src="~/assets/js/components/wizard/form-wizard.min.js"></script>
+    <script src="~/assets/vendors/js/bootstrap-select/bootstrap-select.min.js"></script>
+
+    <script src="assets/vendors/js/base/jquery.min.js"></script>
+    <script src="assets/vendors/js/base/core.min.js"></script>
+    <!-- End Vendor Js -->
+    <!-- Begin Page Vendor Js -->
+    <script src="assets/vendors/js/nicescroll/nicescroll.min.js"></script>
+    <script src="assets/vendors/js/app/app.min.js"></script>
+
+    <script>
+
+        var check = function () {
+            if (document.getElementById('txtPassword').value ==
+                document.getElementById('txtRepassword').value) {
+                document.getElementById('message').style.color = 'green';
+                document.getElementById('message').innerHTML = 'Password matching';
+            } else {
+                document.getElementById('message').style.color = 'red';
+                document.getElementById('message').innerHTML = 'Password not matching';
+            }
+        }
+        $("#btnSubmit").on('click', function (e) {
+            console.log('submit');
+            $("#formAddUser").submit();
+        });
+
+    </script>
+}
+
+
+
+
+
+

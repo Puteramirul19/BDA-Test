@@ -1,0 +1,373 @@
+﻿@{
+    ViewData["Title"] = "Reporting";
+}
+
+@section Styles{
+
+    <style>
+        .btn-create {
+            background-color: #5d5386;
+            color: white;
+        }
+
+        .btn-apply:hover {
+            background-color: white;
+            color: black;
+        }
+
+        .btn-cancel:hover {
+            background-color: red;
+            color: white;
+        }
+
+        .btn-recover:hover {
+            background-color: limegreen;
+            color: white;
+        }
+
+        .btn-lost:hover {
+            background-color: #FFC300;
+            color: white;
+        }
+
+        select.filter {
+            height: 33px !important;
+        }
+
+        .dataTable > thead > tr > th[class*="sort"]:before,
+        .dataTable > thead > tr > th[class*="sort"]:after {
+            content: "" !important;
+        }
+    </style>
+}
+<div class="content-inner active">
+    <div class="container-fluid">
+        <!-- Begin Page Header-->
+        <div class="row">
+            <div class="page-header">
+                <div class="d-flex align-items-center">
+                    <div>
+                        <h2 class="page-header-title">Reports</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="widget has-shadow">
+            <div class="row flex-row">
+                <div class="col-xl-12">
+                    <div class="row flex-row">
+                        <div class="col-xl-12 col-md-12">
+                            <div class="table-responsive">
+                                <div class="widget has-shadow">
+                                    <h2 style="padding-top:30px;padding-left:30px" id="title7">Lampiran 7</h2>
+                                    <div class="widget-body">
+                                        <p style="margin-left:10px;font-size:17px" id="header7"><b>BD Dates Log</b></p>
+                                        <div class="form-group row" style="margin-top:20px;color:#5d5386;font-size:16px;font-weight:bold;margin-left:-2px">
+                                            <div class="col-xl-2">
+                                                <label>Division</label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-xl-2">
+                                                <select name="ddlCoCode" id="ddlCoCode" class="form-control"></select>
+                                            </div>
+                                            <button onclick="saveAsPDF();" class="btn btn- btn-info">PDF</button>
+                                        </div>
+                                        @*<button onclick="saveAsPDF();" class="btn btn- btn-info">PDF</button>*@
+                                        <div class="table-responsive">
+                                            <table id="tblLampiran7" class="table table-bordered table-hover mb-0" styles="width:100%">
+                                                <thead>
+                                                    <tr style="border:1px solid">
+                                                        <th></th>
+                                                        <th colspan="3" style="text-align:center">Requester</th>
+                                                        <th colspan="3" style="text-align:center">TGBS AP Banking</th>
+                                                    </tr>
+                                                    <tr style="border:1px solid">
+                                                        <th style="text-align:center;border:1px solid">Ref. No</th>@*added by Hanif 15032020*@
+                                                        <th style="text-align:center;border:1px solid">Date Submitted</th>
+                                                        <th style="text-align:center;border:1px solid">Date Verified</th>
+                                                        <th style="text-align:center;border:1px solid">Date Approved</th>
+                                                        <th style="text-align:center;border:1px solid">Date Accepted</th>
+                                                        <th style="text-align:center;border:1px solid">Date Submitted to Bank</th>
+                                                        <th style="text-align:center;border:1px solid">Date Submitted to Requester</th>
+                                                    </tr>
+
+                                                </thead>
+                                                <tbody style="text-align:center"></tbody>
+                                            </table>
+                                        </div>
+                                        <div class="table-responsive">
+                                            <table id="tblLampiran7b" class="table table-bordered table-hover mb-0" styles="width:100%" style="display:none">
+                                                <thead>
+                                                    <tr style="border:1px solid">
+                                                        <th></th>
+                                                        <th colspan="3" style="text-align:center">Requester</th>
+                                                        <th colspan="3" style="text-align:center">TGBS AP Banking</th>
+                                                    </tr>
+                                                    <tr style="border:1px solid">
+                                                        <th style="text-align:center;border:1px solid">Ref. No</th>@*added by Hanif 15032020*@
+                                                        <th style="text-align:center;border:1px solid">Date Submitted</th>
+                                                        <th style="text-align:center;border:1px solid">Date Verified</th>
+                                                        <th style="text-align:center;border:1px solid">Date Approved</th>
+                                                        <th style="text-align:center;border:1px solid">Date Accepted</th>
+                                                        <th style="text-align:center;border:1px solid">Date Submitted to Bank</th>
+                                                        <th style="text-align:center;border:1px solid">Date Submitted to Requester</th>
+                                                    </tr>
+
+                                                </thead>
+                                                <tbody style="text-align:center"></tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Form -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Container -->
+    <!-- Begin Page Footer-->
+    <!-- End Page Footer -->
+    <a href="#" class="go-top"><i class="la la-arrow-up"></i></a>
+    <!-- Offcanvas Sidebar -->
+    <!-- End Offcanvas Sidebar -->
+</div>
+
+@section Scripts{
+
+    <script src="~/assets/vendors/js/bootstrap-select/bootstrap-select.min.js"></script>
+    <script src="~/assets/vendors/js/datatables/datatables.min.js"></script>
+    <script src="~/assets/vendors/js/datatables/dataTables.buttons.min.js"></script>
+    <script src="~/assets/vendors/js/jspdf/jspdf.min.js"></script>
+    <script src="~/assets/vendors/js/jspdf/jspdf.plugin.autotable.js"></script>
+
+
+    @*<script src="~/assets/vendors/js/bootstrap-select/bootstrap-select.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+        <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/buttons/1.5.2/js/dataTables.buttons.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+        <script src=https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js></script>
+        <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.html5.min.js"></script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.5/jspdf.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.3/jspdf.plugin.autotable.js"></script>*@
+
+    @*<script src="~/assets/vendors/js/datatables/datatables.min.js"></script>
+        <script src="~/assets/vendors/js/datatables/dataTables.select.min.js"></script>
+        <script src="~/assets/vendors/js/datatables/dataTables.buttons.min.js"></script>
+        <script src="~/assets/vendors/js/datatables/buttons.flash.js"></script>
+        <script src="~/assets/vendors/js/datatables/buttons.print.min.js"></script>
+        <script src="~/assets/vendors/js/datatables/buttons.html5.js"></script>
+
+        <script src="~/assets/vendors/js/tablefilter/jquery.tablefilter.js"></script>
+        <script src="~/assets/vendors/js/tablefilter/jquery.tabledatafilter.min.js"></script>*@
+    <script>
+
+        var coCode = 4001;
+
+        var data = {
+
+            id: 4001,
+            text: '4001 - Corporate'
+        };
+
+        function saveAsPDF() {
+            //html2canvas(document.getElementById("chart-container"), {
+            //    onrendered: function (canvas) {
+            //        var img = canvas.toDataURL(); //image data of canvas
+
+            var doc = new jsPDF('l', 'mm', 'a4');
+            var width = doc.internal.pageSize.width;
+            var height = doc.internal.pageSize.height;
+            doc.setFontSize(12);
+            doc.setFontType("bold");
+
+            doc.text(15, 30, $("#title7").text());
+            doc.text(15, 40, $("#header7").text());
+
+            doc.autoTable({
+                startY: 50,
+                margin: { horizontal: 15 },
+                html: '#tblLampiran7b',
+                pageNumber: 2,
+                columnStyles: {
+                    0: { halign: 'left' },
+                    1: { halign: 'center' },
+                    2: { halign: 'center' },
+                    3: { halign: 'center' },
+                    4: { halign: 'center' },
+                    5: { halign: 'center' },
+                    6: { halign: 'center' },
+                },
+            })
+
+            doc.save('Lampiran7.pdf')
+
+        }
+
+        $(document).ready(function () {
+
+            var newOption = new Option(data.text, data.id, false, false);
+            $('#ddlCoCode').append(newOption).trigger('change');
+
+            $(function () {
+                $("nav").addClass("shrinked");
+            });
+
+            //SetSelectedValue("All Divisions", "#ddlCoCode");
+
+            var select = document.getElementById("ddlCoCode");
+       
+
+              var table = $('#tblLampiran7').DataTable({
+                    dom: "frtip",
+                  "processing": true,
+                  //buttons: [
+                  //    { extend: 'excelHtml5', footer: true, header: true, orientation: 'landscape', pageSize: 'LEGAL', title: function () { return $('#header7').text().toUpperCase(); }, },
+                  //    { extend: 'csvHtml5', footer: true, header: true, orientation: 'landscape', pageSize: 'LEGAL', title: function () { return $('#header7').text().toUpperCase(); }, },
+                  //    { extend: 'pdfHtml5', footer: true, header:true, orientation: 'landscape', pageSize: 'LEGAL', title: function () { return $('#header7').text().toUpperCase(); }, }
+                  //],
+                  "columnDefs": [
+                      { className: "dt-body-left", "targets": [0] },
+                  ],
+                    //serverSide: true,
+                  "iDisplayLength": 20,
+                    "ajax": {
+                        url: "/Reporting/GetReportForLampiran7?coCode=" + coCode + "",
+                            //"Url.Action("GetReportForLampiran7", "Reporting")",
+                        type: "GET",
+                        data: function (d) {
+                            //d.id = $('#search-refNo').val();
+                            //d.re = $('#search-assignment').val();
+                            //d.ermsDocNo = $('#search-ermsDocNo').val();
+                            //d.busA = $('#search-ba').val();
+                            //d.state = $('#search-state').val();
+                            //d.pkType = $('#search-pkType').val();
+                            //d.docDate = $('#search-docDate').val();
+                            //d.ermsPostingDate = $('#search-ermsPostingDate').val();
+                            //d.bdAmount = $('#search-bdAmount').val();
+                            //d.keteranganKerja = $('#search-keteranganKerja').val();
+                        },
+                        dataFilter: function (result) {
+                            var jData = JSON.parse(result);
+                            var dtData = JSON.stringify({ "data": jData });
+                            return dtData;
+                        }
+                     },
+                    order: [[0, 'asc']],
+                    columns: [
+                        { data: "refNo"},
+                        { data: "dateSubmit" },
+                        { data: "dateVerify" },
+                        { data: "dateApprove" },
+                        { data: "dateAccept" },
+                        { data: "dateReceive" },
+                        { data: "dateIssue" },
+                    ],
+                    "bPaginate": true,
+                    "bLengthChange": false,
+                    "bFilter": false,
+                    "bInfo": true,
+                  "bAutoWidth": false,
+                  //"bSort": false,
+                    orderCellsTop: true,
+                    fixedHeader: true,
+                    "lengthChange": false,
+            });
+
+            $('.table thead filterCol').appendTo('table thead');
+
+            $.each($('.input-filter', table.table().header()), function () {
+                var column = table.column($(this).index());
+
+                $('input', this).on('keyup change', function () {
+                    table.ajax.reload();
+                });
+            });
+
+            $.each($('.select-filter', table.table().header()), function () {
+                var column = table.column($(this).index());
+
+                $('select', this).on('change', function () {
+                    table.ajax.reload();
+                });
+            });
+
+            var table2 = $('#tblLampiran7b').DataTable({
+                dom: "frtip",
+                "processing": true,
+                //serverSide: true,
+                "iDisplayLength": 20,
+                "ajax": {
+                    url: "/Reporting/GetReportForLampiran7?coCode=" + $("#ddlCoCode").val() + "",
+                    type: "GET",
+                    data: function (d) {
+                        //d.coCode = $('#ddlCoCode').val();
+                    },
+                    dataFilter: function (result) {
+                        var jData = JSON.parse(result);
+                        var dtData = JSON.stringify({ "data": jData });
+                        return dtData;
+                    }
+                },
+                order: [[0, 'asc']],
+                columns: [
+                    { data: "refNo" },
+                    { data: "dateSubmit" },
+                    { data: "dateVerify" },
+                    { data: "dateApprove" },
+                    { data: "dateAccept" },
+                    { data: "dateReceive" },
+                    { data: "dateIssue" },
+                ],
+                "bPaginate": false,
+                "bLengthChange": false,
+                "bFilter": false,
+                "bInfo": false,
+                "bAutoWidth": false,
+                //"bSort": false,
+                orderCellsTop: true,
+                fixedHeader: true,
+                "lengthChange": false,
+            });
+
+            $("#ddlCoCode").select2({
+                minimumResultsForSearch: -1,
+                ajax: {
+                    url: "/Reporting/GetAllCompanyCode",
+                    dataType: 'json',
+                    type: "GET",
+                    processResults: function (data) {
+                        console.log(data);
+                        return {
+                            results: $.map(data, function (item) {
+                                return {
+                                    text: item.name,
+                                    id: item.id
+                                }
+
+                            })
+                        };
+
+                    }
+                }
+            });
+
+            $('#ddlCoCode').on('select2:select', function (e) {
+                var data = e.params.data;
+                if (data.selected) {
+                    var id = data.id;
+                    $("#ddlCoCode").val(id);
+                    table.ajax.url("/Reporting/GetReportForLampiran7?coCode=" + id + "").load();
+                    table2.ajax.url("/Reporting/GetReportForLampiran7?coCode=" + id + "").load();
+                }
+            });
+
+        });
+
+    </script>
+}

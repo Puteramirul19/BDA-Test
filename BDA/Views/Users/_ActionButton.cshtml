@@ -1,0 +1,223 @@
+﻿
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@*Buttons*@
+<!-- Begin Modal -->
+<div id="role-assigned-modal" class="modal fade">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <div class="sa-icon sa-success animate" style="display: block;">
+                    <span class="sa-line sa-tip animateSuccessTip" style="background-color:limegreen"></span>
+                    <span class="sa-line sa-long animateSuccessLong" style="background-color:limegreen"></span>
+                    <div class="sa-placeholder"></div>
+                    <div class="sa-fix"></div>
+                </div>
+                <div class="section-title mt-5 mb-2">
+                    <h2 class="text-gradient-02">Role assigned!</h2>
+                </div>
+                <button type="button" id="btn-end-processed" class="btn btn-shadow mb-3" data-dismiss="modal">Ok</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="save-edit-user" class="modal fade">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <div class="sa-icon sa-success animate" style="display: block;">
+                    <span class="sa-line sa-tip animateSuccessTip" style="background-color:limegreen"></span>
+                    <span class="sa-line sa-long animateSuccessLong" style="background-color:limegreen"></span>
+                    <div class="sa-placeholder"></div>
+                    <div class="sa-fix"></div>
+                </div>
+                <div class="section-title mt-5 mb-2">
+                    <h2 class="text-gradient-02">User updated!</h2>
+                </div>
+                <button type="button" id="btn-end-edituser" class="btn btn-shadow mb-3" data-dismiss="modal">Ok</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://ajax.aspnetcdn.com/ajax/knockout/knockout-3.3.0.js" type="text/javascript"></script>
+<script type="text/javascript">
+    
+    
+    var vm = function ViewModel() {
+            this.divCode = ko.observable();
+            this.divName = ko.observable();
+            this.funcCode = ko.observable();
+            this.funcName = ko.observable();
+            this.funcDivisionId = ko.observable();
+            this.zoneCode = ko.observable();
+            this.zoneName = ko.observable();
+            this.unitCode = ko.observable();
+        this.unitName = ko.observable();
+        //this.funcDivision = ko.observable();
+
+            this.addDivision = function () {
+                
+                var division = new Object();
+                division.Code = this.divCode();
+                division.Name = this.divName();
+
+                var json = JSON.stringify(division);
+
+                if (division != null) {
+
+                      $.ajax({
+                        type: "POST",
+                        url: '@Url.Action("Create", "Division")',
+                        dataType: "json",
+                        data: {
+                              Name: division.Name,
+                              Code: division.Code
+                          },
+                        success: function(data, status) {
+                                alert(data);
+                        },
+                        error: function() {
+                            location.reload();
+                    }
+                    });
+                   
+                }
+            }
+
+             this.addFunction = function () {
+                
+                var func = new Object();
+                 func.Code = this.funcCode();
+                 func.Name = this.funcName();
+                 func.DivisionId = this.funcDivisionId();
+
+                var json = JSON.stringify(func);
+                 console.log(json);
+                 if (func.DivisionId != null) {
+
+                     $.ajax({
+                         type: "POST",
+                         url: '@Url.Action("Create", "Function")',
+                         dataType: "json",
+                         data: {
+                             Name: func.Name,
+                             Code: func.Code,
+                             DivisionId: func.DivisionId
+                         },
+                         success: function (data, status) {
+                             alert(data);
+                         },
+                         error: function (e) {
+                             console.log(e);
+                             //location.reload();
+                         }
+                     });
+
+                 }
+                 else alert("No division!");
+            }
+
+            this.addZone = function () {
+                
+                var zone = new Object();
+                 zone.Code = this.zoneCode();
+                 zone.Name = this.zoneName();
+                 zone.Function = this.zoneName();
+
+                var json = JSON.stringify(zone);
+
+                if (zone != null) {
+
+                      $.ajax({
+                        type: "POST",
+                        url: '@Url.Action("Create", "Zone")',
+                        dataType: "json",
+                        data: {
+                              Name: zone.Name,
+                              Code: zone.Code,
+                              FunctionId: "2969D246-F73E-4714-9D87-D1D649BC4B80"
+                          },
+                        success: function(data, status) {
+                                alert(data);
+                        },
+                        error: function() {
+                            location.reload();
+                    }
+                    });
+
+                }
+            }
+
+             this.addUnit = function () {
+                
+                var unit = new Object();
+                 unit.Code = this.unitCode();
+                 unit.Name = this.unitName();
+                 unit.Function = this.unitName();
+
+                var json = JSON.stringify(unit);
+
+                 if (unit != null) {
+
+                      $.ajax({
+                        type: "POST",
+                        url: '@Url.Action("Create", "Unit")',
+                        dataType: "json",
+                        data: {
+                              Name: unit.Name,
+                              Code: unit.Code,
+                              ZoneId: "B6797AF5-B5AD-460E-9379-596B517BC252"
+                          },
+                        success: function(data, status) {
+                                alert(data);
+                        },
+                        error: function() {
+                            location.reload();
+                    }
+                    });
+
+                }
+            }
+
+             this.addRole = function () {
+                
+                var role = new Object();
+                role.userId = UserName;
+                role.roleId = this.roleId();
+                role.divisionId = this.divisionId();
+                role.functionId = this.functionId();
+                role.zoneId = this.zoneId(); 
+
+                var json = JSON.stringify(role);
+
+                if (role != null) {
+
+                      $.ajax({
+                        type: "POST",
+                        url: '@Url.Action("CreateRole", "Users")',
+                        dataType: "json",
+                        data: {
+                            UserId: role.userId,
+                            RoleId: role.roleId,
+                            DivisionId: role.divisionId,
+                            FunctionId: role.functionId,
+                            ZoneId: role.zoneId
+                          },
+                        success: function(data, status) {
+                                //alert(data);
+                        },
+                        error: function() {
+                                //alert('error');
+                    }
+                    });
+
+                }
+            }
+
+        };
+
+    //var vm = new ViewModel();
+    ko.applyBindings(new vm);
+</script>

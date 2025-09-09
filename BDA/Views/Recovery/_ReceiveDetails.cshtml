@@ -1,0 +1,299 @@
+﻿@model BDA.ViewModel.RecoveryViewModel
+@{
+    var statementBank = "";
+    var firstStatementBank = "";
+    var secondStatementBank = "";
+
+    if (Model != null)
+    {
+        statementBank = Model.BankStatementVM.FileName;
+        firstStatementBank = Model.FirstParBankStatementVM.FileName;
+        secondStatementBank = Model.SecondParBankStatementVM.FileName;
+    }
+}
+@{
+    ViewData["Title"] = "CompleteDetails";
+}
+
+@section Styles{
+
+    <style>
+        .btn-create {
+            background-color: #5d5386;
+            color: white;
+        }
+
+        .btn-apply:hover {
+            background-color: white;
+            color: black;
+        }
+
+        .btn-cancel:hover {
+            background-color: red;
+            color: white;
+        }
+
+        .btn-create:hover {
+            background-color: limegreen;
+            color: white;
+        }
+
+        .btn-lost:hover {
+            background-color: #FFC300;
+            color: white;
+        }
+
+        select.filter {
+            height: 33px !important;
+        }
+
+        .form-staff {
+            margin-bottom: 2rem;
+        }
+    </style>
+}
+
+<div id="pnl_main_form" class="widget-body">
+    <div class="padding-left-20 padding-right-20">
+        <div class="row flex-row">
+            <div class="col-xl-12 col-md-12">
+                <div class="table-responsive">
+                    <div class="widget has-shadow">
+                        <div id="pnl_firstPartial_form" class="widget has-shadow">
+                            <div class="widget-body">
+                                <div class="padding-left-20 padding-right-20">
+                                    <h3>First Partial Recovery</h3>
+                                    <br/>
+                                    <div class="form-group row">
+                                        <div class="col-sm-2 form-control-label align-items-center">Received Date<span
+                                                class="text-danger ml-2">*</span></div>
+                                        <div class="col-sm-4">
+                                            <div class="input-group">
+                                                @Html.TextBoxFor(x => x.PartialReceivedDate, new { @class = "form-control date", required = "required" })
+                                                <span class="input-group-addon">
+                                                    <i class="la la-calendar"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-2 form-control-label d-flex align-items-center">Bank
+                                            Statement<span class="text-danger ml-2">*</span></div>
+                                        <div class="col-xl-4">
+                                            @if (firstStatementBank == "" || firstStatementBank == null)
+                                            {
+                                                <div class="file-upload">
+                                                    @Html.TextBoxFor(m => m.FirstParBankStatementVM.File, new { type = "file", name = "FirstParStatementBank" })
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                var file = firstStatementBank;
+                                                <div id="noFile-FirstParStatementBank" class="file-upload"
+                                                     style="display:none">
+                                                    @Html.TextBoxFor(m => m.FirstParBankStatementVM.File, new { type = "file", name = "FirstParStatementBank" })
+                                                </div>
+                                                <div id="hasFile-FirstParStatementBank">
+                                                    <input type="hidden" value="@file" id="hdnFirstParStatementBank"/>
+                                                    <a onclick="window.open('../../../documents/@file','newwindow','width=900,height=750');"><i
+                                                            class="ti-printer"></i></a>
+                                                    @*<a onclick="RemoveAttachment('@Model.FirstParBankStatementVM.Id','FirstParStatementBank');"><i class="la la-trash delete before-process" data-toggle="tooltip" data-placement="top" data-original-title="Remove attachment"></i></a>*@
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-sm-2 form-control-label align-items-center">ERMS Document
+                                            No.<span class="text-danger ml-2">*</span></div>
+                                        <div class="col-sm-4">
+                                            @Html.TextBoxFor(x => x.ErmsDocNo1, new { @class = "form-control", required = "required", id = "erms1p", type = "number" })
+                                        </div>
+                                        <div class="col-sm-2 form-control-label align-items-center">Posting Date<span
+                                                class="text-danger ml-2">*</span></div>
+                                        <div class="col-sm-4">
+                                            <div class="input-group">
+                                                @Html.TextBoxFor(x => x.PostingDate1, new { @class = "form-control date", required = "required", id = "ermsPostDate1p" })
+                                                <span class="input-group-addon">
+                                                    <i class="la la-calendar"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div id="pnl_secondPartial_form" class="widget has-shadow">
+                            <div class="widget-body">
+                                <div class="padding-left-20 padding-right-20">
+                                    <h3>Second Partial Recovery</h3>
+                                    <br/>
+                                    <div class="form-group row">
+                                        <div class="col-sm-2 form-control-label align-items-center">Received Date<span
+                                                class="text-danger ml-2">*</span></div>
+                                        <div class="col-sm-4">
+                                            <div class="input-group">
+                                                @Html.TextBoxFor(x => x.ReceivedDate, new { @class = "form-control date", required = "required" })
+                                                <span class="input-group-addon">
+                                                    <i class="la la-calendar"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-2 form-control-label d-flex align-items-center">Bank
+                                            Statement<span class="text-danger ml-2">*</span></div>
+                                        <div class="col-xl-4">
+                                            @if (secondStatementBank == "" || secondStatementBank == null)
+                                            {
+                                                <div class="file-upload">
+                                                    @Html.TextBoxFor(m => m.SecondParBankStatementVM.File, new { type = "file", name = "SecondParStatementBank" })
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                var file = secondStatementBank;
+                                                <div id="noFile-SecondParStatementBank" class="file-upload"
+                                                     style="display:none">
+                                                    @Html.TextBoxFor(m => m.SecondParBankStatementVM.File, new { type = "file", name = "SecondParStatementBank" })
+
+                                                </div>
+                                                <div id="hasFile-SecondParStatementBank">
+                                                    <input type="hidden" value="@file" id="hdnSecondParStatementBank"/>
+                                                    <a onclick="window.open('../../../documents/@file','newwindow','width=900,height=750');"><i
+                                                            class="ti-printer"></i></a>
+                                                    @*<a onclick="RemoveAttachment('@Model.BankStatementVM.Id','SecondParStatementBank');"><i class="la la-trash delete before-process" data-toggle="tooltip" data-placement="top" data-original-title="Remove attachment"></i></a>*@
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-sm-2 form-control-label align-items-center">ERMS Document
+                                            No.<span class="text-danger ml-2">*</span></div>
+                                        <div class="col-sm-4">
+                                            @*<div class="input-group">*@
+                                            @Html.TextBoxFor(x => x.ErmsDocNo2, new { @class = "form-control", required = "required", id = "erms2p", type = "number" })
+                                            @*<span class="input-group-addon">
+                    <i class="la la-calendar"></i>
+                </span>
+            </div>*@
+                                        </div>
+                                        <div class="col-sm-2 form-control-label align-items-center">Posting Date<span
+                                                class="text-danger ml-2">*</span></div>
+                                        <div class="col-sm-4">
+                                            <div class="input-group">
+                                                @Html.TextBoxFor(x => x.PostingDate2, new { @class = "form-control date", required = "required", id = "ermsPostDate2p" })
+                                                <span class="input-group-addon">
+                                                    <i class="la la-calendar"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="pnl_fullPartial_form" class="widget has-shadow">
+                            <div class="widget-body">
+                                <div class="padding-left-20 padding-right-20">
+                                    <h3>Full Recovery</h3>
+                                    <br/>
+                                    <div class="form-group row">
+                                        <div class="col-sm-2 form-control-label align-items-center">Received Date<span
+                                                class="text-danger ml-2">*</span></div>
+                                        <div class="col-sm-4">
+                                            <div class="input-group">
+                                                @Html.TextBoxFor(x => x.ReceivedDate, new { @class = "form-control date", required = "required", id = "rdFull" })
+                                                <span class="input-group-addon">
+                                                            <i class="la la-calendar"></i>
+                                                        </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-2 form-control-label d-flex align-items-center">Bank
+                                            Statement<span class="text-danger ml-2">*</span></div>
+                                        <div class="col-xl-4">
+                                            @if (statementBank == "" || statementBank == null)
+                                            {
+                                                <div class="file-upload">
+                                                    @Html.TextBoxFor(m => m.BankStatementVM.File, new { type = "file", name = "StatementBank" })
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                var file = statementBank;
+                                                <div id="noFile-StatementBank" class="file-upload" style="display:none">
+                                                    @Html.TextBoxFor(m => m.BankStatementVM.File, new { type = "file", name = "StatementBank" })
+                                                </div>
+                                                <div id="hasFile-StatementBank">
+                                                    <input type="hidden" value="@file" id="hdnStatementBank"/>
+                                                    <a onclick="window.open('../../../documents/@file','newwindow','width=900,height=750');"><i
+                                                            class="ti-printer"></i></a>
+                                                    @*<a onclick="RemoveAttachment('@Model.BankStatementVM.Id','StatementBank');"><i class="la la-trash delete before-process" data-toggle="tooltip" data-placement="top" data-original-title="Remove attachment"></i></a>*@
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-sm-2 form-control-label align-items-center">ERMS Document
+                                            No.<span class="text-danger ml-2">*</span></div>
+                                        <div class="col-sm-4">
+                                            @*<div class="input-group">*@
+                                            @Html.TextBoxFor(x => x.ErmsDocNo1, new { @class = "form-control", required = "required", id = "erms1f", type = "number" })
+                                            @*<span class="input-group-addon">
+                    <i class="la la-calendar"></i>
+                </span>
+            </div>*@
+                                        </div>
+                                        <div class="col-sm-2 form-control-label align-items-center">Posting Date<span
+                                                class="text-danger ml-2">*</span></div>
+                                        <div class="col-sm-4">
+                                            <div class="input-group">
+                                                @Html.TextBoxFor(x => x.PostingDate1, new { @class = "form-control date", required = "required", id = "ermsPostDate1f" })
+                                                <span class="input-group-addon">
+                                                            <i class="la la-calendar"></i>
+                                                        </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+
+    <script src="~/assets/js/components/wizard/form-wizard.min.js"></script>
+    <script src="~/assets/vendors/js/bootstrap-select/bootstrap-select.min.js"></script>
+
+    <script src="assets/vendors/js/base/jquery.min.js"></script>
+    <script src="assets/vendors/js/base/core.min.js"></script>
+    <!-- End Vendor Js -->
+    <!-- Begin Page Vendor Js -->
+    <script src="assets/vendors/js/nicescroll/nicescroll.min.js"></script>
+    <script src="assets/vendors/js/app/app.min.js"></script>
+
+    <script>
+
+        var check = function () {
+            if (document.getElementById('txtPassword').value ==
+                document.getElementById('txtRepassword').value) {
+                document.getElementById('message').style.color = 'green';
+                document.getElementById('message').innerHTML = 'Password matching';
+            } else {
+                document.getElementById('message').style.color = 'red';
+                document.getElementById('message').innerHTML = 'Password not matching';
+            }
+        }
+        $("#btnSubmit").on('click', function (e) {
+            console.log('submit');
+            $("#formAddUser").submit();
+        });
+
+    </script>
+}
+
+
+
+
+
+

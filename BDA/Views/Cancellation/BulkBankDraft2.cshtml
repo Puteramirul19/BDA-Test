@@ -1,0 +1,234 @@
+﻿
+@{
+    ViewData["Title"] = "New Instruction Letter";
+    //Layout = "~/Views/Shared/_FormLayout.cshtml";
+}
+@section Styles{
+    <style>
+        input[readonly] {
+            background-color: #fdffe3;
+            border: none;
+        }
+
+        tr.noBorder td {
+            border: 0;
+        }
+    </style>
+}
+<div class="content-inner active">
+    <div class="container-fluid">
+        <!-- Begin Page Header-->
+        <div class="row">
+            <div class="page-header">
+                <div class="d-flex align-items-center">
+                    <h2 class="page-header-title">Bulk Processing</h2>
+                    <div>
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="db-default.html"><i class="ti ti-home"></i></a></li>
+                            <li class="breadcrumb-item"><a href="#">Bulk Processing</a></li>
+                            <li class="breadcrumb-item active">Update Bank Draft Cancellation</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Page Header -->
+        <!-- Begin Row -->
+        <div class="row flex-row">
+            <div class="col-xl-12">
+                <!-- Form -->
+                <div class="widget has-shadow">
+                    <div class="widget-header bordered no-actions d-flex align-items-center">
+                        <h4>Update Bank Draft Cancellation</h4>
+                    </div>
+                    <div class="widget-body">
+                        <div class="widget-body sliding-tabs">
+                            <ul class="nav nav-tabs form-tab" id="ul-form-tab" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="base-tab-1" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="true">Action Pending</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="base-tab-2" data-toggle="tab" href="#tab-2" role="tab" aria-controls="tab-2" aria-selected="false">Submitted</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content pt-3">
+                                <div class="tab-pane fade active show" id="tab-1" role="tabpanel" aria-labelledby="base-tab-1">
+                                    <div class="row flex-row">
+                                        <div class="col-xl-12 col-md-12">
+                                            <div class="table-responsive">
+                                                <div class="widget has-shadow">
+                                                    @*<div class="widget-header bordered no-actions d-flex align-items-center">
+                                                            <h4>History</h4>
+                                                        </div>*@
+                                                    <div class="widget-body">
+                                                        <div class="table-responsive">
+                                                            <table class="table table-bordered mb-0" id="listBDCancel" style="width:100%">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>Ref No.</th>
+                                                                        <th>BD No.</th>
+                                                                        <th>C/O/N/W. No</th>
+                                                                        <th>Name on BD</th>
+                                                                        <th>Requester</th>
+                                                                        <th>Co. Code</th>
+                                                                        <th>Business Area</th>
+                                                                        <th>BD Amount (RM)</th>
+                                                                        <th>Received Date</th>
+                                                                        <th>Bank Statement</th>
+                                                                        <th></th>
+                                                                        <th></th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td>TNB/C001</td>
+                                                                        <td>BD123</td>
+                                                                        <td>Proj 123</td>
+                                                                        <td>JKR</td>
+                                                                        <td>Hasni Awang</td>
+                                                                        <td>6001</td>
+                                                                        <td>6101</td>
+                                                                        <td>120,000.00</td>
+                                                                        <td><input type="text" class="form-control date" id="amtReceiveDate" placeholder="Select value" style="width:110px"></td>
+                                                                        <td><a href="#" style="border-radius: 0%;background-color: #f4f4f4;border-color: #ddd;" class="btn btn-lost file"><i type="file" class="ti ti-clip" style="font-size:medium"></i></a></td>
+                                                                        <td><a href="/Cancellation/Receive" class="btn" style="border-radius: 0%;background-color: #f4f4f4;border-color: #ddd;text-align:center"><i type="file" class="la la-edit" style="font-size:medium;"></i></a></td>
+                                                                        <td>
+                                                                            <button href="#" class="btn btn-lost btn-block mb-2" style="border-radius: 0%;background-color:#5cb85c;border-color: #ddd;color:white" data-target="#confirmation-submitbulk-modal" data-toggle="modal">Submit</button>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>TNB/C001</td>
+                                                                        <td>BD321</td>
+                                                                        <td>Proj 321</td>
+                                                                        <td>JPJ</td>
+                                                                        <td>Ahmad Naqib</td>
+                                                                        <td>4001</td>
+                                                                        <td>6011</td>
+                                                                        <td>250,000.00</td>
+                                                                        <td><input type="text" class="form-control date" id="amtReceiveDate" placeholder="Select value" style="width:110px"></td>
+                                                                        <td><a href="#" style="border-radius: 0%;background-color: #f4f4f4;border-color: #ddd;" class="btn btn-lost file"><i type="file" class="ti ti-clip" style="font-size:medium"></i></a></td>
+                                                                        <td><a href="/Cancellation/Receive" class="btn" style="border-radius: 0%;background-color: #f4f4f4;border-color: #ddd;text-align:center"><i type="file" class="la la-edit" style="font-size:medium;"></i></a></td>
+                                                                        <td>
+                                                                            <button href="#" class="btn btn-lost btn-block mb-2" style="border-radius: 0%;background-color:#5cb85c;border-color: #ddd;color:white" data-target="#confirmation-submitbulk-modal" data-toggle="modal">Submit</button>
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="tab-2" role="tabpanel" aria-labelledby="base-tab-2">
+                                    <div class="row flex-row">
+                                        <div class="col-xl-12 col-md-12">
+                                            <div class="table-responsive">
+                                                <div class="widget has-shadow">
+                                                    @*<div class="widget-header bordered no-actions d-flex align-items-center">
+                                                            <h4>History</h4>
+                                                        </div>*@
+                                                    <div class="widget-body">
+                                                        <div class="table-responsive">
+                                                            <table class="table table-bordered mb-0" id="listBDRecovered" style="width:100%">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>Ref No.</th>
+                                                                        <th>BD No.</th>
+                                                                        <th>C/O/N/W. No</th>
+                                                                        <th>Name on BD</th>
+                                                                        <th>Requester</th>
+                                                                        <th>Co. Code</th>
+                                                                        <th>Business Area</th>
+                                                                        <th>BD Amount (RM)</th>
+                                                                        <th>Received Date</th>
+                                                                        <th>Bank Statement</th>
+                                                                        <th></th>
+                                                                        <th></th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td>TNB/C001</td>
+                                                                        <td>BD123</td>
+                                                                        <td>Proj 123</td>
+                                                                        <td>JKR</td>
+                                                                        <td>Hasni Awang</td>
+                                                                        <td>6001</td>
+                                                                        <td>6101</td>
+                                                                        <td>120,000.00</td>
+                                                                        <td><input type="text" class="form-control date" id="amtReceiveDate" placeholder="Select value" style="width:110px"></td>
+                                                                        <td><a href="#" style="border-radius: 0%;background-color: #f4f4f4;border-color: #ddd;" class="btn btn-lost file"><i type="file" class="ti ti-clip" style="font-size:medium"></i></a></td>
+                                                                        <td><a href="/Cancellation/Receive" class="btn" style="border-radius: 0%;background-color: #f4f4f4;border-color: #ddd;"><i type="file" class="la la-edit" style="font-size:medium"></i></a></td>
+                                                                        <td>
+                                                                            <button href="#" class="btn btn-lost btn-block mb-2" style="border-radius: 0%;background-color:#5cb85c;border-color: #ddd;color:white" data-target="#confirmation-submitbulk-modal" data-toggle="modal">Submit</button>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>TNB/C001</td>
+                                                                        <td>BD321</td>
+                                                                        <td>Proj 321</td>
+                                                                        <td>JPJ</td>
+                                                                        <td>Ahmad Naqib</td>
+                                                                        <td>4001</td>
+                                                                        <td>6011</td>
+                                                                        <td>250,000.00</td>
+                                                                        <td><input type="text" class="form-control date" id="amtReceiveDate" placeholder="Select value" style="width:110px"></td>
+                                                                        <td><a href="#" style="border-radius: 0%;background-color: #f4f4f4;border-color: #ddd;" class="btn"><i type="file" class="ti ti-clip" style="font-size:medium"></i></a></td>
+                                                                        <td><a href="/Cancellation/Receive" class="btn" style="border-radius: 0%;background-color: #f4f4f4;border-color: #ddd;text-align:center"><i type="file" class="la la-edit" style="font-size:medium;"></i></a></td>
+                                                                        <td>
+                                                                            <button href="#" class="btn btn-lost btn-block mb-2" style="border-radius: 0%;background-color:#5cb85c;border-color: #ddd;color:white" data-target="#confirmation-submitbulk-modal" data-toggle="modal">Submit</button>
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Form -->
+            </div>
+        </div>
+        <!-- End Row -->
+    </div>
+    @Html.Partial("_ActionButton.cshtml")
+    <!-- End Container -->
+    <!-- Begin Page Footer-->
+    <!-- End Page Footer -->
+    <a href="#" class="go-top"><i class="la la-arrow-up"></i></a>
+    <!-- Offcanvas Sidebar -->
+    @*@Html.Partial("_Log.cshtml")*@
+    <!-- End Offcanvas Sidebar -->
+</div>
+
+
+@section Scripts{
+
+    <script>
+        $(function () {
+            $("nav").addClass("shrinked");
+        });
+    </script>
+    @*Validation script*@
+    <!--  validation script  -->
+    <script src="~/assets/vendors/jsgrid-1.5.3/src/jsgrid.validation.js"></script>
+    <script src="~/js/jquery.validate.js"></script>
+    @*added by Hanif 08112019*@
+
+    @*<script src="~/assets/js/components/wizard/form-wizard.min.js"></script>*@
+    <script src="~/assets/vendors/js/bootstrap-select/bootstrap-select.min.js"></script>
+
+    <script src="~/assets/vendors/js/base/jquery.min.js"></script>
+
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+}

@@ -1,0 +1,345 @@
+﻿@{
+    ViewData["Title"] = "Reporting";
+}
+
+@section Styles{
+
+    <style>
+        .btn-create {
+            background-color: #5d5386;
+            color: white;
+        }
+
+        .btn-apply:hover {
+            background-color: white;
+            color: black;
+        }
+
+        .btn-cancel:hover {
+            background-color: red;
+            color: white;
+        }
+
+        .btn-recover:hover {
+            background-color: limegreen;
+            color: white;
+        }
+
+        .btn-lost:hover {
+            background-color: #FFC300;
+            color: white;
+        }
+
+        select.filter {
+            height: 33px !important;
+        }
+    </style>
+}
+<div class="content-inner active">
+    <div class="container-fluid">
+        <!-- Begin Page Header-->
+        <div class="row">
+            <div class="page-header">
+                <div class="d-flex align-items-center">
+                    <div>
+                        <h2 class="page-header-title">Reports</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="widget has-shadow">
+            <h2 style="padding-top:30px;padding-left:30px" class="page-header-title"><b>SUMMARY OF BD ISSUED & BD RECOVERY AS AT JUNE 2019</b></h2>
+            <h2 style="padding-top:30px;padding-left:30px">Lampiran 1</h2>
+            <div class="widget-body">
+                <div class="form-group row">
+                    <div class="col-xl-2">
+                        <select id="ddlMonth" name="ddlMonth" class="selectpicker show-menu-arrow form-control" tabindex="-98" style="background-color:white">
+                            <option value="0" selected disabled>Month</option>
+                            <option value="1">January</option>
+                            <option value="2">February</option>
+                            <option value="3">March</option>
+                            <option value="4">April</option>
+                            <option value="5">May</option>
+                            <option value="6">June</option>
+                            <option value="7">July</option>
+                            <option value="8">August</option>
+                            <option value="9">September</option>
+                            <option value="10">October</option>
+                            <option value="11">November</option>
+                            <option value="12">December</option>
+                        </select>
+                    </div>
+                    <div class="col-xl-2">
+                        <select id="ddlYear" name="ddlYear" class="selectpicker show-menu-arrow form-control" tabindex="-98">
+                            <option value="0" selected disabled>Year</option>
+                            <option value="2015">2015</option>
+                            <option value="2016">2016</option>
+                            <option value="2017">2017</option>
+                            <option value="2018">2018</option>
+                            <option value="2019">2019</option>
+                            <option value="2020">2020</option>
+                        </select>
+                    </div>
+                    <div class="col-xl-2">
+                        <button id="btnPull" class="btn btn-success">Show</button>
+                    </div>
+                </div>
+                @*<div class="form-group row">
+                <div class="col-sm-1 form-control-label d-flex align-items-center">Filter</div>
+                <div class="col-xl-3">
+                    <select name="ddlCancelReason" id="ddlCancelReason" class="custom-select form-control">
+                        <option selected disabled value="0">Month</option>
+                        <option value="1">January</option>
+                        <option value="2">February</option>
+                        <option value="3">March</option>
+                        <option value="4">April</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-1 form-control-label d-flex align-items-center"></div>
+                <div class="col-xl-3">
+                    <select name="ddlCancelReason" id="ddlCancelReason" class="custom-select form-control">
+                        <option selected disabled value="0">Year</option>
+                        <option value="1">2020</option>
+                        <option value="2">2019</option>
+                        <option value="3">2018</option>
+                        <option value="4">2017</option>
+                    </select>
+                </div>
+            </div>*@
+            </div>
+            <div class="row flex-row">
+                <div class="col-xl-12">
+                    <div class="row flex-row">
+                        <div class="col-xl-12 col-md-12">
+                            <div class="table-responsive">
+                                <div class="widget has-shadow">
+                                    <div class="widget-body">
+                                        <div class="table-responsive">
+                                            <table id="tblLampiran1" class="table table-hover mb-0 display" styles="width:100%">
+                                                <thead>
+                                                    <tr>
+                                                        <th style="text-align:center">State</th>
+                                                        <th style="text-align:center">No. of BD Issued</th>
+                                                        <th style="text-align:center">Issued Amount (RM)</th>
+                                                        <th style="text-align:center">No. of BD Recovered</th>
+                                                        <th style="text-align:center">Recovered Amount (RM)</th>
+                                                        <th style="text-align:center">Total BD After Recovery</th>
+                                                        <th style="text-align:center">Total BD Amount After Recovery(RM)</th>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @*<tr>
+                                                        <td>Selangor</td>
+                                                        <td>763</td>
+                                                        <td>67,609,192.20</td>
+                                                        <td>162</td>
+                                                        <td>(18,336,108.45) </td>
+                                                        <td>601 </td>
+                                                        <td>49,273,083.75</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Kedah</td>
+                                                        <td>266</td>
+                                                        <td>56,480,691.40</td>
+                                                        <td>42</td>
+                                                        <td>(9,714,716.00)</td>
+                                                        <td>224</td>
+                                                        <td>46,765,975.40</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Pahang</td>
+                                                        <td>244</td>
+                                                        <td>56,256,691.40</td>
+                                                        <td>42</td>
+                                                        <td>(9,714,716.00)</td>
+                                                        <td>224</td>
+                                                        <td>46,765,975.40</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Terengganu</td>
+                                                        <td>244</td>
+                                                        <td>50,256,691.40</td>
+                                                        <td>42</td>
+                                                        <td>(9,714,716.00)</td>
+                                                        <td>224</td>
+                                                        <td>5,765,975.40</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Perak</td>
+                                                        <td>244</td>
+                                                        <td>35,256,691.40</td>
+                                                        <td>42</td>
+                                                        <td>(9,714,716.00)</td>
+                                                        <td>224</td>
+                                                        <td>46,765,975.40</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Perlis</td>
+                                                        <td>64</td>
+                                                        <td>26,256,691.40</td>
+                                                        <td>6</td>
+                                                        <td>(4,714,716.00)</td>
+                                                        <td>58</td>
+                                                        <td>22,765,975.40</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Kuala Lumpur</td>
+                                                        <td>244</td>
+                                                        <td>28,256,691.40</td>
+                                                        <td>42</td>
+                                                        <td>(9,714,716.00)</td>
+                                                        <td>224</td>
+                                                        <td>45,765,975.40</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Pulau Pinang</td>
+                                                        <td>244</td>
+                                                        <td>56,256,691.40</td>
+                                                        <td>42</td>
+                                                        <td>(9,714,716.00)</td>
+                                                        <td>224</td>
+                                                        <td>43,765,975.40</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Negeri Sembilan</td>
+                                                        <td>244</td>
+                                                        <td>56,256,691.40</td>
+                                                        <td>42</td>
+                                                        <td>(9,714,716.00)</td>
+                                                        <td>224</td>
+                                                        <td>16,765,975.40</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Melaka</td>
+                                                        <td>24</td>
+                                                        <td>56,256,691.40</td>
+                                                        <td>42</td>
+                                                        <td>(9,714,716.00)</td>
+                                                        <td>224</td>
+                                                        <td>46,765,975.40</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Kelantan</td>
+                                                        <td>77</td>
+                                                        <td>7,256,691.40</td>
+                                                        <td>40</td>
+                                                        <td>(1,714,716.00)</td>
+                                                        <td>247</td>
+                                                        <td>6,765,975.40</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>HQ_6000</td>
+                                                        <td>244</td>
+                                                        <td>56,256,691.40</td>
+                                                        <td>42</td>
+                                                        <td>(9,714,716.00)</td>
+                                                        <td>80</td>
+                                                        <td>56,765,975.40</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Johor</td>
+                                                        <td>99</td>
+                                                        <td>56,256,691.40</td>
+                                                        <td>42</td>
+                                                        <td>(9,714,716.00)</td>
+                                                        <td>224</td>
+                                                        <td>76,765,975.40</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Putrajaya</td>
+                                                        <td>11</td>
+                                                        <td>1,256,691.40</td>
+                                                        <td>0</td>
+                                                        <td>(9,714,716.00)</td>
+                                                        <td>224</td>
+                                                        <td>46,765,975.40</td>
+                                                    </tr>
+                                                    <tr style="font-weight:600;background-color:#dee2e6">
+                                                        <td>GRAND TOTAL</td>
+                                                        <td>1,029</td>
+                                                        <td>123,444,213.10</td>
+                                                        <td>204</td>
+                                                        <td>(27,111,932.30)</td>
+                                                        <td>825</td>
+                                                        <td>95,663,765.30</td>
+                                                    </tr>*@
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @*<button id="btnGenerate" class="btn btn-success">Generate</button>*@
+                        </div>
+                    </div>
+                    <!-- End Form -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Container -->
+    <!-- Begin Page Footer-->
+    <!-- End Page Footer -->
+    <a href="#" class="go-top"><i class="la la-arrow-up"></i></a>
+    <!-- Offcanvas Sidebar -->
+    <!-- End Offcanvas Sidebar -->
+</div>
+
+@section Scripts{
+
+    <script src="~/assets/js/components/wizard/form-wizard.min.js"></script>
+    <script src="~/assets/vendors/js/bootstrap-select/bootstrap-select.min.js"></script>
+    <script src="~/assets/js/components/chartjs/chartjs.min.js"></script>
+    <script src="~/assets/vendors/js/tablefilter/jquery.tablefilter.js"></script>
+    <script src="~/assets/vendors/js/tablefilter/jquery.tabledatafilter.min.js"></script>
+    @*<script src="~/assets/vendors/js/tablefilter/jquery.tableditfixedheader.min.js"></script>*@
+    <script>
+
+        $(document).ready(function () {
+            $(function () {
+                $("nav").addClass("shrinked");
+            });
+        });
+
+        $("#btnPull").on('click', function () {
+
+            $.ajax({
+                type: "GET",
+                url: "/Reporting/GetReportForState?month=" + $("#ddlMonth").val() + "&year=" + $("#ddlYear").val() +"",
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    $("#tblLampiran1 tbody tr").remove();
+                    for (var i = 0; i < data.length; i++) {
+                        console.log(data[i]);
+                       
+                        $('#tblLampiran1').append('<tr><td>' + data[i].state + '</td><td style="text-align:center">' + data[i].noOfBDIssued + '</td><td style="text-align:right">' + data[i].amount + '</td><td style="text-align:center">' + data[i].noOfRecovery + '</td><td style="text-align:right">' + data[i].amountRev + '</td><td style="text-align:center">' + data[i].noOfOutstanding + '</td><td style="text-align:right">' + data[i].outstandingAmount + '</td></tr>');
+                   
+                        
+                    }
+                }
+            });
+
+        });
+
+        $('#btnGenerate').click(function (event) {
+            $.ajax({
+                type: "POST",
+                url: "/Reporting/GenerateReportForState",
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    for (var i = 0; i < data.length; i++) {
+                        console.log(data[i]);
+                        //var load = "loadData('" + data[i].bankDraftId + "','" + data[i].refNo + "','" + data[i].projNo + "','" + data[i].bdNo + "','" + data[i].requester + "','" + data[i].ermsDocNo + "','" + data[i].coCode + "','" + data[i].ba + "','" + data[i].nameOnBD + "'," + data[i].bdAmount + ")";
+                        //$('#search-results-modal #tblSearchResults').append('<tr><td>' + data[i].projNo + '</td><td>' + data[i].bdNo + '</td><td>' + data[i].ermsDocNo + '</td><td>' + data[i].ba + '</td><td>Selangor</td><td>' + data[i].ermsPostingDate + '</td><td>' + data[i].docDate + '</td><td>' + data[i].bdAmount + '</td><td>' + data[i].keteranganKerja + '</td><td><button onclick="' + load + '" type="button" class="btn btn-shadow" data-dismiss="modal">Select</button></td></tr>');
+                    }
+                }
+            });
+        });
+
+    </script>
+}

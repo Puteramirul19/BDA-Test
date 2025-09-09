@@ -1,0 +1,95 @@
+﻿@model BDA.ViewModel.BankDraftViewModel
+@{
+
+    var signedM = "";
+
+    if (Model != null)
+    {
+        signedM = Model.SignedMemoVM.FileName;
+    }
+}
+<div class="widget-header d-flex align-items-center" aria-expanded="true">
+    <h3>Bank Draft Information</h3>
+</div>
+<div id="pnl_bank_details" class="widget-body">
+    <div class="padding-left-20 padding-right-20">
+        <div class="form-group row">
+            <div class="col-sm-2 form-control-label d-flex align-items-center">Method Of Sending<span class="text-danger ml-2">*</span></div>
+            <div class="col-xl-4">
+                @Html.DropDownListFor(x => x.SendMethod, Enumerable.Empty<SelectListItem>(), new { @class = "form-control select2", id = "ddlSendMethod", @required = "required" })
+                @*<input type="hidden" id="hdnApprover" value="@approverId" class="form-control">*@
+            </div>
+
+            <div class="col-sm-2 form-control-label d-flex align-items-center">Value Date</div>
+            <div class="col-xl-4">
+
+                @Html.TextBoxFor(x => x.BankDraftDate, new { @class = "form-control date" })
+            </div>
+        </div>
+        <div id="pnlPostageNo" style="display:none">
+            <div class="form-group row">
+                <div class="col-sm-2 form-control-label d-flex align-items-center">Postage No<span class="text-danger ml-2">*</span></div>
+                <div class="col-xl-4">
+                    @Html.TextBoxFor(x => x.PostageNo, new { @class = "form-control", @required = "required" })
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-sm-2 form-control-label d-flex align-items-center">No Bank Draft<span class="text-danger ml-2">*</span></div>
+            <div class="col-xl-4">
+                @*<input type="text" value="16028123938" class="form-control">*@
+                @Html.TextBoxFor(x => x.BankDrafNoIssued, new { @class = "form-control", @required = "required" })
+            </div>
+            <div class="col-sm-2 form-control-label d-flex align-items-center">Contact No</div>
+            <div class="col-xl-4">
+                @Html.TextBoxFor(x => x.ReceiverContactNo, new { @class = "form-control"})
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-sm-2 form-control-label d-flex">Cover Memo Ref No<span class="text-danger ml-2">*</span></div>
+            <div class="col-xl-4">
+                <div class="input-group">
+                    @*<input name="txtMemeRefNo" id="txtLetterRefNo" type="text" value="" class="form-control" onchange="funcMemoLink()" placeholder="Search Memo Reference No">
+        <span class="input-group-btn">
+            <button id="btnNewMemo" class="btn btn-outline-primary btn-sm mr-1 mb-2 issued" title="Create New Memo">
+                Create Memo
+            </button>
+            <button id="btnViewMemo" class="btn btn-outline-primary btn-sm mr-1 mb-2 issued" onchange="funcMemoLink()" style="display:none" title="View Memo">
+                View Memo
+            </button>
+        </span>*@
+                    @Html.TextBoxFor(x => x.CoverMemoRefNo, new { @class = "form-control", placeholder = "Insert Memo Reference No", @readonly = "readonly", @required = "required" })
+                    <span class="input-group-btn before-issue">
+                        <input id="btnNewMemo" type="button" class="btn btn-outline-primary btn-sm mr-1 mb-2 processed" title="Create" value="Create New Memo">
+                        <input id="btnViewMemo" type="button" class="btn btn-outline-primary btn-sm mr-1 mb-2 processed" style="display:none" title="View" value="View">
+                        <input id="btnEditMemo" type="button" class="btn btn-outline-primary btn-sm mr-1 mb-2 processed" style="display:none" value="Edit" title="Edit">
+                    </span>
+                </div>
+
+            </div>
+            <div class="col-sm-2 form-control-label d-flex">Signed Covering Memo<span class="text-danger ml-2">*</span></div>
+            <div class="col-xl-4">
+                @*<input id="attMemo" name="attMemo" type="file" class="issued" />*@
+                @if (signedM == "" || signedM == null)
+                {
+                    <div class="file-upload">
+                        @Html.TextBoxFor(m => m.SignedMemoVM.File, new { type = "file", name = "SignedMemo" })
+                    </div>
+                }
+                else
+                {
+                    var file = signedM;
+                    <div id="noFile-SignedLetter" class="file-upload" style="display:none">
+                        @Html.TextBoxFor(m => m.SignedMemoVM.File, new { type = "file", name = "SignedMemo" })
+                    </div>
+                    <div id="hasFile-SignedLetter">
+                        <input type="hidden" value="@file" id="hdnSignedMemo" />
+                        <a onclick="window.open('../../../documents/@file','newwindow','width=900,height=750');"><i class="ti-printer"></i></a>
+                        <a onclick="RemoveAttachment('@Model.SignedMemoVM.Id','SignedMemo');"><i class="la la-trash delete before-issue" data-toggle="tooltip" data-placement="top" data-original-title="Remove attachment"></i></a>
+                    </div>
+                }
+            </div>
+
+        </div>
+    </div>
+    </div>

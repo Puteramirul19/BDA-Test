@@ -1,0 +1,220 @@
+﻿@model BDA.ViewModel.BankDetailsViewModel
+@{
+    ViewData["Title"] = "ManageBankDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles{
+
+    <style>
+        .btn-create {
+            background-color: #5d5386;
+            color: white;
+        }
+
+        .btn-apply:hover {
+            background-color: white;
+            color: black;
+        }
+
+        .btn-cancel:hover {
+            background-color: red;
+            color: white;
+        }
+
+        .btn-create:hover {
+            background-color: limegreen;
+            color: white;
+        }
+
+        .btn-lost:hover {
+            background-color: #FFC300;
+            color: white;
+        }
+
+        select.filter {
+            height: 33px !important;
+        }
+    </style>
+}
+<div class="content-inner">
+    <div class="container-fluid">
+        <!-- Begin Page Header-->
+        <div class="row">
+            <div class="page-header">
+                <div class="d-flex align-items-center">
+                    <h2 class="page-header-title">List of Banks</h2>
+                    <div>
+                        <!--<div class="page-header-tools">
+                            <a class="btn btn-gradient-01" href="#">Add Widget</a>
+                        </div>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Page Header -->
+        <!-- Begin Row -->
+        <div class="row flex-row">
+            <div class="col-xl-3 col-md-6 col-sm-6">
+                <a href="/Businessadmin/bankdetails" class="btn btn-lg btn-create">
+                    Add New Bank
+                </a>
+            </div>
+        </div>
+        <!-- End Row -->
+        <!-- Begin Row -->
+        <div class="row flex-row">
+            <br />
+        </div>
+        <div class="row flex-row">
+            <div class="col-xl-12 col-md-12">
+                <div class="table-responsive">
+                    <div class="widget has-shadow">
+                        @*<div class="widget-header bordered no-actions d-flex align-items-center">
+                                <h4>History</h4>
+                            </div>*@
+                        <div class="widget-body">
+                            <div class="table-responsive">
+                                <table id="tblDashboard" class="table table-hover mb-0 display" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Name</th>
+                                            <th>Action</th>
+                                        </tr>
+                                        <tr class="filterrow">
+                                            <th class="input-filter"><input type="text" class="form-control tchatchaca" style="height:40px !important;" placeholder="Search.."></th>
+                                            <th class="input-filter"><input type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Corp</td>
+                                            <td>Corporate</td>
+                                            <td class="td-actions" style="text-align:center">
+                                                <div class="col-xl-12 col-md-6 col-sm-6">
+                                                    <button type="button" href="#" data-target="#add-division-modal" data-toggle="modal" class="btn btn-lost btn-block mb-2" style="border-radius: 0%;background-color: #f4f4f4;border-color: #ddd;">Edit</button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Grid</td>
+                                            <td>Grid</td>
+                                            <td class="td-actions" style="text-align:center">
+                                                <div class="col-xl-12 col-md-6 col-sm-6">
+                                                    <button type="button" href="#" data-target="#add-division-modal" data-toggle="modal" class="btn btn-lost btn-block mb-2" style="border-radius: 0%;background-color: #f4f4f4;border-color: #ddd;">Edit</button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>DN</td>
+                                            <td>Distribution</td>
+                                            <td class="td-actions" style="text-align:center">
+                                                <div class="col-xl-12 col-md-6 col-sm-6">
+                                                    <button type="button" href="#" data-target="#add-division-modal" data-toggle="modal" class="btn btn-lost btn-block mb-2" style="border-radius: 0%;background-color: #f4f4f4;border-color: #ddd;">Edit</button>
+
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Container -->
+    <!-- Begin Page Footer-->
+    <!-- End Page Footer -->
+    <a href="#" class="go-top"><i class="la la-arrow-up"></i></a>
+    <!-- Offcanvas Sidebar -->
+    <!-- End Offcanvas Sidebar -->
+</div>
+
+@section Scripts{
+    <script src="~/assets/vendors/js/tablefilter/jquery.tablefilter.js"></script>
+    <script src="~/assets/vendors/js/tablefilter/jquery.tabledatafilter.min.js"></script>
+    @*<script src="~/assets/vendors/js/tablefilter/jquery.tableditfixedheader.min.js"></script>*@
+
+    <script>
+
+        $(document).ready(function () {
+            // Setup - add a text input to each footer cell
+            $('#tblDashboard thead filterCol').appendTo('#tblDashboard thead');
+            //$('#tblDashboard thead tr:eq(1) th .input-filter').each(function (i) {
+            //    var title = $(this).text();
+            //    $(this).html('<input type="text" placeholder="Search ' + title + '" />');
+
+            //    $('input', this).on('keyup change', function () {
+            //        if (table.column(i).search() !== this.value) {
+            //            table
+            //                .column(i)
+            //                .search(this.value)
+            //                .draw();
+            //        }
+            //    });
+            //});
+
+            //$('#tblDashboard thead tr:eq(1) th .select-filter').each(function (i) {
+            //    var column = table.column($(this).index());
+
+            //    $('select', this).on('change', function () {
+            //        if (column.search() !== this.value) {
+            //            column
+            //                .search(this.value)
+            //                .draw();
+
+            //        } else if (column.search() !== "") {
+            //            column
+            //                .draw();
+            //        }
+            //    });
+            //});
+
+
+            var table = $('#tblDashboard').DataTable({
+                orderCellsTop: true,
+                fixedHeader: true,
+                "lengthChange": false
+            });
+
+            $.each($('.input-filter', table.table().header()), function () {
+                var column = table.column($(this).index());
+
+                $('input', this).on('keyup change', function () {
+                    if (column.search() !== this.value) {
+                        column
+                            .search(this.value)
+                            .draw();
+                    }
+                });
+            });
+
+            // Apply the search
+            $.each($('.select-filter', table.table().header()), function () {
+                var column = table.column($(this).index());
+
+                $('select', this).on('change', function () {
+                    if (column.search() !== this.value) {
+                        column
+                            .search(this.value)
+                            .draw();
+
+                    } else if (column.search() !== "") {
+                        column
+                            .draw();
+                    }
+                });
+            });
+        });
+
+
+    </script>
+}
+
+
+

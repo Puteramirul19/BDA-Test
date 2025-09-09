@@ -1,0 +1,380 @@
+﻿@{
+    ViewData["Title"] = "Reporting";
+}
+
+
+@section Styles  {
+
+    <link rel="stylesheet" href="~/assets/css/bootstrap-select/bootstrap-select.min.css">
+}
+<body>
+    <div class="content-inner active">
+        <div class="container-fluid">
+            <div style="padding-bottom:20px">
+                <h2 class="page-header-title">Reports</h2>
+            </div>
+            <div class="widget has-shadow" style="margin-left:-30px">
+                <h2 style="padding-top:30px;padding-left:30px">Lampiran 3</h2>
+                <div class="widget-body">
+                    <div class="form-group row" style="margin-top:20px;color:#5d5386;font-size:18px;font-weight:bold;text-align:center">
+                        <div class="col-xl-2">
+                            <label>Month</label>
+                        </div>
+                        <div class="col-xl-2">
+                            <label>Year</label>
+                        </div>
+                        <div class="col-xl-2">
+                            <label>Division</label>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-xl-2">
+                            <select id="ddlMonth" name="ddlMonth" class="form-control" tabindex="-98" style="background-color:white">
+                                <option value="0" selected disabled>Month</option>
+                                <option value="1">January</option>
+                                <option value="2">February</option>
+                                <option value="3">March</option>
+                                <option value="4">April</option>
+                                <option value="5">May</option>
+                                <option value="6">June</option>
+                                <option value="7">July</option>
+                                <option value="8">August</option>
+                                <option value="9">September</option>
+                                <option value="10">October</option>
+                                <option value="11">November</option>
+                                <option value="12">December</option>
+                            </select>
+                        </div>
+                        <div class="col-xl-2">
+                            <select id="ddlYear" name="ddlYear" class="form-control" tabindex="-98">
+                                <option value="0" selected disabled>Year</option>
+                            </select>
+                        </div>
+                        <div class="col-xl-2">
+                            <select name="ddlCoCode" id="ddlCoCode" class="form-control"></select>
+                        </div>
+                        @*<div class="col-xl-2">
+                <button id="btnPull" class="btn btn-success">Show</button>
+            </div>*@
+                    </div>
+                    <button onclick="saveAsPDF();" class="btn btn- btn-info">PDF</button>
+                    <div id="chart-container">
+
+                        <div id="canvas3a">
+                            <canvas id="barchart3a" width="400" height="100"></canvas>
+                        </div>
+                        <div>
+                            <table id="tblLampiran3a" class="table table-hover table-bordered mb-0 display" style="background-color:white;padding-right:30px;margin-left:-10px;font-size:10px">
+                                <tr id="rowState">
+                                    <td>State</td>
+                                </tr>
+                                <tr id="rowBdNo">
+                                    <td>No. of BD Issued</td>
+                                </tr>
+                                <tr id="rowAmount">
+                                    <td>Amount (RM)</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <br /><br />
+                        <div id="canvas3b">
+                            <canvas id="barchart3b" width="400" height="100"></canvas>
+                        </div>
+                        <div>
+                            <table id="tblLampiran3b" class="table table-hover table-bordered mb-0 display" style="background-color:white;padding-right:30px;margin-left:-10px;font-size:10px">
+                                <tr id="rowState">
+                                    <td>State</td>
+                                </tr>
+                                <tr id="rowBdNo">
+                                    <td>No. of BD Recovered</td>
+                                </tr>
+                                <tr id="rowAmount">
+                                    <td>Amount (RM)</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+@section Scripts{
+    @*<script src="~/assets/vendors/js/base/jquery.min.js"></script>*@
+
+    <script src="~/assets/js/components/wizard/form-wizard.min.js"></script>
+    <script src="~/assets/vendors/js/bootstrap-select/bootstrap-select.min.js"></script>
+    <script src="~/assets/js/components/chartjs/chartjs.min.js"></script>
+    <!-- End Page Snippets -->
+    <script src="~/assets/vendors/js/tablefilter/jquery.tablefilter.js"></script>
+    <script src="~/assets/vendors/js/tablefilter/jquery.tabledatafilter.min.js"></script>
+    <script src="~/assets/vendors/js/chart/chart.min.js"></script>
+    <script>
+            $(function () {
+                $("nav").addClass("shrinked");
+                var startYear = 2015;
+                var endYear = new Date().getFullYear();
+                var $ddlYear = $("#ddlYear");
+
+                for (var year = startYear; year <= endYear; year++) {
+                    $ddlYear.append('<option value="' + year + '">' + year + '</option>');
+                }
+            });
+
+
+    </script>
+    @*<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>*@
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.5/jspdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+
+    <script type="text/javascript">
+        var sumAmount = 0;
+        var sumRecovery = 0;
+        var months = ["", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        var d = new Date();
+        var currMonth = d.getMonth() + 1;
+        var currYear = d.getFullYear();
+        var monthName = months[currMonth];
+        var month = $("#ddlMonth").val(currMonth);
+        var year = $("#ddlYear").val(currYear);
+        //$("#btnPull").on('click', function ()
+        var coCode = "4001";
+        $("#ddlCoCode").val(coCode);
+        var data = {
+
+            id: 4001,
+            text: '4001 - Corporate'
+        };
+
+        function saveAsPDF() {
+            html2canvas(document.getElementById("chart-container"), {
+                onrendered: function (canvas) {
+                    var img = canvas.toDataURL(); //image data of canvas
+
+                    var doc = new jsPDF('l', 'mm', 'a4');
+                    var width = doc.internal.pageSize.width;
+                    var height = doc.internal.pageSize.height;
+                    doc.addImage(img, 'JPEG', 10, 20, width-30, height-50, 'center');
+                    doc.save('Lampiran3.pdf');
+
+                    //var pdf = new jsPDF();
+                    //var dataURL = canvas.toDataURL();
+                    //pdf.addImage(dataURL, 'JPEG', 0, 0);
+                    //pdf.save("download.pdf");
+                }
+            });
+        }
+
+        function reloadTable() {
+            //document.getElementById("canvas3a").innerHTML = '&nbsp;';
+            //document.getElementById("canvas3a").innerHTML = '<canvas id="barchart3a" width="400" height="100"></canvas>'
+            $("#barchart3a").remove();
+            $("#canvas3a").append('<canvas id="barchart3a" width="400" height="100"></canvas>');
+            $("#tblLampiran3a tr").remove();
+            $("#tblLampiran3a").append('<tr id="rowState"><td>State</td></tr>');
+            $("#tblLampiran3a").append('<tr id="rowBdNo"><td>No. of BD Issued</td></tr>');
+            $("#tblLampiran3a").append('<tr id="rowAmount"><td>Amount (RM)</td></tr>');
+
+            $("#barchart3b").remove();
+            $("#canvas3b").append('<canvas id="barchart3b" width="400" height="100"></canvas>');
+            $("#tblLampiran3b tr").remove();
+            $("#tblLampiran3b").append('<tr id="rowState"><td>State</td></tr>');
+            $("#tblLampiran3b").append('<tr id="rowBdNo"><td>No. of BD Recovered</td></tr>');
+            $("#tblLampiran3b").append('<tr id="rowAmount"><td>Amount (RM)</td></tr>');
+
+            $.ajax({
+                type: "GET",
+                url: "/Reporting/GetReportForState?month=" + $("#ddlMonth").val() + "&year=" + $("#ddlYear").val() + "&coCode=" + $("#ddlCoCode").val() + "",
+                processData: false,
+                contentType: false,
+                success: function (data) {
+
+                    for (var i = 0; i < data.length; i++) {
+                        $('#tblLampiran3a #rowState').append('<td>' + data[i].state + '</td>');
+                        $('#tblLampiran3a #rowBdNo').append('<td>' + data[i].noOfBDIssued + '</td>');
+                        $('#tblLampiran3a #rowAmount').append('<td>' + data[i].amount + '</td>');
+
+                        $('#tblLampiran3b #rowState').append('<td>' + data[i].state + '</td>');
+                        $('#tblLampiran3b #rowBdNo').append('<td>' + data[i].noOfRecovery + '</td>');
+                        $('#tblLampiran3b #rowAmount').append('<td>' + data[i].amountRev + '</td>');
+
+                        sumAmount += data[i].amountNum;
+                        sumRecovery += data[i].amountRevNum;
+                    }
+
+                  
+
+                    for (var i = 0; i < data.length; i++) {
+                        console.log(data[i]);
+
+                        // Bar chart
+                        chart3a = new Chart(document.getElementById("barchart3a"), {
+                            type: 'bar',
+                            data: {
+                                labels: [data[0].state, data[1].state, data[2].state, data[3].state, data[4].state, data[5].state, data[6].state, data[7].state, data[8].state, data[9].state, data[10].state, data[11].state, data[12].state, data[13].state],
+                                datasets: [
+                                    {
+                                        label: "BD Amount",
+                                        backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850", "#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850", "#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9"],
+                                        data: [data[0].amountNum, data[1].amountNum, data[2].amountNum, data[3].amountNum, data[4].amountNum, data[5].amountNum, data[6].amountNum, data[7].amountNum, data[8].amountNum, data[9].amountNum, data[10].amountNum, data[11].amountNum, data[12].amountNum, data[13].amountNum]
+                                    }
+                                ]
+                            },
+                            options: {
+                                legend: { display: false },
+                               
+                                title: {
+                                    display: true,
+                                    text: 'BD Issued as at ' + $("#ddlMonth option:selected").text() + ' ' + $("#ddlYear option:selected").text() + ' - RM' + sumAmount.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')
+                                },
+                                tooltips: {
+                                    callbacks: {
+                                        label: function (tooltipItem) {
+                                            return "BD Amount : " + tooltipItem.yLabel.toLocaleString("ms-MY", { style: "currency", currency: "MYR" }) + "";
+                                        }
+                                    }
+                                },
+                                scales: {
+                                    xAxes: [{
+                                        ticks: {}
+                                    }],
+                                    yAxes: [{
+                                        ticks: {
+                                            beginAtZero: true,
+                                            callback: function (value, index, values) {
+                                                return value.toLocaleString("ms-MY", { style: "currency", currency: "MYR" });
+                                            }
+                                        }
+                                    }]
+                                }
+                            }
+
+                        });
+
+            
+
+                        // Bar chart
+                        new Chart(document.getElementById("barchart3b"), {
+                            type: 'bar',
+                            data: {
+                                labels: [data[0].state, data[1].state, data[2].state, data[3].state, data[4].state, data[5].state, data[6].state, data[7].state, data[8].state, data[9].state, data[10].state, data[11].state, data[12].state, data[13].state],
+                                datasets: [
+                                    {
+                                        label: "BD Amount",
+                                        backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850", "#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850", "#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9"],
+                                        data: [data[0].amountRevNum, data[1].amountRevNum, data[2].amountRevNum, data[3].amountRevNum, data[4].amountRevNum, data[5].amountRevNum, data[6].amountRevNum, data[7].amountRevNum, data[8].amountRevNum, data[9].amountRevNum, data[10].amountRevNum, data[11].amountRevNum, data[12].amountRevNum, data[13].amountRevNum]
+                                    }
+                                ]
+                            },
+                            options: {
+                                legend: { display: false },
+                                title: {
+                                    display: true,
+                                    text: 'BD Recovered as at ' + $("#ddlMonth option:selected").text() + ' ' + $("#ddlYear option:selected").text() + ' - RM' + sumRecovery.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')
+                                },
+                                tooltips: {
+                                    callbacks: {
+                                        label: function (tooltipItem) {
+                                            return "BD Amount : " + tooltipItem.yLabel.toLocaleString("ms-MY", { style: "currency", currency: "MYR" }) + "";
+                                        }
+                                    }
+                                },
+                                scales: {
+                                    xAxes: [{
+                                        ticks: {}
+                                    }],
+                                    yAxes: [{
+                                        ticks: {
+                                            beginAtZero: true,
+                                            callback: function (value, index, values) {
+                                                return value.toLocaleString("ms-MY", { style: "currency", currency: "MYR" });
+                                            }
+                                        }
+                                    }]
+                                }
+                            }
+                        });
+
+                    }
+                }
+            });
+        }
+
+        $(document).ready(function () {
+
+            var newOption = new Option(data.text, data.id, false, false);
+            $('#ddlCoCode').append(newOption).trigger('change');
+
+            reloadTable();
+
+
+            $("#ddlMonth").select2({
+                minimumResultsForSearch: -1,
+            });
+            $("#ddlYear").select2({
+                minimumResultsForSearch: -1,
+            });
+
+            $("#ddlCoCode").select2({
+                minimumResultsForSearch: -1,
+                ajax: {
+                    url: "/Reporting/GetAllCompanyCode",
+                    dataType: 'json',
+                    type: "GET",
+                    processResults: function (data) {
+                        console.log(data);
+                        return {
+                            results: $.map(data, function (item) {
+                                return {
+                                    text: item.name,
+                                    id: item.id
+                                }
+
+                            })
+                        };
+
+                    }
+                }
+            });
+
+            $('#ddlCoCode').on('select2:select', function (e) {
+                var data = e.params.data;
+                if (data.selected) {
+                    var coCode = data.id;
+
+                    reloadTable();
+                }
+            });
+
+        });
+
+
+
+        $("#ddlMonth").change(function () {
+            reloadTable();
+            //var end = this.value;
+            //month = $('#ddlMonth').val();
+            //year = $('#ddlYear').val();
+            //if (month != null && year != null) {
+            //    table.ajax.url("/Reporting/GetReportForState?month=" + month + "&year=" + year + "").load();
+            //    $('#CurrMonthYear').text(months[month] + " " + year);
+            //}
+            //console.log("month:" + month + " year:" + year);
+        });
+
+        $("#ddlYear").change(function () {
+            reloadTable();
+            //var end = this.value;
+            //month = $('#ddlMonth').val();
+            //year = $('#ddlYear').val();
+            //if (month != null && year != null) {
+            //    table.ajax.url("/Reporting/GetReportForState?month=" + month + "&year=" + year + "").load();
+            //    $('#CurrMonthYear').text(months[month] + " " + year);
+            //}
+            //console.log("month:" + month + " year:" + year);
+
+        });
+    </script>
+}

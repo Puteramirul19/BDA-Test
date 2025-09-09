@@ -1,0 +1,310 @@
+﻿@model BDA.ViewModel.EmailTemplateViewModel
+
+@{
+    ViewData["Title"] = "Email Template";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles{
+    <link href="~/assets/css/summernote/summernote.min.css" rel="stylesheet">
+    <link href="~/assets/css/summernote/summernote.css" rel="stylesheet">
+
+    <style>
+        .btn-create {
+            background-color: #5d5386;
+            color: white;
+        }
+
+        .btn-apply:hover {
+            background-color: white;
+            color: black;
+        }
+
+        .btn-cancel:hover {
+            background-color: red;
+            color: white;
+        }
+
+        .btn-create:hover {
+            background-color: limegreen;
+            color: white;
+        }
+
+        .btn-lost:hover {
+            background-color: #FFC300;
+            color: white;
+        }
+
+        select.filter {
+            height: 33px !important;
+        }
+    </style>
+}
+<div class="content-inner">
+    <div class="container-fluid">
+        <!-- Begin Page Header-->
+        <div class="row">
+            <div class="page-header">
+                <div class="d-flex align-items-center">
+                    <h2 class="page-header-title">Email Templates</h2>
+                    <div>
+                        <!--<div class="page-header-tools">
+                            <a class="btn btn-gradient-01" href="#">Add Widget</a>
+                        </div>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Row -->
+        <!-- Begin Row -->
+        <div class="row flex-row">
+            <div class="widget has-shadow" style="width:100%">
+                <div class="widget-body">
+                    <div class="form flex-row">
+                        <div class="col-xl-9 col-md-2">
+                            @using (Html.BeginForm("Update", "EmailTemplate", Model, FormMethod.Post, false, new { @id = "formEditApplication", @class = "form-horizontal" }))
+                            {
+                                <div>
+                                    <label style="font-weight:bold">Select template type</label>
+                                    @Html.DropDownListFor(x => x.Id, Enumerable.Empty<SelectListItem>(), new { @class = "form-control select2", id = "ddlEmailTemplate" })
+                                </div>
+                                <br />
+                                <div>
+                                    <label style="font-weight:bold">Description</label>
+                                    @Html.TextBoxFor(x => x.Description, new { @class = "form-control"})
+                                </div>
+                                <br />
+                                <div>
+                                    <label style="font-weight:bold">Subject Template</label>
+                                    @Html.TextBoxFor(x => x.Subject, new { @class = "form-control" })
+                                </div>
+                                <br />
+                                <div id="sample" class="nicEdit-panelContain" style="height:400px;">
+                                    <label style="font-weight:bold">Content Template</label>
+                                    @Html.TextAreaFor(x => x.Body, new { @class = "form-control", @style = "height:300px;width:900px" })
+                                </div>
+                                <br />
+                                <div class="row">
+                                    @*<a id="btnPreviewEmail" href="#" data-target="" class="btn btn-secondary" data-toggle="modal">Preview</a>*@
+                                    <a id="btnSaveTemplate" href="#" data-target="" class="btn btn-info" data-toggle="modal">Save Template</a>
+                                </div>
+                            }
+                        </div>
+                        <div class="col-xl-3 ">
+                            @*<table class="table table-bordered">
+                                    <tr>
+                                        <th>Variables</th>
+                                    </tr>
+                                    <tr>
+                                        <td>{{RequesterId}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>{{VerifierId}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>{{ApproverId}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>{{BankDraftId}}</td>
+                                    </tr>
+                                </table>*@
+                            <div style="background-color:#e4e8f0" class="widget-header border">Variables</div>
+                            <div class="widget-body border">
+                                <div>{{ApplicationId}}</div>
+                                <div>{{RefNo}}</div>
+                                <div>{{AppRefNo}}</div>
+                                <div>{{ApplicationType}}</div>
+                                <div>{{BaseUrl}}</div>
+                                <div>{{ProjectNo}}</div>
+                                <div>{{Amount}}</div>
+                                <div>{{FirstRecoveryAmount}}</div>
+                                <div>{{SecondRecoveryAmount}}</div>
+                                <div>{{ErmsID}}</div>
+                                <div>{{SendMethod}}</div>
+                                <div>{{RequesterId}}</div>
+                                <div>{{RequesterName}}</div>
+                                <div>{{VerifierId}}</div>
+                                <div>{{VerifierName}}</div>
+                                <div>{{ApproverId}}</div>
+                                <div>{{ApproverName}}</div>
+                                <div>{{NameOnBD}}</div>
+                                <div>{{VerifierComment}}</div>
+                                <div>{{ApproverComment}}</div>
+                                <div>{{TGBSComment}}</div>
+                                <div>{{BDListForLetter}}</div>
+                                <div>{{BankPIC}}</div>
+                                <div>{{BankName}}</div>
+                                <div>{{SubmitDate}}</div>
+                                <div>{{UserName}}</div>
+                                <div>{{TemporaryPassword}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+    <div class="row flex-row">
+
+    </div>
+</div>
+<!-- End Container -->
+<!-- Begin Page Footer-->
+<!-- End Page Footer -->
+<a href="#" class="go-top"><i class="la la-arrow-up"></i></a>
+<!-- Offcanvas Sidebar -->
+<!-- End Offcanvas Sidebar -->
+</div>
+
+@section Scripts{
+    @*<script src="~/assets/vendors/js/tablefilter/jquery.tablefilter.js"></script>
+        <script src="~/assets/vendors/js/tablefilter/jquery.tabledatafilter.min.js"></script>*@
+    @*<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>*@
+    @*<script src="~/assets/js/components/email/nicEdit.js"></script>*@
+
+    <!-- include libraries(jQuery, bootstrap) -->
+    @*<link href="~/assets/vendors/css/base/bootstrap.min.css" rel="stylesheet">*@
+    <script src="~/assets/vendors/js/base/jquery-3.5.1.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+
+    <!-- include summernote css/js -->
+
+    <script src="~/assets/js/summernote/summernote.min.js"></script>
+
+    <script type="text/javascript">
+
+        $("#btnSaveTemplate").on('click', function (e) {
+            $("#formEditApplication").submit();
+        });
+
+        function getFirstEmailTemplate() {
+
+            $.get("/EmailTemplate/GetFirstEmailTemplateById", {
+                dataType: 'json'
+            })
+                .done(function (result) {
+                    console.log("body:" + result.body);
+                    if (result != null) {
+                        $("#Id").val(result.id);
+                        $("#Subject").val(result.subject);
+                        $("#Description").val(result.description);
+                        $('#Body').summernote('code', result.body);
+                        //alert('ok');
+                        //SetSelectedValue(result.id, "#ddlEmailTemplate");
+                        //SetSelectedValue(result.subject, "#ddlSubject");
+                        //SetSelectedValue(result.description, "#ddlDescription");
+                        //$('#Body').summernote('code', result.body);
+                    }
+                })
+
+        }
+
+        $(document).ready(function () {
+            SetSelectedValue('@Model.Id', "#ddlEmailTemplate");
+            @*SetSelectedValue('@Model.Subject', "#Subject");
+            SetSelectedValue('@Model.Description', "#Description");
+            $('#Body').summernote('code', '@Model.Body');*@
+            //alert($("#Subject").val());
+            //$('#Body').summernote();
+            getFirstEmailTemplate();
+
+            $('#Body').summernote({
+                placeholder: 'Hello Bootstrap 4',
+                tabsize: 2,
+                height: 300
+            });
+
+        
+
+            $("#ddlEmailTemplate").select2({
+
+                minimumResultsForSearch: -1,
+                ajax: {
+                    url: "/EmailTemplate/GetAllEmailTemplates",
+                    dataType: 'json',
+                    type: "GET",
+                    processResults: function (data) {
+                        return {
+                            results: $.map(data, function (item) {
+                                return {
+                                    text: item.id,
+                                    id: item.id
+                                }
+                            })
+                        };
+                    }
+                }
+            });
+
+
+            $('#ddlEmailTemplate').on('select2:select', function (e) {
+                var data = e.params.data;
+                if (data.selected) {
+                    var id = data.id;
+
+                    $.get("/EmailTemplate/GetEmailTemplateById?templateId=" + id, {
+                        dataType: 'json'
+                    })
+                        .done(function (result) {
+                           console.log("body:" + result.body);
+                            if (result != null) {
+                                $("#Id").val(result.id);
+                                $("#Subject").val(result.subject);
+                                $("#Description").val(result.description);
+                                $('#Body').summernote('code', result.body);
+                            }
+                        })
+                }
+            });
+
+
+        });
+
+        $("#formEditApplication").submit(function (e) {
+            var content = $('#Body').summernote('code');
+
+            e.preventDefault(); // avoid to execute the actual submit of the form.
+
+            ShowNoty("warning", "Saving Message Template ...");
+
+            var form = $(this);
+            var url = form.attr('action');
+            var fdata = new FormData();
+
+            fdata.append("Body", content.toString());
+            $("input, select").each(function (x, y) {
+                fdata.append($(y).attr("name"), $(y).val());
+            });
+
+            for (var value of fdata.values()) {
+                console.log(value);
+            }
+            for (var key of fdata.keys()) {
+                console.log(key);
+            }
+            //fdata,
+            $.ajax({
+                type: "POST",
+                url: "/EmailTemplate/Update",
+                    //url,
+                data: fdata, //form.serialize(), // serializes the form's elements.
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    console.log(data);
+                    if (data.response.statusCode == 200) {
+                        ShowNoty("success", data.message);
+                    } else {
+                        ShowNoty("error", data.message);
+                    }
+                }
+            });
+        });
+    </script>
+
+}
+
+
+

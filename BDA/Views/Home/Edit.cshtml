@@ -1,0 +1,1359 @@
+﻿@model BDA.ViewModel.RecoveryViewModel
+
+@{
+    ViewData["Title"] = "Recover Wang Cagaran";
+    var bdId = Model.Id;
+    var status = Model.Status;
+    var userId = User.Identity.Name;
+}
+
+@section Styles  {
+
+    <!-- Tweaks for older IEs-->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
+
+    <link rel="stylesheet" href="~/assets/css/bootstrap-select/bootstrap-select.min.css">
+    <style>
+    </style>
+}
+@{
+    <div class="content-inner active">
+        <div class="container-fluid">
+            <!-- Begin Page Header-->
+            <div class="row">
+                <div class="page-header">
+                    <div class="d-flex align-items-center">
+                        <h2 class="page-header-title">Bank Draft Recovery</h2>
+                        <div>
+                            <ul class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="db-default.html"><i class="ti ti-home"></i></a></li>
+                                <li class="breadcrumb-item"><a href="#">New Application</a></li>
+                                <li class="breadcrumb-item active">Wang Cagaran</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Page Header -->
+            <div class="row flex-row">
+                <div class="col-xl-12">
+                    <!-- Form -->
+                    <div class="widget has-shadow">
+                        @*<div class="widget-header bordered no-actions d-flex align-items-center">
+                                <h4>Wang Cagaran</h4>
+                            </div>*@
+                        <div class="widget-body">
+                            <div class="row flex-row justify-content-center">
+                                <div class="col-xl-12">
+                                    <div id="rootwizard">
+                                        @Html.Partial("_StatusPendingAction.cshtml")
+                                        @Html.Partial("_StatusBar.cshtml")
+                                        <div class="tab-content" style="font-family: Arial">
+
+                                            <div class="body-content">
+                                                <div>
+                                                    @*style="text-align:center; border-bottom: 2px solid; border-bottom-color:blue"*@
+                                                    @*<h4>Submitted by: En. Requestor</h4>*@
+                                                    <br>
+                                                </div>
+
+                                                <div class="widget has-shadow">
+                                                    <div class="widget-body sliding-tabs">
+                                                        <ul class="nav nav-tabs form-tab" id="ul-form-tab" role="tablist">
+                                                            <li class="nav-item">
+                                                                <a class="nav-link @((status == "Draft" || status == "Withdrawn" || status == "Complete") ? "active" : "")" id="base-tab-1" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="true">Create Details</a>
+                                                            </li>
+                                                            <li class="nav-item">
+                                                                <a class="nav-link  @((status == "Created") ? "active" : "")" id="base-tab-2" data-toggle="tab" href="#tab-2" role="tab" aria-controls="tab-2" aria-selected="false">Process Details</a>
+                                                            </li>
+                                                            <li class="nav-item">
+                                                                <a class="nav-link @(status == "Processed" || status == "PartialComplete" || (status == "Submitted" && Model.RequesterId == userId) ? "active" : "") @(( status == "Processed" || status == "Submitted" || status == "Received" || status == "PartialComplete" || status == "Complete") ? "" : "disabled")" id="base-tab-3" data-toggle="tab" href="#tab-3" role="tab" aria-controls="tab-3" aria-selected="false">Submit Details</a>
+                                                            </li>
+                                                            <li class="nav-item">
+                                                                <a class="nav-link @((status == "Submitted" && User.IsInRole("TGBS Reconciliation")) || (status == "Received" && User.IsInRole("TGBS Banking"))? "active" : "") @((status == "Submitted" || status == "Received" || status == "Complete") ? "" : "disabled")" id="base-tab-4" data-toggle="tab" href="#tab-4" role="tab" aria-controls="tab-4" aria-selected="false">Complete Details</a>
+                                                            </li>
+                                                        </ul>
+
+                                                        <div class="tab-content pt-3">
+                                                            <div class="tab-pane fade @((status == "Draft" ||status == "Withdrawn" || status == "Complete")? "active show" : "")" id="tab-1" role="tabpanel" aria-labelledby="base-tab-1">
+                                                                @using (Html.BeginForm("Edit", "Recovery", Model, FormMethod.Post, false, new { @id = "formEditRecovery", @class = "form-horizontal needs-validation", @novalidate = "novalidate" }))
+                                                                {
+                                                                    @Html.HiddenFor(x => x.UserAction)
+                                                                    @Html.HiddenFor(x => x.Status)
+                                                                    @Html.Partial("_CreateDetails.cshtml")
+
+                                                                    if (status != "Draft")
+                                                                    {
+                                                                        @Html.Partial("_ActionHistory.cshtml")
+                                                                    }
+
+
+                                                                }
+                                                                @using (Html.BeginForm("Withdrawn", "Recovery", Model, FormMethod.Post, false, new { @id = "formWithdrawn", @class = "form-horizontal" }))
+                                                                {
+                                                                    if ((status == "Created" || status == "Processed" || status == "Submitted") && Model.RequesterId == userId)
+                                                                    {
+                                                                        @Html.AntiForgeryToken()
+                                                                        @Html.HiddenFor(x => x.UserAction)
+                                                                        @Html.Partial("_Comments.cshtml")
+                                                                    }
+                                                                }
+                                                            </div>
+                                                            <div class="tab-pane fade @(status == "Created" ? "active show": "")" id="tab-2" role="tabpanel" aria-labelledby="base-tab-2">
+
+                                                                @using (Html.BeginForm("Process", "Recovery", Model, FormMethod.Post, false, new { @id = "formProcessRecovery", @class = "form-horizontal needs-validation", @novalidate = "novalidate" }))
+                                                                {
+                                                                    @Html.HiddenFor(x => x.UserAction)
+                                                                    @Html.HiddenFor(x => x.Status)
+                                                                    @Html.Partial("_ProcessDetails.cshtml")
+                                                                    @if (status == "Created" && (Model.RequesterId == userId))
+                                                                    {
+
+                                                                        @Html.Partial("_Comments.cshtml")
+                                                                    }
+                                                                }
+
+                                                            </div>
+                                                            <div class="tab-pane fade @(( (status == "Submitted" && Model.RequesterId == userId) || status == "Processed" || status == "PartialComplete")? "active show" : "")" id="tab-3" role="tabpanel" aria-labelledby="base-tab-3">
+                                                                @using (Html.BeginForm("SubmitRecovery", "Recovery", Model, FormMethod.Post, false, new { @id = "formSubmitRecovery", @class = "form-horizontal needs-validation", @novalidate = "novalidate" }))
+                                                                {
+                                                                    @Html.HiddenFor(x => x.UserAction)
+                                                                    @Html.Partial("_SubmitDetails.cshtml")
+                                                                    @if (status == "Processed" && (Model.RequesterId == userId))
+                                                                    {
+
+                                                                        @Html.Partial("_Comments.cshtml")
+                                                                    }
+
+                                                                }
+
+                                                            </div>
+                                                            <div class="tab-pane fade @(((status == "Submitted" && User.IsInRole("TGBS Reconciliation") )|| status == "Received")? "active show" : "")" id="tab-4" role="tabpanel" aria-labelledby="base-tab-4">
+
+                                                                @if (status == "Submitted" && User.IsInRole("TGBS Reconciliation"))
+                                                                {
+                                                                    @using (Html.BeginForm("ReceiveBDRecovery", "Recovery", Model, FormMethod.Post, false, new { @id = "formReceiveRecovery", @class = "form-horizontal needs-validation", @novalidate = "novalidate" }))
+                                                                    {
+
+                                                                        @Html.Partial("_ReceiveDetails.cshtml")
+                                                                        @if (status == "Submitted" && (User.IsInRole("TGBS Reconciliation")))
+                                                                        {
+                                                                            @Html.Partial("_Comments.cshtml")
+                                                                        }
+
+                                                                    }
+                                                                }
+                                                                else if (status == "Received" || status == "Complete")
+                                                                    {
+                                                                        @using (Html.BeginForm("Complete", "Recovery", Model, FormMethod.Post, false, new { @id = "formCompleteRecovery", @class = "form-horizontal needs-validation", @novalidate = "novalidate" }))
+                                                                        {
+                                                                            @Html.Partial("_ReceiveDetails.cshtml")
+                                                                            @if (status == "Received" && User.IsInRole("TGBS Banking"))
+                                                                            {
+                                                                                @Html.Partial("_Comments.cshtml")
+                                                                            }
+
+                                                                        }
+                                                                    }
+
+
+
+                                                            </div>
+                                                            <div class="tab-pane fade" id="tab-5" role="tabpanel" aria-labelledby="base-tab-5">
+                                                                @*@Html.Partial("_ActionHistory.cshtml")*@
+                                                            </div>
+                                                        </div>
+                                                        @if ((status == "Created" || status == "Draft" || status == "Withdrawn" && (Model.RequesterId == userId)) || ((status == "Processed" || status == "PartialComplete") && Model.RequesterId == userId) || (status == "Submitted" && (User.IsInRole("TGBS Reconciliation") || Model.RequesterId == userId)) || (status == "Approved" && User.IsInRole("TGBS Banking")) || (status == "Accepted" && User.IsInRole("TGBS Banking")) || ((status == "Processed") && User.IsInRole("TGBS Reconciliation")) || ((status == "Received") && User.IsInRole("TGBS Banking")))
+                                                        {
+                                                            @Html.HiddenFor(x => x.UserAction)
+                                                            @Html.Partial("_ActionButton.cshtml")
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            @*<a id="btnAddAccounting" class="btn btn-secondary ripple" data-toggle="modal" data-target="#add-accounting-table-modal">Add</a>*@
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Form -->
+                </div>
+            </div>
+            <!-- End Row -->
+        </div>
+        <!-- End Container -->
+        <!-- Begin Page Footer-->
+        <!-- End Page Footer -->
+        <a href="#" class="go-top"><i class="la la-arrow-up"></i></a>
+        <!-- Offcanvas Sidebar -->
+        @*@Html.Partial("_Log.cshtml")*@
+        <!-- End Offcanvas Sidebar -->
+    </div>
+}
+
+
+@section Scripts{
+    @*Validation script*@
+    <!--  validation script  -->
+    <script src="~/assets/vendors/jsgrid-1.5.3/src/jsgrid.validation.js"></script>
+    <script src="~/js/jquery.validate.js"></script>
+    @*added by Hanif 08112019*@
+
+    <script src="~/assets/js/components/wizard/form-wizard.min.js"></script>
+    <script src="~/assets/vendors/js/bootstrap-select/bootstrap-select.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+
+    <script>
+        $(function () {
+            $("nav").addClass("shrinked");
+            $("#CreateGroupBtn").show();
+         });
+
+
+    var id = '@Model.Id';
+    var bdId = '@Model.BankDraftId';
+    var refund = '@Model.RecoveryType';
+    var duration = '@Model.ClaimDuration';
+    var recType = '@Model.RecoveryType';
+    var stage = '@Model.Stage';
+    var userId = '@User.Identity.Name';
+        var currStatus = '@Model.Status';
+        var counts = 0;
+        var counter1 = 0;
+        var counter1b = 0;
+        var countss = 0;
+        var counter2 = 0;
+        var counter2b = 0;
+        var countsss = 0;
+        var counter3 = 0;
+        var counter3b = 0;
+    
+
+        function convert(currency) {
+
+            // Using replace() method 
+            // to make currency string suitable  
+            // for parseFloat() to convert  
+            var temp = currency.replace(/[^0-9.-]+/g, "");
+
+            // Converting string to float 
+            // or double and return 
+            return parseFloat(temp);
+
+        } 
+                                                             function getClaimDuration() {
+
+
+                                                                      $.get("@Url.Action("GetAllDuration", "Recovery")", {
+                                                                    dataType: 'json'
+                                                                    })
+                                                                    .done(function (result) {
+                                                                        if (result != null) {
+                                                                            for (i = 0; i < result.length; i++) {
+                                                                                if (result[i].id == duration) {
+                                                                                    console.log(result[i].name);
+                                                                                    SetSelectedValue(result[i].name, "#ddlDuration");
+                                                                                     $("#ClaimDuration").val(result[i].id);
+                                                                                }
+                                                                            }
+                                                                    } else {
+
+                                                                    }
+                                                                     })
+
+
+                                                            }
+
+function getRecoveryType() {
+
+       @*$.get("@Url.Action("GetAllRecoveryType", "Recovery")", {
+           dataType: 'json'
+       })
+        .done(function (result) {
+         if (result != null) {
+             for (i = 0; i < result.length; i++) {
+
+                   if (result[i].type == "FirstPartial") {
+                       console.log(result[i].name);
+                       SetSelectedValue("Partial Refund", "#ddlRecoveryType");
+                       $("#RecoveryType").val("FirstPartial");
+                   }
+                   else if (result[i].type == "SecondPartial") {
+                       console.log(result[i].name);
+                       SetSelectedValue("Partial Refund", "#ddlRecoveryType");
+                       $("#RecoveryType").val("SecondPartial");
+                   }
+                   else if (result[i].type == "Full") {
+                       console.log(result[i].type + "test");
+                       SetSelectedValue(result[i].name, "#ddlRecoveryType");
+                       $("#RecoveryType").val("Full");
+                   }
+                }
+
+                                                                        } else {
+
+                                                                        }
+        })*@
+
+    if (recType == 'FirstPartial') {
+        SetSelectedValue("Partial Refund", "#ddlRecoveryType");
+        $("#RecoveryType").val("FirstPartial");
+        $('#pnl_firstPartial_form').show();
+        $('#pnl_secondPartial_form').hide();
+        $('#pnl_fullPartial_form').hide();
+
+        $('#pnl_first_form').show();
+        $('#pnl_second_form').show();
+        $('#pnl_third_form').hide();
+    }
+    else if (recType == 'SecondPartial') {
+        SetSelectedValue("Partial Refund", "#ddlRecoveryType");
+        $("#RecoveryType").val("SecondPartial");
+        $('#pnl_firstPartial_form').show();
+        $('#pnl_secondPartial_form').show();
+        $('#pnl_fullPartial_form').hide();
+
+        $('#pnl_first_form').show();
+        $('#pnl_second_form').show();
+        $('#pnl_third_form').hide();
+    }
+    else if (recType == 'Full') {
+        SetSelectedValue("Full Refund", "#ddlRecoveryType");
+        $('#pnl_secondPartial_form').hide();
+        $('#pnl_firstPartial_form').hide();
+        $('#pnl_fullPartial_form').show();
+
+        $('#pnl_third_form').show();
+        $('#pnl_first_form').hide();
+        $('#pnl_second_form').hide();
+    }
+
+}
+
+
+
+    $(document).ready(function () {
+
+        @*console.log("hell" + '@User.IsInRole("TGBS Reconciliation")');*@
+
+        var db = {
+
+            loadData: function (filter) {
+                return $.ajax({
+                    url: "/BankDraftAction/GetBankDraftActionById?id=" + id,
+                    type: "GET",
+                    dataType: "JSON",
+                })
+            }
+
+        };
+
+        window.db = db;
+
+        $("#jsGrid").jsGrid("sort", 0);
+
+        $("#jsGrid").jsGrid({
+            width: "100%",
+            filtering: false,
+            editing: false,
+            inserting: false,
+            sorting: true,
+            paging: false,
+            autoload: true,
+            pageSize: 10,
+            pageButtonCount: 2,
+            controller: db,
+            fields: [
+                { name: "actionRole", title: "Action Role", width: 150, readOnly: true },
+                { name: "byId", title: "Action By", type: "myDateField", width: 150, readOnly: true },
+                { name: "comment", title: "Comment", readOnly: true },
+                { name: "actionType", title: "Action Type", type: "text", width: 100, readOnly: true },
+                { name: "on", title: "Action Date", type: "text", width: 100, readOnly: true }
+            ]
+        });
+            //--
+
+
+        if (duration >= 1) {
+            getClaimDuration();
+
+        }
+        else {
+            $("#ddlDuration").append("<option value=''>Please Select</option>");
+            //SetSelectedValue("Please Choose", "#ddlDuration")
+        }
+
+        //SetSelectedValue("Please Choose", "#ddlDuration");
+        //getClaimDuration();
+                                                                if (recType == "") {
+                                                                    SetSelectedValue("Please Choose", "#ddlRecoveryType")
+                                                                }
+                                                                else {
+                                                                    getRecoveryType();
+
+                                                                }
+
+                                                                var status = $("#Status").val();
+
+                                                                if (status != "Draft") {
+
+                                                                    $("#CreateGroupBtn").hide();
+                                                                    $(".before-submit").hide();
+                                                                    $(".after-submit").show();
+                                                                    $("input[type=text], input[type=checkbox], select, textarea, .submission").attr("disabled", "disabled");
+                                                                    $(".txaComment").removeAttr('disabled');
+                                                                    $("#SecondRecoveryAmount").attr("disabled", "disabled");
+                                                                    $("#tab-3 #addRow").attr("disabled", "disabled");
+                                                                    $("#tab-3 #addRow2").attr("disabled", "disabled");
+                                                                  
+                                                                      if (status == "Withdrawn") {
+
+                                                                            if ('@Model.RequesterId' == userId) {
+                                                                                        $("#stsRejected").show();
+                                                                                        $("#CreateGroupBtn").show();
+                                                                                        $(".before-submit").show();
+                                                                                        $(".after-submit").hide();
+                                                                                        $("#btnDraft").hide();
+                                                                                        $("input[type=text], input[type=checkbox],input[type=email], input[type=date], select, textarea, .submission").removeAttr('disabled');
+                                                                            }
+
+                                                                    }
+
+                                                                    if (status == "Created") {
+                                                                        $("#stsSubmitted").show();
+                                                                        $("#ProcessGroupBtn").show();
+                                                                        $("#tab-1 input[type=text]").attr("disabled", "disabled");
+                                                                        $("#tab-2 input[type=text], select").removeAttr('disabled');
+                                                                        $("#li-2").click();
+                                                                    }
+                                                                    else if (status == "Processed") {
+                                                                        $("#stsSubmitted").show();
+                                                                        $("#SubmitGroupBtn").show();
+                                                                        $("#tab-3 input[type=text], #tab-3 select").removeAttr('disabled');
+                                                                        $("#tab-3 #addRow").removeAttr('disabled');
+                                                                        $("#li-3").click();
+
+                                                                        if (recType == "") {
+                                                                            totalRecoveryAmount = $('#TotalRecoveryAmount').val();
+                                                                            $('#FirstRecoveryAmount').val(convert(totalRecoveryAmount)/2);
+                                                                        }
+                                                                        if (recType == "FirstPartial") {
+                                                                            $("#tab-3 #SecondRecoveryAmount").attr("disabled", "disabled");
+                                                                            $("#tab-3 #addRow2").attr("disabled", "disabled");
+                                                                        }
+                                                                    }
+                                                                    else if (status == "Submitted") {
+                                                                        $("#stsSubmitted").show();
+                                                                          if ('@Model.RequesterId' == userId) {
+                                                                              $("#WithdrawGroupBtn").show();
+                                                                              $("#btnWithdraw").hide();
+                                                                              $("#tab-4 input[type=text], input[type=file]").attr("disabled", "disabled");
+                                                                              $("#tab-4").hide();
+                                                                              $("#base-tab-4").hide();
+                                                                              $("#tab-3 #addRow3").attr("disabled", "disabled");
+                                                                              //$("#tab-3 .ion-trash-a").attr("disabled", "disabled");
+
+                                                                              //$("#tab-3").show();
+                                                                            }
+                                                                          else {
+                                                                              $("#ReceiveGroupBtn").show();
+                                                                              $("#tab-4 input[type=text],select").removeAttr('disabled');
+                                                                              $("#tab-2 select").attr("disabled", "disabled");
+                                                                              $("#tab-3 select").attr("disabled", "disabled");
+
+                                                                              //if (recType == "SecondPartial") {
+                                                                              //    $("#tab-4 input[type=text]").attr("disabled", "disabled");
+                                                                              //}
+                                                                               if (recType == "SecondPartial") {
+                                                                            if ('@User.IsInRole("TGBS Reconciliation")' == 'True') {
+
+                                                                                $("#tab-4 input[type=text]").attr("disabled", "disabled");
+                                                                                $("#tab-4 #ReceivedDate").removeAttr('disabled');
+                                                                            }
+
+                                                                        }
+                                                                            }
+
+                                                                        $("#li-4").click();
+
+                                                                   
+
+                                                                    }
+                                                                    else if (status == "Received") {
+
+                                                                        $("#stsSubmitted").show();
+                                                                        if (recType == "FirstPartial") {
+                                                                            $("#PartialCompleteGroupBtn").show();
+
+                                                                        }
+                                                                        else {
+                                                                            $("#CompleteGroupBtn").show();
+                                                                        }
+                                                                        $("#li-5").click();
+                                                                    }
+                                                                    else if (status == "PartialComplete") {
+                                                                        $("#stsSubmitted").show();
+                                                                        $("#SubmitGroupBtn").show();
+                                                                        $("#li-3").click();
+                                                                        $("#tab-3 input[type=text], #tab-3 select").attr("disabled", "disabled");
+                                                                        $("#tab-3 #addRow").attr("disabled", "disabled");
+                                                                        if (recType == "FirstPartial") {
+                                                                            $("#tab-3 #SecondRecoveryAmount").removeAttr('disabled');
+                                                                            $("#tab-3 #addRow2").removeAttr('disabled');
+                                                                            totalRecoveryAmount = $('#TotalRecoveryAmount').val();
+                                                                            firstRecoveryAmount = $('#FirstRecoveryAmount').val();
+                                                                            $('#SecondRecoveryAmount').val(convert(totalRecoveryAmount) - convert(firstRecoveryAmount));
+                                                                        }
+                                                                        if (recType == "SecondPartial") {
+                                                                            $("#tab-3 #SecondRecoveryAmount").removeAttr('disabled');
+                                                                            $("#tab-3 #addRow2").removeAttr('disabled');
+                                                                        }
+                                                                    }
+                                                                    else if (status == "Complete") {
+                                                                        $("#stsSubmitted").show();
+                                                                        $("#li-6").click();
+                                                                    }
+                                                                }
+
+                                                                $('#ddlRecoveryType').on('change', function (e) {
+
+                                                                    if (this.value == "Full") {
+                                                                        $('#pnl_third_form').show();
+                                                                        $('#pnl_first_form').hide();
+                                                                        $('#pnl_second_form').hide();
+                                                                    } else if (this.value == "Partial" || this.value == "FirstPartial" || this.value == "SecondPartial"){
+                                                                    //    (this.value == "FirstPartial" || value == "SecondPartial")
+                                                                        if (status != "PartialComplete") {
+                                                                            $("#tab-3 #SecondRecoveryAmount").attr("disabled", "disabled");
+                                                                            $("#tab-3 #addRow2").attr("disabled", "disabled");
+                                                                        }
+                                                                        $('#pnl_first_form').show();
+                                                                        $('#pnl_second_form').show();
+                                                                        $('#pnl_third_form').hide();
+
+
+                                                                    }
+                                                                });
+
+                                                                $("#ddlDuration").select2({
+                                                                    minimumResultsForSearch: -1,
+                                                                    ajax: {
+                                                                        url: "/Recovery/GetAllDuration",
+                                                                        dataType: 'json',
+                                                                        type: "GET",
+                                                                        processResults: function (data) {
+                                                                            console.log(data);
+                                                                            return {
+                                                                                results: $.map(data, function (item) {
+                                                                                    return {
+                                                                                        text: item.name,
+                                                                                        id: item.id
+                                                                                    }
+
+                                                                                })
+                                                                            };
+                                                                        }
+                                                                    }
+                                                                });
+
+                                                                $('#ddlDuration').on('select2:select', function (e) {
+                                                                    var data = e.params.data;
+                                                                    if (data.selected) {
+                                                                        var id = data.id;
+                                                                        //$("#ddlDuration").append("<option value='0'>Please Choose</option>");
+                                                                        $("#ClaimDuration").val(id);
+                                                                    }
+                                                                });
+
+                                                                $("#ddlRecoveryType").select2({
+                                                                    minimumResultsForSearch: -1,
+                                                                    ajax: {
+                                                                        url: "/Recovery/GetAllRecoveryType",
+                                                                        dataType: 'json',
+                                                                        type: "GET",
+                                                                        processResults: function (data) {
+                                                                            return {
+                                                                                results: $.map(data, function (item) {
+                                                                                    return {
+                                                                                        text: item.name,
+                                                                                        id: item.type
+                                                                                    }
+
+                                                                                })
+                                                                            };
+                                                                        }
+                                                                    }
+                                                                });
+
+                                                                $('#ddlRecoveryType').on('select2:select', function (e) {
+                                                                    var data = e.params.data;
+                                                                    if (data.selected) {
+                                                                        var type = data.id;
+                                                                        $("#RecoveryType").val(type);
+                                                                    }
+        });
+
+        });
+
+   
+        
+        var t1 = $('#suppDoc').DataTable({ searching: false, paging: false, info: false });
+
+        $.ajax({
+            type: "GET",
+            url: "/Recovery/GetSupportDocument?bankdraftid=@bdId&fileType=Recovery&fileSubType=FirstPartial",
+            success: function (data) {
+
+                $.each(data, function (i, val) {
+                    i = i + 1;
+                    var link = "RemoveAttachment('" + val.id + "','FirstPartial')";
+                    t1.row.add([
+                        i,
+                        'Attachment ' + i,
+                        '<td class="td-actions"><input type="hidden" value="' + val.fileName + '" id="hdnFirstPartial" /><a href="">' + val.fileName + '</a></td>',
+                        '<a onclick=' + link + ' id="dustbinId1"><i class="la la-trash"></i></a>'
+                    ]).draw(false);
+
+                    counts = i;
+                    counter1 = i;
+                });
+            }
+        });
+
+        counter1b = 0;
+        $('#addRow').on('click', function () {
+            counts++;
+
+            t1.row.add([
+                counts,
+                'Attachment ' + counts,
+                '<td class="td-actions"><div class="file-upload before-submit"><input id="firstPartial' + counter1b + 'Id" name="doc" type="file"></div></td>',
+                '<a id="dustbinId1b"><i class="la la-trash"></i></a>'
+            ]).draw(false);
+
+            counter1b++;
+        });
+
+        $('#suppDoc tbody').on('click', '#dustbinId1', function () {
+            t1
+                .row($(this).parents('tr'))
+                .remove()
+                .draw();
+            counts--;
+            counter1--;
+        });
+
+        $('#suppDoc tbody').on('click', '#dustbinId1b', function () {
+            t1
+                .row($(this).parents('tr'))
+                .remove()
+                .draw();
+            counts--;
+            counter1b--;
+        });
+
+        //// Automatically add a first row of data
+        $('#addRow').click();
+        $('#dustbinId1').click();
+        $('#dustbinId1b').click();
+
+
+        var t2 = $('#suppDoc2').DataTable({ searching: false, paging: false, info: false });
+
+        $.ajax({
+            type: "GET",
+            url: "/Recovery/GetSupportDocument?bankdraftid=@bdId&fileType=Recovery&fileSubType=SecondPartial",
+            success: function (data) {
+
+                $.each(data, function (i, val) {
+                    i = i + 1;
+                    var link = "RemoveAttachment('" + val.id + "','SecondPartial')";
+                    t2.row.add([
+                        i,
+                        'Attachment ' + i,
+                        '<td class="td-actions"><input type="hidden" value="' + val.fileName + '" id="hdnSecondPartial" /><a href="">' + val.fileName + '</a></td>',
+                        '<a onclick=' + link + ' id="dustbinId2"><i class="la la-trash"></i></a>'
+                    ]).draw(false);
+
+                    countss = i;
+                    counter2 = i;
+                });
+            }
+        });
+
+        counter2b = 0;
+        $('#addRow2').on('click', function () {
+            countss++;
+
+            t2.row.add([
+                countss,
+                'Attachment ' + countss,
+                '<td class="td-actions"><div class="file-upload before-submit"><input id="secondPartial' + counter2b + 'Id" name="doc" type="file"></div></td>',
+                '<a id="dustbinId2b"><i class="la la-trash"></i></a>'
+            ]).draw(false);
+
+            counter2b++;
+        });
+
+        $('#suppDoc2 tbody').on('click', '#dustbinId2', function () {
+            t2
+                .row($(this).parents('tr'))
+                .remove()
+                .draw();
+            countss--;
+            counter2--;
+        });
+
+        $('#suppDoc2 tbody').on('click', '#dustbinId2b', function () {
+            t2
+                .row($(this).parents('tr'))
+                .remove()
+                .draw();
+            countss--;
+            counter2b--;
+        });
+
+        //// Automatically add a first row of data
+        $('#addRow2').click();
+        $('#dustbinId2').click();
+        $('#dustbinId2b').click();
+
+
+        var t3 = $('#suppDoc3').DataTable({ searching: false, paging: false, info: false });
+
+        $.ajax({
+            type: "GET",
+            url: "/Recovery/GetSupportDocument?bankdraftid=@bdId&fileType=Recovery&fileSubType=FullPartial",
+            success: function (data) {
+
+                $.each(data, function (i, val) {
+                    i = i + 1;
+                    var link = "RemoveAttachment('" + val.id + "','FullPartial')";
+                    t3.row.add([
+                        i,
+                        'Attachment ' + i,
+                        '<td class="td-actions"><input type="hidden" value="' + val.fileName + '" id="hdnFullPartial" /><a href="">' + val.fileName + '</a></td>',
+                        '<a onclick=' + link + ' id="dustbinId3"><i class="la la-trash"></i></a>'
+                    ]).draw(false);
+
+                    countsss = i;
+                    counter3 = i;
+                });
+            }
+        });
+
+        counter3b = 0;
+        $('#addRow3').on('click', function () {
+            countsss++;
+
+            t3.row.add([
+                countsss,
+                'Attachment ' + countsss,
+                '<td class="td-actions"><div class="file-upload before-submit"><input id="fullPartial' + counter3b + 'Id" name="doc" type="file"></div></td>',
+                '<a id="dustbinId3b"><i class="la la-trash"></i></a>'
+            ]).draw(false);
+
+            counter3b++;
+        });
+
+        $('#suppDoc3 tbody').on('click', '#dustbinId3', function () {
+            t3
+                .row($(this).parents('tr'))
+                .remove()
+                .draw();
+            countsss--;
+            counter3--;
+        });
+
+        $('#suppDoc3 tbody').on('click', '#dustbinId3b', function () {
+            t3
+                .row($(this).parents('tr'))
+                .remove()
+                .draw();
+            countsss--;
+            counter3b--;
+        });
+
+        //// Automatically add a first row of data
+        $('#addRow3').click();
+        $('#dustbinId3').click();
+        $('#dustbinId3b').click();
+
+    function alertRaihan() {
+        alert('hello');
+    }
+
+                                                            function RemoveAttachment(id, type) {
+                                                                ShowNoty("warning", "Deleting Attachment..");
+                                                                $.ajax({
+                                                                    type: "GET",
+                                                                    url: "/BankDraft/RemoveAttachment/" + id,
+                                                                    processData: false,
+                                                                    contentType: false,
+                                                                    success: function (data) {
+                                                                        if (data.response.statusCode == 200) {
+                                                                            $('#hdnWCSuratKelulusan').val("");
+                                                                            $('#noFile-' + type).show();
+                                                                            $('#hasFile-' + type).hide();
+                                                                            ShowNoty("success", data.message);
+                                                                        } else {
+                                                                            ShowNoty("error", data.message);
+                                                                        }
+                                                                    }
+                                                                });
+                                                            }
+
+                                                            //button for search
+
+                                                            $("#btnLoadProjDetails").on('click', function () {
+
+                                                                $.ajax({
+                                                                    type: "GET",
+                                                                    url: "/BankDraft/SearchBankDraftByProjectNo?search=" + $("#ProjNo").val(),
+                                                                    processData: false,
+                                                                    contentType: false,
+                                                                    success: function (data) {
+                                                                        $("#tblSearchResults tbody tr").remove();
+                                                                        for (var i = 0; i < data.length; i++) {
+                                                                          
+                                                                            console.log(data[i]);
+                                                                            var load = "loadData('" + data[i].bankDraftId + "','" + data[i].refNo + "','" + data[i].projNo + "','" + data[i].bdNo + "','" + data[i].requester + "','" + data[i].ermsDocNo + "','" + data[i].coCode + "','" + data[i].ba + "','" + data[i].nameOnBD + "'," + data[i].bdAmount + ")";
+                                                                            $('#search-results-modal #tblSearchResults').append('<tr><td>' + data[i].projNo + '</td><td> <a href="#" onclick="' + load + '" type="button" class="btn-search-results" data-dismiss="modal">' + data[i].bdNo + '</a></td><td>' + data[i].ermsDocNo + '</td><td>' + data[i].ba + '</td><td>Selangor</td><td>' + data[i].ermsPostingDate + '</td><td>' + data[i].docDate + '</td><td>' + data[i].bdAmount + '</td><td>' + data[i].keteranganKerja + '</td><td><button onclick="' + load + '" type="button" class="btn btn-shadow" data-dismiss="modal">Select</button></td></tr>');
+                                                                        }
+                                                                        if (data.length == 0) {
+                                                                            ShowNoty("error", "The application with project no does not exist or has been used.");
+
+                                                                        }
+                                                                    }
+                                                                });
+
+                                                            });
+
+                                                            $("#btnLoadBDDetails").on('click', function () {
+
+                                                                $.ajax({
+                                                                    type: "GET",
+                                                                    url: "/BankDraft/SearchBankDraftByBDNo?search=" + $("#BDNo").val(),
+                                                                    processData: false,
+                                                                    contentType: false,
+                                                                    success: function (data) {
+                                                                        for (var i = 0; i < data.length; i++) {
+                                                                            $("#tblSearchResults tbody tr").remove();
+                                                                            console.log(data[i]);
+                                                                            var load = "loadData('" + data[i].bankDraftId + "','" + data[i].refNo + "','" + data[i].projNo + "','" + data[i].bdNo + "','" + data[i].requester + "','" + data[i].ermsDocNo + "','" + data[i].coCode + "','" + data[i].ba + "','" + data[i].nameOnBD + "'," + data[i].bdAmount + ")";
+                                                                            $('#search-results-modal #tblSearchResults').append('<tr><td>' + data[i].projNo + '</td><td>' + data[i].bdNo  + '</td><td>' + data[i].ermsDocNo + '</td><td>' + data[i].ba + '</td><td>Selangor</td><td>' + data[i].ermsPostingDate + '</td><td>' + data[i].docDate + '</td><td>' + data[i].bdAmount + '</td><td>' + data[i].keteranganKerja + '</td><td><button onclick="' + load + '" type="button" class="btn btn-shadow" data-dismiss="modal">Select</button></td></tr>');
+                                                                        }
+                                                                        if (data.length == 0) {
+                                                                            ShowNoty("error", "The application with bank draft no does not exist or has been used.");
+
+                                                                        }
+                                                                    }
+                                                                });
+
+                                                            });
+
+                                                            function loadData(bankDraftId, refNo, projNo, bdNo, requester, ermsDocNo, coCode, ba, nameOnBd, bdAmount) {
+                                                                $("#BankDraftId").val(bankDraftId);
+                                                                $("#RefNo").val(refNo + "/R");
+                                                                $("#ProjNo").val(projNo);
+                                                                $("#BDNo").val(bdNo);
+                                                                $("#BDRequesterName").val(requester);
+                                                                $("#ERMSDocNo").val(ermsDocNo);
+                                                                $("#CoCode").val(coCode);
+                                                                $("#BA").val(ba);
+                                                                $("#NameOnBD").val(nameOnBd);
+                                                                $("#BDAmount").val(bdAmount);
+                                                            }
+
+
+                                                            $("#btnCreateConfirm").on('click', function (e) {
+                                                                console.log('create confirm');
+                                                                $("#Status").val("Create");
+                                                                $("#formEditRecovery").submit();
+
+                                                            });
+
+                                                            $("#btnDraft").on('click', function (e) {
+                                                                //console.log('create confirm');
+                                                                $("#Status").val("Draft");
+                                                                $("#formEditRecovery").submit();
+
+                                                            });
+
+                                                            $('#btnWithdrawConfirm').on('click', function (e) {
+                                                                    $("#UserAction").val("Withdrawn");
+                                                                    $("#formWithdrawn").submit();
+                                                            });
+
+    $('#btnProcessConfirm').on('click', function (e) {
+        if ($("#formProcessRecovery").valid()) {
+            $("#UserAction").val("Process");
+            $("#formProcessRecovery").submit();
+        }
+        else {
+            ShowNoty("error", "Please fill all required fields!");
+    }
+
+
+                                                            });
+
+                                                            $("#btnDraftProcess").on('click', function (e) {
+                                                                //console.log('create confirm');
+                                                                $("#Status").val("Draft");
+                                                                $("#formProcessRecovery").submit();
+
+                                                            });
+
+                                                            $('#btnSubmitConfirm').on('click', function (e) {
+                                                                console.log(currStatus);
+                                                                if ($("#formSubmitRecovery").valid()) {
+
+                                                                    totalRecoveryAmount = $('#TotalRecoveryAmount').val();
+                                                                    firstRecoveryAmount = $('#FirstRecoveryAmount').val();
+                                                                    total = convert(totalRecoveryAmount) - convert(firstRecoveryAmount);
+
+                                                                    if (currStatus == "Processed" && convert(firstRecoveryAmount) > convert(totalRecoveryAmount)) {
+                                                                        ShowNoty("error", "First recovery amount exceed total recovery amount ");
+                                                                    }
+                                                                    else if (currStatus == "PartialComplete" && $('#SecondRecoveryAmount').val() > total) {
+                                                                        ShowNoty("error", "Second Recovery amount exceed balance amount of recovery");
+                                                                    }
+                                                                    else {
+                                                                        $("#UserAction").val("Submit");
+                                                                        $("#formSubmitRecovery").submit();
+                                                                    }
+                                                                  
+                                                                }
+                                                                else {
+                                                                    ShowNoty("error", "Please fill all required fields!");
+                                                                }
+                                                            });
+
+                                                            $("#btnDraftSubmit").on('click', function (e) {
+                                                                //console.log('create confirm');
+                                                                $("#Status").val("Draft");
+                                                                $("#formSubmitRecovery").submit();
+
+
+
+                                                            });
+
+    $('#btnReceiveConfirm').on('click', function (e) {
+        if ($("#formReceiveRecovery").valid()) {
+            $("#UserAction").val("Receive");
+            $("#formReceiveRecovery").submit();
+        }
+        else {
+            ShowNoty("error", "Please fill all required fields!");
+        }
+
+});
+
+    $('#btnPartialConfirm').on('click', function (e) {
+
+        if ($("#formCompleteRecovery").valid()) {
+            $("#UserAction").val("PartialComplete");
+            $("#formCompleteRecovery").submit();
+        }
+        else {
+            ShowNoty("error", "Please fill all required fields!");
+        }
+
+    });
+
+    $('#btnCompleteConfirm').on('click', function (e) {
+
+        if ($("#formCompleteRecovery").valid()) {
+            $("#UserAction").val("Complete");
+            $("#formCompleteRecovery").submit();
+        }
+        else {
+            ShowNoty("error", "Please fill all required fields!");
+        }
+
+    });
+
+                                                            $("#formEditRecovery").submit(function (e) {
+
+                                                                e.preventDefault(); // avoid to execute the actual submit of the form.
+
+                                                                ShowNoty("warning", "Saving Bank Draft..");
+
+                                                                var form = $(this);
+                                                                var url = form.attr('action');
+                                                                var fdata = new FormData();
+
+                                                                var fileInput = $('#ChecklistVM_File')[0];
+                                                                var file = fileInput.files[0];
+                                                                fdata.append("Checklist", file);
+
+                                                                var fileInput = $('#RecoveryLetterVM_File')[0];
+                                                                var file = fileInput.files[0];
+                                                                fdata.append("RecoveryLetter", file);
+
+                                                                // Currency in string 
+                                                                string_currency = $('#BDAmount').val();
+                                                                console.log("Currency value: " + string_currency + "</br>");
+                                                                // Converting currency 
+                                                                doubleValue = convert(string_currency);
+                                                                // Display currency  
+                                                                console.log("Converted to double: " + doubleValue + "</br>"); 
+
+                                                                if (string_currency != "") {
+                                                                    fdata.append("BDAmount", doubleValue);
+                                                                }
+
+                                                                $("input[type='text'], input[type='hidden']").each(function (x, y) {
+                                                                    fdata.append($(y).attr("name"), $(y).val());
+                                                                });
+
+                                                                // You can update the jquery selector to use a css class if you want
+                                                                $("input,textarea").each(function (x, y) {
+                                                                    fdata.append($(y).attr("name"), $(y).val());
+                                                                });
+
+                                                                fdata.append("BankDraftId", bdId);
+
+                                                                for (var value of fdata.values()) {
+                                                                    console.log(value);
+                                                                }
+                                                                for (var key of fdata.keys()) {
+                                                                    console.log(key);
+                                                                }
+
+                                                                $.ajax({
+                                                                    type: "POST",
+                                                                    url: url,
+                                                                    data: fdata, //form.serialize(), // serializes the form's elements.
+                                                                    processData: false,
+                                                                    contentType: false,
+                                                                    success: function (data) {
+                                                                        console.log(data);
+                                                                        if (data.response.statusCode == 200) {
+                                                                            ShowNoty("success", data.message);
+                                                                            $('#create-modal').modal('show'); 
+                                                                            href = "/Application/MyRecovery";
+                                                                            setTimeout(function () {
+                                                                                window.location.href = href;
+                                                                            }, 1000);
+                                                                        } else {
+                                                                            ShowNoty("error", data.message);
+                                                                        }
+                                                                    }
+                                                                });
+    });
+
+    $("#formWithdrawn").submit(function (e) {
+
+        e.preventDefault(); // avoid to execute the actual submit of the form.
+        ShowNoty("warning", "Updating Application..");
+
+        var form = $(this);
+        var url = form.attr('action');
+        var fdata = new FormData();
+        $("input, textarea").each(function (x, y) {
+            fdata.append($(y).attr("name"), $(y).val());
+        });
+
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: fdata, //form.serialize(), // serializes the form's elements.
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                console.log(data);
+                if (data.response.statusCode == 200) {
+                    ShowNoty("success", data.message);
+                    href = "/Application/Recovery";
+                    setTimeout(function () {
+                        window.location.href = href;
+                    }, 1000);
+                } else {
+                    ShowNoty("error", data.message);
+                    refresh();
+                }
+            }
+        });
+    });
+
+
+                                                            $("#formProcessRecovery").submit(function (e) {
+
+                                                                e.preventDefault(); // avoid to execute the actual submit of the form.
+
+                                                                ShowNoty("warning", "Saving Bank Draft..");
+
+                                                                var form = $(this);
+                                                                var url = form.attr('action');
+                                                                var fdata = new FormData();
+
+                                                                // You can update the jquery selector to use a css class if you want
+                                                                $("input, select, textarea").each(function (x, y) {
+                                                                    fdata.append($(y).attr("name"), $(y).val());
+                                                                });
+
+                                                                //fdata.append("ClaimDuration", );
+
+                                                                $.ajax({
+                                                                    type: "POST",
+                                                                    url: url,
+                                                                    data: fdata, //form.serialize(), // serializes the form's elements.
+                                                                    processData: false,
+                                                                    contentType: false,
+                                                                    success: function (data) {
+                                                                        if (data.response.statusCode == 200) {
+                                                                            ShowNoty("success", data.message);
+                                                                            $('#process-modal').modal('show'); 
+                                                                            href = "/Application/Recovery";
+                                                                            setTimeout(function () {
+                                                                                window.location.href = href;
+                                                                            }, 1000);
+                                                                        } else {
+                                                                            ShowNoty("error", data.message);
+                                                                            refresh();
+                                                                        }
+                                                                    }
+                                                                });
+                                                            });
+
+                                                            $("#formSubmitRecovery").submit(function (e) {
+
+                                                                e.preventDefault(); // avoid to execute the actual submit of the form.
+
+                                                                ShowNoty("warning", "Saving Bank Draft..");
+
+                                                                var form = $(this);
+                                                                var url = form.attr('action');
+                                                                var fdata = new FormData();
+
+                                                                if ((recType == "")) {
+                                                                    for (var i = 0; i < counter1b; i++) {
+                                                                        var fileInput = $('#firstPartial' + i + 'Id')[0];
+                                                                        var file = fileInput.files[0];
+                                                                        fdata.append("FirstPartialDoc", file);
+                                                                    }
+
+                                                                }
+                                                                else if ((recType == "FirstPartial" && currStatus == "Processed"))
+                                                                {
+                                                                    for (var i = 0; i < counter1b; i++) {
+                                                                        var fileInput = $('#firstPartial' + i + 'Id')[0];
+                                                                        var file = fileInput.files[0];
+                                                                        fdata.append("FirstPartialDoc", file);
+                                                                    }
+                                                                }
+                                                                else if (recType == "FirstPartial" && status != "PartialComplete") {
+                                                                    for (var i = 0; i < counter2b; i++) {
+                                                                        var fileInput = $('#secondPartial' + i + 'Id')[0];
+                                                                        var file = fileInput.files[0];
+                                                                        fdata.append("SecondPartialDoc", file);
+                                                                    }
+                                                                }
+                                                                else if (recType == "SecondPartial" && currStatus == "PartialComplete") {
+                                                                    for (var i = 0; i < counter2b; i++) {
+                                                                        var fileInput = $('#secondPartial' + i + 'Id')[0];
+                                                                        var file = fileInput.files[0];
+                                                                        fdata.append("SecondPartialDoc", file);
+                                                                    }
+                                                                }
+
+                                                                for (var i = 0; i < counter3b; i++) {
+                                                                    var fileInput = $('#fullPartial' + i + 'Id')[0];
+                                                                    var file = fileInput.files[0];
+                                                                    fdata.append("FullPartialDoc", file);
+                                                                }
+
+
+                                                                if ($("#RecoveryType").val() == "Partial" && $("#SecondRecoveryAmount").val() == "") {
+                                                                    fdata.append("RecoveryType", "FirstPartial");
+                                                                }
+                                                                else if ($("#RecoveryType").val() == "FirstPartial" && currStatus == "Processed") {
+                                                                    fdata.append("RecoveryType", "FirstPartial");
+                                                                }
+                                                                else if ($("#RecoveryType").val() == "FirstPartial" && currStatus == "PartialComplete") {
+                                                                    fdata.append("RecoveryType", "SecondPartial");
+                                                                }
+                                                                else if ($("#RecoveryType").val() == "SecondPartial" && currStatus == "PartialComplete") {
+                                                                    fdata.append("RecoveryType", "SecondPartial");
+                                                                }
+                                                                else if ($("#RecoveryType").val() == "Full" ) {
+                                                                    fdata.append("RecoveryType", $("#RecoveryType").val());
+                                                                }
+
+                                                                // Currency in string 
+                                                                totalRecoveryAmount = $('#TotalRecoveryAmount').val();
+                                                                firstRecoveryAmount = $('#FirstRecoveryAmount').val();
+                                                                secondaryRecoveryAmount = $('#SecondRecoveryAmount').val();
+
+                                                                if (totalRecoveryAmount != "") {
+                                                                    fdata.append("TotalRecoveryAmount", convert(totalRecoveryAmount));
+                                                                }
+
+                                                                if (firstRecoveryAmount != "") {
+                                                                    fdata.append("FirstRecoveryAmount", convert(firstRecoveryAmount));
+                                                                }
+
+                                                                if (secondaryRecoveryAmount != "") {
+                                                                    fdata.append("SecondRecoveryAmount", convert(secondaryRecoveryAmount));
+                                                                }
+                                                              
+                                                                // You can update the jquery selector to use a css class if you want
+                                                                $("input, select, textarea").each(function (x, y) {
+                                                                    fdata.append($(y).attr("name"), $(y).val());
+                                                                });
+
+                                                                for (var value of fdata.values()) {
+                                                                    console.log(value);
+                                                                }
+                                                                for (var key of fdata.keys()) {
+                                                                    console.log(key);
+                                                                }
+
+                                                                $.ajax({
+                                                                    type: "POST",
+                                                                    url: url,
+                                                                    data: fdata, //form.serialize(), // serializes the form's elements.
+                                                                    processData: false,
+                                                                    contentType: false,
+                                                                    success: function (data) {
+                                                                        if (data.response.statusCode == 200) {
+                                                                            ShowNoty("success", data.message);
+                                                                            $('#submit-modal').modal('show'); 
+                                                                            href = "/Application/Recovery";
+                                                                            setTimeout(function () {
+                                                                                window.location.href = href;
+                                                                            }, 1000);
+                                                                        } else {
+                                                                            ShowNoty("error", data.message);
+                                                                            refresh();
+                                                                        }
+                                                                    }
+                                                                });
+                                                            });
+
+                                                            $("#formReceiveRecovery").submit(function (e) {
+
+                                                                e.preventDefault(); // avoid to execute the actual submit of the form.
+
+                                                                ShowNoty("warning", "Saving Bank Draft..");
+
+                                                                var form = $(this);
+                                                                var url = form.attr('action');
+                                                                var fdata = new FormData();
+
+                                                                if ($('#FirstParBankStatementVM_File').get(0).files.length !== 0) {
+                                                                    var fileInput = $('#FirstParBankStatementVM_File')[0];
+                                                                    var file = fileInput.files[0];
+                                                                    fdata.append("FirstParBankStatement", file);
+                                                                }
+
+                                                                if ($('#SecondParBankStatementVM_File').get(0).files.length !== 0) {
+                                                                    var fileInput = $('#SecondParBankStatementVM_File')[0];
+                                                                    var file = fileInput.files[0];
+                                                                    fdata.append("SecondParBankStatement", file);
+                                                                }
+
+                                                                if ($('#BankStatementVM_File').get(0).files.length !== 0) {
+                                                                    var fileInput = $('#BankStatementVM_File')[0];
+                                                                    var file = fileInput.files[0];
+                                                                    fdata.append("BankStatement", file);
+                                                                }
+
+                                                              
+                                                                if ($("#RecoveryType").val() == "FirstPartial" && currStatus == "Submitted") {
+                                                                    fdata.append("RecoveryType", "FirstPartial");
+                                                                }
+                                                                else if ($("#RecoveryType").val() == "SecondPartial" && currStatus == "Submitted") {
+                                                                    fdata.append("RecoveryType", "SecondPartial");
+                                                                }
+                                                                else if ($("#RecoveryType").val() == "Full") {
+                                                                    fdata.append("RecoveryType", $("#RecoveryType").val());
+                                                                }
+
+                                                                // You can update the jquery selector to use a css class if you want
+                                                                $("input, select, textarea").each(function (x, y) {
+                                                                    fdata.append($(y).attr("name"), $(y).val());
+                                                                });
+
+                                                                //fdata.append("ClaimDuration", );
+
+                                                                $.ajax({
+                                                                    type: "POST",
+                                                                    url: url,
+                                                                    data: fdata, //form.serialize(), // serializes the form's elements.
+                                                                    processData: false,
+                                                                    contentType: false,
+                                                                    success: function (data) {
+                                                                        if (data.response.statusCode == 200) {
+                                                                            ShowNoty("success", data.message);
+                                                                            $('#receive-modal').modal('show'); 
+                                                                            href = "/Application/Recovery";
+                                                                            setTimeout(function () {
+                                                                                window.location.href = href;
+                                                                            }, 1000);
+                                                                        } else {
+                                                                            ShowNoty("error", data.message);
+                                                                            refresh();
+                                                                        }
+                                                                    }
+                                                                });
+    });
+
+    $("#formCompleteRecovery").submit(function (e) {
+
+        e.preventDefault(); // avoid to execute the actual submit of the form.
+
+        ShowNoty("warning", "Saving Bank Draft..");
+
+        var form = $(this);
+        var url = form.attr('action');
+        var fdata = new FormData();
+
+        // You can update the jquery selector to use a css class if you want
+        $("input, select, textarea").each(function (x, y) {
+            fdata.append($(y).attr("name"), $(y).val());
+        });
+
+        //fdata.append("ClaimDuration", );
+
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: fdata, //form.serialize(), // serializes the form's elements.
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                if (data.response.statusCode == 200) {
+                    ShowNoty("success", data.message);
+
+                    if ($("#UserAction").val() == "PartialComplete") {
+                        $('#partialcomplete-modal').modal('show');
+                    }
+                    else if ($("#UserAction").val() == "Complete") {
+                        $('#complete-modal').modal('show');
+                    }
+
+                    href = "/Application/Recovery";
+                    setTimeout(function () {
+                        window.location.href = href;
+                    }, 1000);
+                } else {
+                    ShowNoty("error", data.message);
+                    refresh();
+                }
+            }
+        });
+    });
+
+
+    </script>
+
+}
+
+

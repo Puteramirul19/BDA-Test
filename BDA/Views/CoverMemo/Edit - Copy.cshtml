@@ -1,0 +1,423 @@
+﻿@model BDA.ViewModel.MemoViewModel
+@{
+    ViewData["Title"] = "New Cover Memo";
+    Layout = "~/Views/Shared/_FormLayout.cshtml";
+    var RefNo = Model.ReferenceNo;
+    var MemoRefNo = Model.CoverRefNo;
+    var requesterId = Model.RequestorId;
+}
+<div class="tab-content">
+    <div class="tab-pane active" id="tab1">
+        @using (Html.BeginForm("Edit", "CoverMemo", Model, FormMethod.Post, false, new { @id = "formEditCoverMemo", @class = "form-horizontal" }))
+        {
+            @Html.AntiForgeryToken()
+            <div class="section-title mt-5 mb-5">
+                <h4>Bank Details</h4>
+            </div>
+            <div class="form-group row mb-3">
+                <div class="col-sm-6 mb-3">
+                    <label class="form-control-label">Date<span class="text-danger ml-2">*</span></label>
+                    <div class="input-group">
+                        @Html.HiddenFor(x => x.Id, new { id = "hdnId" })
+                        @Html.TextBoxFor(x => x.Date, new { @class = "form-control date", id = "dateApply" })
+                        @*<input type="text" class="form-control date" id="dateApply" placeholder="Select value">*@
+                        <span class="input-group-addon">
+                            <i class="la la-calendar"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-title mt-5 mb-5">
+                <h4>Senarai Aplikasi</h4>
+            </div>
+            <div class="form-group row mb-3">
+                <div class="col-sm-12 mb-3">
+                    <label class="form-control-label">Jenis Aplikasi<span class="text-danger ml-2">*</span></label>
+                    <br />
+                    @Html.RadioButtonFor(x => x.ApplicationType, BDA.Data.BDType.WangCagaran.ToString(), new { id = "rbWC" })
+                    @Html.Label("rbWC", "Wang Cagaran")
+                    @Html.RadioButtonFor(x => x.ApplicationType, BDA.Data.BDType.WangHangus.ToString(), new { id = "rbWH" })
+                    @Html.Label("rbWH", "Wang Hangus")
+                </div>
+            </div>
+            <div class="form-group row mb-3">
+                <div class="col-sm-12 mb-3">
+                    <label class="form-control-label">Requester Name<span class="text-danger ml-2">*</span></label>
+                    @Html.DropDownListFor(x => x.Requestor, Enumerable.Empty<SelectListItem>(), new { @class = "form-control select2", id = "ddlRequester" })
+                </div>
+            </div>
+            <div class="form-group row mb-3">
+                <div class="col-sm-12 mb-3">
+                    <label class="form-control-label">Rujukan No<span class="text-danger ml-2">*</span></label>
+                    @Html.ListBoxFor(x => x.RefereceNos, Enumerable.Empty<SelectListItem>(), new { @class = "form-control select2-multiple", id = "ddlReferenceNo", multiple = "multiple" })
+                    <input type="hidden" id="hdnRefNo" value="@RefNo" class="form-control">
+                    <input type="hidden" id="CoverMemoRefNo" value="@MemoRefNo" class="form-control">
+                </div>
+            </div>
+            <div class="section-title mt-5 mb-5">
+                <h4>Memo Details</h4>
+            </div>
+            <div class="form-group row mb-3">
+                <div class="col-sm-6 mb-3">
+                    <label class="form-control-label">Requester<span class="text-danger ml-2">*</span></label>
+                    @Html.TextAreaFor(x => x.RequestorAddress, new { @class = "form-control" })
+                </div>
+                <div class="col-sm-6 mb-3">
+                    <label class="form-control-label">Approver<span class="text-danger ml-2">*</span></label>
+                    @Html.TextAreaFor(x => x.ApproverAddress, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group row mb-3">
+                <div class="col-sm-12 mb-3">
+                    <label class="form-control-label">Line 1<span class="text-danger ml-2">*</span></label>
+                    @Html.TextAreaFor(x => x.Line1, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group row mb-3">
+                <div class="col-sm-12 mb-3">
+                    <label class="form-control-label">Line 2<span class="text-danger ml-2">*</span></label>
+                    @Html.TextAreaFor(x => x.Line2, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group row mb-3 wangcagaran">
+                <div class="col-sm-12 mb-3">
+                    <label class="form-control-label">Line 3<span class="text-danger ml-2">*</span></label>
+                    @Html.TextAreaFor(x => x.Line3, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group row mb-3 wangcagaran">
+                <div class="col-sm-12 mb-3">
+                    <label class="form-control-label">Line 4<span class="text-danger ml-2">*</span></label>
+                    @Html.TextAreaFor(x => x.Line4, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group row mb-3 wangcagaran">
+                <div class="col-sm-12 mb-3">
+                    <label class="form-control-label">Line 5<span class="text-danger ml-2">*</span></label>
+                    @Html.TextAreaFor(x => x.Line5, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group row mb-3 wangcagaran">
+                <div class="col-sm-12 mb-3">
+                    <label class="form-control-label">Line ETC<span class="text-danger ml-2">*</span></label>
+                    @Html.TextAreaFor(x => x.LineETC, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group row mb-3 wangcagaran">
+                <div class="col-sm-12 mb-3">
+                    <label class="form-control-label">Sk&nbsp;<i class="ion-information-circled" data-toggle="tooltip" title="Penerima pendua"></i><span class="text-danger ml-2">*</span></label>
+                    @Html.TextAreaFor(x => x.Signiture, new { @class = "form-control" })
+                </div>
+            </div>
+
+            <div class="wizard text-center">
+                @*<button type="button" href="Memo" id="btnView" class="btn btn-primary btnViewMemo">View Letter</button>*@
+                <button type="button" id="btnSubmit" class="btn btn-success">Save</button>
+                @*<button type="button" id="btnSubmitBD" class="btn btn-danger">Submit to Bank</button>*@
+
+            </div>
+        }
+    </div>
+
+    <div id="pnlSuccess" style="display:none" class="wizard text-center">
+        <h3>Cover Memo</h3><br /><br />
+        <span class="heading">Reference No:</span><br />
+        <span id="NewRefNo" class="sub-heading"></span>
+        <br /><br />
+        @*<button type="button" id="btnEdit" class="btn btn-info">Edit</button>
+        <button type="button" href="Memo" id="btnView" class="btn btn-primary btnViewMemo">View Memo</button>
+        <a href="SubmitToRequestor?id=@Model.Id" id="btnSubmitBD" class="btn btn-success">Submit to Requestor</a>*@
+    </div>
+</div>
+@section Scripts{
+    <script>
+        var requesterId = '@Model.RequestorId';
+        var requesterName = '@Model.Requestor';
+
+            $('input[type=radio][name=ApplicationType]').change(function () {
+                if (this.value == "@BDA.Data.BDType.WangCagaran.ToString()") {
+
+                    $('input[type=radio][name=ApplicationType]').prop("disabled", "disabled");
+                    $("#rbWC").prop("checked", true);
+                    $('.wangcagaran').show();
+
+                    //$('#ddlRequester').select2({
+                    //    minimumResultsForSearch: -1,
+                    //    ajax: {
+                    //        url: "/CoverMemo/GetAllWCRequester",
+                    //        dataType: 'json',
+                    //        type: "GET",
+                    //        processResults: function (data) {
+                    //            return {
+                    //                results: $.map(data, function (item) {
+                    //                    return {
+                    //                        text: item.fullname,
+                    //                        id: item.username
+                    //                    }
+                    //                })
+                    //            };
+                    //        }
+                    //    }
+                    //});
+
+                    //$('#ddlRequester').attr("disabled", "disabled");
+                    //SetMultiSelectedValue(vbRefNo, "#ddlReferenceNo");
+
+                    //$('#ddlReferenceNo').select2({
+                    //    minimumResultsForSearch: -1,
+                    //    ajax: {
+                    //        url: "/CoverMemo/GetAllWCReferenceNoForBulk?requesterId=" + requesterId,
+                    //        dataType: 'json',
+                    //        type: "GET",
+                    //        processResults: function (data) {
+                    //            return {
+                    //                results: $.map(data, function (item) {
+                    //                    return {
+                    //                        text: item.name,
+                    //                        id: item.id
+                    //                    }
+                    //                })
+                    //            };
+                    //        }
+                    //    }
+                    //});
+                    //$('.wangcagaran').show();
+                    //$('#ddlReferenceNo').select2({
+                    //    minimumResultsForSearch: -1,
+                    //    ajax: {
+                    //        url: "/CoverMemo/GetAllWCReferenceNoForBulk?requesterId=" + requesterId,
+                    //        dataType: 'json',
+                    //        type: "GET",
+                    //        processResults: function (data) {
+                    //            return {
+                    //                results: $.map(data, function (item) {
+                    //                    return {
+                    //                        text: item.name,
+                    //                        id: item.id
+                    //                    }
+                    //                })
+                    //            };
+                    //        }
+                    //    }
+                    //});
+                }
+                else if (this.value == "@BDA.Data.BDType.WangHangus.ToString()") {
+                    $('.wangcagaran').hide();
+                    //$('#ddlReferenceNo').select2({
+                    //    minimumResultsForSearch: -1,
+                    //    ajax: {
+                    //        url: "/CoverMemo/GetAllWHReferenceNoForBulk?requesterId=" + requesterId,
+                    //        dataType: 'json',
+                    //        type: "GET",
+                    //        processResults: function (data) {
+                    //            return {
+                    //                results: $.map(data, function (item) {
+                    //                    return {
+                    //                        text: item.name,
+                    //                        id: item.id
+                    //                    }
+                    //                })
+                    //            };
+                    //        }
+                    //    }
+                    //});
+                }
+            });
+
+        
+        $("#btnSubmit").on('click', function (e) {
+            $("#formEditCoverMemo").submit();
+        });
+
+        $('#btnEdit').on('click', function (e) {
+            $("#tab1").show();
+            $("#pnlSuccess").hide();
+        });
+
+        $('.btnViewMemo').click(function (event) {
+            event.preventDefault();
+            window.open("/CoverMemo/Memo?CoverMemoRefNo=" + $("#CoverMemoRefNo").val(), "popupWindow", "width=600,height=600,scrollbars=yes");
+        });
+
+        $("#formEditCoverMemo").submit(function (e) {
+
+            e.preventDefault(); // avoid to execute the actual submit of the form.
+
+            ShowNoty("warning", "Saving Cover Memo..");
+
+            var form = $(this);
+            var url = form.attr('action');
+            var fdata = new FormData();
+
+            $("input, textarea, select").each(function (x, y) {
+                fdata.append($(y).attr("name"), $(y).val());
+            });
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: fdata,//form.serialize(), // serializes the form's elements.
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    if (data.response.statusCode == 200) {
+                        ShowNoty("success", data.message);
+                        $("#tab1").hide();
+                        $("#NewRefNo").html(data.coverRefNo);
+                        $("#btnView").attr("href", "/CoverMemo/Memo?CoverMemoRefNo=" + data.coverRefNo);
+                        $("#pnlSuccess").show();
+                        
+                    } else {
+                        ShowNoty("error", data.message);
+                    }
+                }
+            });
+        });
+
+
+        $(document).ready(function () {
+            SetSelectedValue(requesterId + " - " + requesterName, "#ddlRequester");
+            SetMultiSelectedValue($('#hdnRefNo').val(), "#ddlReferenceNo");
+
+            var application = '@Model.ApplicationType';
+            if (application == "@BDA.Data.BDType.WangCagaran.ToString()") {
+
+                $('input[type=radio][name=ApplicationType]').prop("disabled", "disabled");
+                $("#rbWC").prop("checked", true);
+                $('.wangcagaran').show();
+                      $('#ddlRequester').select2({
+                        minimumResultsForSearch: -1,
+                        ajax: {
+                            url: "/CoverMemo/GetAllWCRequester",
+                            dataType: 'json',
+                            type: "GET",
+                            processResults: function (data) {
+                                return {
+                                    results: $.map(data, function (item) {
+                                        return {
+                                            text: item.fullname,
+                                            id: item.username
+                                        }
+                                    })
+                                };
+                            }
+                        }
+                    });
+
+                    $('#ddlRequester').attr("disabled", "disabled");
+                    //SetMultiSelectedValue(vbRefNo, "#ddlReferenceNo");
+
+                    $('#ddlReferenceNo').select2({
+                        minimumResultsForSearch: -1,
+                        ajax: {
+                            url: "/CoverMemo/GetAllWCReferenceNoForBulk?requesterId=" + requesterId,
+                            dataType: 'json',
+                            type: "GET",
+                            processResults: function (data) {
+                                return {
+                                    results: $.map(data, function (item) {
+                                        return {
+                                            text: item.name,
+                                            id: item.id
+                                        }
+                                    })
+                                };
+                            }
+                        }
+                    });
+
+                //$('input[type=radio][name=ApplicationType]').prop("disabled", "disabled");
+                //    $('.wangcagaran').show();
+                //    $('#ddlReferenceNo').select2({
+                //        minimumResultsForSearch: -1,
+                //        ajax: {
+                //            url: "/CoverMemo/GetAllWCReferenceNo",
+                //            dataType: 'json',
+                //            type: "GET",
+                //            processResults: function (data) {
+                //                return {
+                //                    results: $.map(data, function (item) {
+                //                        return {
+                //                            text: item.name,
+                //                            id: item.id
+                //                        }
+                //                    })
+                //                };
+                //            }
+                //        }
+                //    });
+                 }
+            else if (application == "@BDA.Data.BDType.WangHangus.ToString()") {
+
+                $('input[type=radio][name=ApplicationType]').prop("disabled", "disabled");
+                //$('input[type=radio][name=ApplicationType]').val(application);
+                //$("input[type=radio][name=ApplicationType][value=" + application + "]").attr('checked', 'checked');
+                $("#rbWH").prop("checked", true);
+                $('.wangcagaran').hide();
+
+                $('#ddlRequester').select2({
+                    minimumResultsForSearch: -1,
+                    ajax: {
+                        url: "/CoverMemo/GetAllWHRequester",
+                        dataType: 'json',
+                        type: "GET",
+                        processResults: function (data) {
+                            return {
+                                results: $.map(data, function (item) {
+                                    return {
+                                        text: item.fullname,
+                                        id: item.username
+                                    }
+                                })
+                            };
+                        }
+                    }
+                });
+
+                $('#ddlRequester').attr("disabled", "disabled");
+                //SetMultiSelectedValue(vbRefNo, "#ddlReferenceNo");
+
+                $('#ddlReferenceNo').select2({
+                    minimumResultsForSearch: -1,
+                    ajax: {
+                        url: "/CoverMemo/GetAllWHReferenceNoForBulk?requesterId=" + requesterId,
+                        dataType: 'json',
+                        type: "GET",
+                        processResults: function (data) {
+                            return {
+                                results: $.map(data, function (item) {
+                                    return {
+                                        text: item.name,
+                                        id: item.id
+                                    }
+                                })
+                            };
+                        }
+                    }
+                });
+
+                //$('input[type=radio][name=ApplicationType]').prop("disabled", "disabled");
+                //    $('.wangcagaran').hide();
+                //    $('#ddlReferenceNo').select2({
+                //        minimumResultsForSearch: -1,
+                //        ajax: {
+                //            url: "/CoverMemo/GetAllWHReferenceNo",
+                //            dataType: 'json',
+                //            type: "GET",
+                //            processResults: function (data) {
+                //                return {
+                //                    results: $.map(data, function (item) {
+                //                        return {
+                //                            text: item.name,
+                //                            id: item.id
+                //                        }
+                //                    })
+                //                };
+                //            }
+                //        }
+                //    });
+                }
+        });
+    </script>
+}

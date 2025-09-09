@@ -1,0 +1,573 @@
+﻿
+@{
+    ViewData["Title"] = "ManageRole";
+}
+
+@section Styles{
+
+    <style>
+        .btn-create {
+            background-color: #5d5386;
+            color: white;
+        }
+
+        .btn-apply:hover {
+            background-color: white;
+            color: black;
+        }
+
+        .btn-cancel:hover {
+            background-color: red;
+            color: white;
+        }
+
+        .btn-create:hover {
+            background-color: limegreen;
+            color: white;
+        }
+
+        .btn-lost:hover {
+            background-color: #FFC300;
+            color: white;
+        }
+
+        select.filter {
+            height: 33px !important;
+        }
+
+        .form-staff {
+            margin-bottom: 2rem;
+        }
+    </style>
+}
+<div class="content-inner active">
+    <div class="container-fluid">
+        <!-- Begin Page Header-->
+        <div class="row">
+            <div class="page-header">
+                <div class="d-flex align-items-center">
+                    <h2 class="page-header-title">Manage Role</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row flex-row">
+            <div class="col-xl-12 col-md-12">
+                <div class="table-responsive">
+                    <div class="widget has-shadow">
+                        <div class="widget-body">
+                            <div class="row" style="margin-top: 5px">
+                                <div class="col-sm-2">
+                                    <table class="table table-bordered">
+                                        <tbody>
+                                            <tr>
+                                                <th style="text-align: center;"><a href="/Roles/Add" class="btn btn-outline-secondary mr-1 mb-2">Add New Role</a></th>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <a href="/Roles/Edit/407f04d1-a0a0-4a7a-81c8-6e0ddb145885" class="la la-edit pull-right"></a>
+                                                    <span class="rolename">Business Admin</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <a href="/Roles/Edit/407f04d1-a0a0-4a7a-81c8-6e0ddb145885" class="la la-edit pull-right"></a>
+                                                    <span class="rolename">TGBS Banking</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <a href="/Roles/Edit/407f04d1-a0a0-4a7a-81c8-6e0ddb145885" class="la la-edit pull-right"></a>
+                                                    <span class="rolename">TGBS Recon</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <a href="/Roles/Edit/407f04d1-a0a0-4a7a-81c8-6e0ddb145885" class="la la-edit pull-right"></a>
+                                                    <span class="rolename">Executive</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <a href="/Roles/Edit/407f04d1-a0a0-4a7a-81c8-6e0ddb145885" class="la la-edit pull-right"></a>
+                                                    <span class="rolename">Manager</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <a href="/Roles/Edit/407f04d1-a0a0-4a7a-81c8-6e0ddb145885" class="la la-edit pull-right"></a>
+                                                    <span class="rolename">Senior Manager</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <a href="/Roles/Edit/407f04d1-a0a0-4a7a-81c8-6e0ddb145885" class="la la-edit pull-right"></a>
+                                                    <span class="rolename">Head Of Zone</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <a href="/Roles/Edit/407f04d1-a0a0-4a7a-81c8-6e0ddb145885" class="la la-edit pull-right"></a>
+                                                    <span class="rolename">General Manager</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <a href="/Roles/Edit/407f04d1-a0a0-4a7a-81c8-6e0ddb145885" class="la la-edit pull-right"></a>
+                                                    <span class="rolename">Senior General Manager</span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="col-sm-9" style="overflow:auto">
+                                    <table class="table table-bordered">
+                                        <tbody>
+                                            <tr>
+                                                <th></th>
+                                                <th></th>
+                                                <th colspan="3" style="text-align:center">Wang Cagaran < 10M</th>
+                                                <th colspan="3" style="text-align:center">Wang Cagaran > 10M</th>
+                                                <th colspan="2" style="text-align:center">Wang Hangus</th>
+                                                <th></th>
+                                            </tr>
+                                            <tr>
+                                                <th>SuperUser</th>
+                                                <th>ManageSettings</th>
+                                                <th>Request</th>
+                                                <th>Verify</th>
+                                                <th>Approve</th>
+                                                <th>Request</th>
+                                                <th>Verify</th>
+                                                <th>Approve</th>
+                                                <th>Request</th>
+                                                <th>Approve</th>
+                                                <th>ProcessBankDraftApplication</th>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="d098f87b-c853-4caf-b0b1-6202365ca58c|SuperUser" checked="">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="d098f87b-c853-4caf-b0b1-6202365ca58c|ManageSettings">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="d098f87b-c853-4caf-b0b1-6202365ca58c|ViewReport">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="d098f87b-c853-4caf-b0b1-6202365ca58c|ViewNotice">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="d098f87b-c853-4caf-b0b1-6202365ca58c|ViewAllNotice">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="d098f87b-c853-4caf-b0b1-6202365ca58c|CreateNotice">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="d098f87b-c853-4caf-b0b1-6202365ca58c|SubmitNotice">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="d098f87b-c853-4caf-b0b1-6202365ca58c|EditNotice">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="d098f87b-c853-4caf-b0b1-6202365ca58c|EditNotice">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="d098f87b-c853-4caf-b0b1-6202365ca58c|EditNotice">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="d098f87b-c853-4caf-b0b1-6202365ca58c|EditNotice">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="407f04d1-a0a0-4a7a-81c8-6e0ddb145885|SuperUser">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="407f04d1-a0a0-4a7a-81c8-6e0ddb145885|ManageSettings">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="407f04d1-a0a0-4a7a-81c8-6e0ddb145885|ViewReport">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="407f04d1-a0a0-4a7a-81c8-6e0ddb145885|ViewNotice">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="407f04d1-a0a0-4a7a-81c8-6e0ddb145885|ViewAllNotice">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="407f04d1-a0a0-4a7a-81c8-6e0ddb145885|CreateNotice">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="407f04d1-a0a0-4a7a-81c8-6e0ddb145885|SubmitNotice">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="407f04d1-a0a0-4a7a-81c8-6e0ddb145885|EditNotice">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="407f04d1-a0a0-4a7a-81c8-6e0ddb145885|ReviewNotice">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="d098f87b-c853-4caf-b0b1-6202365ca58c|EditNotice">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="d098f87b-c853-4caf-b0b1-6202365ca58c|EditNotice" checked="">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="59093a18-5220-46c3-9d3d-502ba549696b|SuperUser">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="59093a18-5220-46c3-9d3d-502ba549696b|ManageSettings">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="59093a18-5220-46c3-9d3d-502ba549696b|ViewReport">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="59093a18-5220-46c3-9d3d-502ba549696b|ViewNotice">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="59093a18-5220-46c3-9d3d-502ba549696b|ViewAllNotice">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="59093a18-5220-46c3-9d3d-502ba549696b|CreateNotice">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="59093a18-5220-46c3-9d3d-502ba549696b|SubmitNotice">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="59093a18-5220-46c3-9d3d-502ba549696b|EditNotice">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="59093a18-5220-46c3-9d3d-502ba549696b|ReviewNotice">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="d098f87b-c853-4caf-b0b1-6202365ca58c|EditNotice">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="d098f87b-c853-4caf-b0b1-6202365ca58c|EditNotice" checked="">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="1885b71a-c4ed-4ef5-b8ee-6976cc59b0b4|SuperUser">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="1885b71a-c4ed-4ef5-b8ee-6976cc59b0b4|ManageSettings">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="1885b71a-c4ed-4ef5-b8ee-6976cc59b0b4|ViewReport" checked="">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="1885b71a-c4ed-4ef5-b8ee-6976cc59b0b4|ViewNotice">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="1885b71a-c4ed-4ef5-b8ee-6976cc59b0b4|ViewAllNotice">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="1885b71a-c4ed-4ef5-b8ee-6976cc59b0b4|CreateNotice">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="1885b71a-c4ed-4ef5-b8ee-6976cc59b0b4|SubmitNotice">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="1885b71a-c4ed-4ef5-b8ee-6976cc59b0b4|EditNotice">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="1885b71a-c4ed-4ef5-b8ee-6976cc59b0b4|ReviewNotice" checked="">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="d098f87b-c853-4caf-b0b1-6202365ca58c|EditNotice">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="d098f87b-c853-4caf-b0b1-6202365ca58c|EditNotice">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="4e43dec1-a0c8-4746-b2d5-f1d83cd7f46e|SuperUser">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="4e43dec1-a0c8-4746-b2d5-f1d83cd7f46e|ManageSettings">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="4e43dec1-a0c8-4746-b2d5-f1d83cd7f46e|ViewReport">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="4e43dec1-a0c8-4746-b2d5-f1d83cd7f46e|ViewNotice" checked="">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="4e43dec1-a0c8-4746-b2d5-f1d83cd7f46e|ViewAllNotice">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="4e43dec1-a0c8-4746-b2d5-f1d83cd7f46e|CreateNotice">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="4e43dec1-a0c8-4746-b2d5-f1d83cd7f46e|SubmitNotice">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="4e43dec1-a0c8-4746-b2d5-f1d83cd7f46e|EditNotice">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="4e43dec1-a0c8-4746-b2d5-f1d83cd7f46e|ReviewNotice" checked="">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="d098f87b-c853-4caf-b0b1-6202365ca58c|EditNotice">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="d098f87b-c853-4caf-b0b1-6202365ca58c|EditNotice">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="35779b4d-fdcc-4f4e-baf6-ace8d945aa68|SuperUser">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="35779b4d-fdcc-4f4e-baf6-ace8d945aa68|ManageSettings">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="35779b4d-fdcc-4f4e-baf6-ace8d945aa68|ViewReport">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="35779b4d-fdcc-4f4e-baf6-ace8d945aa68|ViewNotice">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="35779b4d-fdcc-4f4e-baf6-ace8d945aa68|ViewAllNotice" checked="">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="35779b4d-fdcc-4f4e-baf6-ace8d945aa68|CreateNotice" checked="">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="35779b4d-fdcc-4f4e-baf6-ace8d945aa68|SubmitNotice">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="35779b4d-fdcc-4f4e-baf6-ace8d945aa68|EditNotice">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="35779b4d-fdcc-4f4e-baf6-ace8d945aa68|ReviewNotice" checked="">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="d098f87b-c853-4caf-b0b1-6202365ca58c|EditNotice">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="d098f87b-c853-4caf-b0b1-6202365ca58c|EditNotice">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="845a61ed-3a8c-43a5-94c6-fc0b83ecc932|SuperUser">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="845a61ed-3a8c-43a5-94c6-fc0b83ecc932|ManageSettings">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="845a61ed-3a8c-43a5-94c6-fc0b83ecc932|ViewReport">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="845a61ed-3a8c-43a5-94c6-fc0b83ecc932|ViewNotice">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="845a61ed-3a8c-43a5-94c6-fc0b83ecc932|ViewAllNotice" checked="">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="845a61ed-3a8c-43a5-94c6-fc0b83ecc932|CreateNotice" checked="">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="845a61ed-3a8c-43a5-94c6-fc0b83ecc932|SubmitNotice">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="845a61ed-3a8c-43a5-94c6-fc0b83ecc932|EditNotice">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="845a61ed-3a8c-43a5-94c6-fc0b83ecc932|ReviewNotice">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="d098f87b-c853-4caf-b0b1-6202365ca58c|EditNotice" checked="">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="d098f87b-c853-4caf-b0b1-6202365ca58c|EditNotice">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="845a61ed-3a8c-43a5-94c6-fc0b83ecc932|SuperUser">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="845a61ed-3a8c-43a5-94c6-fc0b83ecc932|ManageSettings">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="845a61ed-3a8c-43a5-94c6-fc0b83ecc932|ViewReport">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="845a61ed-3a8c-43a5-94c6-fc0b83ecc932|ViewNotice">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="845a61ed-3a8c-43a5-94c6-fc0b83ecc932|ViewAllNotice">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="845a61ed-3a8c-43a5-94c6-fc0b83ecc932|CreateNotice">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="845a61ed-3a8c-43a5-94c6-fc0b83ecc932|SubmitNotice" checked="">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="845a61ed-3a8c-43a5-94c6-fc0b83ecc932|EditNotice">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="845a61ed-3a8c-43a5-94c6-fc0b83ecc932|ReviewNotice">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="d098f87b-c853-4caf-b0b1-6202365ca58c|EditNotice" checked="">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="d098f87b-c853-4caf-b0b1-6202365ca58c|EditNotice">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="845a61ed-3a8c-43a5-94c6-fc0b83ecc932|SuperUser">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="845a61ed-3a8c-43a5-94c6-fc0b83ecc932|ManageSettings">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="845a61ed-3a8c-43a5-94c6-fc0b83ecc932|ViewReport">
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="845a61ed-3a8c-43a5-94c6-fc0b83ecc932|ViewNotice">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="845a61ed-3a8c-43a5-94c6-fc0b83ecc932|ViewAllNotice">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="845a61ed-3a8c-43a5-94c6-fc0b83ecc932|CreateNotice">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="845a61ed-3a8c-43a5-94c6-fc0b83ecc932|SubmitNotice">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="845a61ed-3a8c-43a5-94c6-fc0b83ecc932|EditNotice" checked="">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="845a61ed-3a8c-43a5-94c6-fc0b83ecc932|ReviewNotice">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="d098f87b-c853-4caf-b0b1-6202365ca58c|EditNotice" checked="">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="access-right-checkbox" value="d098f87b-c853-4caf-b0b1-6202365ca58c|EditNotice">
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Container -->
+    <!-- Begin Page Footer-->
+    <!-- End Page Footer -->
+    <a href="#" class="go-top"><i class="la la-arrow-up"></i></a>
+    <!-- Offcanvas Sidebar -->
+    <!-- End Offcanvas Sidebar -->
+</div>
+
+@section Scripts{
+    <script src="~/assets/vendors/js/tablefilter/jquery.tablefilter.js"></script>
+    <script src="~/assets/vendors/js/tablefilter/jquery.tabledatafilter.min.js"></script>
+    @*<script src="~/assets/vendors/js/tablefilter/jquery.tableditfixedheader.min.js"></script>*@
+
+    <script>
+
+        $(function () {
+            $("nav").addClass("shrinked");
+            //$("#toggle-btn").addClass("active");
+            $(".brand-big").hide()
+            $(".brand-small").hide();
+            $("#submitGroupBtn").show();
+            //$("td a i.ti-upload").show();
+            $("td a i.la-chain").show();
+            $("td a i.la-trash").show();
+            $("td a i.la-download").show();
+            $(".status-footer").hide();
+
+        });
+
+        //script for button toggle sidebar
+        $('#toggle-btn').on('click', function (e) {
+            e.preventDefault();
+            $(this).toggleClass('active');
+
+            $('.side-navbar').toggleClass('shrinked');
+            $('.content-inner').toggleClass('active');
+
+            if ($(window).outerWidth() > 1183) {
+                if ($('#toggle-btn').hasClass('active')) {
+                    $('.navbar-header .brand-small').hide();
+                    $('.navbar-header .brand-big').show();
+                } else {
+                    $('.navbar-header .brand-small').show();
+                    $('.navbar-header .brand-big').hide();
+                }
+            }
+
+            if ($(window).outerWidth() < 1183) {
+                $('.navbar-header .brand-small').show();
+            }
+
+        });
+
+        $(document).ready(function () {
+            // Setup - add a text input to each footer cell
+            $('#tblDashboard thead filterCol').appendTo('#tblDashboard thead');
+
+
+            var table = $('#tblDashboard').DataTable({
+                orderCellsTop: true,
+                fixedHeader: true,
+                "lengthChange": false
+            });
+
+            $.each($('.input-filter', table.table().header()), function () {
+                var column = table.column($(this).index());
+
+                $('input', this).on('keyup change', function () {
+                    if (column.search() !== this.value) {
+                        column
+                            .search(this.value)
+                            .draw();
+                    }
+                });
+            });
+
+            // Apply the search
+            $.each($('.select-filter', table.table().header()), function () {
+                var column = table.column($(this).index());
+
+                $('select', this).on('change', function () {
+                    if (column.search() !== this.value) {
+                        column
+                            .search(this.value)
+                            .draw();
+
+                    } else if (column.search() !== "") {
+                        column
+                            .draw();
+                    }
+                });
+            });
+        });
+
+
+
+
+    </script>
+}
+
+
+

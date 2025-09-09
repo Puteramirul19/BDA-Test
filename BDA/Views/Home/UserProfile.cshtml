@@ -1,0 +1,231 @@
+﻿@model BDA.ViewModel.UserViewModel
+@{
+    ViewData["Title"] = "UserProfile";
+    //Layout = "~/Views/Shared/_FormLayout.cshtml";
+}
+
+@section Styles{
+
+    <style>
+        .btn-create {
+            background-color: #5d5386;
+            color: white;
+        }
+
+        .btn-apply:hover {
+            background-color: white;
+            color: black;
+        }
+
+        .btn-cancel:hover {
+            background-color: red;
+            color: white;
+        }
+
+        .btn-create:hover {
+            background-color: limegreen;
+            color: white;
+        }
+
+        .btn-lost:hover {
+            background-color: #FFC300;
+            color: white;
+        }
+
+        select.filter {
+            height: 33px !important;
+        }
+
+        .form-staff {
+            margin-bottom: 2rem;
+        }
+        
+        .boldLabel{
+            font-weight:bold;
+        }
+        /*<link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.css" />
+        <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid-theme.min.css" />*/
+
+    </style>
+}
+<div class="content-inner">
+    <div class="container-fluid">
+        <!-- Begin Page Header-->
+        <div class="row">
+            <div class="page-header">
+                <div class="d-flex align-items-center">
+                    <h2 class="page-header-title">User Profile</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row flex-row">
+            <div class="col-xl-12 col-md-12">
+                <div class="widget-header bordered no-actions d-flex align-items-center">
+                    <h4>User Details</h4>
+                </div>
+                <div class="widget has-shadow">
+                    @using (Html.BeginForm("Update", "Users", Model, FormMethod.Post, false, new { @id = "formEditUser", @class = "form-horizontal" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <div class="widget-body">
+                            <form id="userForm">
+                                <fieldset>
+                                    @*<legend class="form-staff">User Details</legend>*@
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="form-staff row">
+                                                <div class="col-sm-2 form-control-label d-flex align-items-center boldLabel">User Type</div>
+                                                <div class="col-xl-4">
+                                                    <div class="form-control-label d-flex align-items-center">@Model.AuthenticationMethod</div>
+                                                </div>
+                                                <div id="pnlInternal1" class="col-xl-6">
+                                                    <a id="btnChangePassword" href="#" data-target="#save-edit-user" class="btn btn-warning" data-toggle="modal">
+                                                        Change Password
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="form-staff row">
+                                                <div class="col-sm-2 form-control-label d-flex align-items-center boldLabel">Staff No</div>
+                                                <div class="col-xl-4">
+                                                    <div class="form-control-label d-flex align-items-center">@Model.UserName</div>
+                                                </div>
+                                                <div class="col-sm-2 form-control-label d-flex align-items-center boldLabel">Staff Name</div>
+                                                <div class="col-xl-4">
+                                                    <div class="form-control-label d-flex align-items-left">@Model.FullName</div>
+                                                </div>
+                                            </div>
+                                            <div class="form-staff row">
+                                                <div class="col-sm-2 form-control-label d-flex align-items-center boldLabel">Mobile Phone No</div>
+                                                <div class="col-xl-4">
+                                                    <div class="form-control-label d-flex align-items-center">@Model.PhoneNumber</div>
+                                                </div>
+                                                <div class="col-sm-2 form-control-label d-flex align-items-center boldLabel">Office Phone No</div>
+                                                <div class="col-xl-4">
+                                                    <div class="form-control-label d-flex align-items-center">@Model.OfficeNo</div>
+                                                </div>
+                                            </div>
+                                            <div class="form-staff row">
+                                                <div class="col-sm-2 form-control-label d-flex align-items-center boldLabel">E-mail</div>
+                                                <div class="col-xl-4">
+                                                    <div class="form-control-label d-flex align-items-center">@Model.Email</div>
+                                                </div>
+                                                <div class="col-sm-2 form-control-label d-flex align-items-center boldLabel">Designation</div>
+                                                <div class="col-xl-4">
+                                                    <div class="form-control-label d-flex align-items-center">@Model.Designation</div>
+                                                </div>
+                                            </div>
+                                            <div class="form-staff row">
+                                                <div class="col-sm-2 form-control-label d-flex align-items-center boldLabel">Unit</div>
+                                                <div class="col-xl-4">
+                                                    <div class="form-control-label d-flex align-items-center">@Model.UnitName</div>
+                                                </div>
+                                                <div class="col-sm-2 form-control-label d-flex align-items-center boldLabel">Division</div>
+                                                <div class="col-xl-4">
+                                                    <div class="form-control-label d-flex align-items-center">@Model.DivisionName</div>
+                                                </div>
+                                            </div>
+                                            <div class="form-staff row">
+                                                <div class="col-sm-2 form-control-label d-flex align-items-center"></div>
+                                                <div class="col-xl-4">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </form>
+                        </div>
+                    }
+
+                    <div class="widget-header bordered no-actions d-flex align-items-center">
+                        <h4>Roles</h4>
+                    </div>
+                    <div class="widget-body">
+                        <div class="table-responsive">
+                            <table id="tblRole" class="table table-hover mb-0 display table-bordered">
+                                <thead>
+                                    <tr>
+                                        <td>Role</td>
+                                        <td>Division</td>
+                                        <td>Function</td>
+                                        <td>Zone</td>
+                                        <td>Unit</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @*<tr>
+                                        <td>Executive</td>
+                                        <td>TGBS</td>
+                                        <td>N/A</td>
+                                        <td>N/A</td>
+                                        <td>ICT Development</td>
+                                    </tr>*@
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- End Container -->
+    <!-- Begin Page Footer-->
+    <!-- End Page Footer -->
+    <a href="#" class="go-top"><i class="la la-arrow-up"></i></a>
+    <!-- Offcanvas Sidebar -->
+    <!-- End Offcanvas Sidebar -->
+</div>
+
+@section Scripts{
+
+    <script src="~/assets/vendors/js/datatables/datatables.min.js"></script>
+    <script src="~/assets/vendors/js/datatables/dataTables.select.min.js"></script>
+    <script src="~/assets/vendors/js/datatables/dataTables.buttons.min.js"></script>
+    <script src="~/assets/vendors/js/datatables/buttons.flash.js"></script>
+    <script src="~/assets/vendors/js/datatables/buttons.print.min.js"></script>
+    <script src="~/assets/vendors/js/datatables/buttons.html5.js"></script>
+
+    <script src="~/assets/vendors/js/tablefilter/jquery.tablefilter.js"></script>
+    <script src="~/assets/vendors/js/tablefilter/jquery.tabledatafilter.min.js"></script>
+    <script>
+
+        $.ajax({
+            type: "GET",
+            url: "/Home/GetAllUserRolesByStaffId?id=" + '@Model.UserName',
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                $("#tblRole tbody tr").remove();
+                for (var i = 0; i < data.length; i++) {
+
+                    console.log(data[i]);
+                    $('#tblRole').append('<tr><td>' + data[i].role + '</td><td>' + data[i].division + '</td><td>' + data[i].function + '</td><td>' + data[i].zone + '</td><td>' + data[i].unit + '</td></tr>');
+  
+                }
+              
+            }
+        });
+
+        $('#btnChangePassword').on('click', function (e) {
+            href = "/Home/ChangePassword?userName=" + '@Model.UserName';
+            window.location.href = href;
+        });
+
+        $(document).ready(function () {
+              var login = '@Model.AuthenticationMethod';
+
+                if (login == "Active Directory") {
+                    $("#pnlInternal1").hide();
+                }
+                else if (login == "Internal") {
+                    $("#pnlInternal1").show();
+                }
+        });
+
+    </script>
+    @*<script src="~/assets/js/components/wizard/form-wizard.min.js"></script>
+        <script src="~/assets/vendors/js/bootstrap-select/bootstrap-select.min.js"></script>*@
+}
+
+

@@ -1,0 +1,823 @@
+﻿@{
+    ViewData["Title"] = "Reporting";
+}
+
+@section Styles{
+
+    <style>
+        .btn-create {
+            background-color: #5d5386;
+            color: white;
+        }
+
+        .btn-apply:hover {
+            background-color: white;
+            color: black;
+        }
+
+        .btn-cancel:hover {
+            background-color: red;
+            color: white;
+        }
+
+        .btn-recover:hover {
+            background-color: limegreen;
+            color: white;
+        }
+
+        .btn-lost:hover {
+            background-color: #FFC300;
+            color: white;
+        }
+
+        select.filter {
+            height: 33px !important;
+        }
+
+        .dataTable > thead > tr > th[class*="sort"]:before,
+        .dataTable > thead > tr > th[class*="sort"]:after {
+            content: "" !important;
+        }
+
+        .dt-body-right {
+            text-align: right;
+        }
+
+        .dt-body-center {
+            text-align: center;
+        }
+    </style>
+}
+<div class="content-inner active">
+    <div class="container-fluid">
+        <!-- Begin Page Header-->
+        <div class="row">
+            <div class="page-header">
+                <div class="d-flex align-items-center">
+                    <div>
+                        <h2 class="page-header-title">Reports</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="widget has-shadow">
+            <h2 style="padding-top:30px;padding-left:30px" id="title4">Lampiran 4</h2>
+            <div class="widget-body">
+                <div class="form-group row" style="margin-top:20px;color:#5d5386;font-size:18px;font-weight:bold;text-align:center">
+                    <div class="col-xl-2">
+                        <label>Month</label>
+                    </div>
+                    <div class="col-xl-2">
+                        <label>Year</label>
+                    </div>
+                    <div class="col-xl-2">
+                        <label>Division</label>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-xl-2">
+                        <select id="ddlMonth" name="ddlMonth" class="form-control" tabindex="-98" style="background-color:white">
+                            <option value="0" selected>Month</option>
+                            <option value="1">January</option>
+                            <option value="2">February</option>
+                            <option value="3">March</option>
+                            <option value="4">April</option>
+                            <option value="5">May</option>
+                            <option value="6">June</option>
+                            <option value="7">July</option>
+                            <option value="8">August</option>
+                            <option value="9">September</option>
+                            <option value="10">October</option>
+                            <option value="11">November</option>
+                            <option value="12">December</option>
+                        </select>
+                    </div>
+                    <div class="col-xl-2">
+                        <select id="ddlYear" name="ddlYear" class="form-control" tabindex="-98">
+                            <option value="0" selected>Year</option>
+                        </select>
+                    </div>
+                    <div class="col-xl-2">
+                        <select name="ddlCoCode" id="ddlCoCode" class="form-control"></select>
+                    </div>
+                    <button onclick="saveAsPDF();" class="btn btn- btn-info">PDF</button>
+                </div>
+                @*<button id="btnExport" class="btn btn-success">Generate</button>*@
+
+            </div>
+            <div class="row flex-row">
+                <div class="col-xl-12">
+                    <div class="row flex-row">
+                        <div class="col-xl-12 col-md-12">
+                            <div class="table-responsive">
+                                <div class="widget has-shadow">
+                                    <div class="widget-body">
+                                        <p id="header4a"><b>Monthly BD Issued by State as at </b><b id="CurrMonthYear1"></b></p>
+
+                                        <div>
+                                            <table id="tblLampiran4" class="table table-bordered table-hover mb-0" style="width:100%">
+                                                <thead>
+                                                    <tr style="text-align:center">
+                                                        <th>State</th>
+                                                        <th>Year</th>
+                                                        <th>No. of BD Issued</th>
+                                                        <th>Amount (RM)</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody></tbody>
+                                                <tfoot>
+                                                    <tr style="background-color:#877cb5">
+                                                        <td style="font-weight:bold" colspan="2">GRAND TOTAL</td>
+                                                        <td id="totalBD" style="text-align:center;font-weight:bold">0</td>
+                                                        <td id="totalAmount" style="text-align:right;font-weight:bold">0</td>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+                                        <br /><br />
+                                        <p id="CurrMonthTitle"><b>Monthly BD Issued for the Month of </b><b id="CurrMonthYear2"></b></p>
+                                        <div>
+                                            <table id="tblLampiran4TotalByState" class="table table-bordered table-hover mb-0" style="width:100%">
+                                                <thead>
+                                                    <tr style="text-align:center">
+                                                        <th>State</th>
+                                                        <th>No. of BD Issued</th>
+                                                        <th>Amount (RM)</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody></tbody>
+                                                <tfoot>
+                                                    <tr style="font-weight:600;background-color:#877cb5">
+                                                        <td style="font-weight:bold">GRAND TOTAL</td>
+                                                        <td id="totalBD2" style="font-weight:bold;text-align:center"></td>
+                                                        <td id="totalAmount2" style="font-weight:bold;text-align:right"></td>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+                                        <br /><br />
+                                        <br />
+                                        <p id="CurrMonthDiffTitle"><b>Previous Month Comparison</b></p>
+                                        <table id="tblLampiran4Difference" class="table table-hover mb-0 display" style="width:20%">
+                                            <thead>
+
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td id="LastMonth"></td>
+                                                    <td id="LastAmount"></td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td id="CurrMonth"></td>
+                                                    <td id="CurrAmount"></td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr style="border: 2px solid">
+                                                    <td>Diff</td>
+                                                    <td id="Diff"></td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td id="Equation"></td>
+                                                    <td id="Percentage"></td>
+                                                    <td id="Indicator"></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Form -->
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Container -->
+<!-- Begin Page Footer-->
+<!-- End Page Footer -->
+<a href="#" class="go-top"><i class="la la-arrow-up"></i></a>
+<!-- Offcanvas Sidebar -->
+<!-- End Offcanvas Sidebar -->
+
+@section Scripts{
+
+    <script src="~/assets/vendors/js/bootstrap-select/bootstrap-select.min.js"></script>
+    <script src="~/assets/vendors/js/datatables/datatables.min.js"></script>
+    <script src="~/assets/vendors/js/datatables/dataTables.buttons.min.js"></script>
+    <script src="~/assets/vendors/js/datatables/sum.js"></script>
+    <script src="~/assets/vendors/js/jspdf/jspdf.min.js"></script>
+    <script src="~/assets/vendors/js/jspdf/jspdf.plugin.autotable.js"></script>
+
+    <script>
+        
+        
+        var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+        var d = new Date();
+        var currMonth = d.getMonth() + 1;
+        var currYear = d.getFullYear();
+        var monthName = months[currMonth];
+        var month = $("#ddlMonth").val(currMonth);
+        var year = $("#ddlYear").val(currYear);
+        var yearName = currYear;
+        var coCode = "4001";
+        $("#ddlCoCode").val(coCode);
+        var data = {
+
+            id: 4001,
+            text: '4001 - Corporate'
+        };
+
+        function saveAsPDF() {
+
+            var doc = new jsPDF('P', 'mm', 'a4');
+            var width = doc.internal.pageSize.width;
+            var height = doc.internal.pageSize.height;
+            doc.setFontSize(12);
+            doc.setFontType("bold");
+
+            doc.text(15, 30, $("#title4").text());
+            doc.text(15, 40, $("#header4a").text());
+
+            doc.autoTable({
+                startY: 50,
+                margin: { horizontal: 15 },
+                html: '#tblLampiran4',
+                showFoot: 'lastPage',
+                columnStyles: {
+                    0: { halign: 'left' },
+                    1: { halign: 'center' },
+                    2: { halign: 'center' },
+                    3: { halign: 'right' },
+                },
+            })
+
+            doc.addPage();
+
+            doc.text(15, 30, $("#CurrMonthTitle").text());
+
+            doc.autoTable({
+                startY: 40,
+                margin: { horizontal: 15 },
+                html: '#tblLampiran4TotalByState',
+                columnStyles: {
+                    0: { halign: 'left' },
+                    1: { halign: 'right' },
+                    2: { halign: 'right' },
+                },
+            })
+ 
+            let finalY = doc.lastAutoTable.finalY; // The y position on the page
+            finalY = finalY + 20;
+            doc.text(15, finalY, $("#CurrMonthTitle").text());
+            finalY = finalY + 10;
+
+            doc.autoTable({
+                startY: finalY,
+                margin: { horizontal: 15 },
+                html: '#tblLampiran4Difference',
+                columnStyles: {
+                    0: { halign: 'left' },
+                    1: { halign: 'right' },
+                    2: { halign: 'right' },
+                },
+            })
+            doc.save('Lampiran4.pdf')
+    
+        }
+
+        function compareMonthInitial() {
+            $.ajax({
+                type: "GET",
+                url: "/Reporting/GetTotalForLampiran4ByStatePreviousMonth?month=" + currMonth + "&year=" + currYear + "&type=application" + "&coCode=" + $("#ddlCoCode").val(),
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    console.log(data);
+                    $('#LastMonth').text(data[0]);
+                    $('#LastAmount').text(data[1]);
+                    $('#CurrMonth').text(data[2]);
+                    $('#CurrAmount').text(data[3]);
+                    $('#Diff').text(data[4]);
+                    $('#Equation').text(data[1] + '/' + data[3]);
+                    $('#Percentage').text(data[5]);
+                    $('#Indicator').text(data[6]);
+                    $('#CurrMonthYear1').text(data[2] + " " + data[7]);
+                    $('#CurrMonthYear2').text(data[2] + " " + data[7]);
+                }
+            });
+        }
+
+        function compareMonth() {
+            $.ajax({
+                type: "GET",
+                url: "/Reporting/GetTotalForLampiran4ByStatePreviousMonth?month=" + month + "&year=" + year + "&type=application" + "&coCode=" + $("#ddlCoCode").val(),
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    console.log(data);
+                    $('#LastMonth').text(data[0]);
+                    $('#LastAmount').text(data[1]);
+                    $('#CurrMonth').text(data[2]);
+                    $('#CurrAmount').text(data[3]);
+                    $('#Diff').text(data[4]);
+                    $('#Equation').text(data[1] + '/' + data[3]);
+                    $('#Percentage').text(data[5]);
+                    $('#Indicator').text(data[6]);
+                    $('#CurrMonthYear1').text(data[2] + " " + data[7]);
+                    $('#CurrMonthYear2').text(data[2] + " " + data[7]);
+                }
+            });
+        }
+
+        $(document).ready(function () {
+
+            $("nav").addClass("shrinked");
+            
+            var startYear = 2015;
+            var endYear = new Date().getFullYear();
+            var $ddlYear = $("#ddlYear");
+
+            for (var year = startYear; year <= endYear; year++) {
+                $ddlYear.append('<option value="' + year + '">' + year + '</option>');
+            }
+            
+            var newOption = new Option(data.text, data.id, false, false);
+            $('#ddlCoCode').append(newOption).trigger('change');
+
+            $('#CurrMonthYear1').text(monthName + " " + currYear);
+            $('#CurrMonthYear2').text(monthName + " " + currYear);
+
+            compareMonthInitial();
+            var groupColumn = 0;
+
+
+
+            var table = $('#tblLampiran4').DataTable({
+                dom: "frtip",
+                "processing": true,
+                //buttons: [
+                //    { extend: 'excelHtml5', footer: true, title: function () { return $('#header4a').text().toUpperCase(); }, },
+                //    { extend: 'csvHtml5', footer: true, title: function () { return $('#header4a').text().toUpperCase(); }, },
+                //    { extend: 'pdfHtml5', footer: true, title: function () { return $('#header4a').text().toUpperCase(); }, }
+                //],
+                "columnDefs": [
+                    { "visible": true, "targets": groupColumn },
+                    { className: "dt-body-center", "targets": [1, 2] },
+                    { className: "dt-body-right", "targets": [3] },
+                ],
+                "order": [[groupColumn, 'asc']],
+                "drawCallback": function (settings) {
+                    var api = this.api();
+                    var rows = api.rows({ page: 'current' }).nodes();
+                    var last = null;
+
+                    var col2 = api.column(2, { page: 'current' }).data().sum();
+                    var col3 = parseFloat(api.column(3, { page: 'current' }).data().sum()).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+                    $("#totalBD").text(col2);
+                    $("#totalAmount").text(col3);
+
+                    var groupID = -1;
+                    var amount1 = 0;
+                    var amount2 = 0;
+                    var amount3 = 0;
+                    var amount4 = 0;
+                    var amount5 = 0;
+                    var amount6 = 0;
+                    var amount7 = 0;
+                    var amount8 = 0;
+                    var amount9 = 0;
+                    var amount10 = 0;
+                    var amount11 = 0;
+                    var amount12 = 0;
+                    var amount13 = 0;
+                    var amount14 = 0;
+
+                    var bd1 = 0;
+                    var bd2 = 0;
+                    var bd3 = 0;
+                    var bd4 = 0;
+                    var bd5 = 0;
+                    var bd6 = 0;
+                    var bd7 = 0;
+                    var bd8 = 0;
+                    var bd9 = 0;
+                    var bd10 = 0;
+                    var bd11 = 0;
+                    var bd12 = 0;
+                    var bd13 = 0;
+                    var bd14 = 0;
+
+                    api.column(groupColumn, { page: 'current' }).data().each(function (group, i) {
+                        if (last !== group && last != null) {
+                            groupID++;
+                            $(rows).eq(i).before(
+                                '<tr class="groupTR' + groupID + '">' +
+                                '<td colspan = "2" style ="font-weight:bold;background-color:#E6E6FF" > ' + last + ' Total' + '</td>' +
+                                '<td id="noOfBDIssuedId" style ="font-weight:bold;text-align:center;background-color:#E6E6FF" ></td>' +
+                                '<td id="amountId" style ="font-weight:bold;text-align:right;background-color:#E6E6FF" ></td>' +
+                                '</tr>'
+                                + '<tr class="group"><td colspan="5" style="font-weight:bold;background-color:#dee2e6">' + group + '</td></tr>'
+                            );
+
+                            last = group;
+                        }
+
+                        //if (last == group && last == null) {
+                        //    groupID++;
+                        //    $(rows).eq(i).before(
+                        //        '<tr class="groupTR13">' +
+                        //        '<td colspan = "2" style ="font-weight:bold;background-color:#E6E6FF" > ' + last + ' Total' + '</td>' +
+                        //        '<td id="noOfBDIssuedId" style ="font-weight:bold;text-align:center;background-color:#E6E6FF" ></td>' +
+                        //        '<td id="amountId" style ="font-weight:bold;text-align:right;background-color:#E6E6FF" ></td>' +
+                        //        '</tr>'
+                        //        + '<tr class="group"><td colspan="5" style="font-weight:bold;background-color:#dee2e6">' + group + '</td></tr>'
+                        //    );
+
+                        //    last = group;
+                        //}
+
+                        if (last == null) {
+
+                            $(rows).eq(i).before(
+                                '<tr class="group"><td colspan="5" style="font-weight:bold;background-color:#dee2e6">' + group + '</td></tr>'
+                            );
+
+                            last = group;
+                        }
+                        var val = api.row(api.row($(rows).eq(i)).index()).data(); //Current order i
+                        $.each(val, function (colIndex, colValue) {
+                            //console.log(groupID);
+                            //noBD
+                            if (colIndex == "noOfBDIssued" && groupID == -1) {
+                                bd1 += colValue;
+                                console.log(bd1);
+                            }
+
+                            if (colIndex == "noOfBDIssued" && groupID == 0) {
+                                bd2 += colValue;
+                                console.log(bd2);
+                            }
+
+                            if (colIndex == "noOfBDIssued" && groupID == 1) {
+                                bd3 += colValue;
+                                console.log(bd3);
+                            }
+
+                            if (colIndex == "noOfBDIssued" && groupID == 2) {
+                                bd4 += colValue;
+                                console.log(bd4);
+                            }
+
+                            if (colIndex == "noOfBDIssued" && groupID == 3) {
+                                bd5 += colValue;
+                                console.log(bd5);
+                            }
+
+                            if (colIndex == "noOfBDIssued" && groupID == 4) {
+                                bd6 += colValue;
+                                console.log(bd6);
+                            }
+
+                            if (colIndex == "noOfBDIssued" && groupID == 5) {
+                                bd7 += colValue;
+                                console.log(bd7);
+                            }
+
+                            if (colIndex == "noOfBDIssued" && groupID == 6) {
+                                bd8 += colValue;
+                                console.log(bd8);
+                            }
+
+                            if (colIndex == "noOfBDIssued" && groupID == 7) {
+                                bd9 += colValue;
+                                console.log(bd9);
+                            }
+
+                            if (colIndex == "noOfBDIssued" && groupID == 8) {
+                                bd10 += colValue;
+                                console.log(bd10);
+                            }
+
+                            if (colIndex == "noOfBDIssued" && groupID == 9) {
+                                bd11 += colValue;
+                                console.log(bd11);
+                            }
+
+                            if (colIndex == "noOfBDIssued" && groupID == 10) {
+                                bd12 += colValue;
+                                console.log(bd12);
+                            }
+
+                            if (colIndex == "noOfBDIssued" && groupID == 11) {
+                                bd13 += colValue;
+                                console.log(bd13);
+                            }
+
+                            if (colIndex == "noOfBDIssued" && groupID == 12) {
+                                bd14 += colValue;
+                                console.log(bd14);
+                            }
+
+                            //amount
+                            if (colIndex == "amount" && groupID == -1) {
+                                amount1 += parseFloat(colValue.replace(/[^0-9\.]+/g, ""));
+                                console.log(amount1);
+                            }
+
+                            if (colIndex == "amount" && groupID == 0) {
+                                amount2 += parseFloat(colValue.replace(/[^0-9\.]+/g, ""));
+                                console.log(amount2);
+                            }
+
+                            if (colIndex == "amount" && groupID == 1) {
+                                amount3 += parseFloat(colValue.replace(/[^0-9\.]+/g, ""));
+                                console.log(amount3);
+                            }
+
+                            if (colIndex == "amount" && groupID == 2) {
+                                amount4 += parseFloat(colValue.replace(/[^0-9\.]+/g, ""));
+                                console.log(amount4);
+                            }
+
+                            if (colIndex == "amount" && groupID == 3) {
+                                amount5 += parseFloat(colValue.replace(/[^0-9\.]+/g, ""));
+                                console.log(amount5);
+                            }
+
+                            if (colIndex == "amount" && groupID == 4) {
+                                amount6 += parseFloat(colValue.replace(/[^0-9\.]+/g, ""));
+                                console.log(amount6);
+                            }
+
+                            if (colIndex == "amount" && groupID == 5) {
+                                amount7 += parseFloat(colValue.replace(/[^0-9\.]+/g, ""));
+                                console.log(amount7);
+                            }
+
+                            if (colIndex == "amount" && groupID == 6) {
+                                amount8 += parseFloat(colValue.replace(/[^0-9\.]+/g, ""));
+                                console.log(amount8);
+                            }
+
+                            if (colIndex == "amount" && groupID == 7) {
+                                amount9 += parseFloat(colValue.replace(/[^0-9\.]+/g, ""));
+                                console.log(amount9);
+                            }
+
+                            if (colIndex == "amount" && groupID == 8) {
+                                amount10 += parseFloat(colValue.replace(/[^0-9\.]+/g, ""));
+                                console.log(amount10);
+                            }
+
+                            if (colIndex == "amount" && groupID == 9) {
+                                amount11 += parseFloat(colValue.replace(/[^0-9\.]+/g, ""));
+                                console.log(amount11);
+                            }
+
+                            if (colIndex == "amount" && groupID == 10) {
+                                amount12 += parseFloat(colValue.replace(/[^0-9\.]+/g, ""));
+                                console.log(amount12);
+                            }
+
+                            if (colIndex == "amount" && groupID == 11) {
+                                amount13 += parseFloat(colValue.replace(/[^0-9\.]+/g, ""));
+                                console.log(amount13);
+                            }
+
+                            if (colIndex == "amount" && groupID == 12) {
+                                amount14 += parseFloat(colValue.replace(/[^0-9\.]+/g, ""));
+                                console.log(amount14);
+                            }
+
+                        });
+                        $('tbody .groupTR0').find('#noOfBDIssuedId').text(bd1);
+                        $('tbody .groupTR1').find('#noOfBDIssuedId').text(bd2);
+                        $('tbody .groupTR2').find('#noOfBDIssuedId').text(bd3);
+                        $('tbody .groupTR3').find('#noOfBDIssuedId').text(bd4);
+                        $('tbody .groupTR4').find('#noOfBDIssuedId').text(bd5);
+                        $('tbody .groupTR5').find('#noOfBDIssuedId').text(bd6);
+                        $('tbody .groupTR6').find('#noOfBDIssuedId').text(bd7);
+                        $('tbody .groupTR7').find('#noOfBDIssuedId').text(bd8);
+                        $('tbody .groupTR8').find('#noOfBDIssuedId').text(bd9);
+                        $('tbody .groupTR9').find('#noOfBDIssuedId').text(bd10);
+                        $('tbody .groupTR10').find('#noOfBDIssuedId').text(bd11);
+                        $('tbody .groupTR11').find('#noOfBDIssuedId').text(bd12);
+                        $('tbody .groupTR12').find('#noOfBDIssuedId').text(bd13);
+                        //$('tbody .groupTR13').find('#noOfBDIssuedId').text(bd14);
+
+                        $('tbody .groupTR0').find('#amountId').text(amount1.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'));
+                        $('tbody .groupTR1').find('#amountId').text(amount2.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'));
+                        $('tbody .groupTR2').find('#amountId').text(amount3.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'));
+                        $('tbody .groupTR3').find('#amountId').text(amount4.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'));
+                        $('tbody .groupTR4').find('#amountId').text(amount5.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'));
+                        $('tbody .groupTR5').find('#amountId').text(amount6.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'));
+                        $('tbody .groupTR6').find('#amountId').text(amount7.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'));
+                        $('tbody .groupTR7').find('#amountId').text(amount8.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'));
+                        $('tbody .groupTR8').find('#amountId').text(amount9.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'));
+                        $('tbody .groupTR9').find('#amountId').text(amount10.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'));
+                        $('tbody .groupTR10').find('#amountId').text(amount11.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'));
+                        $('tbody .groupTR11').find('#amountId').text(amount12.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'));
+                        $('tbody .groupTR12').find('#amountId').text(amount13.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'));
+                    });
+
+                    $(rows).eq(-1).after(
+                        '<tr class="groupTR13">' +
+                        '<td colspan = "2" style ="font-weight:bold;background-color:#E6E6FF" > ' + last + ' Total' + '</td>' +
+                        '<td id="noOfBDIssuedId" style ="font-weight:bold;text-align:center;background-color:#E6E6FF" ></td>' +
+                        '<td id="amountId" style ="font-weight:bold;text-align:right;background-color:#E6E6FF" ></td>' +
+                        '</tr>'
+                    );
+                    $('tbody .groupTR13').find('#noOfBDIssuedId').text(bd14);
+                    $('tbody .groupTR13').find('#amountId').text(amount14.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'));
+
+                },
+                "ajax": {
+                    url: "/Reporting/GetReportForLampiran4?month=" + currMonth + "&year=" + currYear + "&coCode=" + $("#ddlCoCode").val() + "",
+                    type: "GET",
+                    data: function (d) {
+
+                    },
+                    dataFilter: function (result) {
+                        var jData = JSON.parse(result);
+                        var dtData = JSON.stringify({ "data": jData });
+                        return dtData;
+                    }
+                },
+
+                //order: [[1, 'asc']],
+                columns: [
+                    { data: "state" },
+                    { data: "year" },
+                    { data: "noOfBDIssued" },
+                    { data: "amount" },
+                ],
+                "bPaginate": false,
+                "bLengthChange": false,
+                "bFilter": false,
+                "bInfo": false,
+                "bAutoWidth": false,
+                orderCellsTop: true,
+                fixedHeader: true,
+                "lengthChange": false,
+            });
+
+            $("#ddlMonth").change(function () {
+                var end = this.value;
+                month = $('#ddlMonth').val();
+                year = $('#ddlYear').val();
+                if (month != null && year != null) {
+                    table.ajax.url("/Reporting/GetReportForLampiran4?month=" + month + "&year=" + year + "&coCode=" + $("#ddlCoCode").val() + "").load();
+                    table2.ajax.url("/Reporting/GetReportForLampiran4ByState?month=" + month + "&year=" + year + "&coCode=" + $("#ddlCoCode").val() + "").load();
+                    compareMonth();
+                }
+                console.log("month:" + month + " year:" + year);
+            });
+
+            $("#ddlYear").change(function () {
+                var end = this.value;
+                month = $('#ddlMonth').val();
+                year = $('#ddlYear').val();
+                if (month != null && year != null) {
+                    table.ajax.url("/Reporting/GetReportForLampiran4?month=" + month + "&year=" + year + "&coCode=" + $("#ddlCoCode").val() + "").load();
+                    table2.ajax.url("/Reporting/GetReportForLampiran4ByState?month=" + month + "&year=" + year + "&coCode=" + $("#ddlCoCode").val() + "").load();
+                    compareMonth();
+                    $('#CurrMonthYear1').text(monthName + " " + yearName);
+                }
+                console.log("month:" + month + " year:" + year);
+
+            });
+
+            $("#ddlMonth").select2({
+                minimumResultsForSearch: -1,
+            });
+            $("#ddlYear").select2({
+                minimumResultsForSearch: -1,
+            });
+
+            $("#ddlCoCode").select2({
+                minimumResultsForSearch: -1,
+                ajax: {
+                    url: "/Reporting/GetAllCompanyCode",
+                    dataType: 'json',
+                    type: "GET",
+                    processResults: function (data) {
+                        console.log(data);
+                        return {
+                            results: $.map(data, function (item) {
+                                return {
+                                    text: item.name,
+                                    id: item.id
+                                }
+
+                            })
+                        };
+
+                    }
+                }
+            });
+
+            $('#ddlCoCode').on('select2:select', function (e) {
+                var data = e.params.data;
+                if (data.selected) {
+                    var coCode = data.id;
+                    month = $('#ddlMonth').val();
+                    year = $('#ddlYear').val();
+                    if (month != null && year != null) {
+                        table.ajax.url("/Reporting/GetReportForLampiran4?month=" + month + "&year=" + year + "&coCode=" + $("#ddlCoCode").val() + "").load();
+                        table2.ajax.url("/Reporting/GetReportForLampiran4ByState?month=" + month + "&year=" + year + "&coCode=" + $("#ddlCoCode").val() + "").load();
+                        compareMonth();
+                        $('#CurrMonthYear1').text(monthName + " " + yearName);
+                    }
+                    console.log("month:" + month + " year:" + year);
+                }
+            });
+
+            $('.table thead filterCol').appendTo('table thead');
+
+            $.each($('.input-filter', table.table().header()), function () {
+                var column = table.column($(this).index());
+
+                $('input', this).on('keyup change', function () {
+                    table.ajax.reload();
+                });
+            });
+
+            $.each($('.select-filter', table.table().header()), function () {
+                var column = table.column($(this).index());
+
+                $('select', this).on('change', function () {
+                    table.ajax.reload();
+                });
+            });
+
+            var table2 = $('#tblLampiran4TotalByState').DataTable({
+                dom: "frtip",
+                "processing": true,
+                //buttons: [
+                //    { extend: 'excelHtml5', footer: true, title: function () { return $('#CurrMonthTitle').text().toUpperCase(); }, },
+                //    { extend: 'csvHtml5', footer: true, title: function () { return $('#CurrMonthTitle').text().toUpperCase(); }, },
+                //    { extend: 'pdfHtml5', footer: true, title: function () { return $('#CurrMonthTitle').text().toUpperCase(); }, }
+                //],
+                "columnDefs": [
+                    { className: "dt-body-center", "targets": [1] },
+                    { className: "dt-body-right", "targets": [2] }
+                ],
+                drawCallback: function () {
+                    var api = this.api();
+                    var col1 = api.column(1, { page: 'current' }).data().sum();
+                    var col2 = parseFloat(api.column(2, { page: 'current' }).data().sum()).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+
+                    $("#totalBD2").text(col1);
+                    $("#totalAmount2").text(col2);
+                },
+
+                "ajax": {
+                    url: "/Reporting/GetReportForLampiran4ByState?month=" + currMonth + "&year=" + currYear + "&type=application" + "&coCode=" + $("#ddlCoCode").val(),
+                    type: "GET",
+                    data: function (d) {
+
+                    },
+                    dataFilter: function (result) {
+                        var jData = JSON.parse(result);
+                        var dtData = JSON.stringify({ "data": jData });
+                        return dtData;
+                    }
+                },
+
+                order: [[1, 'asc']],
+                columns: [
+                    { data: "state" },
+                    { data: "noOfBDIssued" },
+                    { data: "amount" },
+                ],
+                "bPaginate": false,
+                "bLengthChange": false,
+                "bFilter": false,
+                "bInfo": false,
+                "bAutoWidth": false,
+                orderCellsTop: true,
+                fixedHeader: true,
+                "lengthChange": false,
+            });
+
+            $('#btnExport').on('click', function () {
+
+            })
+
+        });
+
+
+    
+    </script>
+}

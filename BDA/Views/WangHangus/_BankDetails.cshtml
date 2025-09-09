@@ -1,0 +1,95 @@
+﻿@model BDA.ViewModel.BankDraftViewModel
+@{ 
+
+    var signedL = "";
+
+    if (Model != null)
+    {
+        signedL = Model.SignedLetterVM.FileName;
+    }
+}
+<div class="widget-header d-flex align-items-center" aria-expanded="true">
+    <h3>Instruction Letter</h3>
+</div>
+<div id="pnl_bank_details" class="widget-body">
+    <div class="padding-left-20 padding-right-20">
+        @*<div class="form-group row">
+            <div class="col-sm-2 form-control-label d-flex align-items-center">Bank Name</div>
+            <div class="col-xl-4">
+                <select id="ddlBankName" name="ddlBankName" class="selectpicker show-menu-arrow form-control" data-max-options="1" tabindex="-98">
+                    <option value="1">Maybank</option>
+                    <option value="2">CIMB</option>
+                    <option value="3">Bank Islam</option>
+                </select>
+            </div>
+            <div class="col-sm-2 form-control-label d-flex align-items-center">Bank Account</div>
+            <div class="col-xl-4">
+                <input type="text" value="16028123938" class="form-control">
+            </div>
+        </div>*@
+        @*<div class="form-group row">
+            <div class="col-sm-2 form-control-label d-flex">Email</div>
+            <div class="col-xl-4">
+                <input type="text" value="hasreeas@tnb.com.my" class="form-control">
+            </div>
+            <div class="col-sm-2 form-control-label d-flex align-items-center">Value Date</div>
+            <div class="col-sm-4 form-control-plaintext">
+                <div class="input-group">
+                    <input type="text" class="form-control date" id="dateApply" placeholder="Select value">
+                    <span class="input-group-addon">
+                        <i class="la la-calendar"></i>
+                    </span>
+                </div>
+            </div>
+        </div>*@
+        <div class="form-group row">
+            <div class="col-sm-2 form-control-label d-flex">Ins. Letter Ref No</div>
+            <div class="col-xl-5">
+                <div class="input-group">
+                    @Html.TextBoxFor(x => x.InstructionLetterRefNo, new { @class = "form-control", placeholder = "Insert Letter Reference No", @readonly = "readonly", required = "required" })
+                    @*<input name="txtLetterRefNo" id="txtLetterRefNo" type="text" value="" class="form-control" placeholder="Search Letter Reference No">*@
+                    <span class="input-group-btn before-process">
+                        <input id="btnNewLetter" type="button" class="btn btn-outline-primary btn-sm mr-1 mb-2 processed" title="Create" value="Create New Letter">
+                        <input id="btnViewLetter" type="button" class="btn btn-outline-primary btn-sm mr-1 mb-2 processed" style="display:none" title="View" value="View">
+                        <input id="btnEditLetter" type="button" class="btn btn-outline-primary btn-sm mr-1 mb-2 processed" style="display:none" value="Edit" title="Edit">
+                    </span>
+                </div>
+
+            </div>
+            <div id="lblLetter" class="col-sm-2 form-control-label d-flex">Signed Letter <span class="text-danger ml-2">*</span></div>
+            <div class="col-xl-3">
+                @*<input id="attSignedLetter" name="attSignedLetter" type="file" class="processed" />*@
+                @if (signedL == "" || signedL == null)
+                {
+                    <div class="file-upload">
+                        @Html.TextBoxFor(m => m.SignedLetterVM.File, new { type = "file", name = "SignedLetter" })
+                    </div>
+                }
+                else
+                {
+                    var file = signedL;
+                    <div id="noFile-SignedLetter" class="file-upload" style="display:none">
+                        @Html.TextBoxFor(m => m.SignedLetterVM.File, new { type = "file", name = "SignedLetter" })
+                    </div>
+                    <div id="hasFile-SignedLetter">
+                        <input type="hidden" value="@file" id="hdnSignedLetter" />
+                        <a onclick="window.open('../../../documents/@file','newwindow','width=900,height=750');"><i class="ti-printer"></i></a>
+                        <a onclick="RemoveAttachment('@Model.SignedLetterVM.Id','SignedLetter');"><i class="la la-trash delete before-process" data-toggle="tooltip" data-placement="top" data-original-title="Remove attachment"></i></a>
+                    </div>
+                }
+                <div class="invalid-feedback">
+                    Please attach the Signed Instruction Letter to proceed
+                </div>
+            </div>
+
+        </div>
+        @*<div id="ermsNoPane" class="form-group row">
+            <div class="col-sm-2 form-control-label d-flex">No. Dokumen ERMS<span class="text-danger ml-2">*</span></div>
+            <div class="col-xl-5">
+                <div class="input-group">
+                    @Html.TextBoxFor(x => x.WangHangusViewModel.ErmsDocNo, new { @class = "form-control", required = "required"})
+                </div>
+            </div>
+        </div>*@
+    </div>
+</div>

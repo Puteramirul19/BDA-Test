@@ -1,0 +1,301 @@
+﻿
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+@section Styles{
+
+    <style>
+
+        .btn-apply:hover {
+            background-color: white;
+            color: black;
+        }
+
+        .btn-cancel:hover {
+            background-color: red;
+            color: white;
+        }
+
+        .btn-recover:hover {
+            background-color: limegreen;
+            color: white;
+        }
+
+        .btn-lost:hover {
+            background-color: #FFC300;
+            color: white;
+        }
+
+        select.filter {
+            height: 33px !important;
+        }
+    </style>
+}
+<div class="content-inner">
+    <div class="container-fluid">
+        <!-- Begin Page Header-->
+        <div class="row">
+            <div class="page-header">
+                <div class="d-flex align-items-center">
+                    <h2 class="page-header-title">Dashboard</h2>
+                    <div>
+                        <!--<div class="page-header-tools">
+                            <a class="btn btn-gradient-01" href="#">Add Widget</a>
+                        </div>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Page Header -->
+        <!-- Begin Row -->
+        <div class="row flex-row">
+
+            <!--<div class="col-xl-3 col-md-6 col-sm-6">
+                <a class="btn btn-gradient-03" href="apply.html">New Application</a>
+            </div>-->
+            <div class="col-xl-3 col-md-6 col-sm-6">
+                <div class="btn-group mr-1 mb-2">
+                    @*<button type="button" class="btn btn-primary btn-apply" >
+                            New Application
+                        </button>*@
+
+                    <a class="btn" style="background-color:#5d5386; color:white;text-align:right">
+                        New Application
+                    </a>
+                    <a class="btn btn-primary dropdown-toggle  btn-apply d-flex align-items-center" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="cursor:pointer;">
+                        <i class="la la-angle-down mr-0"></i>
+                    </a>
+                    <div class="dropdown-menu btn-apply" x-placement="top-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(92px, -2px, 0px);">
+                        <a class="dropdown-item" href="/wangcagaran/apply">Wang Cagaran</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Wang Hangus</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-md-6 col-sm-6">
+                <button type="button" class="btn btn-shadow btn-cancel btn-block mb-2">Cancel Application</button>
+            </div>
+            <div class="col-xl-3 col-md-6 col-sm-6">
+                <button type="button" class="btn btn-shadow btn-recover btn-block mb-2">Recover Application</button>
+            </div>
+            <div class="col-xl-3 col-md-6 col-sm-6">
+                <button type="button" class="btn btn-shadow btn-lost btn-block mb-2">Lost Application</button>
+            </div>
+        </div>
+        <!-- End Row -->
+        <!-- Begin Row -->
+        <div class="row flex-row">
+            <br />
+        </div>
+        <!--<div class="row flex-row">
+            <h2 class="page-header-title">My Applications</h2>
+            <br />
+            <br />
+        </div>-->
+        <div class="row flex-row">
+
+            <div class="col-xl-4 col-md-6 col-sm-6">
+                <div class="widget widget-16 has-shadow">
+                    <div class="widget-body">
+                        <div class="row">
+                            <div class="col-xl-12 d-flex flex-column justify-content-center align-items-center">
+                                <div class="counter">5</div>
+                                <div class="total-views" style="color:#2c74f9">Approved Applications</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4 col-md-6 col-sm-6">
+                <div class="widget widget-16 has-shadow">
+                    <div class="widget-body">
+                        <div class="row">
+                            <div class="col-xl-12 d-flex flex-column justify-content-center align-items-center">
+                                <div class="counter">3</div>
+                                <div class="total-views" style="color:limegreen">Completed Applications</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4 col-md-6 col-sm-6">
+                <div class="widget widget-16 has-shadow">
+                    <div class="widget-body">
+                        <div class="row">
+                            <div class="col-xl-12 d-flex flex-column justify-content-center align-items-center">
+                                <div class="counter">10</div>
+                                <div class="total-views" style="color:#FFC300">Incomplete Applications</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+        <div class="row flex-row">
+            <div class="col-xl-12 col-md-12">
+                <div class="table-responsive">
+                    <div class="widget has-shadow">
+                        @*<div class="widget-header bordered no-actions d-flex align-items-center">
+                                <h4>History</h4>
+                            </div>*@
+                        <div class="widget-body">
+                            <div class="table-responsive">
+                                <table id="tblDashboard" class="table table-hover mb-0 display" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th>No. Rujukan</th>
+                                            <th>Application Type</th>
+                                            <th>Date</th>
+                                            <th><span style="width:100px;">Status</span></th>
+                                            <th>Action</th>
+                                        </tr>
+                                        <tr class="filterrow">
+                                            <th class="input-filter"><input type="text" class="form-control tchatchaca" style="height:40px !important;" placeholder="Search.."></th>
+                                            <th class="input-filter"><input type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                            <th class="input-filter"><input type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                            <th class="select-filter">
+                                                <select class="form-control filter" style="height:40px !important;" placeholder="Status">
+                                                    <option value=""></option>
+                                                    <option value="Submitted">Submitted</option>
+                                                    <option value="Verified">Verified</option>
+                                                    <option value="Approved">Approved</option>
+                                                    <option value="TGBS Accepted">TGBS Accepted</option>
+                                                    <option value="Completed">Completed</option>
+                                                </select>
+                                            </th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>054-01-FR</td>
+                                            <td>FSSC(AP) BD001</td>
+                                            <td>10/21/2017</td>
+                                            <!--<td>To be approved by Secretary</td>-->
+                                            <td><span class="badge-text badge-text-small info">Verified</span></td>
+                                            <td class="td-actions" style="text-align:center">
+                                                <a href="#"><i class="la la-edit edit"></i></a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>021-12-US</td>
+                                            <td>FSSC(AP) BD002</td>
+                                            <td>10/21/2017</td>
+                                            <td><span class="badge-text badge-text-small success">TGBS Accepted</span></td>
+                                            <td class="td-actions" style="text-align:center">
+                                                <a href="#"><i class="la la-edit edit"></i></a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>189-01-RU</td>
+                                            <td>Coding Form</td>
+                                            <td>08/21/2017</td>
+                                            <td><span class="badge-text badge-text-small danger">Completed</span></td>
+                                            <td class="td-actions" style="text-align:center">
+                                                <a href="#"><i class="la la-edit edit"></i></a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Container -->
+    <!-- Begin Page Footer-->
+    <!-- End Page Footer -->
+    <a href="#" class="go-top"><i class="la la-arrow-up"></i></a>
+    <!-- Offcanvas Sidebar -->
+    <!-- End Offcanvas Sidebar -->
+</div>
+
+@section Scripts{
+    <script src="~/assets/vendors/js/tablefilter/jquery.tablefilter.js"></script>
+    <script src="~/assets/vendors/js/tablefilter/jquery.tabledatafilter.min.js"></script>
+    @*<script src="~/assets/vendors/js/tablefilter/jquery.tableditfixedheader.min.js"></script>*@
+
+    <script>
+
+        $(document).ready(function () {
+            // Setup - add a text input to each footer cell
+            $('#tblDashboard thead filterCol').appendTo('#tblDashboard thead');
+            //$('#tblDashboard thead tr:eq(1) th .input-filter').each(function (i) {
+            //    var title = $(this).text();
+            //    $(this).html('<input type="text" placeholder="Search ' + title + '" />');
+
+            //    $('input', this).on('keyup change', function () {
+            //        if (table.column(i).search() !== this.value) {
+            //            table
+            //                .column(i)
+            //                .search(this.value)
+            //                .draw();
+            //        }
+            //    });
+            //});
+
+            //$('#tblDashboard thead tr:eq(1) th .select-filter').each(function (i) {
+            //    var column = table.column($(this).index());
+
+            //    $('select', this).on('change', function () {
+            //        if (column.search() !== this.value) {
+            //            column
+            //                .search(this.value)
+            //                .draw();
+
+            //        } else if (column.search() !== "") {
+            //            column
+            //                .draw();
+            //        }
+            //    });
+            //});
+
+
+            var table = $('#tblDashboard').DataTable({
+                orderCellsTop: true,
+                fixedHeader: true,
+                "lengthChange": false
+            });
+
+            $.each($('.input-filter', table.table().header()), function () {
+                var column = table.column($(this).index());
+
+                $('input', this).on('keyup change', function () {
+                    if (column.search() !== this.value) {
+                        column
+                            .search(this.value)
+                            .draw();
+                    }
+                });
+            });
+
+            // Apply the search
+            $.each($('.select-filter', table.table().header()), function () {
+                var column = table.column($(this).index());
+
+                $('select', this).on('change', function () {
+                    if (column.search() !== this.value) {
+                        column
+                            .search(this.value)
+                            .draw();
+
+                    } else if (column.search() !== "") {
+                        column
+                            .draw();
+                    }
+                });
+            });
+        });
+
+
+    </script>
+}
+

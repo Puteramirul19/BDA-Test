@@ -1,0 +1,184 @@
+﻿@model BDA.ViewModel.BankDraftViewModel
+@{
+    var RefNo = "";
+
+    if (Model != null)
+    {
+        RefNo = Model.RefNo;
+    }
+
+}
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+<div class="widget-header d-flex align-items-center" aria-expanded="true">
+    @*<h3>Borang - FSSC(AP) BD001</h3>*@
+</div>
+<div class="widget-body">
+    <div class="padding-left-20 padding-right-20">
+        <div class="form-group row ">
+            <div class="col-sm-2 form-control-label d-flex align-items-center">No. Rujukan</div>
+            <div class="col-xl-4 mb-1">
+                @Html.TextBoxFor(x => x.RefNo, new { @class = "form-control", @readonly = "readonly" })
+            </div>
+        </div>
+        <div class="form-group row ">
+            <div class="col-sm-2 form-control-label d-flex align-items-center">Vendor Type &nbsp;<i class="ti-info-alt" data-toggle="tooltip" title="Hooray!"></i></div>
+            <div class="col-xl-4 mb-1">
+                <div id="beforeSubmit">
+                    @Html.DropDownListFor(x => x.WangHangusViewModel.VendorType, Enumerable.Empty<SelectListItem>(), new { @class = "form-control select2", id = "ddlVendorType" })
+                    @Html.HiddenFor(x => x.WangHangusViewModel.VendorType)
+                </div>
+                <div id="afterSubmit" style="font-weight:bold;display:none;">
+                    @ViewBag.VendorType Vendor
+                </div>
+            </div>
+            <div id="lblErmsNo" class="col-sm-2 form-control-label d-flex align-items-center">No. Dokumen ERMS</div>
+            <div class="col-xl-4">
+                @Html.TextBoxFor(x => x.WangHangusViewModel.ErmsDocNo, new { @class = "form-control", disabled = "disabled", id = "ermsNoId" })
+            </div>
+        </div>
+    </div>
+</div>
+<div id="pnl_main_form" class="widget-body">
+    <div class="padding-left-20 padding-right-20">
+        <div class="form-group row ">
+            <div class="col-sm-2 form-control-label d-flex align-items-center">Payee Name<span class="text-danger ml-2">*</span>&nbsp;<i class="ti-info-alt" data-toggle="tooltip" title="Vendor Name"></i></div>
+            <div class="col-xl-4 mb-1">
+                @Html.TextBoxFor(x => x.WangHangusViewModel.Name, new { @class = "form-control", @required = "required" })
+            </div>
+            <div class="col-sm-2 form-control-label d-flex align-items-center">IC Number&nbsp;<i class="ti-info-alt" data-toggle="tooltip" title="Hooray"></i></div>
+            <div class="col-xl-4 mb-1">
+                @Html.TextBoxFor(x => x.WangHangusViewModel.ICNo, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group row ">
+            <div class="col-sm-2 form-control-label d-flex align-items-center">Payee Email Address&nbsp;<i class="ti-info-alt" data-toggle="tooltip" title="Hooray"></i></div>
+            <div class="col-xl-4 mb-1">
+                @Html.TextBoxFor(x => x.WangHangusViewModel.Email, new { @class = "form-control", type = "email" })
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-sm-2 form-control-label d-flex align-items-center">SST Reg. No&nbsp;<i class="ti-info-alt" data-toggle="tooltip" title="Hooray"></i></div>
+            <div class="col-xl-4 mb-1">
+                @Html.TextBoxFor(x => x.WangHangusViewModel.SSTRegNo, new { @class = "form-control" })
+            </div>
+            <div class="col-sm-2 form-control-label d-flex align-items-center">Bus Reg. No&nbsp;<i class="ti-info-alt" data-toggle="tooltip" title="Business Registration Number"></i></div>
+            <div class="col-xl-4 mb-1">
+                @Html.TextBoxFor(x => x.WangHangusViewModel.BusRegNo, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-sm-2 form-control-label d-flex align-items-center">Street&nbsp;<i class="ti-info-alt" data-toggle="tooltip" title="Hooray"></i><span class="text-danger ml-2">*</span></div>
+            <div class="col-xl-4 mb-1">
+                @Html.TextBoxFor(x => x.WangHangusViewModel.Street, new { @class = "form-control", @required = "required" })
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-sm-2 form-control-label d-flex align-items-center">City&nbsp;<i class="ti-info-alt" data-toggle="tooltip" title="Hooray"></i><span class="text-danger ml-2">*</span></div>
+            <div class="col-xl-4 mb-1">
+                @Html.TextBoxFor(x => x.WangHangusViewModel.City, new { @class = "form-control", @required = "required" })
+            </div>
+            <div class="col-sm-2 form-control-label d-flex align-items-center">Region&nbsp;<i class="ti-info-alt" data-toggle="tooltip" title="Hooray"></i><span class="text-danger ml-2">*</span></div>
+            <div class="col-xl-4 mb-1">
+                @Html.DropDownListFor(x => x.WangHangusViewModel.Region, Enumerable.Empty<SelectListItem>(), new { @class = "form-control select2", id = "ddlState", @required = "required" })
+                @*@Html.HiddenFor(x => x.WangHangusViewModel.Region)*@
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-sm-2 form-control-label d-flex align-items-center">Postcode&nbsp;<i class="ti-info-alt" data-toggle="tooltip" title="Hooray"></i><span class="text-danger ml-2">*</span></div>
+            <div class="col-xl-4 mb-1">
+                @Html.TextBoxFor(x => x.WangHangusViewModel.Postcode, new { @class = "form-control", @required = "required" })
+            </div>
+            <div class="col-sm-2 form-control-label d-flex align-items-center">Country&nbsp;<i class="ti-info-alt" data-toggle="tooltip" title="Hooray"></i><span class="text-danger ml-2">*</span></div>
+            <div class="col-xl-4 mb-1">
+                @Html.DropDownListFor(x => x.WangHangusViewModel.Country, Enumerable.Empty<SelectListItem>(), new { @class = "form-control select2", id = "ddlCountry", @required = "required" })
+                @*@Html.HiddenFor(x => x.WangHangusViewModel.Country)*@
+            </div>
+        </div>
+    </div>
+</div>
+<div id="pnl_second_form" class="widget-body" style="display:none">
+    <div class="padding-left-20 padding-right-20">
+        @*<div class="form-group row ">
+            <div class="col-sm-2 form-control-label d-flex align-items-center">PO Number</div>
+        </div>
+        <div class="col-xl-4 mb-1" style="margin-top:15px">
+            @Html.TextBoxFor(x => x.WangHangusViewModel.PONumber, new { @class = "form-control" })
+        </div>
+        <div class="col-sm-2 form-control-label d-flex align-items-center">Date<span class="text-danger ml-2">*</span></div>
+        <div class="col-sm-4 form-control-plaintext" style="margin-top:5px">
+            <div class="input-group">
+                @Html.TextBoxFor(x => x.WangHangusViewModel.Date, new { @class = "form-control date", id = "dateApply", @required = "required" })
+                <span class="input-group-addon">
+                    <i class="la la-calendar"></i>
+                </span>
+            </div>
+        </div>*@
+
+        <div class="form-group row">
+            <div class="col-sm-2 form-control-label d-flex align-items-center">PO Number&nbsp;<i class="ti-info-alt" data-toggle="tooltip" title="Hooray"></i></div>
+            <div class="col-xl-4 mb-1">
+                @Html.TextBoxFor(x => x.WangHangusViewModel.PONumber, new { @class = "form-control" })
+            </div>
+            <p> </p>
+            <div class="col-sm-2 form-control-label d-flex align-items-center">Date&nbsp;<i class="ti-info-alt" data-toggle="tooltip" title="Hooray"></i><span class="text-danger ml-2">*</span></div>
+            <div class="col-xl-4 mb-1">
+                <div class="input-group">
+                    @Html.TextBoxFor(x => x.WangHangusViewModel.Date, new { @class = "form-control date", id = "dateApply", @required = "required" })
+                    <span class="input-group-addon">
+                        <i class="la la-calendar"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-sm-2 form-control-label d-flex align-items-center">Co. Code&nbsp;<i class="ti-info-alt" data-toggle="tooltip" title="Company Code"></i><span class="text-danger ml-2">*</span></div>
+            <div class="col-xl-4 mb-1">
+                @*@Html.TextBoxFor(x => x.WangHangusViewModel.CoCode, new { @class = "form-control", @required = "required" })*@
+                @Html.DropDownListFor(x => x.WangHangusViewModel.CoCode, Enumerable.Empty<SelectListItem>(), new { @class = "form-control select2", id = "ddlCompanyCode", @required = "required" })
+            </div>
+            <p> </p>
+            <div class="col-sm-2 form-control-label d-flex align-items-center">Business Area&nbsp;<i class="ti-info-alt" data-toggle="tooltip" title="Hooray"></i><span class="text-danger ml-2">*</span></div>
+            <div class="col-xl-4 mb-1">
+                @*@Html.TextBoxFor(x => x.WangHangusViewModel.BusinessArea, new { @class = "form-control", @required = "required" })*@
+                @Html.DropDownListFor(x => x.WangHangusViewModel.BusinessArea, Enumerable.Empty<SelectListItem>(), new { @class = "form-control select2", id = "ddlBusinessArea", @required = "required" })
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-sm-2 form-control-label d-flex align-items-center">Vendor No.&nbsp;<i class="ti-info-alt" data-toggle="tooltip" title="Hooray"></i><span class="text-danger ml-2">*</span></div>
+            <div class="col-xl-4 mb-1">
+                @Html.TextBoxFor(x => x.WangHangusViewModel.VendorNo, new { @class = "form-control", id = "vendorNo", @required = "required" })
+                @*Tukar ke texbox jap sebab takde tarik data for vendor lagi*@
+                @*@Html.DropDownListFor(x => x.WangHangusViewModel.VendorNo, Enumerable.Empty<SelectListItem>(), new { @class = "form-control select2", id = "ddlVendorNo" })*@
+                @*@Html.HiddenFor(x => x.WangHangusViewModel.VendorNo)*@
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-sm-2 form-control-label d-flex align-items-center">Vendor Name&nbsp;<i class="ti-info-alt" data-toggle="tooltip" title="Hooray"></i><span class="text-danger ml-2">*</span></div>
+            <div class="col-xl-4 mb-1">
+                @Html.TextBoxFor(x => x.WangHangusViewModel.VendorName, new { @class = "form-control", @required = "required" })
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-sm-2 form-control-label d-flex align-items-center">Bank Account&nbsp;<i class="ti-info-alt" data-toggle="tooltip" title="Hooray"></i></div>
+            <div class="col-xl-4 mb-1">
+                @Html.TextBoxFor(x => x.WangHangusViewModel.BankAccount, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-sm-2 form-control-label d-flex align-items-center">Bank Country&nbsp;<i class="ti-info-alt" data-toggle="tooltip" title="Hooray"></i></div>
+            <div class="col-xl-4 mb-1">
+                @Html.DropDownListFor(x => x.WangHangusViewModel.BankCountry, Enumerable.Empty<SelectListItem>(), new { @class = "form-control select2", id = "ddlBankCountry" })
+                @*@Html.HiddenFor(x => x.WangHangusViewModel.BankCountry)*@
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-sm-2 form-control-label d-flex align-items-center">Description&nbsp;<i class="ti-info-alt" data-toggle="tooltip" title="Hooray"></i><span class="text-danger ml-2">*</span></div>
+            <div class="col-xl-10">
+                @Html.TextAreaFor(x => x.WangHangusViewModel.Description, new { @class = "form-control", @required = "required" })
+            </div>
+        </div>
+    </div>
+</div>
+@*</div>*@

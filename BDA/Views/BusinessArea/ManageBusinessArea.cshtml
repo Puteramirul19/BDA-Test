@@ -1,0 +1,672 @@
+﻿@model BDA.ViewModel.BusinessAreaViewModel
+@{
+    ViewData["Title"] = "ManageBusinessArea";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles{
+
+    <style>
+        .btn-create {
+            background-color: #5d5386;
+            color: white;
+        }
+
+        .btn-apply:hover {
+            background-color: white;
+            color: black;
+        }
+
+        .btn-cancel:hover {
+            background-color: red;
+            color: white;
+        }
+
+        .btn-create:hover {
+            background-color: limegreen;
+            color: white;
+        }
+
+        .btn-lost:hover {
+            background-color: #FFC300;
+            color: white;
+        }
+
+        select.filter {
+            height: 33px !important;
+        }
+
+        input[type='checkbox'] {
+            width: 20px;
+            height: 20px;
+        }
+    </style>
+}
+<div class="content-inner">
+    <div class="container-fluid">
+        <!-- Begin Page Header-->
+        <div class="row">
+            <div class="page-header">
+                <div class="d-flex align-items-center">
+                    <h2 class="page-header-title">Business Areas</h2>
+                    <div>
+                        <!--<div class="page-header-tools">
+                            <a class="btn btn-gradient-01" href="#">Add Widget</a>
+                        </div>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Page Header -->
+        <!-- Begin Row -->
+        <div class="row flex-row">
+            <div class="col-xl-3 col-md-6 col-sm-6">
+                <a href="#" data-target="#add-ba-modal" data-toggle="modal" class="btn btn-lg btn-create">
+                    Add New Business Area
+                </a>
+            </div>
+        </div>
+        <!-- End Row -->
+        <!-- Begin Row -->
+        <div class="row flex-row">
+            <br />
+        </div>
+        <!--<div class="row flex-row">
+            <h2 class="page-header-title">My Applications</h2>
+            <br />
+            <br />
+        </div>-->
+        <div class="row flex-row">
+            <div class="col-xl-12 col-md-12">
+                <div class="table-responsive">
+                    <div class="widget has-shadow">
+                        @*<div class="widget-header bordered no-actions d-flex align-items-center">
+                                <h4>History</h4>
+                            </div>*@
+                        <div class="widget-body">
+                            <div class="table-responsive">
+                                <table id="tblDashboard" class="table table-hover mb-0 display" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th>Division</th>
+                                            @*<th>Zone</th>
+                                                <th>State</th>*@
+                                            <th>Business Area</th>
+                                            <th>Description</th>
+                                            <th>Action</th>
+                                        </tr>
+                                        <tr class="filterrow">
+                                            <th class="select-filter">
+                                                @Html.DropDownListFor(x => x.DivisionId, Enumerable.Empty<SelectListItem>(), new { @class = "form-control filter select2", id = "ddlDivisionList1" })
+                                                @*<select id="search-division" class="form-control filter" style="height:40px !important;" placeholder="Status">
+                                                        <option value="">All</option>
+                                                        <option value="East">East</option>
+                                                        <option value="Kuala Lumpur">Kuala Lumpur</option>
+                                                        <option value="North">North</option>
+                                                        <option value="Selangor">Selangor</option>
+                                                        <option value="South">South</option>
+                                                    </select>*@
+                                            </th>
+                                            @*<th class="select-filter">
+                                                    <select id="search-zone" class="form-control filter" style="height:40px !important;" placeholder="Status">
+                                                        <option value="">All</option>
+                                                        <option value="East">East</option>
+                                                        <option value="Kuala Lumpur">Kuala Lumpur</option>
+                                                        <option value="North">North</option>
+                                                        <option value="Selangor">Selangor</option>
+                                                        <option value="South">South</option>
+                                                    </select>
+                                                </th>*@
+                                            @*<th class="select-filter">
+                                                    <select id="search-state" class="form-control filter" style="height:40px !important;" placeholder="Status">
+                                                        <option value="">All</option>
+                                                        <option value="Johor">Johor</option>
+                                                        <option value="Kedah">Kedah</option>
+                                                        <option value="Kelantan">Kelantan</option>
+                                                        <option value="Melaka">Melaka</option>
+                                                        <option value="Negeri Sembilan">Negeri Sembilan</option>
+                                                        <option value="Pahang">Pahang</option>
+                                                        <option value="Perak">Perak</option>
+                                                        <option value="Perlis">Perlis</option>
+                                                        <option value="Pulau Pinang">Pulau Pinang</option>
+                                                        <option value="Putrajaya & Cyberjaya">Putrajaya & Cyberjaya</option>
+                                                        <option value="Perak">Perak</option>
+                                                        <option value="Selangor">Selangor</option>
+                                                        <option value="Terengganu">Terengganu</option>
+                                                        <option value="WP Kuala Lumpur">WP Kuala Lumpur</option>
+                                                    </select>
+                                                </th>*@
+                                            <th class="input-filter"><input id="search-busArea" type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                            <th class="input-filter"><input id="search-desc" type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Container -->
+    <!-- Begin Page Footer-->
+    <!-- End Page Footer -->
+    <a href="#" class="go-top"><i class="la la-arrow-up"></i></a>
+    <!-- Offcanvas Sidebar -->
+    <!-- End Offcanvas Sidebar -->
+</div>
+
+<div id="add-ba-modal" class="modal fade" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" style="font-weight:bold">Add Business Area</h4>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">×</span>
+                    <span class="sr-only">close</span>
+                </button>
+            </div>
+            @using (Html.BeginForm("Create", "BusinessArea", Model, FormMethod.Post, false, new { @id = "formAddBusinessArea", @class = "form-horizontal" }))
+            {
+                @Html.AntiForgeryToken()
+                <div class="modal-body">
+                    <div class="padding-left-20 padding-right-20">
+                        <div class="form-group row">
+                            <div class="col-sm-4 form-control-label d-flex align-items-center">Division</div>
+                            <div class="col-xl-8">
+                                @Html.DropDownListFor(x => x.DivisionId, Enumerable.Empty<SelectListItem>(), new { @class = "form-control select2", id = "ddlDivisionList", required = "required" })
+                            </div>
+                        </div>
+                        @*<div class="form-group row">
+                                <div class="col-sm-4 form-control-label d-flex align-items-center">Zone</div>
+                                <div class="col-xl-8">
+                                    <select name="Zone" id="Zone" class="form-control">
+                                        <option value="">Please Choose</option>
+                                        <option value="East">East</option>
+                                        <option value="Kuala Lumpur">Kuala Lumpur</option>
+                                        <option value="North">North</option>
+                                        <option value="Selangor">Selangor</option>
+                                        <option value="South">South</option>
+                                    </select>
+                                </div>
+                            </div>*@
+                        @*<div class="form-group row">
+                                <div class="col-sm-4 form-control-label d-flex align-items-center">State</div>
+                                <div class="col-xl-8">
+                                    @Html.DropDownListFor(x => x.StateId, Enumerable.Empty<SelectListItem>(), new { @class = "form-control select2", id = "ddlStateList" })
+                                </div>
+                            </div>*@
+                        <div class="form-group row">
+                            <div class="col-sm-4 form-control-label d-flex align-items-center">Business Area</div>
+                            <div class="col-xl-8">
+                                @Html.TextBoxFor(x => x.Name, new { @class = "form-control", required = "required" })
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-4 form-control-label d-flex align-items-center">Description</div>
+                            <div class="col-xl-8">
+                                @Html.TextBoxFor(x => x.Description, new { @class = "form-control", required = "required" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="btnSubmit" type="button" class="btn btn-success">Add</button> @*data-dismiss="modal"*@
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<div id="edit-ba-modal" class="modal fade" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" style="font-weight:bold">Edit BusinessArea</h4>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">×</span>
+                    <span class="sr-only">close</span>
+                </button>
+            </div>
+            @using (Html.BeginForm("Update", "BusinessArea", Model, FormMethod.Post, false, new { @id = "formEditBusinessArea", @class = "form-horizontal" }))
+            {
+                @Html.AntiForgeryToken()
+                <div class="modal-body">
+                    <div class="padding-left-20 padding-right-20">
+                        <div class="form-group row">
+                            <div class="col-sm-4 form-control-label d-flex align-items-center">Division</div>
+                            <div class="col-xl-8">
+                                @Html.HiddenFor(x => x.Id, new { @id = "idBA", @class = "form-control" })
+                                @Html.DropDownListFor(x => x.DivisionId, Enumerable.Empty<SelectListItem>(), new { @class = "form-control select2", @id = "ddlDivisionList2", required = "required" })
+                                @*<select name="Division" id="Division" class="form-control">
+                                        <option value="East">East</option>
+                                        <option value="Kuala Lumpur">Kuala Lumpur</option>
+                                        <option value="North">North</option>
+                                        <option value="Selangor">Selangor</option>
+                                        <option value="South">South</option>
+                                    </select>*@
+                            </div>
+                        </div>
+                        @*<div class="form-group row">
+                                <div class="col-sm-4 form-control-label d-flex align-items-center">Zone</div>
+                                <div class="col-xl-8">
+                                    <select name="Zone" id="Zone" class="form-control">
+                                        <option value="East">East</option>
+                                        <option value="Kuala Lumpur">Kuala Lumpur</option>
+                                        <option value="North">North</option>
+                                        <option value="Selangor">Selangor</option>
+                                        <option value="South">South</option>
+                                    </select>
+                                </div>
+                            </div>*@
+                        <div class="form-group row">
+                            <div class="col-sm-4 form-control-label d-flex align-items-center">Business Area</div>
+                            <div class="col-xl-8">
+                                @Html.TextBoxFor(x => x.Name, new { @class = "form-control", required = "required" })
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-4 form-control-label d-flex align-items-center">Description</div>
+                            <div class="col-xl-8">
+                                @Html.TextBoxFor(x => x.Description, new { @class = "form-control", required = "required" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="btnEdit" type="button" class="btn btn-success">Update</button> @*data-dismiss="modal"*@
+                </div>
+            }
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script src="~/assets/vendors/js/datatables/datatables.min.js"></script>
+    <script src="~/assets/vendors/js/datatables/dataTables.select.min.js"></script>
+    <script src="~/assets/vendors/js/datatables/dataTables.buttons.min.js"></script>
+    <script src="~/assets/vendors/js/datatables/buttons.flash.js"></script>
+    <script src="~/assets/vendors/js/datatables/buttons.print.min.js"></script>
+    <script src="~/assets/vendors/js/datatables/buttons.html5.js"></script>
+
+    <script src="~/assets/vendors/js/tablefilter/jquery.tablefilter.js"></script>
+    <script src="~/assets/vendors/js/tablefilter/jquery.tabledatafilter.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="~/js/jquery.validate.js"></script>
+
+    <script>
+
+        var bussId;
+        var state;
+        var div;
+
+        function refresh() {
+            setTimeout(function () { location.reload(); }, 500);
+        }
+
+        $("#btnSubmit").on('click', function (e) {
+            $("#formAddBusinessArea").submit();
+        });
+
+        $("#btnEdit").on('click', function (e) {
+            console.log('submit');
+            $("#formEditBusinessArea").submit();
+        });
+
+        $(document).ready(function () {
+
+            $("#ddlStateList").append("<option value=''>Please choose</option>");
+            $("#ddlDivisionList").append("<option value=''>Please choose</option>");
+            $("#ddlDivisionList1").append("<option value=''>All</option>");
+
+             $('#edit-ba-modal').on('shown.bs.modal', function (e) {
+
+                 var baId = $(e.relatedTarget).data('id');
+                 var bulk = $(e.relatedTarget).data('bulk');
+
+                 var part= bulk;
+                 var strs = part.split(",");
+
+                 var zoneName = strs[0];
+                 var stateName = strs[1];
+                 var name = strs[2];
+                 var divId = strs[3];
+                 var divName = strs[4];
+                 var desc = strs[5];
+
+                 bussId = baId;
+                 div = divId;
+        
+                 $(".modal-body #idBA").val(baId);
+                 $(".modal-body #Zone").val(zoneName);
+                 $(".modal-body #Name").val(name);
+                 SetSelectedValue(stateName, ".modal-body #ddlStateList2");
+                 SetSelectedValue(divName, ".modal-body #ddlDivisionList2");
+                 $(".modal-body #Description").val(desc);
+
+            });
+              var table =   $('#tblDashboard').DataTable({
+                    dom: "Bfrtip",
+                    "processing": true,
+                    //serverSide: true,
+                    "ajax": {
+                        url:  "@Url.Action("GetAllBAs", "BusinessArea")",
+                        type: "GET",
+                        data: function (d) {
+                            d.divId = $('#ddlDivisionList1').val();
+                            //d.zoneName = $('#search-zone').val();
+                            //d.stateName = $('#search-state').val();
+                            d.name = $('#search-busArea').val();
+                            d.description = $('#search-desc').val();
+                        },
+                        dataFilter: function (result) {
+                            var jData = JSON.parse(result);
+                            var dtData = JSON.stringify({ "data": jData });
+                            return dtData;
+                        }
+                     },
+                    order: [[1, 'asc']],
+                  columns: [
+                        { data: "divName" },
+                        //{ data: "zoneName" },
+                        //{ data: "stateName" },
+                        { data: "name" },
+                        { data: "description" },
+                        {
+                            data: "id",
+                            "render": function (data, type, row) {
+                                var id = data;
+                                var href = "";
+                                if (type == "display") {
+                                    data = '<a id="test" href="' + href + '" style="border-radius: 0%;background-color: #f4f4f4;border-color: #ddd;" class="btn btn-lost btn-block mb-2" data-target="#edit-ba-modal" data-toggle="modal" data-id="' + id + '" data-bulk="' + row.zoneName + "," + row.stateName + "," + row.name + "," + row.divisionId + "," + row.divName + "," + row.description +'">Edit</a>';
+
+                                }
+                                return data;
+                            }
+                        },
+                    ],
+                    "bPaginate": true,
+                    "bLengthChange": false,
+                    "bFilter": false,
+                    "bInfo": true,
+                    "bAutoWidth": false,
+                    orderCellsTop: true,
+                    fixedHeader: true,
+                    "lengthChange": false,
+            });
+
+            $('.table thead filterCol').appendTo('table thead');
+
+            $.each($('.input-filter', table.table().header()), function () {
+                var column = table.column($(this).index());
+
+                $('input', this).on('keyup change', function () {
+                    table.ajax.reload();
+                });
+            });
+
+            $.each($('.select-filter', table.table().header()), function () {
+                var column = table.column($(this).index());
+
+                $('select', this).on('change', function () {
+                    table.ajax.reload();
+                });
+            });
+
+
+            $("#ddlStateList").select2({
+                dropdownParent: $("#add-ba-modal"),
+                minimumResultsForSearch: -1,
+                ajax: {
+                    url: "/BankDraft/GetAllState",
+                    dataType: 'json',
+                    type: "GET",
+                    processResults: function (data) {
+                        return {
+                            results: $.map(data, function (item) {
+                                return {
+                                    text: item.name,
+                                    id: item.id
+                                }
+
+                            })
+                        };
+                    }
+                }
+            });
+
+            $("#ddlDivisionList").select2({
+                dropdownParent: $("#add-ba-modal"),
+                minimumResultsForSearch: -1,
+                ajax: {
+                    url: "/Division/GetAllDivisions",
+                    dataType: 'json',
+                    type: "GET",
+                    processResults: function (data) {
+                        return {
+                            results: $.map(data, function (item) {
+                                return {
+                                    text: item.name,
+                                    id: item.id
+                                }
+
+                            })
+                        };
+                    }
+                }
+            });
+
+            $('#ddlDivisionList').on('select2:select', function (e) {
+                var data = e.params.data;
+                if (data.selected) {
+                    var id = data.id;
+                    div = id;
+                    //alert(div);
+                }
+            });
+
+            $("#ddlDivisionList1").select2({
+                minimumResultsForSearch: -1,
+                ajax: {
+                    url: "/Division/GetAllDivisions",
+                    dataType: 'json',
+                    type: "GET",
+                    processResults: function (data) {
+                        return {
+                            results: $.map(data, function (item) {
+                                return {
+                                    text: item.name,
+                                    id: item.id
+                                }
+
+                            })
+                        };
+                    }
+                }
+            });
+
+            $("#ddlStateList2").select2({
+                dropdownParent: $("#edit-ba-modal"),
+                minimumResultsForSearch: -1,
+                ajax: {
+                    url: "/BankDraft/GetAllState",
+                    dataType: 'json',
+                    type: "GET",
+                    processResults: function (data) {
+                        return {
+                            results: $.map(data, function (item) {
+                                return {
+                                    text: item.name,
+                                    id: item.id
+                                }
+
+                            })
+                        };
+                    }
+                }
+            });
+
+            $('#ddlStateList2').on('select2:select', function (e) {
+                var data = e.params.data;
+                if (data.selected) {
+                    var id = data.id;
+                    state = id;
+                }
+            });
+
+            $("#ddlDivisionList2").select2({
+                dropdownParent: $("#edit-ba-modal"),
+                minimumResultsForSearch: -1,
+                ajax: {
+                    url: "/Division/GetAllDivisions",
+                    dataType: 'json',
+                    type: "GET",
+                    processResults: function (data) {
+                        return {
+                            results: $.map(data, function (item) {
+                                return {
+                                    text: item.name,
+                                    id: item.id
+                                }
+
+                            })
+                        };
+                    }
+                }
+            });
+
+            $('#ddlDivisionList2').on('select2:select', function (e) {
+                var data = e.params.data;
+                if (data.selected) {
+                    var id = data.id;
+                    div = id;
+                }
+            });
+
+            //$("#BusinessAreas").val(null);
+        });
+
+        $("#formAddBusinessArea").submit(function (e) {
+
+            e.preventDefault(); // avoid to execute the actual submit of the form.
+
+            if ($("#formAddBusinessArea").valid()) {
+
+                ShowNoty("warning", "Saving Business Area..");
+     
+                var name = $('.modal-body #Name').val();
+                var desc = $('.modal-body #Description').val();
+
+                var fdata = new FormData();
+
+                fdata.append("DivisionId", div);
+                fdata.append("Name", name);
+                fdata.append("Description", desc);
+
+                $.ajax({
+                    type: "POST",
+                    url: "/BusinessArea/Create",
+                    data: fdata, // serializes the form's elements.
+                    processData: false,
+                    contentType: false,
+                    success: function (data) {
+                        console.log(data);
+                        if (data.response.statusCode == 200) {
+                            ShowNoty("success", data.message);
+                        } else {
+                            ShowNoty("error", data.message);
+                        }
+                        refresh();
+                    }
+                });
+
+            }
+
+        });
+
+        //$("#formAddBusinessArea").submit(function (e) {
+
+        //    e.preventDefault(); // avoid to execute the actual submit of the form.
+
+        //    if ($("#formAddBusinessArea").valid()) {
+
+        //        ShowNoty("warning", "Saving Business Area..");
+
+        //        var form = $(this);
+        //        var url = form.attr('action');
+
+        //        //var fdata = new FormData();
+
+        //        //fdata.append("StateId", "DF2C7520-159C-4B7D-8AFF-18212DC04CFE");
+        //        //fdata.append("DivisionId", "9EA07A4C-468F-416D-AE63-08D78CF25F8C");
+        //        //fdata.append("Name", "7777");
+        //        //fdata.append("Zone", "Selangor");
+        //        //console.log(form.serialize());
+        //        $.ajax({
+        //            type: "POST",
+        //            url: url,
+        //            data: form.serialize(), // serializes the form's elements.
+        //            success: function (data) {
+        //                console.log(data);
+        //                if (data.response.statusCode == 200) {
+        //                    ShowNoty("success", data.message);
+        //                } else {
+        //                    ShowNoty("error", data.message);
+        //                }
+        //                refresh();
+        //            }
+        //        });
+
+        //    }
+           
+        //});
+
+        $("#formEditBusinessArea").submit(function (e) {
+
+            e.preventDefault(); // avoid to execute the actual submit of the form.
+
+            if ($("#formEditBusinessArea").valid()) {
+
+                ShowNoty("warning", "Updating Business Area");
+
+                var name = $('#edit-ba-modal #Name').val();
+                var desc = $('#edit-ba-modal #Description').val();
+
+                //var form = $(this);
+                //var url = form.attr('action');
+                var fdata = new FormData();
+
+                fdata.append("Id", bussId);
+                fdata.append("DivisionId", div);
+                fdata.append("Name", name);
+                fdata.append("Description", desc);
+
+                $.ajax({
+                    type: "POST",
+                    url: "/BusinessArea/Update",
+                    data: fdata, // serializes the form's elements.
+                    processData: false,
+                    contentType: false,
+                    success: function (data) {
+                        console.log(data);
+                        if (data.response.statusCode == 200) {
+                            ShowNoty("success", data.message);
+                        } else {
+                            ShowNoty("error", data.message);
+                        }
+                        refresh();
+                    }
+                });
+
+            }
+
+        });
+
+    </script>
+}
+
+
+
+
+

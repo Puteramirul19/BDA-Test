@@ -1,0 +1,442 @@
+﻿@model BDA.Entities.WangCagaran
+@{
+    ViewData["Title"] = "Apply Wang Cagaran";
+}
+
+
+@section Styles  {
+
+    <!-- Tweaks for older IEs-->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
+
+    <link rel="stylesheet" href="~/assets/css/bootstrap-select/bootstrap-select.min.css">
+    <style>
+    </style>
+}
+@{
+    <div class="content-inner active">
+        <div class="container-fluid">
+            <!-- Begin Page Header-->
+            <div class="row">
+                <div class="page-header">
+                    <div class="d-flex align-items-center">
+                        <h2 class="page-header-title">Permohonan Deraf Bank <span> - Wang Hangus</span></h2>
+                        <div>
+                            <ul class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="db-default.html"><i class="ti ti-home"></i></a></li>
+                                <li class="breadcrumb-item"><a href="#">New Application</a></li>
+                                <li class="breadcrumb-item active">Wang Cagaran</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Page Header -->
+            <div class="row flex-row">
+                <div class="col-xl-12">
+                    <!-- Form -->
+                    <div class="widget has-shadow">
+                        @*<div class="widget-header bordered no-actions d-flex align-items-center">
+                                <h4>Wang Cagaran</h4>
+                            </div>*@
+                        <div class="widget-body">
+                            <div class="row flex-row justify-content-center">
+                                <div class="col-xl-12">
+                                    <div id="rootwizard">
+                                        @Html.Partial("_StatusBar.cshtml")
+                                        <div class="tab-content" style="font-family: Arial">
+
+                                            <div class="body-content">
+                                                <div>
+                                                    @*style="text-align:center; border-bottom: 2px solid; border-bottom-color:blue"*@
+                                                    @*<h4>Submitted by: En. Requestor</h4>*@
+                                                    <br>
+                                                </div>
+
+                                                <div class="widget has-shadow">
+                                                    <div class="widget-body sliding-tabs">
+                                                        <ul class="nav nav-tabs form-tab" id="ul-form-tab" role="tablist">
+                                                            <li class="nav-item">
+                                                                <a class="nav-link active" id="base-tab-1" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="true">Main Application</a>
+                                                            </li>
+                                                            <li class="nav-item">
+                                                                <a class="nav-link disabled" id="base-tab-2" data-toggle="tab" href="#tab-2" role="tab" aria-controls="tab-2" aria-selected="false">Bank Details</a>
+                                                            </li>
+                                                            <li class="nav-item">
+                                                                <a class="nav-link disabled" id="base-tab-3" data-toggle="tab" href="#tab-3" role="tab" aria-controls="tab-3" aria-selected="false">Bank Draft Issued</a>
+                                                            </li>
+                                                            <li class="nav-item">
+                                                                <a class="nav-link disabled" id="base-tab-4" data-toggle="tab" href="#tab-4" role="tab" aria-controls="tab-4" aria-selected="false">Bank Draft Acceptance</a>
+                                                            </li>
+                                                            @*<li class="nav-item pull-right">
+                            <a class="nav-link" id="base-tab-5" data-toggle="tab" href="#tab-5" role="tab" aria-controls="tab-5" aria-selected="false">Action History</a>
+                        </li>*@
+                                                        </ul>
+                                                        <div class="tab-content pt-3">
+                                                            <div class="tab-pane fade active show" id="tab-1" role="tabpanel" aria-labelledby="base-tab-1">
+                                                                @using (Html.BeginForm("Create", "WangHangus", Model, FormMethod.Post, false, new { @id = "formCreateApplication", @class = "form-horizontal" }))
+                                                                {
+                                                                    @* @Html.AntiForgeryToken() *@
+                                                                    @* @Html.HiddenFor(x => x.Status) *@
+                                                                    @* @Html.Partial("_MainForm.cshtml") *@
+                                                                    @* @Html.Partial("_AccTable.cshtml") *@
+                                                                    @* @Html.HiddenFor(x => x.WangHangusViewModel.Accounts, new { id = "listAccounting" }); *@
+                                                                    @* $1$<input type="hidden" id="listAccounting" />#1# *@
+                                                                    @* @Html.Partial("_ApproverList.cshtml") *@
+                                                                }
+                                                            </div>
+                                                            @*<button id='btnAdd' for-table='#accountingTable' class="btn btn-secondary ripple">Add Row</button>*@
+                                                            <div class="tab-pane fade" id="tab-2" role="tabpanel" aria-labelledby="base-tab-2">
+
+                                                            </div>
+                                                            <div class="tab-pane fade" id="tab-3" role="tabpanel" aria-labelledby="base-tab-3">
+
+                                                            </div>
+                                                            <div class="tab-pane fade" id="tab-4" role="tabpanel" aria-labelledby="base-tab-4">
+
+                                                            </div>
+                                                            <div class="tab-pane fade" id="tab-5" role="tabpanel" aria-labelledby="base-tab-5">
+                                                                @*@Html.Partial("_ActionHistory.cshtml")*@
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                @*<a id="btnSubmit1" class="btn btn-success" data-toggle="modal">Submit</a>*@
+                                                @Html.Partial("_ActionButton.cshtml")
+                                            </div>
+                                            @*<a id="btnAddAccounting" class="btn btn-secondary ripple" data-toggle="modal" data-target="#add-accounting-table-modal">Add</a>*@
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Form -->
+                </div>
+            </div>
+            <!-- End Row -->
+        </div>
+        <!-- End Container -->
+        <!-- Begin Page Footer-->
+        <!-- End Page Footer -->
+        <a href="#" class="go-top"><i class="la la-arrow-up"></i></a>
+        <!-- Offcanvas Sidebar -->
+        @*@Html.Partial("_Log.cshtml")*@
+        <!-- End Offcanvas Sidebar -->
+    </div>
+}
+
+@section Scripts{
+    <script>
+
+        var vendorType;
+
+        $(function () {
+
+            $("nav").addClass("shrinked");
+            //$("#toggle-btn").addClass("active");
+            $(".brand-big").hide()
+            $(".brand-small").hide();
+            $("#submitGroupBtn").show();
+            //$("td a i.ti-upload").show();
+            $("td a i.la-chain").show();
+            $("td a i.la-trash").show();
+            $("td a i.la-download").show();
+            $(".status-footer").hide();
+            $(".after-submit").hide();
+            
+            var db = {
+
+                loadData: function (filter) {
+                    //return $.grep(this.clients, function (client) {
+                    //    return (!filter.BDReferenceNo || client.BDReferenceNo.indexOf(filter.BDReferenceNo) > -1)
+                    //        && (!filter.CoverMemoRefNo || client.CoverMemoRefNo.indexOf(filter.CoverMemoRefNo) > -1)
+                    //        && (!filter.SendMethod || client.SendMethod === filter.SendMethod)
+                    //        && (!filter.PostageNo || client.PostageNo.indexOf(filter.PostageNo) > -1)
+                    //        && (!filter.ContactNo || client.ContactNo.indexOf(filter.ContactNo) > -1)
+                    //        && (!filter.BankDrafNoIssued || client.BankDrafNoIssued.indexOf(filter.BankDrafNoIssued) > -1);
+                    //});
+                    //return $.ajax({
+                    //    type: "GET",
+                    //    url: "/BankDraft/GetAllBankDraftByStatus?_Status=Processed",
+                    //    dataType: "JSON"
+                    //})
+                },
+
+                insertItem: function (insertingClient) {
+                    this.clients.push(insertingClient);
+
+                    $('#listAccounting').val($('#listAccounting').val() + JSON.stringify(insertingClient));
+                    console.log($('#listAccounting').val());
+                },
+
+                updateItem: function (d) {
+
+                    $('#listAccounting').val(JSON.stringify(this.clients));
+                    console.log($('#listAccounting').val());
+
+                    @*$.ajax({
+                        contentType: 'application/json; charset=utf-8',
+                        dataType: 'json',
+                        type: 'POST',
+                        url: "@Url.Action("UpdateAccountingTable", "WangHangus")",
+                        data: d,
+                        success: function (data) {
+                            if (data.response.statusCode == 200) {
+                                ShowNoty("success", data.message);
+                            } else {
+                                ShowNoty("error", data.message);
+                            }
+                        },
+                        failure: function (response) {
+                            ShowNoty("error", response);
+                        }
+                    });*@
+
+                },
+
+                deleteItem: function (deletingClient) {
+                    var clientIndex = $.inArray(deletingClient, this.clients);
+                    this.clients.splice(clientIndex, 1);
+                    $('#listAccounting').val(JSON.stringify(this.clients));
+                    console.log($('#listAccounting').val());
+                }
+
+            };
+
+            window.db = db;      
+
+            db.clients = [
+                {
+                    "drCr": "",
+                    "glAccount": "",
+                    "conw": "",
+                    "conwNo": "",
+                    "costObject": "",
+                    "taxCode": "",
+                    "currency": "",
+                    "taxAmount": "",
+                    "amount": ""
+                }
+            ];
+
+            $("#jsGrid").jsGrid({
+                width: "100%",
+                filtering: false,
+                editing: true,
+                inserting: true,
+                sorting: true,
+                paging: true,
+                autoload: true,
+                pageSize: 10,
+                pageButtonCount: 2,
+                deleteConfirm: "Do you really want to delete this row?",
+                controller: db,
+                fields: [
+                    { name: "drCr", title: "DR/CR", type: "number", width: 100 },
+                    { name: "glAccount", title: "GL Account", type: "text", width: 100 },
+                    { name: "conw", title: "C/O/N/W", type: "text", width: 100 },
+                    { name: "conwNo", title: "C/O/N/W No.", type: "text", width: 100 },
+                    { name: "costObject", title: "Cost Object", type: "text", width: 100 },
+                    { name: "taxCode", title: "Tax Code", type: "text", width: 100 },
+                    { name: "currency", title: "Currency", type: "text", width: 100 },
+                    { name: "taxAmount", title: "Tax Amount", type: "number", width: 100 },
+                    { name: "amount", title: "Amount", type: "number", width: 100 },
+                    { type: "control", modeSwitchButton: true }
+                ]
+            });
+
+        });
+        $("#btnDraft").on('click', function (e) {
+            $("#Status").val("Draft");
+            $("#formCreateApplication").submit();
+        });
+
+        $("#btnSubmit").on('click', function (e) {
+            $("#Status").val("Submit");
+            $("#formCreateApplication").submit();
+        });
+
+        $(document).ready(function () {
+            $("#VendorType").val("OneTime");
+
+            $('#ddlVendorType').on('change', function (e) {
+                if (this.value == "2") {
+                    $('#pnl_second_form').show();
+                    $('#pnl_main_form').hide();
+                    vendorType = "Registered";
+                } else {
+                    $('#pnl_main_form').show();
+                    $('#pnl_second_form').hide();
+                    vendorType = "OneTime";
+                }
+            });
+
+            $("#ddlApprover").select2({
+                minimumResultsForSearch: -1,
+                ajax: {
+                    url: "/BankDraft/GetAllWHApprover",
+                    dataType: 'json',
+                    type: "GET",
+                    processResults: function (data) {
+                        return {
+                            results: $.map(data, function (item) {
+                                return {
+                                    text: item.name,
+                                    id: item.id
+                                }
+
+                            })
+                        };
+                    }
+                }
+            });
+
+            $('#ddlApprover').on('select2:select', function (e) {
+                var data = e.params.data;
+                if (data.selected) {
+                    var id = data.id;
+                    $("#ApproverId").val(id);
+                }
+            });
+
+            $("#ddlState").select2({
+                minimumResultsForSearch: -1,
+                ajax: {
+                    url: "/BankDraft/GetAllState",
+                    dataType: 'json',
+                    type: "GET",
+                    processResults: function (data) {
+                        console.log(data);
+                        return {
+                            results: $.map(data, function (item) {
+                                return {
+                                    text: item.name,
+                                    id: item.id
+                                }
+
+                            })
+                        };
+                    }
+                }
+            });
+
+            $("#ddlCountry").select2({
+                minimumResultsForSearch: -1,
+                ajax: {
+                    url: "/BankDraft/GetAllCountry",
+                    dataType: 'json',
+                    type: "GET",
+                    processResults: function (data) {
+                        console.log(data);
+                        return {
+                            results: $.map(data, function (item) {
+                                return {
+                                    text: item.name,
+                                    id: item.id
+                                }
+
+                            })
+                        };
+                    }
+                }
+            });
+
+            $("#ddlVendorNo").select2({
+                minimumResultsForSearch: -1,
+                ajax: {
+                    url: "/BankDraft/GetAllVendorNo",
+                    dataType: 'json',
+                    type: "GET",
+                    processResults: function (data) {
+                        console.log(data);
+                        return {
+                            results: $.map(data, function (item) {
+                                return {
+                                    text: item.name,
+                                    id: item.id
+                                }
+
+                            })
+                        };
+                    }
+                }
+            });
+
+            $("#ddlBankCountry").select2({
+                minimumResultsForSearch: -1,
+                ajax: {
+                    url: "/BankDraft/GetAllCountry",
+                    dataType: 'json',
+                    type: "GET",
+                    processResults: function (data) {
+                        console.log(data);
+                        return {
+                            results: $.map(data, function (item) {
+                                return {
+                                    text: item.name,
+                                    id: item.id
+                                }
+
+                            })
+                        };
+                    }
+                }
+            });
+
+        });
+
+        $("#formCreateApplication").submit(function (e) {
+
+            e.preventDefault(); // avoid to execute the actual submit of the form.
+
+            ShowNoty("warning", "Saving Bank Draft..");
+
+            var form = $(this);
+            var url = form.attr('action');
+            var fdata = new FormData();
+
+            // You can update the jquery selector to use a css class if you want
+            $("input[type='text'], input[type='hidden']").each(function (x, y) {
+                fdata.append($(y).attr("name"), $(y).val());
+            });
+
+            $("input, select, textarea").each(function (x, y) {
+                fdata.append($(y).attr("name"), $(y).val());
+            });
+
+            fdata.append("WangHangusViewModel.VendorType", vendorType );
+            
+            for (var value of fdata.values()) {
+                console.log(value);
+            }
+            for (var key of fdata.keys()) {
+                console.log(key);
+            }
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: fdata, //form.serialize(), // serializes the form's elements.
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    console.log(data);
+                    if (data.response.statusCode == 200) {
+                        ShowNoty("success", data.message); 
+                    } else {
+                        ShowNoty("error", data.message);
+                    }
+                }
+            });
+        });
+
+    </script>
+    <script src="~/assets/js/components/wizard/form-wizard.min.js"></script>
+    <script src="~/assets/vendors/js/bootstrap-select/bootstrap-select.min.js"></script>
+}
+
+

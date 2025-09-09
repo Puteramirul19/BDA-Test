@@ -1,0 +1,156 @@
+﻿@model BDA.ViewModel.BankDraftViewModel
+
+@{
+    var RefNo = "<<Auto Generate>>";
+    var ERMS = "<<Auto Generate>>";
+    var userFullName = ViewBag.Fullname;
+
+    if (Model != null)
+    {
+        RefNo = Model.RefNo;
+        ERMS = Model.WangCagaranViewModel.ErmsDocNo;
+        userFullName = Model.WangCagaranViewModel.Pemula;
+
+    }
+
+}
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+<div class="widget-header d-flex align-items-center" aria-expanded="true">
+    @*<h3>Borang - FSSC(AP) BD001</h3>*@
+</div>
+<div id="pnl_main_form" class="widget-body">
+    <div class="padding-left-20 padding-right-20">
+        <form action="" method="post">
+            <div class="form-group row">
+                <div class="col-sm-2 form-control-label d-flex align-items-center">No. Rujukan</div>
+                <div class="col-xl-4">
+                    <input type="text" id="txtRefNo" value="@RefNo" class="form-control" disabled>
+                </div>
+                <div class="col-sm-2 form-control-label d-flex align-items-center">No. Dokumen ERMS</div>
+                <div class="col-xl-4">
+                    <input type="text" id="txtERMSDocNo" name="ErmsDocNo" value="@ERMS" class="form-control" disabled>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-2 form-control-label align-items-center">Pemula</div>
+                <div class="col-xl-4">
+                    @*@Html.TextBoxFor(x => x.CreatedByName, new { @class = "form-control" })*@
+                    <input type="text" id="Pemula" name="Pemula" value="@userFullName" class="form-control" disabled>
+
+                </div>
+                <div class="col-sm-2 form-control-label align-items-center">Tarikh</div>
+                <div class="col-sm-4">
+                    <div class="input-group">
+                        @Html.TextBoxFor(x => x.WangCagaranViewModel.Tarikh, new { @class = "form-control date", id = "dateApply" })
+                        <span class="input-group-addon">
+                            <i class="la la-calendar"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-2 form-control-label d-flex align-items-center">Alamat 1</div>
+                <div class="col-xl-4">
+                    @Html.TextBoxFor(x => x.WangCagaranViewModel.Alamat1, new { @class = "form-control", id = "Alamat1", @required = "required" })
+                    @Html.ValidationMessageFor(x => x.WangCagaranViewModel.Alamat1)
+                    @*<div class="invalid-feedback">
+                        Please fill in the address
+                    </div>*@
+                </div>
+                <div class="col-sm-2 form-control-label d-flex align-items-center">Alamat 2</div>
+                <div class="col-xl-4">
+                    @Html.TextBoxFor(x => x.WangCagaranViewModel.Alamat2, new { @class = "form-control" })
+
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-2 form-control-label d-flex align-items-center">Bandar</div>
+                <div class="col-xl-4">
+                    @Html.TextBoxFor(x => x.WangCagaranViewModel.Bandar, new { @class = "form-control", @required = "required" })
+                    <div class="invalid-feedback">
+                        Please fill in the address
+                    </div>
+                </div>
+                <div class="col-sm-2 form-control-label d-flex align-items-center">Poskod</div>
+                <div class="col-xl-4">
+                    @Html.TextBoxFor(x => x.WangCagaranViewModel.Poskod, new { @class = "form-control", @required = "required" })
+                    <div class="invalid-feedback">
+                        Please fill in the address
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-2 form-control-label d-flex align-items-center">Negeri</div>
+                <div class="col-xl-4">
+                    @Html.DropDownListFor(x => x.WangCagaranViewModel.Negeri, Enumerable.Empty<SelectListItem>(), new { @class = "form-control select2", id = "ddlState", @required="required" })
+                    @*@Html.HiddenFor(x => x.WangCagaranViewModel.Negeri)*@
+                </div>
+                @*<div class="col-sm-2 form-control-label d-flex align-items-center">Poskod</div>
+                    <div class="col-xl-4">
+                        <input type="text" id="txtPostcode" value="" class="form-control">
+                    </div>*@
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-2 form-control-label d-flex align-items-center">Keterangan Kerja</div>
+                <div class="col-xl-10">
+                    @Html.TextAreaFor(x => x.WangCagaranViewModel.KeteranganKerja, new { @class = "form-control", @required = "required" })
+                    @*<textarea class="form-control submission" name="KeteranganKerja">Kerja kerja penurapan jalan tar</textarea>*@
+                </div>
+            </div>
+
+            <div class="form-group row before-submit">
+                <div class="col-sm-2 form-control-label d-flex align-items-center">Kerja melibatkan JKR</div>
+                <div class="col-xl-4">
+                    <div class="">
+                        @Html.CheckBoxFor(x => x.WangCagaranViewModel.JKRInvolved, new { id = "cbxJKR" }) <label for="JKRInvolved"> Ya</label>
+                        @*<input type="checkbox" name="JKRInvolved" id="cbxJKR">*@
+                    </div>
+                    <div class="form-group" id="groupJKR" style="display:none">
+                        @Html.DropDownListFor(x => x.WangCagaranViewModel.JKRType, Enumerable.Empty<SelectListItem>(), new { @class = "form-control select2", id = "ddlJKRType" })
+                        @*@Html.HiddenFor(x => x.WangCagaranViewModel.JKRType)*@
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-2 form-control-label d-flex align-items-center">Jumlah (RM)</div>
+                <div class="col-xl-4">
+                    @Html.TextBoxFor(x => x.WangCagaranViewModel.Jumlah, new { @class = "form-control", @required = "required" })
+                </div>
+                <div class="col-sm-2 form-control-label d-flex align-items-center">Caj Kod/Kod Peruntukan</div>
+                <div class="col-xl-4">
+                    @Html.TextBoxFor(x => x.WangCagaranViewModel.CajKod, new { @class = "form-control", @required = "required" })
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-2 form-control-label d-flex align-items-center">
+                    <p>Nama atas deraf bank</p>
+                    @*<p class="ion-information-circled" data-toggle="tooltip" data-placement="top" data-original-title="Nama yang dinyatakan atas deraf bank"></p>*@
+                </div>
+                <div class="col-xl-4 mb-1">
+                    @Html.TextBoxFor(x => x.WangCagaranViewModel.NamaPemegangCagaran, new { @class = "form-control", @required = "required" })
+                    <div class="invalid-feedback">
+                        Please fill in the name
+                    </div>
+                </div>
+                <div class="col-sm-2 form-control-label align-items-center">Nombor Projek (WBS)</div>
+                <div class="col-sm-2">
+                    @Html.TextBoxFor(x => x.WangCagaranViewModel.WBSProjekNo, new { @class = "form-control", @required = "required" })
+                </div>
+                <div class="col-sm-2 no-padding">
+                    <div class="row" style="margin-left:5px">
+                        <button id="btnCheckBudget" type="button" class="btn btn-warning btn-budget" data-toggle="modal" data-target="#budget-modal">
+                            Semak Bajet
+                        </button>
+                        <p class="ion-information-circled" data-toggle="tooltip" data-placement="top" data-original-title="Semakan bajet melalui ERMS"></p>
+                    </div>
+                </div>
+            </div>
+            @*Tambah jap , nak try jadi ke tak button utk validation*@
+            @*<a type="submit" id="btnSubmit" href="#" data-target="#confirmation-submit-modal" class="btn btn-success" data-toggle="modal">Submit</a>*@
+        </form>
+
+    </div>
+    @*<button type="submit" id="btnSubmit" href="#" data-target="#confirmation-submit-modal" class="btn btn-success" data-toggle="modal">Submit</button>*@
+</div>

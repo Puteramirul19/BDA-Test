@@ -1,0 +1,391 @@
+﻿@model BDA.ViewModel.BankDraftViewModel
+
+@{
+    ViewData["Title"] = "Wang Cagaran";
+
+}
+
+
+@section Styles  {
+
+    <!-- Tweaks for older IEs-->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
+
+    <link rel="stylesheet" href="~/assets/css/bootstrap-select/bootstrap-select.min.css">
+    <style>
+    </style>
+}
+
+<div class="content-inner active">
+    <div class="container-fluid">
+        <!-- Begin Page Header-->
+        <div class="row">
+            <div class="page-header">
+                <div class="d-flex align-items-center">
+                    <h2 class="page-header-title">Permohonan Deraf Bank <span> - Wang Cagaran</span></h2>
+                    <div>
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="db-default.html"><i class="ti ti-home"></i></a></li>
+                            <li class="breadcrumb-item"><a href="#">New Application</a></li>
+                            <li class="breadcrumb-item active">Wang Cagaran</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Page Header -->
+        <div class="row flex-row">
+            <div class="col-xl-12">
+                <!-- Form -->
+                <div class="widget has-shadow">
+                    @*<div class="widget-header bordered no-actions d-flex align-items-center">
+                            <h4>Permohonan Deraf Bank</h4>
+                        </div>*@
+                    <div class="widget-body">
+                        <div class="row flex-row justify-content-center">
+                            <div class="col-xl-12">
+                                <div id="rootwizard">
+                                    @Html.Partial("_StatusPendingAction.cshtml")
+                                    @Html.Partial("_StatusBar.cshtml")
+                                    <div class="tab-content" style="font-family: Arial">
+
+                                        <div class="body-content">
+                                            <input type="hidden" id="hdnId" value="" class="form-control">
+                                            <div>
+                                                @*<h4>Submitted by: En. Requestor</h4>*@
+                                                <br>
+                                            </div>
+                                            <div class="widget has-shadow">
+                                                <div class="widget-body sliding-tabs">
+                                                    <ul class="nav nav-tabs form-tab" id="ul-form-tab" role="tablist">
+                                                        <li class="nav-item">
+                                                            <a class="nav-link active" id="base-tab-1" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="true">Main Application</a>
+                                                        </li>
+                                                        <li class="nav-item">
+                                                            <a class="nav-link disabled" id="base-tab-2" data-toggle="tab" href="#tab-2" role="tab" aria-controls="tab-2" aria-selected="false">Bank Details</a>
+                                                        </li>
+                                                        <li class="nav-item">
+                                                            <a class="nav-link disabled" id="base-tab-3" data-toggle="tab" href="#tab-3" role="tab" aria-controls="tab-3" aria-selected="false">Bank Draft Issued</a>
+                                                        </li>
+                                                        <li class="nav-item">
+                                                            <a class="nav-link disabled" id="base-tab-4" data-toggle="tab" href="#tab-4" role="tab" aria-controls="tab-4" aria-selected="false">Bank Draft Acceptance</a>
+                                                        </li>
+                                                    </ul>
+                                                    <div class="tab-content pt-3">
+                                                        <div class="tab-pane fade active show" id="tab-1" role="tabpanel" aria-labelledby="base-tab-1">
+                                                            @*@using (Html.BeginForm("Create", "BankDraft", Model, FormMethod.Post, false, new { @id = "formCreateApplication", @class = "form-horizontal", enctype = "multipart/form-data" }))*@
+                                                            @using (Html.BeginForm("Create", "BankDraft", Model, FormMethod.Post, false, new { @id = "formCreateApplication", @class = "form-horizontal needs-validation", @novalidate = "novalidate", enctype = "multipart/form-data" }))
+                                                            {
+                                                                @Html.AntiForgeryToken()
+                                                                @Html.HiddenFor(x => x.Status)
+                                                                @*@Html.Partial("_MainForm.cshtml")*@
+                                                                @Html.Partial("_MainForm.cshtml")
+                                                                @Html.Partial("_Document.cshtml")
+                                                                @Html.Partial("_ApproverList.cshtml")
+                                                                @*@Html.Partial("_ActionHistory.cshtml")*@
+                                                            }
+                                                        </div>
+                                                        <div class="tab-pane fade" id="tab-2" role="tabpanel" aria-labelledby="base-tab-2">
+                                                            @*@Html.Partial("_BankDetails.cshtml")*@
+                                                        </div>
+                                                        <div class="tab-pane fade" id="tab-3" role="tabpanel" aria-labelledby="base-tab-3">
+                                                            @*@Html.Partial("_BDIssued.cshtml")*@
+                                                        </div>
+                                                        <div class="tab-pane fade" id="tab-4" role="tabpanel" aria-labelledby="base-tab-4">
+                                                            @*@Html.Partial("_BDAcceptance.cshtml")*@
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            @Html.Partial("_ActionButton.cshtml")
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Form -->
+            </div>
+        </div>
+        <!-- End Row -->
+    </div>
+    <!-- End Container -->
+    <!-- Begin Page Footer-->
+    <!-- End Page Footer -->
+    <a href="#" class="go-top"><i class="la la-arrow-up"></i></a>
+    <!-- Offcanvas Sidebar -->
+    @*@Html.Partial("_Log.cshtml")*@
+    <!-- End Offcanvas Sidebar -->
+</div>
+
+<!-- Begin Modal -->
+
+
+
+@section Scripts{
+    <script src="~/assets/js/components/wizard/form-wizard.min.js"></script>
+    <!--  validation script  -->
+    <script src="~/js/jquery.validate.js"></script>
+
+    @*added by Hanif 08112019*@
+
+
+    @*end*@
+    <script>
+
+        var state;
+        var jkrType;
+
+        $(function () {
+            $("nav").addClass("shrinked");
+            $("#submitGroupBtn").show();
+        });
+
+        $(document).ready(function () {
+
+
+            $("#ddlJKRType").select2({
+                minimumResultsForSearch: -1,
+                ajax: {
+                    url: "/WangCagaran/GetJKRType",
+                    dataType: 'json',
+                    type: "GET",
+                    processResults: function (data) {
+                        console.log(data);
+                        return {
+                            results: $.map(data, function (item) {
+                                return {
+                                    text: item.name,
+                                    id: item.id
+                                }
+
+                            })
+                        };
+                    }
+                }
+            });
+
+            $('#ddlJKRType').on('select2:select', function (e) {
+                var data = e.params.data;
+                if (data.selected) {
+                    jkrType = data.text;
+                }
+            });
+
+            $("#ddlVerifier").select2({
+                minimumResultsForSearch: -1,
+                ajax: {
+                    url: "/BankDraft/GetAllVerifier",
+                    dataType: 'json',
+                    type: "GET",
+                    processResults: function (data) {
+                        console.log(data);
+                        return {
+                            results: $.map(data, function (item) {
+                                return {
+                                    text: item.name,
+                                    id: item.id
+                                }
+
+                            })
+                        };
+                    }
+                }
+            });
+
+            $('#ddlVerifier').on('select2:select', function (e) {
+                var data = e.params.data;
+                if (data.selected) {
+                    var id = data.id;
+                    $("#VerifierId").val(id);
+                }
+            });
+
+            $("#ddlApprover").select2({
+                minimumResultsForSearch: -1,
+                ajax: {
+                    url: "/BankDraft/GetAllWCApprover",
+                    dataType: 'json',
+                    type: "GET",
+                    processResults: function (data) {
+                        return {
+                            results: $.map(data, function (item) {
+                                return {
+                                    text: item.name,
+                                    id: item.id
+                                }
+
+                            })
+                        };
+                    }
+                }
+            });
+
+            $('#ddlApprover').on('select2:select', function (e) {
+                var data = e.params.data;
+                if (data.selected) {
+                    var id = data.id;
+                    $("#ApproverId").val(id);
+                }
+            });
+
+            $("#ddlState").select2({
+                minimumResultsForSearch: -1,
+                ajax: {
+                    url: "/BankDraft/GetAllState",
+                    dataType: 'json',
+                    type: "GET",
+                    processResults: function (data) {
+                        console.log(data);
+
+                        return {
+                            results: $.map(data, function (item) {
+                                return {
+                                    text: item.name,
+                                    id: item.id
+                                }
+
+                            })
+                        };
+                    }
+                }
+            });
+
+            $('#ddlState').on('select2:select', function (e) {
+                var data = e.params.data;
+                if (data.selected) {
+                    state = data.text;
+                    //$("#WangCagaranViewModel.Negeri").val(data.text);
+
+                }
+            });
+
+        });
+
+        $("#cbxJKR").change(function () {
+            if (this.checked) {
+                $("#groupJKR").show();
+            } else {
+                $("#groupJKR").hide();
+            }
+        });
+
+        $("#btnDraft").on('click', function (e) {
+            $("#Status").val("Draft");
+            $("#formCreateApplication").submit();
+        });
+
+        //$("#btnSubmitConfirm").on('click', function (e) {
+            
+        //    var fileInput = $('#WCSuratKelulusanVM_File')[0];
+
+        //    if ($("#formCreateApplication").valid()) {
+        //        $("#Status").val("Submit");
+        //        $("#formCreateApplication").submit();
+        //    }
+        //    else {
+        //        ShowNoty("error", "No attached file!");
+        //    }
+        //    if (document.getElementById("WCSuratKelulusanVM_File").files.length == 0) {
+        //        $("#confirmation-submit-modal").modal('hide');
+        //        ShowNoty("error", "No attached file!");
+        //        return false;
+        //    }
+            
+        //});
+
+        $("#btnSubmitConfirm").on('click', function (e) {
+
+            var fileInput = $('#WCSuratKelulusanVM_File')[0];
+
+            if ($("#formCreateApplication").valid()) {
+                if (document.getElementById("WCSuratKelulusanVM_File").files.length == 0) {
+                    $("#confirmation-submit-modal").modal('hide');
+                    ShowNoty("error", "No attached file!");
+                    return false;
+                }
+                else {
+                    $("#Status").val("Submit");
+                    $("#formCreateApplication").submit();
+                }
+            }
+            else {
+                ShowNoty("error", "Please fill all required fields!");
+            }
+            
+
+        });
+       
+
+
+
+        $("#formCreateApplication").submit(function (e) {
+
+            e.preventDefault(); // avoid to execute the actual submit of the form.
+
+            ShowNoty("warning", "Saving Bank Draft..");
+
+            var form = $(this);
+            var url = form.attr('action');
+            var fdata = new FormData();
+
+            var fileInput = $('#WCSuratKelulusanVM_File')[0];
+            var file = fileInput.files[0];
+            fdata.append("WCSuratKelulusan", file);
+
+            var fileInput = $('#WCUMAPVM_File')[0];
+            var file = fileInput.files[0];
+            fdata.append("WCUMAP", file);
+
+            //$("input[type='text'], input[type='hidden']").each(function (x, y) {
+            //    fdata.append($(y).attr("name"), $(y).val());
+            //});
+
+            // You can update the jquery selector to use a css class if you want
+            $("input,textarea").each(function (x, y) {
+                fdata.append($(y).attr("name"), $(y).val());
+            });
+
+            fdata.append("WangCagaranViewModel.Negeri", state);
+            fdata.append("WangCagaranViewModel.JKRType", jkrType);
+
+            for (var value of fdata.values()) {
+                console.log(value);
+            }
+            for (var key of fdata.keys()) {
+                console.log(key);
+            }
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: fdata, //form.serialize(), // serializes the form's elements.
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    console.log(data);
+                    if (data.response.statusCode == 200) {
+                        ShowNoty("success", data.message);
+                        href = "/Application/MyApplication";
+                        setTimeout(function () {
+                            window.location.href = href;
+                        }, 1000);
+                    } else {
+                        ShowNoty("error", data.message);
+                    }
+                }
+            });
+        });
+
+    </script>
+}
+
+
+
+
+

@@ -1,0 +1,393 @@
+﻿@model BDA.ViewModel.LostViewModel
+@{
+    ViewData["Title"] = "Lost BD";
+}
+
+
+@section Styles  {
+
+    <!-- Tweaks for older IEs-->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
+
+    <link rel="stylesheet" href="~/assets/css/bootstrap-select/bootstrap-select.min.css">
+    <style>
+    </style>
+}
+@{
+    <div class="content-inner active">
+        <div class="container-fluid">
+            <!-- Begin Page Header-->
+            <div class="row">
+                <div class="page-header">
+                    <div class="d-flex align-items-center">
+                        <h2 class="page-header-title">Lost Bank Draft</h2>
+                        <div>
+                            <ul class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="/Lost/BankDraftList"><i class="ti ti-home"></i></a></li>
+                                <li class="breadcrumb-item"><a href="#">New Application</a></li>
+                                <li class="breadcrumb-item"><a href="#">Lost Application</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Page Header -->
+            <div class="row flex-row">
+                <div class="col-xl-12">
+                    <!-- Form -->
+                    <div class="widget has-shadow">
+                        @*<div class="widget-header bordered no-actions d-flex align-items-center">
+                                <h4>Wang Cagaran</h4>
+                            </div>*@
+                        <div class="widget-body">
+                            <div class="row flex-row justify-content-center">
+                                <div class="col-xl-12">
+                                    <div id="rootwizard">
+                                        @Html.Partial("_StatusBar.cshtml")
+                                        <div class="tab-content" style="font-family: Arial">
+
+                                            <div class="body-content">
+                                                <div>
+                                                    @*style="text-align:center; border-bottom: 2px solid; border-bottom-color:blue"*@
+                                                    @*<h4>Submitted by: En. Requestor</h4>*@
+                                                    <br>
+                                                </div>
+
+                                                <div class="widget has-shadow">
+                                                    <div class="widget-body sliding-tabs">
+                                                        <ul class="nav nav-tabs form-tab" id="ul-form-tab" role="tablist">
+                                                            <li class="nav-item">
+                                                                <a class="nav-link active" id="base-tab-1" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="true">Create Details</a>
+                                                            </li>
+                                                            <li class="nav-item">
+                                                                <a class="nav-link disabled" id="base-tab-2" data-toggle="tab" href="#tab-2" role="tab" aria-controls="tab-2" aria-selected="false">Process Details</a>
+                                                            </li>
+                                                            <li class="nav-item">
+                                                                <a class="nav-link disabled" id="base-tab-3" data-toggle="tab" href="#tab-3" role="tab" aria-controls="tab-3" aria-selected="false">Receive Details</a>
+                                                            </li>
+                                                        </ul>
+                                                        <div class="tab-content pt-3">
+                                                            <div class="tab-pane fade active show" id="tab-1" role="tabpanel" aria-labelledby="base-tab-1">
+                                                                @using (Html.BeginForm("Create", "Lost", Model, FormMethod.Post, false, new { @id = "formCreateLost", @class = "form-horizontal needs-validation", @novalidate = "novalidate", enctype = "multipart/form-data" }))
+                                                                {
+                                                                    @Html.Partial("_CreateDetails.cshtml")
+                                                                    @Html.HiddenFor(x => x.Status)
+                                                                    @Html.Partial("_Document.cshtml")
+                                                                    @Html.Partial("_ApproverList.cshtml")
+                                                                    @Html.Partial("_Comment.cshtml")
+                                                                }
+                                                            </div>
+                                                            <div class="tab-pane fade" id="tab-2" role="tabpanel" aria-labelledby="base-tab-2">
+
+                                                            </div>
+                                                            <div class="tab-pane fade" id="tab-3" role="tabpanel" aria-labelledby="base-tab-3">
+
+                                                            </div>
+                                                            <div class="tab-pane fade" id="tab-4" role="tabpanel" aria-labelledby="base-tab-4">
+
+                                                            </div>
+                                                            <div class="tab-pane fade" id="tab-5" role="tabpanel" aria-labelledby="base-tab-5">
+                                                                @*@Html.Partial("_ActionHistory.cshtml")*@
+                                                            </div>
+                                                        </div>
+                                                        @Html.Partial("_ActionButton.cshtml")
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            @*<a id="btnAddAccounting" class="btn btn-secondary ripple" data-toggle="modal" data-target="#add-accounting-table-modal">Add</a>*@
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Form -->
+                </div>
+            </div>
+            <!-- End Row -->
+        </div>
+        <!-- End Container -->
+        <!-- Begin Page Footer-->
+        <!-- End Page Footer -->
+        <a href="#" class="go-top"><i class="la la-arrow-up"></i></a>
+        <!-- Offcanvas Sidebar -->
+        @*@Html.Partial("_Log.cshtml")*@
+        <!-- End Offcanvas Sidebar -->
+    </div>
+}
+
+@section Scripts{
+    @*Validation script*@
+    <!--  validation script  -->
+    @*<script src="~/assets/vendors/jsgrid-1.5.3/src/jsgrid.validation.js"></script>*@
+
+    @*added by Hanif 08112019*@
+
+    @*<script src="~/assets/js/components/wizard/form-wizard.min.js"></script>
+        <script src="~/assets/vendors/js/bootstrap-select/bootstrap-select.min.js"></script>
+        <script src="~/assets/vendors/js/datatables/datatables.min.js"></script>
+        <script src="~/js/jquery.validate.js"></script>*@
+
+    <script src="~/assets/vendors/jsgrid-1.5.3/src/jsgrid.validation.js"></script>
+    <script src="~/js/jquery.validate.js"></script>
+    @*added by Hanif 08112019*@
+
+    <script src="~/assets/js/components/wizard/form-wizard.min.js"></script>
+    <script src="~/assets/vendors/js/bootstrap-select/bootstrap-select.min.js"></script>
+    <script src="~/assets/vendors/js/datatables/datatables2.min.js"></script>
+    @*<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>*@
+
+    <script>
+
+        function convert(currency) {
+
+            // Using replace() method
+            // to make currency string suitable
+            // for parseFloat() to convert
+            var temp = currency.replace(/[^0-9.-]+/g, "");
+
+            // Converting string to float
+            // or double and return
+            return parseFloat(temp);
+
+        }
+
+        var counter1 = 0;
+        $(function () {
+            $("nav").addClass("shrinked");
+            $("#CreateGroupBtn").show();
+            //$("#WithdrawGroupBtn").show();
+            $("#li-1").click();
+            $('[data-toggle="tooltip"]').tooltip()
+        });
+
+          function getApprover() {
+
+              $.get("@Url.Action("GetAllLostApprover", "Lost")", {
+                dataType: 'json'
+            })
+                .done(function (result) {
+                    if (result != null) {
+                        console.log(result[0].name);
+                        SetSelectedValue(result[0].name, "#ddlApprover");
+                        $("#ApproverId").val(result[0].id);
+                    } else {
+
+                    }
+                })
+        }
+
+        $("#btnLoadProjDetails").on('click', function () {
+            $("#tblSearchResults tbody tr").remove();
+                $.ajax({
+                    type: "GET",
+                    url: "/BankDraft/SearchBankDraftByProjectNonBDNo?search=" + $("#ProjectNo").val(),
+                    processData: false,
+                    contentType: false,
+                    success: function (data) {
+
+
+                        for (var i = 0; i < data.length; i++) {
+                            console.log(data[i]);
+                            //if (data[i].finalApp != "Lost" && data[i].finalApp != "Cancellation" && data[i].finalApp != "Recovery")
+                            //{
+                                var load = "loadData('" + data[i].bankDraftId + "','" + data[i].refNo + "','" + data[i].projNo + "','" + data[i].bdNo + "','" + data[i].requester + "','" + data[i].ermsDocNo + "','" + data[i].coCode + "','" + data[i].ba + "','" + data[i].nameOnBD + "'," + data[i].bdAmount + ")";
+                                $('#search-results-modal #tblSearchResults').append('<tr><td>' + data[i].refNo + '</td><td>' + data[i].projNo + '</td><td>' + data[i].requester + '</td><td>' + data[i].bdNo + '</td><td>' + data[i].ermsDocNo + '</td><td>' + data[i].ba + '</td><td>Selangor</td><td>' + data[i].ermsPostingDate + '</td><td>' + data[i].docDate + '</td><td>' + data[i].bdAmount + '</td><td>' + data[i].keteranganKerja + '</td><td><button onclick="' + load + '" type="button" class="btn btn-shadow" data-dismiss="modal">Select</button></td></tr>');
+                            //}
+                            //$('#search-results-modal #tblSearchResults').append('<tr><td>' + data[i].projNo + '</td><td> <a href="#" onclick="' + load + '" type="button" class="btn-search-results" data-dismiss="modal">' + data[i].requester + '</a></td><td>' + data[i].ermsDocNo + '</td><td>' + data[i].ba + '</td><td>Selangor</td><td>' + data[i].ermsPostingDate + '</td><td>' + data[i].docDate + '</td><td>' + data[i].bdAmount + '</td><td>' + data[i].refNo + '</td></tr>');
+                        }
+                        if (data.length == 0) {
+                            ShowNoty("error", "The application with project no/bank draft no does not exist or has been used.");
+
+                        }
+
+                    }
+                });
+
+        });
+
+        function loadData(bankDraftId, refNo, projNo, bdNo, requester, ermsDocNo, coCode, ba, nameOnBd, bdAmount) {
+            console.log(projNo);
+            $("#BankDraftId").val(bankDraftId);
+            $("#RefNo").val(refNo + "/L");
+            $("#ProjectNo").val(projNo);
+            $("#BDNo").val(bdNo);
+            $("#BDRequesterName").val(requester);
+            $("#ERMSDocNo").val(ermsDocNo);
+            $("#CoCode").val(coCode);
+            $("#BA").val(ba);
+            $("#jumlah").val("RM " + parseFloat(bdAmount).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'));
+            //$("#BDAmount").val(bdAmount);
+            if (nameOnBd == "") {
+                $("#NameOnBD").removeAttr('disabled');
+            }
+            else {
+                $("#NameOnBD").val(nameOnBd);
+            }
+        }
+
+        $(document).ready(function () {
+
+            getApprover();
+
+            $("#ddlApprover").select2({
+                minimumResultsForSearch: -1,
+                ajax: {
+                    url: "/Lost/GetAllLostApprover",
+                    dataType: 'json',
+                    type: "GET",
+                    processResults: function (data) {
+                        return {
+                            results: $.map(data, function (item) {
+                                return {
+                                    text: item.name,
+                                    id: item.id
+                                }
+
+                            })
+                        };
+                    }
+                }
+            });
+
+            $('#ddlApprover').on('select2:select', function (e) {
+                var data = e.params.data;
+                if (data.selected) {
+                    var id = data.id;
+                    $("#ApproverId").val(id);
+                }
+            });
+
+            var counts = 1;
+
+            var t = $('#suppDoc').DataTable({ searching: false, paging: false, info: false });
+            $('#addRow').on('click', function () {
+                t.row.add([
+                    counts,
+                    //'Attachment ' + counts,
+                    '<td class="td-actions"><div class="before-submit"><input type="text" id="fname' + counter1 + 'Id" name="fname" class="form-control"></div></td>',
+                    '<td class="td-actions"><div class="file-upload before-submit"><input id="document1' + counter1 + 'Id" name="doc" type="file"></div></td>',
+                    '<a id="dustbinId"><i class="la la-trash"></i></a>'
+                ]).draw(false);
+
+                counts++;
+                counter1++;
+            });
+
+            $('#suppDoc tbody').on('click', '#dustbinId', function () {
+                t
+                    .row($(this).parents('tr'))
+                    .remove()
+                    .draw();
+                counts--;
+                counter1--;
+            });
+
+            // Automatically add a first row of data
+            $('#addRow').click();
+            $('#dustbinId').click();
+
+
+        });
+
+
+        $("#btnCreateConfirm").on('click', function (e) {
+            console.log('create confirm');
+
+            if ($("#formCreateLost").valid()) {
+                $("#Status").val("Submit");
+                $("#formCreateLost").submit();
+            }
+            else {
+                ShowNoty("error", "Please fill all required fields!");
+            }
+
+        });
+
+        $("#btnDraft").on('click', function (e) {
+            $("#Status").val("Draft");
+            $("#formCreateLost").submit();
+        });
+
+        $("#formCreateLost").submit(function (e) {
+
+            e.preventDefault(); // avoid to execute the actual submit of the form.
+            $("#btnCreate").attr('data-target', ''); //prevent double click during submit
+            ShowNoty("warning", "Saving Bank Draft..");
+
+            var form = $(this);
+            var url = form.attr('action');
+            var fdata = new FormData();
+
+            var amount = $("#jumlah").val();
+            fdata.append("BDAmount", convert(amount));
+
+            var fileInput = $('#ScannedPoliceReportVM_File')[0];
+            var file = fileInput.files[0];
+            fdata.append("ScannedPoliceReport", file);
+
+            var fileInput = $('#ScannedPBTDocVM_File')[0];
+            var file = fileInput.files[0];
+            fdata.append("ScannedPBTDoc", file);
+
+            for (var i = 0; i < counter1; i++) {
+                var fileInput = $('#document1' + i + 'Id')[0];
+                var file = fileInput.files[0];
+                fdata.append("OthersDoc", file);
+
+                var fileName = $('#fname' + i + 'Id').val();
+                fdata.append("OthersDocName", fileName);
+            }
+
+            $("input[type='text'], input[type='hidden']").each(function (x, y) {
+                fdata.append($(y).attr("name"), $(y).val());
+            });
+
+            // You can update the jquery selector to use a css class if you want
+            $("input,textarea").each(function (x, y) {
+                fdata.append($(y).attr("name"), $(y).val());
+            });
+
+
+            for (var value of fdata.values()) {
+                console.log(value);
+            }
+            for (var key of fdata.keys()) {
+                console.log(key);
+            }
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: fdata, //form.serialize(), // serializes the form's elements.
+                //enctype: 'multipart/form-data',
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    console.log(data);
+                    if (data.response.statusCode == 200) {
+                        ShowNoty("success", data.message);
+                        $('#create-modal').modal('show');
+                        href = "/Application/MyLost";
+                        setTimeout(function () {
+                            window.location.href = href;
+                        }, 3000);
+                    } else {
+                        ShowNoty("error", data.message);
+                        $("#btnCreate").attr('data-target', '#confirmation-create-modal'); //prevent double click during submit
+                    }
+                }
+            });
+        });
+
+
+
+
+    </script>
+
+}
+
+

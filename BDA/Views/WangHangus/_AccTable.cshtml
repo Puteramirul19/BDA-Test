@@ -1,0 +1,23 @@
+﻿@model BDA.ViewModel.BankDraftViewModel
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+<div class="widget-header d-flex align-items-center" aria-expanded="true">
+    @*<h3>Borang - FSSC(AP) BD001</h3>*@
+</div>
+<div id="pnl_main_form" class="widget-body">
+    <div class="widget-header bordered no-actions d-flex align-items-center">
+        <h4>Accounting Table</h4>
+    </div>
+    <div class="widget-body">
+        <div id="jsGrid1"></div>
+    </div>
+    @*<div class="widget-body">
+            <div id="jsGrid2"></div>
+        </div>*@
+    <div class="padding-left-20 padding-right-20"><b>Note :</b></div>
+    <div class="padding-left-20 padding-right-20">1) C-Cost Centre, O-Order, N-Network, W-WBS Element&nbsp;<i class="ion-information-circled" data-toggle="tooltip" title="Jenis charge code yg telah ditetapkan"></i></div>
+    <div class="padding-left-20 padding-right-20">2) For N-Network, Cost Object: Network/Activity &nbsp;<i class="ion-information-circled" data-toggle="tooltip" title="example:603939215/0001"></i></div>
+    <div class="padding-left-20 padding-right-20">3) Kindly ensure to tick (right icon) after changes has been made to the above accounting table.</div>
+    <label class="padding-left-20 padding-right-20" id="lblTotalAmount"></label>
+</div>

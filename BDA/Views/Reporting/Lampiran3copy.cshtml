@@ -1,0 +1,302 @@
+﻿@{
+    ViewData["Title"] = "Reporting";
+}
+
+
+@section Styles  {
+
+    <link rel="stylesheet" href="~/assets/css/bootstrap-select/bootstrap-select.min.css">
+}
+<body>
+    <div class="content-inner active">
+        <div class="container-fluid">
+            <div style="padding-bottom:20px">
+                <h2 class="page-header-title">Reports</h2>
+            </div>
+            <div class="widget has-shadow" style="margin-left:-30px">
+                <h2 style="padding-top:30px;padding-left:30px">Lampiran 3</h2>
+                <div class="widget-body">
+                    <div class="form-group row">
+                        <div class="col-xl-2">
+                            <select id="ddlMonth" name="ddlMonth" class="selectpicker show-menu-arrow form-control" tabindex="-98" style="background-color:white">
+                                <option value="0" selected disabled>Month</option>
+                                <option value="1">January</option>
+                                <option value="2">February</option>
+                                <option value="3">March</option>
+                                <option value="4">April</option>
+                                <option value="5">May</option>
+                                <option value="6">June</option>
+                                <option value="7">July</option>
+                                <option value="8">August</option>
+                                <option value="9">September</option>
+                                <option value="10">October</option>
+                                <option value="11">November</option>
+                                <option value="12">December</option>
+                            </select>
+                        </div>
+                        <div class="col-xl-2">
+                            <select id="ddlYear" name="ddlYear" class="selectpicker show-menu-arrow form-control" tabindex="-98">
+                                <option value="0" selected disabled>Year</option>
+                                <option value="2015">2015</option>
+                                <option value="2016">2016</option>
+                                <option value="2017">2017</option>
+                                <option value="2018">2018</option>
+                                <option value="2019">2019</option>
+                                <option value="2020">2020</option>
+                            </select>
+                        </div>
+                        <div class="col-xl-2">
+                            <button id="btnPull" class="btn btn-success">Show</button>
+                        </div>
+                    </div>
+                    <div>
+                        @*<div id="chartLampiran2Issue" style="height: 300px; width: 97%; margin-left:50px"></div>*@
+                        <canvas id="bar-chart1" width="800" height="450"></canvas>
+                    </div>
+                    <div>
+                        <table class="table table-hover table-bordered mb-0 display" style="background-color:white;padding-right:30px;margin-left:-10px;font-size:10px">
+                            <tr style="text-align:center">
+                                <td></td>
+                                <td>Selangor</td>
+                                <td>Kedah</td>
+                                <td>Pahang</td>
+                                <td>Terengganu</td>
+                                <td>Perlis</td>
+                                <td>Kuala Lumpur</td>
+                                <td>Pulau Pinang</td>
+                                <td>Negeri Sembilan</td>
+                                <td>Melaka</td>
+                                <td>Kelantan</td>
+                                <td>HQ_6000</td>
+                                <td>Johor</td>
+                            </tr>
+                            <tr style="text-align:center">
+                                <td>No. of BD Issue</td>
+                                <td>763</td>
+                                <td>266</td>
+                                <td>244</td>
+                                <td>169</td>
+                                <td>150</td>
+                                <td>123</td>
+                                <td>100</td>
+                                <td>82</td>
+                                <td>78</td>
+                                <td>54</td>
+                                <td>11</td>
+                                <td>9</td>
+                            </tr>
+                            <tr style="text-align:right">
+                                <td>Amount (RM)</td>
+                                <td>46,480,691</td>
+                                <td>34,480,691</td>
+                                <td>31,480,691</td>
+                                <td>27,273,083</td>
+                                <td>25,273,083</td>
+                                <td>23,386,108</td>
+                                <td>18,366,108</td>
+                                <td>15,336,108</td>
+                                <td>12,639,192</td>
+                                <td>10,209,192</td>
+                                <td>8,609,192</td>
+                                <td>6,519,192</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <br /><br />
+                    <div>
+                        <canvas id="bar-chart2" width="800" height="450"></canvas>
+                        @*<div id="chartLampiran2Recover" style="height: 300px; width: 97%; margin-left:50px"></div>*@
+                    </div>
+                    <div>
+                        <table class="table table-hover table-bordered mb-0 display" style="background-color:white;padding-right:30px;margin-left:-10px;font-size:10px">
+                            <tr style="text-align:center">
+                                <td></td>
+                                <td>Selangor</td>
+                                <td>Kedah</td>
+                                <td>Pahang</td>
+                                <td>Terengganu</td>
+                                <td>Perlis</td>
+                                <td>Kuala Lumpur</td>
+                                <td>Pulau Pinang</td>
+                                <td>Negeri Sembilan</td>
+                                <td>Melaka</td>
+                                <td>Kelantan</td>
+                                <td>HQ_6000</td>
+                                <td>Johor</td>
+                            </tr>
+                            <tr style="text-align:center">
+                                <td>No. of BD Recovered</td>
+                                <td>763</td>
+                                <td>266</td>
+                                <td>244</td>
+                                <td>169</td>
+                                <td>150</td>
+                                <td>123</td>
+                                <td>100</td>
+                                <td>82</td>
+                                <td>78</td>
+                                <td>54</td>
+                                <td>11</td>
+                                <td>9</td>
+                            </tr>
+                            <tr style="text-align:right">
+                                <td>Amount (RM)</td>
+                                <td>46,480,691</td>
+                                <td>34,480,691</td>
+                                <td>31,480,691</td>
+                                <td>27,273,083</td>
+                                <td>25,273,083</td>
+                                <td>23,386,108</td>
+                                <td>18,366,108</td>
+                                <td>15,336,108</td>
+                                <td>12,639,192</td>
+                                <td>10,209,192</td>
+                                <td>8,609,192</td>
+                                <td>6,519,192</td>
+                            </tr>
+                        </table>
+                       
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+@section Scripts{
+    @*<script src="~/assets/vendors/js/base/jquery.min.js"></script>*@
+
+    <script src="~/assets/js/components/wizard/form-wizard.min.js"></script>
+    <script src="~/assets/vendors/js/bootstrap-select/bootstrap-select.min.js"></script>
+    <script src="~/assets/js/components/chartjs/chartjs.min.js"></script>
+    <!-- End Page Snippets -->
+    <script src="~/assets/vendors/js/tablefilter/jquery.tablefilter.js"></script>
+    <script src="~/assets/vendors/js/tablefilter/jquery.tabledatafilter.min.js"></script>
+    <script src="~/assets/vendors/js/chart/chart.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $(function () {
+                $("nav").addClass("shrinked");
+            });
+        });
+
+
+    </script>
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+    <script type="text/javascript">
+
+        window.onload = function () {
+
+            new Chart(document.getElementById("bar-chart1"), {
+                type: 'bar',
+                data: {
+                    labels: ["Selangor", "Kedah", "Pahang", "Terengganu", "Perlis", "Kuala Lumpur", "Pulau Pinang", "Negeri Sembilan", "Melaka", "Kelantan", "HQ_6000", "Johor"],
+                    datasets: [
+                        {
+                            label: "No of BD Issued",
+                            backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#d45850", "#2E1A16", "#162E1F", "#708DB9", "#9ACAC4", "#c45850", "#6EE9DA"],
+                            data: [763, 266, 244, 169, 150, 123, 100, 82, 78, 54,11, 9]
+                        }
+                    ]
+                },
+                options: {
+                    legend: { display: false },
+                    title: {
+                        display: true,
+                        text: 'BD Issued as at June 2019'
+                    }
+                }
+            });
+
+
+
+            new Chart(document.getElementById("bar-chart2"), {
+                type: 'bar',
+                data: {
+                    labels: ["Selangor", "Kedah", "Pahang", "Terengganu", "Perlis", "Kuala Lumpur", "Pulau Pinang", "Negeri Sembilan", "Melaka", "Kelantan", "HQ_6000", "Johor"],
+                    datasets: [
+                        {
+                            label: "No of BD Recovered",
+                            backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#d45850", "#2E1A16", "#162E1F", "#708DB9", "#9ACAC4", "#c45850", "#6EE9DA"],
+                            data: [763, 266, 244, 169, 150, 123, 100, 82, 78, 54, 11, 9]
+                        }
+                    ]
+                },
+                options: {
+                    legend: { display: false },
+                    title: {
+                        display: true,
+                        text: 'BD Recovery as at June 2019'
+                    }
+                }
+            });
+
+            //var chart1 = new CanvasJS.Chart("chartLampiran2Issue", {
+            //    title: {
+            //        text: "BD Issued from January 2018 to June 2019 & Percentage Increased"
+            //    },
+            //    data: [
+            //        {
+            //            // Change type to "doughnut", "line", "splineArea", etc.
+            //            type: "column",
+            //            dataPoints: [
+            //                { label: "Jan-18", x: 1, y: 18.4 },
+            //                { label: "Feb-18", x: 2, y: 18.7 },
+            //                { label: "Mar-18", x: 3, y: 19.3 },
+            //                { label: "Apr-18", x: 4, y: 22.1 },
+            //                { label: "May-18", x: 5, y: 23 },
+            //                { label: "Jun-18", x: 6, y: 25 },
+            //                { label: "Jul-18", x: 7, y: 26 },
+            //                { label: "Aug-18", x: 8, y: 27.7 },
+            //                { label: "Sep-18", x: 9, y: 30.6 },
+            //                { label: "Oct-18", x: 10, y: 42 },
+            //                { label: "Nov-18", x: 11, y: 44 },
+            //                { label: "Dec-18", x: 12, y: 46 },
+            //                { label: "Jan-19", x: 13, y: 50 },
+            //                { label: "Feb-19", x: 14, y: 56 },
+            //                { label: "Mar-19", x: 15, y: 59 },
+            //                { label: "Apr-19", x: 16, y: 64 },
+            //                { label: "May-19", x: 17, y: 67 },
+            //                { label: "Jun-19", x: 18, y: 77 },
+            //            ]
+            //        }
+            //    ]
+            //});
+            //chart1.render();
+
+            //var chart2 = new CanvasJS.Chart("chartLampiran2Recover", {
+            //    title: {
+            //        text: "BD Recovery from January 2018 to June 2019 & Percentage Increased"
+            //    },
+            //    data: [
+            //        {
+            //            // Change type to "doughnut", "line", "splineArea", etc.
+            //            type: "column",
+            //            dataPoints: [
+            //                { label: "B/F", x: 1, y: 17.9 },
+            //                { label: "Jan-18", x: 2, y: 18.4 },
+            //                { label: "Feb-18", x: 3, y: 18.7 },
+            //                { label: "Mar-18", x: 4, y: 19.3 },
+            //                { label: "Apr-18", x: 5, y: 22.1 },
+            //                { label: "May-18", x: 6, y: 23 },
+            //                { label: "Jun-18", x: 7, y: 25 },
+            //                { label: "Jul-18", x: 8, y: 26 },
+            //                { label: "Aug-18", x: 9, y: 27.7 },
+            //                { label: "Sep-18", x: 10, y: 30.6 },
+            //                { label: "Oct-18", x: 11, y: 42 },
+            //                { label: "Nov-18", x: 12, y: 44 },
+            //                { label: "Dec-18", x: 13, y: 46 },
+            //                { label: "Jan-19", x: 14, y: 50 },
+            //                { label: "Feb-19", x: 15, y: 56 },
+            //                { label: "Mar-19", x: 16, y: 59 },
+            //                { label: "Apr-19", x: 17, y: 64 },
+            //                { label: "May-19", x: 18, y: 67 },
+            //                { label: "Jun-19", x: 19, y: 77 },
+            //            ]
+            //        }
+            //    ]
+            //});
+            //chart2.render();
+        }
+    </script>
+}

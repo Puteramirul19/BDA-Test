@@ -1,0 +1,196 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_FormLayout.cshtml";
+}
+
+@section Styles{
+
+    <style>
+        .btn-create {
+            background-color: #5d5386;
+            color: white;
+        }
+
+        .btn-apply:hover {
+            background-color: white;
+            color: black;
+        }
+
+        .btn-cancel:hover {
+            background-color: red;
+            color: white;
+        }
+
+        .btn-create:hover {
+            background-color: limegreen;
+            color: white;
+        }
+
+        .btn-lost:hover {
+            background-color: #FFC300;
+            color: white;
+        }
+
+        select.filter {
+            height: 33px !important;
+        }
+
+        .form-staff {
+            margin-bottom: 2rem;
+        }
+    </style>
+}
+    <div class="tab-content">
+        <div class="tab-pane active" id="tab1">
+            <div class="section-title mt-5 mb-5">
+                <h3><b>UMA Pin 1/2015 Form Details</b></h3>
+            </div>
+            <div class="section-title mt-5 mb-5">
+                <h4>Particulars of Applicant</h4>
+            </div>
+            <div class="form-group row mb-3" style="margin-bottom:0rem!important">
+                <div class="col-sm-6 mb-3">
+                    <label class="form-control-label">Name<span class="text-danger ml-2"></span></label>
+                    <input type="text" class="form-control">
+                </div>
+                <div class="col-sm-6 mb-3">
+                    <label class="form-control-label">ID Card/PassPort/Company Registration No.<span class="text-danger ml-2"></span></label>
+                    <input type="text" class="form-control">
+                </div>
+            </div>
+            <div class="form-group row mb-3">
+                <div class="col-sm-12">
+                    <label class="form-control-label">Correspondance Address<span class="text-danger ml-2">*</span></label>
+                    <textarea class="form-control"></textarea>
+                </div>
+            </div>
+            <div class="form-group row mb-3" style="margin-bottom:0rem!important">
+                <div class="col-sm-6 mb-3">
+                    <label class="form-control-label">Telephone No.<span class="text-danger ml-2"></span></label>
+                    <input type="text" class="form-control">
+                </div>
+                <div class="col-sm-6 mb-3">
+                    <label class="form-control-label">Fax No./Email Address<span class="text-danger ml-2"></span></label>
+                    <input type="text" class="form-control">
+                </div>
+            </div>
+            <div class="form-group row mb-3" style="margin-bottom:0rem!important">
+                <div class="col-sm-6 mb-3">
+                    <label class="form-control-label">Bank Name<span class="text-danger ml-2"></span></label>
+                    <input type="text" class="form-control">
+                </div>
+                <div class="col-sm-6 mb-3">
+                    <label class="form-control-label">Bank Acc No<span class="text-danger ml-2"></span></label>
+                    <input type="text" class="form-control">
+                </div>
+            </div>
+            <div class="form-group row mb-3">
+                <div class="col-sm-6">
+                    <label class="form-control-label">Bank Account<span class="text-danger ml-2">*</span></label>
+                    <input type="text" value="5-14253-33333-4" class="form-control">
+                </div>
+                <div class="col-sm-6">
+                    <label class="form-control-label">Bank Charges Account<span class="text-danger ml-2">*</span></label>
+                    <input type="text" value="5-14253-50002-0" class="form-control">
+                </div>
+            </div>
+        </div>
+        <div class="section-title mt-5 mb-5">
+            <h4>Claims Detail</h4>
+        </div>
+        <div class="form-group row mb-3">
+            <div class="col-sm-6">
+                <label class="form-control-label">Name of Original owner of Unclaimed Moneys<span class="text-danger ml-2">*</span></label>
+                <input type="text" placeholder="MAJLIS PERBANDARAN SUBANG JAYA" class="form-control">
+            </div>
+        </div>
+        <div class="widget-body">
+            <div class="table-responsive">
+                @*<table id="example1" class="table mb-0">*@
+                <table class="table mb-0">
+                    <thead>
+                        <tr>
+                            <th>Type of Unclaimed Moneys</th>
+                            <th>Name of Company/Bank</th>
+                            <th>Reference No.</th>
+                            <th>Amount (RM)</th>
+                            <th id="actionCol">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Akaun Simpanan</td>
+                            <td>MAYBANK</td>
+                            <td>077743</td>
+                            <td>20,312.00</td>
+                            <td class="td-actions">
+                                <a href="#"><i class="la la-edit edit"></i></a>
+                                <a href="#"><i class="la la-close delete"></i></a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Deposit</td>
+                            <td>SYABAS</td>
+                            <td>108844</td>
+                            <td>20,312.00</td>
+                            <td class="td-actions">
+                                <a href="#"><i class="la la-edit edit"></i></a>
+                                <a href="#"><i class="la la-close delete"></i></a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Akaun Simpanan</td>
+                            <td>MAYBANK</td>
+                            <td>077743</td>
+                            <td>20,312.00</td>
+                            <td class="td-actions">
+                                <a href="#"><i class="la la-edit edit"></i></a>
+                                <a href="#"><i class="la la-close delete"></i></a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+
+
+@section Scripts{
+
+    <script src="~/assets/js/components/wizard/form-wizard.min.js"></script>
+    <script src="~/assets/vendors/js/bootstrap-select/bootstrap-select.min.js"></script>
+
+    <script src="assets/vendors/js/base/jquery.min.js"></script>
+    <script src="assets/vendors/js/base/core.min.js"></script>
+    <!-- End Vendor Js -->
+    <!-- Begin Page Vendor Js -->
+    <script src="assets/vendors/js/nicescroll/nicescroll.min.js"></script>
+    <script src="assets/vendors/js/app/app.min.js"></script>
+
+    <script>
+
+        var check = function () {
+            if (document.getElementById('txtPassword').value ==
+                document.getElementById('txtRepassword').value) {
+                document.getElementById('message').style.color = 'green';
+                document.getElementById('message').innerHTML = 'Password matching';
+            } else {
+                document.getElementById('message').style.color = 'red';
+                document.getElementById('message').innerHTML = 'Password not matching';
+            }
+        }
+        $("#btnSubmit").on('click', function (e) {
+            console.log('submit');
+            $("#formAddUser").submit();
+        });
+
+    </script>
+}
+
+
+
+
+
+

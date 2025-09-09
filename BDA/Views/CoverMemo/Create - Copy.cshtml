@@ -1,0 +1,440 @@
+﻿@model BDA.ViewModel.MemoViewModel
+@{
+    ViewData["Title"] = "New Cover Memo";
+    Layout = "~/Views/Shared/_MemoLayout.cshtml";
+}
+<div class="tab-content">
+    <div class="tab-pane active" id="tab1">
+        @using (Html.BeginForm("Create", "CoverMemo", Model, FormMethod.Post, false, new { @id = "formAddCoverMemo", @class = "form-horizontal" }))
+        {
+            @Html.AntiForgeryToken()
+            <div class="section-title mt-5 mb-5">
+                <h4>Cover Memo</h4>
+            </div>
+            <div class="form-group row mb-3">
+                <div class="col-sm-6 mb-3">
+                    <label class="form-control-label">Date<span class="text-danger ml-2">*</span></label>
+                    <div class="input-group">
+                        @Html.TextBoxFor(x => x.Date, new { @class = "form-control date", id = "dateApply", required = "required" })
+                        <span class="input-group-addon">
+                            <i class="la la-calendar"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-title mt-5 mb-5">
+                <h4>
+                    Selected Bank Draft Application's Details
+                </h4>
+            </div>
+            <div class="form-group row mb-3">
+                <div class="col-sm-12 mb-3">
+                    <label class="form-control-label">
+                        Type of Application
+                        <span class="text-danger ml-2">*</span>
+                    </label>
+                    <br />
+                    @Html.RadioButtonFor(x => x.ApplicationType, BDA.Data.BDType.WangCagaran.ToString(), new { id = "rbWC", required = "required" })
+                    @Html.Label("rbWC", "Wang Cagaran")
+                    @Html.RadioButtonFor(x => x.ApplicationType, BDA.Data.BDType.WangHangus.ToString(), new { id = "rbWH", required = "required" })
+                    @Html.Label("rbWH", "Wang Hangus")
+                </div>
+            </div>
+            <div class="form-group row mb-3">
+                <div class="col-sm-12 mb-3">
+                    <label class="form-control-label">Requester Name<span class="text-danger ml-2">*</span></label>
+                    @Html.DropDownListFor(x => x.Requestor, Enumerable.Empty<SelectListItem>(), new { @class = "form-control select2", id = "ddlRequester", required = "required" })
+                </div>
+            </div>
+            <div class="form-group row mb-3">
+                <div class="col-sm-12 mb-3">
+                    <label class="form-control-label">Reference No.&nbsp;<i class="ion-information-circled" data-toggle="tooltip" title="If there are more than 1 Rujukan No. , it means they are being processed in bulk"></i><span class="text-danger ml-2">*</span></label>
+                    @Html.DropDownListFor(x => x.ReferenceNo, Enumerable.Empty<SelectListItem>(), new { @class = "form-control select2-multiple", id = "ddlReferenceNo", multiple = "multiple", required = "required" })
+
+                </div>
+            </div>
+            <div class="section-title mt-5 mb-5">
+                <h4>Memo Details</h4>
+            </div>
+            <div class="form-group row mb-3">
+                <div class="col-sm-6 mb-3">
+                    <label class="form-control-label">Requester<span class="text-danger ml-2">*</span></label>
+                    @Html.TextAreaFor(x => x.RequestorAddress, new { @class = "form-control", required = "required" })
+                </div>
+                <div class="col-sm-6 mb-3">
+                    <label class="form-control-label">Approver<span class="text-danger ml-2">*</span></label>
+                    @Html.TextAreaFor(x => x.ApproverAddress, new { @class = "form-control", required = "required" })
+                </div>
+            </div>
+            <div class="form-group row mb-3">
+                <div class="col-sm-12 mb-3">
+                    <label class="form-control-label">U/P<span class="text-danger ml-2">*</span></label>
+                    @Html.TextAreaFor(x => x.UP, new { @class = "form-control", required = "required" })
+                </div>
+            </div>
+            <div class="form-group row mb-3">
+                <div class="col-sm-12 mb-3">
+                    <label class="form-control-label">Line 1<span class="text-danger ml-2">*</span></label>
+                    @Html.TextAreaFor(x => x.Line1, new { @class = "form-control", required = "required" })
+                </div>
+            </div>
+            <div class="form-group row mb-3">
+                <div class="col-sm-12 mb-3">
+                    <label class="form-control-label">Line 2<span class="text-danger ml-2">*</span></label>
+                    @Html.TextAreaFor(x => x.Line2, new { @class = "form-control", required = "required" })
+                </div>
+            </div>
+            <div class="form-group row mb-3">
+                <div class="col-sm-12 mb-3">
+                    <label class="form-control-label">Line 3<span class="text-danger ml-2">*</span></label>
+                    @Html.TextAreaFor(x => x.Line3, new { @class = "form-control", required = "required" })
+                </div>
+            </div>
+            <div class="form-group row mb-3 wangcagaran">
+                <div class="col-sm-12 mb-3">
+                    <label class="form-control-label">Line 4<span class="text-danger ml-2">*</span></label>
+                    @Html.TextAreaFor(x => x.Line4, new { @class = "form-control", required = "required" })
+                </div>
+            </div>
+            <div class="form-group row mb-3 wangcagaran">
+                <div class="col-sm-12 mb-3">
+                    <label class="form-control-label">Line 5<span class="text-danger ml-2">*</span></label>
+                    @Html.TextAreaFor(x => x.Line5, new { @class = "form-control", required = "required" })
+                </div>
+            </div>
+            <div class="form-group row mb-3 wangcagaran">
+                <div class="col-sm-12 mb-3">
+                    <label class="form-control-label">Line ETC<span class="text-danger ml-2">*</span></label>
+                    @Html.TextAreaFor(x => x.LineETC, new { @class = "form-control", required = "required" })
+                </div>
+            </div>
+            <div class="form-group row mb-3 wangcagaran">
+                <div class="col-sm-12 mb-3">
+                    <label class="form-control-label">Sk&nbsp;<i class="ion-information-circled" data-toggle="tooltip" title="Penerima pendua"></i></label>
+                    @Html.TextAreaFor(x => x.Signiture, new { @class = "form-control" })
+                </div>
+            </div>
+
+            <div class="wizard text-center">
+                <button type="button" id="btnSubmit" class="btn btn-success">Save</button>
+            </div>
+        }
+    </div>
+    <div id="pnlSuccess" style="display:none" class="wizard text-center">
+        <h3>Cover Memo Created!</h3><br /><br />
+        <span class="heading">Reference No:</span><br />
+        <span id="NewRefNo" class="sub-heading"></span>
+        <br /><br />
+        @*<button type="button" id="btnEdit" class="btn btn-info">Edit</button>
+            <a href="Details" id="btnViewMemo" class="btn btn-primary">View Memo</a>
+            <a type="button" id="btnSubmitBD" href="#" class="btn btn-success">Submit to Requestor</a>*@
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/js/jquery.validate.js"></script>
+    <script>
+        function refresh() {
+            setTimeout(function () { location.reload(); }, 500);
+        }
+        var application = '@ViewBag.ApplicationType';
+
+        var appType;
+
+        $(function () {
+            var vbRefNo = '@ViewBag.RefNo';
+             var requesterId = '@ViewBag.RequesterId';
+            if (vbRefNo != '') {
+                SetSelectedValue(requesterId, "#ddlRequester");
+                SetMultiSelectedValue(vbRefNo, "#ddlReferenceNo");
+            }
+
+            @*var application = '@ViewBag.ApplicationType';*@
+            console.log(application);
+            if (application == "@BDA.Data.BDType.WangCagaran.ToString()") {
+                $('input[type=radio][name=ApplicationType]').prop("disabled", "disabled");
+                $("#rbWC").prop("checked", true);
+                $('.wangcagaran').show();
+
+                $('#ddlRequester').select2({
+                    minimumResultsForSearch: -1,
+                    ajax: {
+                        url: "/CoverMemo/GetAllWCRequester",
+                        dataType: 'json',
+                        type: "GET",
+                        processResults: function (data) {
+                            return {
+                                results: $.map(data, function (item) {
+                                    return {
+                                        text: item.fullname,
+                                        id: item.username
+                                    }
+                                })
+                            };
+                        }
+                    }
+                });
+
+                $('#ddlRequester').attr("disabled", "disabled");
+                //SetMultiSelectedValue(vbRefNo, "#ddlReferenceNo");
+
+                    $('#ddlReferenceNo').select2({
+                        minimumResultsForSearch: -1,
+                        ajax: {
+                            url: "/CoverMemo/GetAllWCReferenceNoForBulk?requesterId=" + requesterId,
+                            dataType: 'json',
+                            type: "GET",
+                            processResults: function (data) {
+                                return {
+                                    results: $.map(data, function (item) {
+                                        return {
+                                            text: item.name,
+                                            id: item.id
+                                        }
+                                    })
+                                };
+                            }
+                        }
+                    });
+                 }
+            else if (application == "@BDA.Data.BDType.WangHangus.ToString()") {
+                $('input[type=radio][name=ApplicationType]').prop("disabled", "disabled");
+                //$('input[type=radio][name=ApplicationType]').val(application);
+                //$("input[type=radio][name=ApplicationType][value=" + application + "]").attr('checked', 'checked');
+                $("#rbWH").prop("checked", true);
+                $('.wangcagaran').hide();
+
+                $('#ddlRequester').select2({
+                    minimumResultsForSearch: -1,
+                    ajax: {
+                        url: "/CoverMemo/GetAllWHRequester",
+                        dataType: 'json',
+                        type: "GET",
+                        processResults: function (data) {
+                            return {
+                                results: $.map(data, function (item) {
+                                    return {
+                                        text: item.fullname,
+                                        id: item.username
+                                    }
+                                })
+                            };
+                        }
+                    }
+                });
+
+                $('#ddlRequester').attr("disabled", "disabled");
+                //SetMultiSelectedValue(vbRefNo, "#ddlReferenceNo");
+
+                    $('#ddlReferenceNo').select2({
+                        minimumResultsForSearch: -1,
+                        ajax: {
+                            url: "/CoverMemo/GetAllWHReferenceNoForBulk?requesterId=" + requesterId,
+                            dataType: 'json',
+                            type: "GET",
+                            processResults: function (data) {
+                                return {
+                                    results: $.map(data, function (item) {
+                                        return {
+                                            text: item.name,
+                                            id: item.id
+                                        }
+                                    })
+                                };
+                            }
+                        }
+                    });
+                }
+
+            $('input[type=radio][name=ApplicationType]').change(function () {
+                application == this.value;
+                $("#ddlRequester").val('');
+                $("#ddlReferenceNo").val('');
+
+                if (this.value == "@BDA.Data.BDType.WangCagaran.ToString()") {
+                    $('.wangcagaran').show();
+                    $('#ddlRequester').select2({
+                        minimumResultsForSearch: -1,
+                        ajax: {
+                            url: "/CoverMemo/GetAllWCRequester",
+                            dataType: 'json',
+                            type: "GET",
+                            processResults: function (data) {
+                                return {
+                                    results: $.map(data, function (item) {
+                                        return {
+                                            text: item.id + " - " + item.name,
+                                            id: item.id
+                                        }
+                                    })
+                                };
+                            }
+                        }
+                    });
+
+                }
+                else if (this.value == "@BDA.Data.BDType.WangHangus.ToString()") {
+                    $('.wangcagaran').hide();
+                    $('#ddlRequester').select2({
+                        minimumResultsForSearch: -1,
+                        ajax: {
+                            url: "/CoverMemo/GetAllWHRequester",
+                            dataType: 'json',
+                            type: "GET",
+                            processResults: function (data) {
+                                return {
+                                    results: $.map(data, function (item) {
+                                        return {
+                                            text: item.id + " - " + item.name,
+                                            id: item.id
+                                        }
+                                    })
+                                };
+                            }
+                        }
+                    });
+                }
+            });
+
+        });
+
+        $("#ddlRequester").change(function () {
+            var reqId = this.value;
+            $("#ddlReferenceNo").val('');
+            //alert($('#rbWH').prop("checked"));
+            if ($('#rbWC').prop("checked") == true) {
+                application = "WangCagaran";
+                $("#ddlReferenceNo").select2({
+                                minimumResultsForSearch: -1,
+                                ajax: {
+                                    url: "/CoverMemo/GetAllWCReferenceNoForBulk?requesterId=" + reqId,
+                                    dataType: 'json',
+                                    type: "GET",
+                                    processResults: function (result) {
+                                        console.log(result);
+                                        return {
+                                            results: $.map(result, function (item) {
+                                                return {
+                                                    text: item.name,
+                                                    id: item.id
+                                                }
+                                            })
+                                        };
+                                    }
+                                }
+                            });
+            }
+            else if ($('#rbWH').prop("checked") == true) {
+                application = "WangHangus";
+                $("#ddlReferenceNo").select2({
+                    minimumResultsForSearch: -1,
+                    ajax: {
+                        url: "/CoverMemo/GetAllWHReferenceNoForBulk?requesterId=" + reqId,
+                        dataType: 'json',
+                        type: "GET",
+                        processResults: function (result) {
+                            console.log(result);
+                            return {
+                                results: $.map(result, function (item) {
+                                    return {
+                                        text: item.name,
+                                        id: item.id
+                                    }
+                                })
+                            };
+                        }
+                    }
+                });
+            }
+
+        });
+
+
+        $("#ddlReferenceNo").change(function () {
+
+            $.ajax({
+                type: "GET",
+                url: "/CoverMemo/GetMemoDetails?refNo=" + $("#ddlReferenceNo").val() + "&appType=" + application,
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    $("#RequestorAddress").val(data.requestorAddress);
+                    $("#ApproverAddress").val(data.approverAddress);
+                    $("#UP").val(data.up);
+                    $("#Line1").val(data.line1);
+                    $("#Line2").val(data.line2);
+                    $("#Line3").val(data.line3);
+                    $("#Line4").val(data.line4);
+                    $("#Line5").val(data.line5);
+                    $("#LineETC").val(data.lineETC);
+                    $("#Signiture").val(data.Signiture);
+                }
+            });
+
+             });
+
+
+        $('#btnSubmit').on('click', function (e) {
+            if ($("#formAddCoverMemo").valid()) {
+                $("#Status").val("Submit");
+                $("#formAddCoverMemo").submit();
+            }
+            else {
+                ShowNoty("error", "Please fill all required fields!");
+            }
+        });
+        $('#btnEdit').on('click', function (e) {
+            $("#tab1").show();
+            $("#pnlSuccess").hide();
+        });
+        $('#btnViewMemo').click(function (event) {
+            event.preventDefault();
+            window.open("/CoverMemo/Memo", "popupWindow", "width=600,height=600,scrollbars=yes");
+        });
+
+        $("#formAddCoverMemo").submit(function (e) {
+
+            e.preventDefault(); // avoid to execute the actual submit of the form.
+
+            ShowNoty("warning", "Saving Cover Memo..");
+
+            var form = $(this);
+            var url = form.attr('action');
+            var fdata = new FormData();
+
+            fdata.append("ApplicationType", application);
+            $("input, textarea, select").each(function (x, y) {
+                fdata.append($(y).attr("name"), $(y).val());
+            });
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: fdata,//form.serialize(), // serializes the form's elements.
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    console.log(data);
+                    if (data.response.statusCode == 200) {
+                        ShowNoty("success", data.message);
+                        $("#tab1").hide();
+                        $("#NewRefNo").html(data.coverRefNo);
+                        $("#btnView").attr("href", "/CoverMemo/Memo?CoverMemoRefNo=" + data.coverRefNo);
+                        $("#btnSubmitBD").attr("href", "/CoverMemo/SubmitToRequestor?id=" + data.coverId);
+                        $("#pnlSuccess").show();
+                        setTimeout(function () {
+
+                            //or opener.location.href = opener.location.href;
+
+                            window.close(); // or self.close();
+                        }, 5000);
+                        opener.location.reload();
+                    } else {
+                        ShowNoty("error", data.message);
+                    }
+                }
+            });
+        });
+
+    </script>
+}

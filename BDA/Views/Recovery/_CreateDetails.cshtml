@@ -1,0 +1,339 @@
+﻿@model BDA.ViewModel.RecoveryViewModel
+@{
+    //ViewData["Title"] = "CreateDetails";
+    var RefNo = "";
+    //var ERMS = "";
+    var userFullName = ViewBag.Fullname;
+    var checklist = "";
+    var recoveryLetter = "";
+
+    if (Model != null)
+    {
+        RefNo = Model.RefNo;
+        checklist = Model.ChecklistVM.FileName;
+        recoveryLetter = Model.RecoveryLetterVM.FileName;
+    }
+}
+
+@section Styles{
+
+    <style>
+        .btn-create {
+            background-color: #5d5386;
+            color: white;
+        }
+
+        .btn-apply:hover {
+            background-color: white;
+            color: black;
+        }
+
+        .btn-cancel:hover {
+            background-color: red;
+            color: white;
+        }
+
+        .btn-create:hover {
+            background-color: limegreen;
+            color: white;
+        }
+
+        .btn-lost:hover {
+            background-color: #FFC300;
+            color: white;
+        }
+
+        select.filter {
+            height: 33px !important;
+        }
+
+        .form-staff {
+            margin-bottom: 2rem;
+        }
+    </style>
+}
+<div id="pnl_main_form" class="widget-body">
+    <div class="padding-left-20 padding-right-20">
+        <div class="row flex-row">
+            <div class="col-xl-12 col-md-12">
+                <div class="table-responsive">
+                    <div class="widget has-shadow">
+                        <div class="widget-body">
+                            <div class="padding-left-20 padding-right-20">
+                                <div class="form-group row">
+                                    <div class="col-sm-2 form-control-label d-flex align-items-center">Ref No.</div>
+                                    <div class="col-xl-4">
+                                        @Html.TextBoxFor(x => x.RefNo, new { @class = "form-control", @readonly = "readonly" })
+                                        @Html.HiddenFor(x => x.BankDraftId)
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-sm-2 form-control-label d-flex align-items-center">Proj No/ Assignment/ BD No/ Ref No&nbsp;<i class="ion-information-circled" data-toggle="tooltip" title="Insert the Project No / Assignment and click the 'Search' button"></i><span class="text-danger ml-2">*</span></div>
+                                    <div class="col-xl-4">
+                                        <div class="input-group">
+                                            @Html.TextBoxFor(x => x.ProjNo, new { @class = "form-control", @placeholder="Search Project No.", required = "required" })
+                                            @*<input name="txtProjNo" id="txtProjNo" type="text" class="form-control" placeholder="Search Proj No.">*@
+                                            <span class="input-group-btn">
+                                                <input type="button" id="btnLoadProjDetails" class="btn btn-outline-primary mr-1 mb-2" value="Search" data-toggle="modal" data-target="#search-results-modal">
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2 form-control-label align-items-center">Project Completion Date<span class="text-danger ml-2">*</span></div>
+                                    <div class="col-sm-4">
+                                        <div class="input-group">
+                                            @Html.TextBoxFor(x => x.ProjectCompletionDate, new { @class = "form-control date", id = "dateApply", required = "required" })
+                                            @*<input type="text" class="form-control date" id="projCompDate" placeholder="Select value">*@
+                                            <span class="input-group-addon">
+                                                <i class="la la-calendar"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-sm-2 form-control-label d-flex align-items-center">BD No.&nbsp;<span class="text-danger ml-2">*</span></div>
+                                    <div class="col-xl-4">
+                                        <div class="input-group">
+                                            @Html.TextBoxFor(x => x.BDNo, new { @class = "form-control", required = "required" })
+                                            @*<input name="txtBDDetails" id="txtBDDetails" type="text" class="form-control" placeholder="Search BD No.">*@
+                                            @*<span class="input-group-btn">
+                                                <input type="button" id="btnLoadBDDetails" class="btn btn-outline-primary mr-1 mb-2" value="Search" data-toggle="modal" data-target="#search-results-modal">
+                                            </span>*@
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2 form-control-label d-flex align-items-center">ERMS Doc No.</div>
+                                    <div class="col-xl-4">
+                                        @Html.TextBoxFor(x => x.ERMSDocNo, new { @class = "form-control", @readonly = "readonly"})
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-sm-2 form-control-label d-flex align-items-center">Company Code<span class="text-danger ml-2">*</span></div>
+                                    <div class="col-xl-4">
+                                        @Html.TextBoxFor(x => x.CoCode, new { @class = "form-control", @readonly = "readonly", required = "required" })
+                                    </div>
+                                    <div class="col-sm-2 form-control-label d-flex align-items-center">Business Area<span class="text-danger ml-2">*</span></div>
+                                    <div class="col-xl-4">
+                                        @Html.TextBoxFor(x => x.BA, new { @class = "form-control", @readonly = "readonly", required = "required" })
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-sm-2 form-control-label d-flex align-items-center">Name on BD<span class="text-danger ml-2">*</span></div>
+                                    <div class="col-xl-4">
+                                        @Html.TextBoxFor(x => x.NameOnBD, new { @class = "form-control", required = "required" })
+                                    </div>
+                                    <div class="col-sm-2 form-control-label d-flex align-items-center">BD Requestor's Name</div>
+                                    <div class="col-xl-4">
+                                        @Html.TextBoxFor(x => x.BDRequesterName, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-sm-2 form-control-label d-flex align-items-center">BD Amount<span class="text-danger ml-2">*</span></div>
+                                    <div class="col-xl-4">
+                                        @Html.TextBoxFor(x => x.BDAmount, "{0:c}", new { @class = "form-control", required = "required", id = "jumlah" })
+                                    </div>
+                                    <div class="col-sm-2 form-control-label d-flex align-items-center">PBT Email Address<span class="text-danger ml-2">*</span></div>
+                                    <div class="col-xl-4">
+                                        @Html.TextBoxFor(x => x.PBTEmailAddress, new { @class = "form-control", required = "required" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="pnl_document" class="widget-body">
+    <h3>Supporting Documents</h3>
+    <div class="table-responsive padding-left-20 padding-right-20">
+        <table id="tblListVerifier" class="table table-hover mb-0 display table-bordered">
+            <thead>
+                <tr>
+                    <th style="width:8px">No</th>
+                    <th>Name</th>
+                    <th style="width:150px">Action</th>
+                </tr>
+
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>
+                        <p>Marked Checklist (Scanned)<span class="text-danger ml-2">*</span></p>
+                    </td>
+                    <td class="td-actions">
+                        @if (checklist == "" || checklist == null)
+                        {
+                            <div class="file-upload before-submit">
+                                @Html.TextBoxFor(m => m.ChecklistVM.File, new { type = "file", name = "ScannedBankDraft" })
+                            </div>
+                        }
+                        else
+                        {
+                            var file = checklist;
+                            <div id="noFile-Checklist" class="file-upload" style="display:none">
+                                @Html.TextBoxFor(m => m.ChecklistVM.File, new { type = "file", name = "ScannedBankDraft" })
+                            </div>
+                            <div id="hasFile-Checklist">
+                                <table>
+                                    <tr>
+                                        <td rowspan="2" style="border-collapse: collapse;border:none;"><input type="hidden" value="@file" id="hdnChecklist" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border-collapse: collapse; border:none;"> <a onclick="window.open('../../../documents/@file','newwindow','width=900,height=750');"><i class="ti-printer"></i>@Model.ChecklistVM.FileName</a></td>
+                                        <td style="border-collapse: collapse; border:none;"><a onclick="RemoveAttachment('@Model.ChecklistVM.Id','Checklist');"><i id="trashId1" class="la la-trash delete before-submit" data-toggle="tooltip" data-placement="top" data-original-title="Remove attachment"></i></a></td>
+                                    </tr>
+                                    <tr></tr>
+                                </table>
+                            </div>
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>
+                        Recovery Letter (Scanned)<span class="text-danger ml-2">*</span>
+                    </td>
+                    <td class="td-actions">
+                        @if (recoveryLetter == "" || recoveryLetter == null)
+                        {
+                            <div class="file-upload before-submit">
+                                @Html.TextBoxFor(m => m.RecoveryLetterVM.File, new { type = "file", name = "RecoveryLetter" })
+                            </div>
+                        }
+                        else
+                        {
+                            var file = recoveryLetter;
+                            <div id="noFile-RecoveryLetter" class="file-upload" style="display:none">
+                                @Html.TextBoxFor(m => m.RecoveryLetterVM.File, new { type = "file", name = "RecoveryLetter" })
+                            </div>
+                            <div id="hasFile-RecoveryLetter">
+                                <table>
+                                    <tr>
+                                        <td rowspan="2" style="border-collapse: collapse;border:none;"><input type="hidden" value="@file" id="hdnRecoveryLetter" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border-collapse: collapse; border:none;"> <a onclick="window.open('../../../documents/@file','newwindow','width=900,height=750');"><i class="ti-printer"></i>@Model.RecoveryLetterVM.FileName</a></td>
+                                        <td style="border-collapse: collapse; border:none;"><a onclick="RemoveAttachment('@Model.RecoveryLetterVM.Id','RecoveryLetter');"><i id="trashId2" class="la la-trash delete before-submit" data-toggle="tooltip" data-placement="top" data-original-title="Remove attachment"></i></a></td>
+                                    </tr>
+                                    <tr></tr>
+                                </table>
+                            </div>
+                        }
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div id="search-results-modal" class="modal modal-top fade" style="display: none; padding-right: 17px;" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content" style="width:1300px;margin-left:-420px;margin-top:100px">
+            <div class="modal-header">
+                <h4 class="modal-title">Search Results</h4>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">×</span>
+                    <span class="sr-only">close</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table id="tblSearchResults" class="table table-hover mb-0 display table-bordered">
+                    <thead>
+                        <tr>
+                            <td>Reference No</td>
+                            <td>Proj No/Assignment</td>
+                            <td>Requester Name</td>
+                            <td>BD No</td>
+                            <td>ERMS Doc No</td>
+                            <td>Business Area</td>
+                            <td>State</td>
+                            <td>ERMS Posting Date</td>
+                            <td>Created Date</td>
+                            <td>BD Amount (RM)</td>
+                            <td>Keterangan Kerja</td>
+                            <td>Action</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @*<tr>
+                            <td>PROJ00001</td>
+                            <td>
+                                <a href="#" type="button" class="btn-search-results" data-dismiss="modal">BD00001</a>
+                            </td>
+                            <td>01233455</td>
+                            <td>6000</td>
+                            <td>HQ_6000</td>
+                            <td>01/12/2019</td>
+                            <td>12/11/2019</td>
+                            <td>120,000.00</td>
+                            <td>
+                                PENGARAH JKR PAHANG / MSVT APMM - SSU CHERATING
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>PROJ00001</td>
+                            <td>
+                                <a href="#" type="button" class="btn-search-results" data-dismiss="modal">BD00002</a>
+                            </td>
+                            <td>01333455</td>
+                            <td>6000</td>
+                            <td>HQ_6000</td>
+                            <td>01/08/2019</td>
+                            <td>12/07/2019</td>
+                            <td>34,000.00</td>
+                            <td>
+                                PENGARAH JKR PAHANG / MSVT APMM - SSU CHERATING
+                            </td>
+                        </tr>*@
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-shadow" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+
+    <script src="~/assets/js/components/wizard/form-wizard.min.js"></script>
+    <script src="~/assets/vendors/js/bootstrap-select/bootstrap-select.min.js"></script>
+
+    <script src="assets/vendors/js/base/jquery.min.js"></script>
+    <script src="assets/vendors/js/base/core.min.js"></script>
+    <!-- End Vendor Js -->
+    <!-- Begin Page Vendor Js -->
+    <script src="assets/vendors/js/nicescroll/nicescroll.min.js"></script>
+    <script src="assets/vendors/js/app/app.min.js"></script>
+
+    <script>
+
+        var check = function () {
+            if (document.getElementById('txtPassword').value ==
+                document.getElementById('txtRepassword').value) {
+                document.getElementById('message').style.color = 'green';
+                document.getElementById('message').innerHTML = 'Password matching';
+            } else {
+                document.getElementById('message').style.color = 'red';
+                document.getElementById('message').innerHTML = 'Password not matching';
+            }
+        }
+
+
+        $("#btnSubmit").on('click', function (e) {
+            console.log('submit');
+            $("#formAddUser").submit();
+        });
+
+        //$.date("#dateApply".val());
+        //console
+
+    </script>
+ 
+}
+
+
+
+
+
+

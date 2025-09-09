@@ -1,0 +1,99 @@
+﻿@model BDA.ViewModel.MemoViewModel
+@{
+    Layout = "~/Views/Shared/_MemoLayout.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>SubmitToBank</title>
+</head>
+<body>
+
+    <div class="modal-content">
+        @using (Html.BeginForm("SubmitMemo", "CoverMemo", Model, FormMethod.Post, false, new { @id = "formSaveBankIssue", @class = "form-horizontal", enctype = "multipart/form-data" }))
+        {
+            @Html.HiddenFor(x => x.Id)
+            @Html.HiddenFor(x => x.ReferenceNo)
+            @Html.HiddenFor(x => x.CoverRefNo)
+            <div class="modal-header">
+                <h4 class="modal-title">Confirmation</h4>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">×</span>
+                    <span class="sr-only">close</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    Please attach the Signed Covering Memo to proceed.
+                </p>
+                <div class="file-upload">
+                    @Html.TextBoxFor(m => m.SignedMemoVM.File, new { type = "file", name = "SignedMemo" })
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnCancel" class="btn btn-shadow" data-dismiss="modal">Cancel</button>
+                <button type="button" id="btnSubmitToRequestor" class="btn btn-primary">Confirm</button>
+            </div>
+        }
+    </div>
+    @section Scripts{
+
+        <script>
+            $(document).ready(function () {
+
+                $('#btnSubmitToRequestor').on('click', function (e) {
+                    $("#formSaveBankIssue").submit();
+                });
+
+                $('#btnCancel').on('click', function (e) {
+                    window.close();
+                });
+
+                $("#formSaveBankIssue").submit(function (e) {
+
+                    e.preventDefault(); // avoid to execute the actual submit of the form.
+
+                    ShowNoty("warning", "Saving Bank Issue..");
+
+                    var form = $(this);
+                    var url = form.attr('action');
+                    var fdata = new FormData();
+
+                    if ($('#SignedMemoVM_File').get(0).files.length !== 0) {
+                        var fileInput = $('#SignedMemoVM_File')[0];
+                        var file = fileInput.files[0];
+                        fdata.append("SignedLetter", file);
+                    }
+
+                    // You can update the jquery selector to use a css class if you want
+                    $("input, select, textarea").each(function (x, y) {
+                        fdata.append($(y).attr("name"), $(y).val());
+                    });
+
+                    $.ajax({
+                        type: "POST",
+                        url: url,
+                        data: fdata, //form.serialize(), // serializes the form's elements.
+                        processData: false,
+                        contentType: false,
+                        success: function (data) {
+                            if (data.response.statusCode == 200) {
+                                ShowNoty("success", data.message);
+                                setTimeout(function () {
+                                    opener.location.reload(); // or opener.location.href = opener.location.href;
+                                    window.close(); // or self.close();
+                                }, 1000);
+                            } else {
+                                ShowNoty("error", data.message);
+                            }
+                        }
+                    });
+                });
+            });
+        </script>
+    }
+</body>
+</html>

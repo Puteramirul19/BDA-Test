@@ -1,0 +1,81 @@
+﻿@model BDA.ViewModel.BankDraftViewModel
+@{
+    var surat = "";
+    var umap = "";
+
+    if (Model != null)
+    {
+        surat = Model.WCSuratKelulusanVM.FileName;
+        umap = Model.WCUMAPVM.FileName;
+    }
+
+}
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+<div class="widget-header d-flex align-items-center" aria-expanded="true">
+    <h3>Supporting Documents</h3>
+</div>
+<div id="pnl_document" class="widget-body">
+    <div class="table-responsive padding-left-20 padding-right-20">
+        <table id="tblListVerifier" class="table table-hover mb-0 display table-bordered">
+            <thead>
+                <tr>
+                    <th style="width:8px">No</th>
+                    <th>Name</th>
+                    <th style="width:150px">Action</th>
+                </tr>
+
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>
+                        <p>Police Report (Scanned) and Memo (Scanned)<span class="text-danger ml-2">*</span></p>
+                        <p><b style="color:red;font-style:italic;font-size:12px">*Original Police Report (Physical) and Memo (Physical) must be delivered to TGBS AP Banking Management</b></p>
+                    </td>
+                    <td class="td-actions">
+                        <div id="uploadPoliceReport" class="file-upload before-submit">
+                            <input id="" name="oriBD" type="file">
+                        </div>
+                        <div id="printPoliceReport" style="display:none">
+                            <a href="#" class="btn btn-lost" title="View Police Report"><i class="ti ti-printer"></i></a>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>
+                        <p>Supporting Documents from PBT if applicable (Scanned)<span class="text-danger ml-2">*</span></p>
+                    </td>
+                    <td class="td-actions">
+                        <div id="uploadMemo" class="file-upload before-submit">
+                            <input id="" name="oriMemo" type="file">
+                        </div>
+                        <div id="printMemo" style="display:none">
+                            <a href="#" class="btn btn-lost" title="View Ins letter"><i class="ti ti-printer"></i></a>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div id="pnl_first_form" class="widget">
+        <div class="padding-left-20 padding-right-20">
+            <br /><br/>
+            <h4>Additional Documents</h4>
+            <table id="suppDoc" class="display" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Name</th>
+                        <th>Attachment</th>
+                        <th></th>
+                    </tr>
+                </thead>
+            </table>
+            <br />
+            <button type="button" id="addRow" class="btn btn-secondary ripple">Add Attachment</button>
+        </div>
+    </div>
+</div>

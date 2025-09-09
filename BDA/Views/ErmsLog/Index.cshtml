@@ -1,0 +1,283 @@
+﻿@model BDA.ViewModel.ErmsLogViewModel
+@{
+    ViewData["Title"] = "ERMSLog";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles{
+
+    <style>
+        .btn-create {
+            background-color: #5d5386;
+            color: white;
+        }
+
+        .btn-apply:hover {
+            background-color: white;
+            color: black;
+        }
+
+        .btn-cancel:hover {
+            background-color: red;
+            color: white;
+        }
+
+        .btn-create:hover {
+            background-color: limegreen;
+            color: white;
+        }
+
+        .btn-lost:hover {
+            background-color: #FFC300;
+            color: white;
+        }
+
+        select.filter {
+            height: 33px !important;
+        }
+    </style>
+}
+<div class="content-inner">
+    <div class="container-fluid">
+        <!-- Begin Page Header-->
+        <div class="row">
+            <div class="page-header">
+                <div class="d-flex align-items-center">
+                    <h2 class="page-header-title">ERMS Log</h2>
+                    <div>
+                        <!--<div class="page-header-tools">
+                            <a class="btn btn-gradient-01" href="#">Add Widget</a>
+                        </div>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Page Header -->
+        <!-- Begin Row -->
+        <div class="row flex-row">
+            <br />
+        </div>
+        <div class="row flex-row">
+            <div class="col-xl-12 col-md-12">
+                <div class="table-responsive">
+                    <div class="widget has-shadow">
+                        @*<div class="widget-header bordered no-actions d-flex align-items-center">
+                                <h4>History</h4>
+                            </div>*@
+                        <div class="widget-body">
+                            <div class="table-responsive">
+                                <table id="tblLogList" class="table table-hover mb-0 display" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th>Transaction Id</th>
+                                            <th>Date</th>
+                                            <th>Ref No</th>
+                                            <th>Source</th>
+                                            <th>Destination</th>
+                                            <th>Action</th>
+                                            <th>Status</th>
+                                            <th>Message</th>
+                                        </tr>
+                                        <tr class="filterrow">
+                                            <th class="input-filter"><input id="search-transId" type="text" class="form-control tchatchaca" style="height:40px !important;" placeholder="Search.."></th>
+                                            <th class="input-filter"><input id="search-date" type="text" class="form-control tchatchaca" style="height:40px !important;" placeholder="Search.."></th>
+                                            <th class="input-filter"><input id="search-refNo" type="text" class="form-control tchatchaca" style="height:40px !important;" placeholder="Search.."></th>
+                                            <th class="select-filter">
+                                                <select id="search-source" class="form-control filter" style="height:40px !important;" placeholder="Action">
+                                                    <option value="">All</option>
+                                                    <option value="BDAS">BDAS</option>
+                                                    <option value="ERMS">ERMS</option>
+                                                </select>
+                                            </th>
+                                            <th class="select-filter">
+                                                <select id="search-destination" class="form-control filter" style="height:40px !important;" placeholder="Action">
+                                                    <option value="">All</option>
+                                                    <option value="BDAS">BDAS</option>
+                                                    <option value="ERMS">ERMS</option>
+                                                </select>
+                                            </th>
+                                            <th class="select-filter">
+                                                <select id="search-action" class="form-control filter" style="height:40px !important;" placeholder="Action">
+                                                    <option value="">All</option>
+                                                    <option value="VendorInvoiceCreate">VendorInvoiceCreate</option>
+                                                    <option value="TransactionStatus">TransactionStatus</option>
+                                                </select>
+                                            </th>
+                                            <th class="select-filter">
+                                                <select id="search-status" class="form-control filter" style="height:40px !important;" placeholder="Status">
+                                                    <option value="">All</option>
+                                                    <option value="SUCCESS">SUCCESS</option>
+                                                    <option value="FAIL">FAIL</option>
+                                                </select>
+                                            </th>
+                                            <th class="input-filter"><input id="search-msg" type="text" class="form-control tchatchaca" style="height:40px !important;" placeholder="Search.."></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @*<tr>
+                                            <td>27/10/2020</td>
+                                            <td>TNB/WC/2602</td>
+                                            <td>BDA</td>
+                                            <td>SOA</td>
+                                            <td>CheckBudget</td>
+                                            <td>Project No: EP678836</td>
+                                            <td>Complete</td>
+                                            <td>Complete</td>
+                                            <td>Complete</td>
+                                        </tr>
+                                        <tr>
+                                            <td>27/10/2020</td>
+                                            <td>TNB/WC/2602</td>
+                                            <td>SOA</td>
+                                            <td>BDA</td>
+                                            <td>BudgetBalance</td>
+                                            <td>Valid Budget Amount</td>
+                                            <td>Complete</td>
+                                            <td>Complete</td>
+                                            <td>Complete</td>
+                                        </tr>*@
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Container -->
+    <!-- Begin Page Footer-->
+    <!-- End Page Footer -->
+    <a href="#" class="go-top"><i class="la la-arrow-up"></i></a>
+    <!-- Offcanvas Sidebar -->
+    <!-- End Offcanvas Sidebar -->
+</div>
+
+@section Scripts{
+    <script src="~/assets/vendors/js/tablefilter/jquery.tablefilter.js"></script>
+    <script src="~/assets/vendors/js/tablefilter/jquery.tabledatafilter.min.js"></script>
+    @*<script src="~/assets/vendors/js/tablefilter/jquery.tableditfixedheader.min.js"></script>*@
+
+    <script>
+
+        $.fn.dataTable.ext.type.order['datetime-custom-pre'] = function(date) {
+            if (!date) return 0;
+
+            var parts = date.split(/[\s:-]+/); // Split by space, colon, hyphen
+            if (parts.length < 6) return 0;
+
+            var day, month, year;
+            var hour = parseInt(parts[3], 10);
+            var minute = parseInt(parts[4], 10);
+            var second = parseInt(parts[5], 10);
+            var ampm = date.split(" ")[1]; // Extract AM/PM
+
+            // Detect format based on values (Assumes MM-DD-YYYY cannot have MM > 12)
+            if (parseInt(parts[0], 10) > 12) {
+                // Format: DD-MM-YYYY
+                day = parseInt(parts[0], 10);
+                month = parseInt(parts[1], 10) - 1;
+                year = parseInt(parts[2], 10);
+            } else {
+                // Format: MM-DD-YYYY
+                month = parseInt(parts[0], 10) - 1;
+                day = parseInt(parts[1], 10);
+                year = parseInt(parts[2], 10);
+            }
+
+            if (ampm === "PM" && hour !== 12) hour += 12;
+            if (ampm === "AM" && hour === 12) hour = 0;
+
+            return new Date(year, month, day, hour, minute, second).getTime();
+        };
+        
+        $(document).ready(function () {
+            // Setup - add a text input to each footer cell
+            //$('#tblLogList thead filterCol').appendTo('#tblLogList thead');
+
+            var table = $('#tblLogList').DataTable({
+                    dom: "Bfrtip",
+                "processing": true,
+                //"columns": [
+                //    { "width": "10%" },
+                //    null,
+                //    null,
+                //    null,
+                //    null,
+                //    { "width": "20%" },
+                //    { "width": "20%" },
+                //    null
+                //],
+                    //serverSide: true,
+                    "ajax": {
+                        url:  "@Url.Action("GetAllErmsLogs", "ErmsLog")",
+                        type: "GET",
+                        data: function (d) {
+                            d.transactionId = $('#search-transId').val();
+                            d.date = $('#search-date').val();
+                            d.refNo = $('#search-refNo').val();
+                            d.source = $('#search-source option:selected').val();
+                            d.destination = $('#search-destination option:selected').val();
+                            d.action1 = $('#search-action option:selected').val();
+                            d.status = $('#search-status option:selected').val();
+                            d.message = $('#search-msg').val();
+                        },
+                        dataFilter: function (result) {
+                            var jData = JSON.parse(result);
+                            var dtData = JSON.stringify({ "data": jData });
+                            return dtData;
+                        }
+                     },
+                    order: [[1, 'asc']],
+                columnDefs: [
+                    { type: 'datetime-custom', targets: [1] } // Apply custom sorting to submitDate & updatedOn
+                ],
+                columns: [
+                        { data: "transactionId" },
+                        { data: "date" },
+                        { data: "refNo" },
+                        { data: "source" },
+                        { data: "destination" },
+                        { data: "action" },
+                        { data: "status" },
+                        { data: "message" },
+                    ],
+                    "bPaginate": true,
+                    "bLengthChange": false,
+                    "bFilter": false,
+                    "bInfo": true,
+                    "bAutoWidth": false,
+                    orderCellsTop: true,
+                    fixedHeader: true,
+                    "lengthChange": false,
+            });
+
+            $('.table thead filterCol').appendTo('table thead');
+
+            $.each($('.input-filter', table.table().header()), function () {
+                var column = table.column($(this).index());
+
+                $('input', this).on('keyup change', function () {
+                    table.ajax.reload();
+                });
+            });
+
+            $.each($('.select-filter', table.table().header()), function () {
+                var column = table.column($(this).index());
+
+                $('select', this).on('change', function () {
+                    table.ajax.reload();
+                });
+            });
+
+    
+    
+        });
+
+
+    </script>
+}
+
+
+

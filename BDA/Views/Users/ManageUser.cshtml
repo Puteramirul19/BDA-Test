@@ -1,0 +1,250 @@
+﻿@model IEnumerable<BDA.Identity.ApplicationUser>
+@{
+    ViewData["Title"] = "ManageUser";
+}
+
+@section Styles{
+
+    <style>
+        .btn-create {
+            background-color: #5d5386;
+            color: white;
+        }
+
+        .btn-apply:hover {
+            background-color: white;
+            color: black;
+        }
+
+        .btn-cancel:hover {
+            background-color: red;
+            color: white;
+        }
+
+        .btn-create:hover {
+            background-color: limegreen;
+            color: white;
+        }
+
+        .btn-lost:hover {
+            background-color: #FFC300;
+            color: white;
+        }
+
+        select.filter {
+            height: 33px !important;
+        }
+    </style>
+}
+<div class="content-inner">
+    <div class="container-fluid">
+        <!-- Begin Page Header-->
+        <div class="row">
+            <div class="page-header">
+                <div class="d-flex align-items-center">
+                    <h2 class="page-header-title">Users</h2>
+                    <div>
+                        <!--<div class="page-header-tools">
+                            <a class="btn btn-gradient-01" href="#">Add Widget</a>
+                        </div>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Page Header -->
+        <!-- Begin Row -->
+        <div class="row flex-row">
+
+            <!--<div class="col-xl-3 col-md-6 col-sm-6">
+                <a class="btn btn-gradient-03" href="apply.html">New Application</a>
+            </div>-->
+
+            <div class="col-xl-3 col-md-6 col-sm-6">
+                <a href="/users/adduser" class="btn btn-lg btn-create">
+                    Create New User
+                </a>
+            </div>
+        </div>
+        <!-- End Row -->
+        <!-- Begin Row -->
+        <div class="row flex-row">
+            <br />
+        </div>
+        <!--<div class="row flex-row">
+            <h2 class="page-header-title">My Applications</h2>
+            <br />
+            <br />
+        </div>-->
+        <div class="row flex-row">
+            <div class="col-xl-12 col-md-12">
+                <div class="table-responsive">
+                    <div class="widget has-shadow">
+                        @*<div class="widget-header bordered no-actions d-flex align-items-center">
+                                <h4>History</h4>
+                            </div>*@
+                        <div class="widget-body">
+                            <div class="table-responsive">
+                                <table id="tblDashboard" class="table table-hover mb-0 display" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th>Username</th>
+                                            <th>Full Name</th>
+                                            <th>Roles</th>
+                                            <th>Division</th>
+                                            <th>Function</th>
+                                            <th>Zone</th>
+                                            <th>Unit</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
+                                        </tr>
+                                        <tr class="filterrow">
+                                            <th class="input-filter"><input id="search-id" type="text" class="form-control tchatchaca" style="height:40px !important;" placeholder="Search.."></th>
+                                            <th class="input-filter"><input id="search-name" type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                            <th class="select-filter">
+                                                <select id="search-roles" class="form-control filter" style="height:40px !important;" placeholder="Roles">
+                                                    <option value="">All</option>
+                                                    <option value="Executive">Executive/Engineer</option>
+                                                    <option value="Manager">Manager/Senior Engineer</option>
+                                                    <option value="Senior Manager">Senior Manager/Lead</option>
+                                                    <option value="Head of Zone">Head of Zone (AD)/HOZA</option>
+                                                    <option value="General Manager/Senior General Manager">General Manager/Senior General Manager</option>
+                                                    <option value="Head of Unit">Head of Unit</option>
+                                                    <option value="Permit Manager (SBU AD)">Permit Manager (SBU AD)</option>
+                                                    <option value="Senior Engineer (SBU Maintenance)">Senior Engineer (SBU Maintenance)</option>
+                                                    <option value="Head of Banking Management">Head of Banking Management</option>
+                                                    <option value="TGBS Banking">TGBS Banking</option>
+                                                    <option value="TGBS Reconciliation">TGBS Reconciliation</option>
+                                                    <option value="ICT Admin">ICT Admin</option>
+                                                    <option value="Business Admin">Business Admin</option>
+                                                </select>
+                                            </th>
+                                            <th class="input-filter"><input id="search-division" type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                            <th class="input-filter"><input id="search-function" type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                            <th class="input-filter"><input id="search-zone" type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                            <th class="input-filter"><input id="search-unit" type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                            <th class="select-filter">
+                                                <select id="search-status" class="form-control filter" style="height:40px !important;" placeholder="Status">
+                                                    <option value="">All</option>
+                                                    <option value="true">Active</option>
+                                                    <option value="false">Inactive</option>
+                                                </select>
+                                            </th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Container -->
+    <!-- Begin Page Footer-->
+    <!-- End Page Footer -->
+    <a href="#" class="go-top"><i class="la la-arrow-up"></i></a>
+    <!-- Offcanvas Sidebar -->
+    <!-- End Offcanvas Sidebar -->
+</div>
+
+@section Scripts{
+    <script src="~/assets/vendors/js/datatables/datatables.min.js"></script>
+    <script src="~/assets/vendors/js/datatables/dataTables.select.min.js"></script>
+    <script src="~/assets/vendors/js/datatables/dataTables.buttons.min.js"></script>
+    <script src="~/assets/vendors/js/datatables/buttons.flash.js"></script>
+    <script src="~/assets/vendors/js/datatables/buttons.print.min.js"></script>
+    <script src="~/assets/vendors/js/datatables/buttons.html5.js"></script>
+
+    <script src="~/assets/vendors/js/tablefilter/jquery.tablefilter.js"></script>
+    <script src="~/assets/vendors/js/tablefilter/jquery.tabledatafilter.min.js"></script>
+    <script>
+        $(document).ready(function () {
+
+             var table =   $('#tblDashboard').DataTable({
+                    dom: "Bfrtip",
+                    "processing": true,
+                    //serverSide: true,
+                    "ajax": {
+                        url:  "@Url.Action("GetAllUser", "Users")",
+                        type: "GET",
+                        data: function (d) {
+                            d.id = $('#search-id').val();
+                            d.name = $('#search-name').val();
+                            d.roles = $('#search-roles').val();
+                            d.status = $('#search-status option:selected').val();
+                            d.division = $('#search-division').val();
+                            d.function = $('#search-function').val();
+                            d.zone = $('#search-zone').val();
+                            d.unit = $('#search-unit').val();
+                        },
+                        dataFilter: function (result) {
+                            var jData = JSON.parse(result);
+                            var dtData = JSON.stringify({ "data": jData });
+                            return dtData;
+                        }
+                     },
+                    order: [[1, 'asc']],
+                    columns: [
+                        { data: "id" },
+                        { data: "fullName" },
+                        { data: "roles" },
+                        { data: "division" },
+                        { data: "function" },
+                        { data: "zone" },
+                        { data: "unit" },
+                        {
+                            data: "isActive",
+                            "render": function (data, type, row) {
+                                if (data == true) return "Active";
+                                else return "InActive";
+                            }
+                        },
+                        {
+                            data: "id",
+                            "render": function (data, type, row) {
+                                var id = data;
+                                var href = "/Users/EditUser?username=" + id; //@Url.Action("EditUser", "Users", 1);
+                                if (type == "display") {
+                                    data = '<a href="'+href+'" style="border-radius: 0%;background-color: #f4f4f4;border-color: #ddd;" class="btn btn-lost btn-block mb-2">View</a>';
+                                }
+                                return data;
+                            }
+                        },
+                    ],
+                    "bPaginate": true,
+                    "bLengthChange": false,
+                    "bFilter": false,
+                    "bInfo": true,
+                    "bAutoWidth": false,
+                    orderCellsTop: true,
+                    fixedHeader: true,
+                    "lengthChange": false,
+            });
+
+
+            $('.table thead filterCol').appendTo('table thead');
+
+            $.each($('.input-filter', table.table().header()), function () {
+                var column = table.column($(this).index());
+
+                $('input', this).on('keyup change', function () {
+                    table.ajax.reload();
+                });
+            });
+
+            $.each($('.select-filter', table.table().header()), function () {
+                var column = table.column($(this).index());
+
+                $('select', this).on('change', function () {
+                    table.ajax.reload();
+                });
+            });
+
+    });
+
+
+    </script>
+}
+

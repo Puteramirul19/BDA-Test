@@ -1,0 +1,191 @@
+﻿
+@{
+    ViewData["Title"] = "New Instruction Letter";
+    //Layout = "~/Views/Shared/_FormLayout.cshtml";
+}
+@section Styles{ 
+    <style>
+        input[readonly] {
+            background-color: #fdffe3;
+            border: none;
+        }
+    </style>
+}
+<div class="content-inner">
+    <div class="container-fluid">
+        <!-- Begin Page Header-->
+        <div class="row">
+            <div class="page-header">
+                <div class="d-flex align-items-center">
+                    <h2 class="page-header-title">Bulk Processing</h2>
+                    <div>
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="db-default.html"><i class="ti ti-home"></i></a></li>
+                            <li class="breadcrumb-item"><a href="#">Bulk Processing</a></li>
+                            <li class="breadcrumb-item active">Update Bank Draft</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Page Header -->
+        <!-- Begin Row -->
+        <div class="row flex-row">
+            <div class="col-xl-12">
+                <!-- Form -->
+                <div class="widget has-shadow">
+                    <div class="widget-header bordered no-actions d-flex align-items-center">
+                        <h4>Update Bank Draft</h4>
+                    </div>
+                    <div class="widget-body">
+                        <div class="row flex-row justify-content-center">
+                            <div class="col-xl-12">
+                                <div class="form-group row mb-3">
+                                    <div class="col-sm-12 mb-3">
+                                        <div id="jsGrid"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Form -->
+            </div>
+        </div>
+        <!-- End Row -->
+    </div>
+    <!-- End Container -->
+    <!-- Begin Page Footer-->
+    <!-- End Page Footer -->
+    <a href="#" class="go-top"><i class="la la-arrow-up"></i></a>
+    <!-- Offcanvas Sidebar -->
+    @*@Html.Partial("_Log.cshtml")*@
+    <!-- End Offcanvas Sidebar -->
+</div>
+
+
+@section Scripts{
+    @*<script src="db.js"></script>*@
+    <script>
+        $(function () {
+
+            var db = {
+
+                loadData: function (filter) {
+                    //return $.grep(this.clients, function (client) {
+                    //    return (!filter.BDReferenceNo || client.BDReferenceNo.indexOf(filter.BDReferenceNo) > -1)
+                    //        && (!filter.CoverMemoRefNo || client.CoverMemoRefNo.indexOf(filter.CoverMemoRefNo) > -1)
+                    //        && (!filter.SendMethod || client.SendMethod === filter.SendMethod)
+                    //        && (!filter.PostageNo || client.PostageNo.indexOf(filter.PostageNo) > -1)
+                    //        && (!filter.ContactNo || client.ContactNo.indexOf(filter.ContactNo) > -1)
+                    //        && (!filter.BankDrafNoIssued || client.BankDrafNoIssued.indexOf(filter.BankDrafNoIssued) > -1);
+                    //});
+                    return $.ajax({
+                        type: "GET",
+                        url: "/BankDraft/GetAllBankDraftByStatus?_Status=Processed",
+                        dataType: "JSON"
+                    })
+                },
+
+                updateItem: function (d) {
+
+                    $.ajax({
+                        contentType: 'application/json; charset=utf-8',
+                        dataType: 'json',
+                        type: 'POST',
+                        url: "@Url.Action("UpdateBankIssue", "BankDraft")",
+                        data: d.bdRefNo + "," + d.coverMemoRefNo + "," + d.bankDraftNoIssued + "," + d.sendMethod + "," + d.postageNo + "," + d.contactNo + "," + d.bankDraftDate,
+                        success: function (data) {
+                            if (data.response.statusCode == 200) {
+                                ShowNoty("success", data.message);
+                            } else {
+                                ShowNoty("error", data.message);
+                            }
+                        },
+                        failure: function (response) {
+                            ShowNoty("error", response);
+                        }
+                    });
+
+                },
+
+                deleteItem: function (deletingClient) {
+                    var clientIndex = $.inArray(deletingClient, this.clients);
+                    this.clients.splice(clientIndex, 1);
+                }
+
+            };
+
+            window.db = db;
+
+
+            db.sendMethod = [
+                { Name: "", Id: "" },
+                { Name: "Self Collect", Id: "SelfCollect" },
+                { Name: "By Post", Id: "ByPos" }
+            ];
+                       
+
+            var MyDateField = function (config) {
+                jsGrid.Field.call(this, config);
+            };
+
+            MyDateField.prototype = new jsGrid.Field({
+                sorter: function (date1, date2) {
+                    return new Date(date1) - new Date(date2);
+                },
+
+                itemTemplate: function (value) {
+                    if (value == null) return "";
+                    var date = new Date(value);
+                    return ((date.getDate() > 9) ? date.getDate() : ('0' + date.getDate()))
+                            + '/' + ((date.getMonth() > 8) ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1)))
+                            + '/' + date.getFullYear();
+                },
+
+                insertTemplate: function (value) {
+                    return this._insertPicker = $("<input>").datepicker({ defaultDate: new Date(), dateFormat: 'dd/mm/yy' });
+                },
+
+                editTemplate: function (value) {
+                    return this._editPicker = $("<input>").datepicker({ dateFormat: 'dd/mm/yy' }).datepicker("setDate", new Date(value));
+                },
+
+                insertValue: function () {
+                    return this._insertPicker.datepicker("getDate").toISOString();
+                },
+
+                editValue: function () {
+                    return this._editPicker.datepicker("getDate").toISOString();
+                }
+            });
+
+            jsGrid.fields.myDateField = MyDateField;
+
+            $("#jsGrid").jsGrid({
+                width: "100%",
+                filtering: false,
+                editing: true,
+                inserting: false,
+                sorting: true,
+                paging: true,
+                autoload: true,
+                pageSize: 10,
+                pageButtonCount: 2,
+                //deleteConfirm: "Do you really want to delete the client?",
+                controller: db,
+                fields: [
+                    { name: "bdRefNo", title: "Reference No", type: "text", width: 150, readOnly: true },
+                    //{ name: "coverMemoRefNo", title: "Cover Memo Ref No", type: "text", width: 150 },
+                    { name: "bankDraftDate", title: "Bank Draft Date", type: "myDateField", width: 150, align: "center" },
+                    { name: "sendMethod", title: "Sending Method", type: "select", items: db.sendMethod, valueField: "Id", textField: "Name" },
+                    { name: "postageNo", title: "Postage No", type: "text", width: 100 },
+                    { name: "contactNo", title: "Contact No", type: "text", width: 100 },
+                    { name: "bankDraftNoIssued", title: "No Bank Draft", type: "text", width: 100 },
+                    { type: "control", deleteButton: false, modeSwitchButton: false }
+                ]
+            });
+
+        });
+    </script>
+}

@@ -1,0 +1,208 @@
+﻿@model BDA.Entities.WangCagaran
+@{
+    ViewData["Title"] = "Apply Wang Cagaran";
+}
+
+
+@section Styles  {
+
+    <!-- Tweaks for older IEs-->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
+
+    <link rel="stylesheet" href="~/assets/css/bootstrap-select/bootstrap-select.min.css">
+    <style>
+    </style>
+}
+@{
+    <div class="content-inner active">
+        <div class="container-fluid">
+            <!-- Begin Page Header-->
+            <div class="row">
+                <div class="page-header">
+                    <div class="d-flex align-items-center">
+                        <h2 class="page-header-title">Permohonan Deraf Bank <span> - Wang Cagaran</span></h2>
+                        <div>
+                            <ul class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="db-default.html"><i class="ti ti-home"></i></a></li>
+                                <li class="breadcrumb-item"><a href="#">New Application</a></li>
+                                <li class="breadcrumb-item active">Wang Cagaran</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Page Header -->
+            <div class="row flex-row">
+                <div class="col-xl-12">
+                    <!-- Form -->
+                    <div class="widget has-shadow">
+                        @*<div class="widget-header bordered no-actions d-flex align-items-center">
+                                <h4>Wang Cagaran</h4>
+                            </div>*@
+                        <div class="widget-body">
+                            <div class="row flex-row justify-content-center">
+                                <div class="col-xl-12">
+                                    <div id="rootwizard">
+                                        @Html.Partial("_StatusBar.cshtml")
+                                        <div class="tab-content" style="font-family: Arial">
+
+                                            <div class="body-content">
+                                                <div>
+                                                    @*style="text-align:center; border-bottom: 2px solid; border-bottom-color:blue"*@
+                                                    @*<h4>Submitted by: En. Requestor</h4>*@
+                                                    <br>
+                                                </div>
+
+                                                <div class="widget has-shadow">
+                                                    <div class="widget-body sliding-tabs">
+                                                        <ul class="nav nav-tabs form-tab" id="ul-form-tab" role="tablist">
+                                                            <li class="nav-item">
+                                                                <a class="nav-link active" id="base-tab-1" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="true">Main Application</a>
+                                                            </li>
+                                                            <li class="nav-item">
+                                                                <a class="nav-link disabled" id="base-tab-2" data-toggle="tab" href="#tab-2" role="tab" aria-controls="tab-2" aria-selected="false">Bank Details</a>
+                                                            </li>
+                                                            <li class="nav-item">
+                                                                <a class="nav-link disabled" id="base-tab-3" data-toggle="tab" href="#tab-3" role="tab" aria-controls="tab-3" aria-selected="false">Bank Draft Issued</a>
+                                                            </li>
+                                                            <li class="nav-item">
+                                                                <a class="nav-link disabled" id="base-tab-4" data-toggle="tab" href="#tab-4" role="tab" aria-controls="tab-4" aria-selected="false">Bank Draft Acceptance</a>
+                                                            </li>
+                                                            @*<li class="nav-item pull-right">
+                        <a class="nav-link" id="base-tab-5" data-toggle="tab" href="#tab-5" role="tab" aria-controls="tab-5" aria-selected="false">Action History</a>
+                    </li>*@
+                                                        </ul>
+                                                        <div class="tab-content pt-3">
+                                                            <div class="tab-pane fade active show" id="tab-1" role="tabpanel" aria-labelledby="base-tab-1">
+                                                                @Html.Partial("_MainForm.cshtml")
+                                                                @Html.Partial("_Document.cshtml")
+                                                                @Html.Partial("_ApproverList.cshtml")
+                                                            </div>
+                                                            <div class="tab-pane fade" id="tab-2" role="tabpanel" aria-labelledby="base-tab-2">
+
+                                                            </div>
+                                                            <div class="tab-pane fade" id="tab-3" role="tabpanel" aria-labelledby="base-tab-3">
+
+                                                            </div>
+                                                            <div class="tab-pane fade" id="tab-4" role="tabpanel" aria-labelledby="base-tab-4">
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                @Html.Partial("_ActionButton.cshtml")
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Form -->
+                </div>
+            </div>
+            <!-- End Row -->
+        </div>
+        <!-- End Container -->
+        <!-- Begin Page Footer-->
+        <!-- End Page Footer -->
+        <a href="#" class="go-top"><i class="la la-arrow-up"></i></a>
+        <!-- Offcanvas Sidebar -->
+        @Html.Partial("_Log.cshtml")
+        <!-- End Offcanvas Sidebar -->
+    </div>
+
+
+}
+
+@section Scripts{
+    <script>
+        $(function () {
+            $("nav").addClass("shrinked");
+            //$("#toggle-btn").addClass("active");
+            $(".brand-big").hide()
+            $(".brand-small").hide();
+            $("#submitGroupBtn").show();
+            //$("td a i.ti-upload").show();
+            $("td a i.la-chain").show();
+            $("td a i.la-trash").show();
+            $("td a i.la-download").show();
+            $(".status-footer").hide();
+            $('[data-toggle="tooltip"]').tooltip();
+
+        });
+
+
+        $(document).ready(function () {
+            var table = $('#tblHistory').DataTable({
+                orderCellsTop: true,
+                fixedHeader: true,
+                "lengthChange": false
+            });
+
+            var verifierData = ["string 1", "string 2", "test 07 ", "here is test"];
+            var jsonData = JSON.stringify(verifierData);
+            alert(jsonData);
+            $.each(JSON.parse(jsonData), function (idx, obj) {
+                $("#ddlVerifier").append('<option value="' + obj.id + '">' + obj.location + '</option>').selectpicker('refresh');
+            });
+        });
+
+
+        $('#ddlJKR').on('change', function (e) {
+            if (this.value == "1") {
+                $('#jlnNegeri').show();
+                $('#jlnPersekutuan').hide();
+            } else {
+                $('#jlnPersekutuan').show();
+                $('#jlnNegeri').hide();
+            }
+        });
+
+        $("#cbxJKR").change(function () {
+            if (this.checked) {
+                $("#groupJKR").show();
+            } else {
+                $("#groupJKR").hide();
+            }
+        });
+
+
+        //$('#btn-end-submit').on('click', function (e) {
+        //    window.location.href = '/WangCagaran/Verify'
+        //});
+        //script for button toggle sidebar
+        $('#toggle-btn').on('click', function (e) {
+            e.preventDefault();
+            $(this).toggleClass('active');
+
+            $('.side-navbar').toggleClass('shrinked');
+            $('.content-inner').toggleClass('active');
+
+            if ($(window).outerWidth() > 1183) {
+                if ($('#toggle-btn').hasClass('active')) {
+                    $('.navbar-header .brand-small').hide();
+                    $('.navbar-header .brand-big').show();
+                } else {
+                    $('.navbar-header .brand-small').show();
+                    $('.navbar-header .brand-big').hide();
+                }
+            }
+
+            if ($(window).outerWidth() < 1183) {
+                $('.navbar-header .brand-small').show();
+            }
+
+        });
+
+
+    </script>
+    <script src="~/assets/js/components/wizard/form-wizard.min.js"></script>
+    <script src="~/assets/vendors/js/bootstrap-select/bootstrap-select.min.js"></script>
+}
+
+

@@ -1,0 +1,1539 @@
+﻿@model BDA.ViewModel.LogViewModel
+@using Newtonsoft.Json;
+@{
+    ViewData["Title"] = "Reporting";
+
+}
+
+@section Styles{
+    <link rel="stylesheet" href="~/assets/vendors/css/base/bootstrap.min.css">
+    <style>
+
+        .sweet_loader {
+            width: 140px;
+            height: 140px;
+            margin: 0 auto;
+            animation-duration: 0.5s;
+            animation-timing-function: linear;
+            animation-iteration-count: infinite;
+            animation-name: ro;
+            transform-origin: 50% 50%;
+            transform: rotate(0) translate(0,0);
+        }
+
+        @@keyframes ro {
+            100% {
+                transform: rotate(-360deg) translate(0,0);
+            }
+        }
+
+        .btn-create {
+            background-color: #5d5386;
+            color: white;
+        }
+
+        .btn-apply:hover {
+            background-color: white;
+            color: black;
+        }
+
+        .btn-cancel:hover {
+            background-color: red;
+            color: white;
+        }
+
+        .btn-recover:hover {
+            background-color: limegreen;
+            color: white;
+        }
+
+        .btn-lost:hover {
+            background-color: #FFC300;
+            color: white;
+        }
+
+        select.filter {
+            height: 33px !important;
+        }
+
+        .dataTable > thead > tr > th[class*="sort"]:before,
+        .dataTable > thead > tr > th[class*="sort"]:after {
+            content: "" !important;
+        }
+
+        .dt-body-right {
+            text-align: right;
+        }
+
+        .dt-body-center {
+            text-align: center;
+        }
+    </style>
+}
+<div class="content-inner active">
+    <div class="container-fluid">
+        <!-- Begin Page Header-->
+        <div class="row">
+            <div class="page-header">
+                <div class="d-flex align-items-center">
+                    <div>
+                        <h2 class="page-header-title">Logs</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="widget has-shadow">
+            <h2 style="padding-top:30px;padding-left:30px" class="page-header-title" id="header1"><b>Logs </b><b id="CurrMonthYear"></b></h2>
+            <h2 style="padding-top:30px;padding-left:30px" id="title1">Logs</h2>
+
+            <div class="widget-body">
+
+                <form onsubmit="getLog()">
+                    <div class="form-group row">
+                        <label>Module *</label>
+                        <select class="form-control" onchange="getColumns(this); $('#hiddenInputInit').slideDown();" id="tableSelect" required>
+                            <option value='' disabled selected>Please select Module</option>
+                            <option value="BankDraft">Application</option>
+                            <option value="Cancellation">Cancellation</option>
+                            <option value="Lost">Lost</option>
+                            <option value="Recovery">Recovery Request</option>
+                        </select>
+                    </div>
+                    <div class="form-group row">
+                        <div id="hiddenInputInit" style="display:none;">
+                            <div class="form-group">
+                                <label>Column *</label>
+                                <button type="button" class="btn btn-xs btn-primary pull-right" onclick="$(this).next().next().children().attr('selected', true).parent().trigger('change')"><i class="fa fa-check"></i>&nbsp; Select All</button>
+                                <button type="button" class="btn btn-xs btn-danger pull-right margin-right-3" onclick="$(this).next().children().attr('selected', false).parent().trigger('change')"><i class="fa fa-times"></i></button>
+                                <select id="columnSelect" name="" multiple="multiple" style="width:100%"></select>
+                            </div>
+                            <div class="form-group" id="appTypeSelectDiv">
+                                <label>Application Type</label><button type="button" class="btn btn-xs btn-danger pull-right" onclick="$(this).next().val('').trigger('change')"><i class="fa fa-times"></i></button>
+                                <select class="form-control" id="appTypeSelect">
+                                    <option value='' disabled selected>Please select Module</option>
+                                    <option value="WC">Wang Cagaran</option>
+                                    <option value="WH">Wang Hangus</option>
+                                    <option value="WCH">Wang CagaranHangus</option>
+                                </select>
+                            </div>
+                            <div class="form-group filterDiv" id="referenceNoDiv" data-show='["BankDraft", "Cancellation", "Lost", "Recovery"]'>
+                                <label id="referenceNoLabel">Reference No</label>
+                                <input type="text" id="referenceNoInput" class="form-control" />
+                            </div>
+                            <div class="form-group" id="ermsDocNoDiv">
+                                <label id="ermsDocNoLabel">ERMS Document No</label>
+                                <input type="text" id="ermsDocNoInput" class="form-control" />
+                            </div>
+                            <div class="form-group" id="businessAreaSelectDiv">
+                                <label id="businessAreaLabel">Business Area</label>
+                                <select class="form-control" id="businessAreaSelect" style="width:100%"></select>
+                            </div>
+                            <div class="form-group" id="companyCodeSelectDiv">
+                                <label id="companyCodeLabel">Company Code</label>
+                                <select class="form-control" id="companyCodeSelect" style="width:100%"></select>
+                            </div>
+                            <div class="form-group filterDiv" id="stateSelectDiv" data-show='["BankDraft"]'>
+                                <label id="stateLabel">State (PBT)</label>
+                                <select class="form-control" id="stateSelect" style="width:100%"></select>
+                            </div>
+                            <div class="form-group filterDiv" id="vendorSelectDiv" data-show='["BankDraft"]'>
+                                <label id="vendorLabel">Vendor No</label>
+                                <input type="text" id="vendorNoInput" class="form-control" />
+                            </div>
+                            <div class="form-group filterDiv" data-show='["BankDraft"]'>
+                                <label id="valueDateLabel">Value Date</label>
+                                <input type="date" id="valueDateInput" class="form-control" />
+                            </div>
+                            <div class="form-group" id="bdNoDiv">
+                                <label id="bdNoLabel">No Bank Draft</label>
+                                <input type="text" id="bdNoInput" class="form-control" />
+                            </div>
+                            <div class="form-group filterDiv" id="nameOnBdDiv" data-hide='["BankDraft"]'>
+                                <label id="nameOnBdLabel">Name On BD</label>
+                                <input type="text" id="nameOnBdInput" class="form-control" />
+                            </div>
+                            <div class="form-group" id="statusSelectDiv">
+                                <label id="statusLabel">Status</label><button type="button" class="btn btn-xs btn-danger pull-right" onclick="$(this).next().val('').trigger('change')"><i class="fa fa-times"></i></button>
+                                <select class="form-control" id="statusSelect" style="width:100%"></select>
+                            </div>
+                            <div class="form-group filterDiv" id="recoveryTypeSelectDiv" data-show='["Recovery"]'>
+                                <label>Recovery Type</label>
+                                <select class="form-control" id="recoveryTypeSelect">
+                                    <option value='' disabled selected>Please select recovery type</option>
+                                    <option value="Full">Full</option>
+                                    <option value="Partial">Partial</option>
+                                </select>
+                            </div>
+                            <div class="pull-right">
+                                <button type="reset" class="btn btn-danger"><b>Reset</b></button>
+                                <button type="submit" id="generateBtn" class="btn btn-success"><b>Generate</b></button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="col-md-12" ng-show="dtColumns.length">
+                    <div class="widget white with-padding">
+                        <div class="pull-right" id="btnsExport" style="display:none;">
+                            <button class="btn btn-success" onclick="exportToCsv()">
+                                <b><i class="fa fa-file-excel-o"></i>&nbsp; Export to CSV</b>
+                            </button>
+                            <!-- Split button -->
+                            <div class="btn-group" style="padding-left:5px;">
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="#" onclick="$('#globalPageSize').text($(this).text())">A4</a></li>
+                                    <li><a href="#" onclick="$('#globalPageSize').text($(this).text())">A3</a></li>
+                                    <li><a href="#" onclick="$('#globalPageSize').text($(this).text())">A2</a></li>
+                                    <li><a href="#" onclick="$('#globalPageSize').text($(this).text())">A1</a></li>
+                                </ul>
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                    <span id="globalPageSize">A4</span>
+                                    <span class="caret"></span>
+                                    <span class="sr-only">Toggle Dropdown</span>
+                                </button>
+                                <button class="btn btn-info" onclick="previewPDF()" title="Preview PDF">
+                                    <b><i class="fa fa-search"></i></b>
+                                </button>
+                                <button class="btn btn-danger" onclick="downloadPDF()">
+                                    <b><i class="fa fa-file-pdf-o"></i>&nbsp; Download PDF</b>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="streaming-table">
+                            <table id="example" class='table table-striped table-bordered' cellspacing="0" width="100%" dt-options="dtOptions" dt-columns="dtColumns"></table>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+    <!-- End Container -->
+    <!-- Begin Page Footer-->
+    <!-- End Page Footer -->
+    @*<a href="#" class="go-top"><i class="la la-arrow-up"></i></a>*@
+    <!-- Offcanvas Sidebar -->
+    <!-- End Offcanvas Sidebar -->
+</div>
+
+@section Scripts{
+    @*<script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>*@
+    <script src="~/assets/vendors/js/datatables/datatables.min.js"></script>
+    <script src="~/js/jquery-ui.js"></script>
+    <script src="~/assets/js/PapaParse-5.0.2/papaparse.min.js"></script>
+    <script type="text/javascript" src="~/lib/bootstrap-sweetalert-master/dist/sweetalert.min.js"></script>
+    <!-- PDFMake -->
+    <script type='text/javascript' src='~/lib/pdfmake/pdfmake.min.js'></script>
+    <script type='text/javascript' src='~/lib/pdfmake/vfs_fonts.js'></script>
+
+    <script>
+        var table;
+        var columns = [];
+
+        function getColumns(elem) {
+            console.log($(elem).val());
+            let table = $(elem).val();
+            columns = []
+            data = []
+
+            $('.filterDiv').each(function () {
+                let elem = $(this)
+                let show = elem.data('show');
+                let hide = elem.data('hide');
+
+                if (show !== undefined) {
+                    if (show.includes(table)) elem.show();
+                    else elem.hide();
+                } else {
+                    if (hide.includes(table)) elem.hide();
+                    else elem.show();
+                }
+            })
+
+            if (table == 'BankDraft') {
+                //columns.push(['ApplicationType', 'Action needed']);
+                columns.push(['RefNo', 'Reference No']);
+                columns.push(['ERMSDocNo', 'ERMS Document No']);
+                columns.push(['PostingDate', 'Posting Date'])
+                columns.push(['PONumber', 'PO Number'])
+                columns.push(['Tarikh', 'Date'])
+                columns.push(['InvoiceNumber', 'Invoice Number']);
+                columns.push(['BA', 'Business Area']);
+                columns.push(['CoCode', 'Company Code']);
+                columns.push(['Alamat1', 'Address Requestor']);
+                columns.push(['Bandar', 'City']);
+                columns.push(['Poskod', 'Postcode']);
+                columns.push(['KeteranganKerja', 'Job Description']);
+                columns.push(['JKRInvolved', 'Work involving JKR']);
+                columns.push(['Jumlah', 'Total (RM)']);
+                columns.push(['CajKod', 'Charge Code']);
+                columns.push(['WBSProjekNo', 'Project No. (WBS)']);
+                columns.push(['NameOnBD', 'Name on Bank Draft']);
+                columns.push(['Negeri', 'State (PBT)']);
+                columns.push(['VendorNo', 'Vendor No.']);
+                columns.push(['VendorName', 'Vendor Name (PBT Name)']);
+                columns.push(['BankAccount', 'Bank Account']);
+                columns.push(['BankCountry', 'Bank Country']);
+                columns.push(['Description', 'Description']);
+                columns.push(['RequesterId', 'Requestor']);
+                columns.push(['ApproverId', 'Approver']);
+                columns.push(['Status', 'Status']);
+               // columns.push(['Status', 'Action needed']);
+                //columns.push(['GL', 'GL Account']);
+                //columns.push(['RequesterId', 'C/O/N/W']);
+                columns.push(['InstructionLetterRefNo', 'Ins. Letter Ref No']);
+                columns.push(['SendMethod', 'Method Of Sending']);
+                columns.push(['BankDraftDate', 'Value Date']);
+                columns.push(['PostageNo', 'Postage No']);
+                columns.push(['BankDrafNoIssued', 'No Bank Draft']);
+                columns.push(['ReceiverContactNo', 'Requestor Contact No']);
+                columns.push(['CoverMemoRefNo', 'Cover Memo Ref No']);
+                //columns.push(['PostageNo', 'Signed Covering Memo']);
+                columns.push(['ReceiveBankDraftDate', 'Date of Acceptance']);
+                columns.push(['ReceiptNo', 'Receipt No']);
+                //columns.push(['BankDraftDate', 'Evidence ']);
+            }
+
+            if (table == 'Cancellation') {
+                 //columns.push(['ApplicationType', 'Action needed']);
+                columns.push(['RefNo', 'Reference No']);
+                columns.push(['ReasonCancel', 'Reason for Cancelling'])
+                columns.push(['OthersRemark', 'Others'])
+                columns.push(['ProjectNo', 'Proj No/ Assignment'])
+                columns.push(['BDRequesterName', 'BD Requestor Name']);
+                columns.push(['ERMSDocNo', 'ERMS Document No']);
+                columns.push(['CoCode', 'Company Code']);
+                columns.push(['BA', 'Business Area']);
+                columns.push(['NameOnBD', 'Name on BD']);
+                columns.push(['BDAmount', 'BD Amount']);
+                columns.push(['RequesterId', 'Requestor']);
+                columns.push(['ApproverId', 'Approver']);
+                columns.push(['Status', 'Status']);
+                //columns.push(['Status', 'Action needed']);
+                columns.push(['InstructionLetterRefNo', 'Ins. Letter Ref No']);
+                columns.push(['ReceiveBankDraftDate', 'Received Date']);
+                columns.push(['ReceiptNo', 'Bank Statement']);
+
+            }
+
+
+            if (table == 'Lost') {
+                //columns.push(['ApplicationType', 'Action needed']);
+                columns.push(['RefNo', 'Reference No']);
+                columns.push(['Justification', 'Justification of Lost'])
+                columns.push(['ProjectNo', 'Proj No/ Assignment'])
+                columns.push(['BDNo', 'BD No']);
+                columns.push(['BDRequesterName', 'BD Requestor Name']);
+                columns.push(['ERMSDocNo', 'ERMS Document No']);
+                columns.push(['CoCode', 'Company Code']);
+                columns.push(['BA', 'Business Area']);
+                columns.push(['NameOnBD', 'Name on BD']);
+                columns.push(['BDAmount', 'BD Amount']);
+                columns.push(['RequesterId', 'Requestor']);
+                columns.push(['ApproverId', 'Approver']);
+                columns.push(['Status', 'Status']);
+                //columns.push(['Status', 'Action needed']);
+
+            }
+
+            if (table == 'Recovery') {
+                //columns.push(['ApplicationType', 'Action needed']);
+                columns.push(['RefNo', 'Reference No']);
+                columns.push(['ProjNo', 'Proj No/ Assignment'])
+                columns.push(['CompletedOn', 'Project Completion Date'])
+                columns.push(['BDNo', 'BD No']);
+                columns.push(['ERMSDocNo', 'ERMS Document No']);
+                columns.push(['CoCode', 'Company Code']);
+                columns.push(['BA', 'Business Area']);
+                columns.push(['NameOnBD', 'Name on BD']);
+                columns.push(['BDRequesterName', 'BD Requestor Name']);
+                columns.push(['BDAmount', 'BD Amount']);
+                columns.push(['PBTEmailAddress', 'PBT Email Address']);
+                columns.push(['RequesterId', 'Requestor']);
+               // columns.push(['ApproverId', 'Approver']);
+                columns.push(['Status', 'Status']);
+                //columns.push(['Status', 'Action needed']);
+                columns.push(['SiteVisitDate', 'Complete Project Certificate (CPC) Date']);
+                columns.push(['CPCDate', 'Site Visit Date']);
+                columns.push(['ClaimDuration', 'Claim Duration']);
+                columns.push(['RecoveryType', 'Recovery Type']);
+                columns.push(['TotalRecoveryAmount', 'Total Recovery Amount']);
+                columns.push(['FirstRecoveryAmount', 'Amount (first partial)']);
+                columns.push(['SecondRecoveryAmount', 'Amount (second partial)']);
+            }
+
+            columns.forEach(function (current) {
+                let row = {}
+                row.id = current[0]
+                row.text = current[1]
+                data.push(row)
+            })
+
+            if ($('#columnSelect').data('select2')) {
+                $("#columnSelect").select2("val", "");
+                $("#columnSelect").empty();
+                $("#columnSelect").select2('destroy');
+            }
+            $("#columnSelect").select2({ data: data });
+
+        }
+
+        var input;
+
+        function getLog() {
+            event.preventDefault()
+            $("#generateBtn").prop('disabled', true)
+            //notify("warning", "Loading logs! Please wait...");
+            let log = {
+                Column: $('#columnSelect').val(),
+                TableName: $('#tableSelect').val(),
+                ApplicationType: $('#appTypeSelect').val(),
+                BDNo: $('#bdNoInput').val(),
+                PostingDate: $('#postingDateInput').val(),
+                ValueDate: $('#valueDateInput').val(),
+                CompanyCode: $('#companyCodeSelect').val(),
+                BusinessArea: $('#businessAreaSelect').val(),
+                NameOnBD: $('#nameOnBdInput').val(),
+                ERMSDocNo: $('#ermsDocNoInput').val(),
+                ReferenceNo: $('#referenceNoInput').val(),
+                Status: $('#statusSelect').val(),
+                State: $('#stateSelect').val()
+            }
+
+            if (log.Column.length < 1) {
+                //notify("danger", "Please choose at least one column!")
+                $("#generateBtn").prop('disabled', false)
+                return;
+            }
+
+            input = {
+                TableName: log.TableName,
+                ColumnList: log.Column,
+                ColumnArray: columns,
+                FilterWhere: ""
+            };
+
+            var dateFrom = log.DateFrom + " 23:59:59";
+            var dateTo = log.DateTo + " 00:00:00";
+
+            if (log.TableName == 'Cancellation') {
+               // input.FilterWhere = "created_date >= '" + dateFrom+ "' AND created_date <= '" + dateTo + "'";
+                //input.FilterWhere = log.ReferenceNo != null && log.ReferenceNo != undefined ? input.FilterWhere + " Cancellation.RefNo = '" + log.ReferenceNo + "' AND" : input.FilterWhere;
+                input.FilterWhere = log.BusinessArea != null && log.BusinessArea != undefined ? input.FilterWhere + " Cancellation.BA = '" + log.BusinessArea + "' AND" : input.FilterWhere;
+                input.FilterWhere = log.CompanyCode != null && log.CompanyCode != undefined ? input.FilterWhere + " Cancellation.CoCode = '" + log.CompanyCode + "' AND" : input.FilterWhere;
+                input.FilterWhere = log.ApplicationType != null && log.ApplicationType != undefined && log.ApplicationType != '' ? input.FilterWhere + " Cancellation.RefNo like '%" + log.ApplicationType + "%' AND" : input.FilterWhere;
+                input.FilterWhere = log.ERMSDocNo != null && log.ERMSDocNo != undefined && log.ERMSDocNo != '' ? input.FilterWhere + " Cancellation.ERMSDocNo = '" + log.ERMSDocNo + "' AND" : input.FilterWhere;
+                input.FilterWhere = log.NameOnBD != null && log.NameOnBD != undefined && log.NameOnBD != '' ? input.FilterWhere + " Cancellation.NameOnBD = '" + log.NameOnBD + "' AND" : input.FilterWhere;
+                input.FilterWhere = log.BDNo != null && log.BDNo != undefined && log.BDNo != '' ? input.FilterWhere + " Cancellation.BDNo = '" + log.BDNo + "' AND" : input.FilterWhere;
+                input.FilterWhere = log.Status != null && log.Status != undefined && log.Status != '' ? input.FilterWhere + " Cancellation.Status = '" + log.Status + "' AND" : input.FilterWhere;
+            }
+
+            if (log.TableName == 'Lost') {
+                //input.FilterWhere = log.ReferenceNo != null && log.ReferenceNo != undefined ? input.FilterWhere + " Cancellation.RefNo = '" + log.ReferenceNo + "' AND" : input.FilterWhere;
+                input.FilterWhere = log.BusinessArea != null && log.BusinessArea != undefined ? input.FilterWhere + " Lost.BA = '" + log.BusinessArea + "' AND" : input.FilterWhere;
+                input.FilterWhere = log.CompanyCode != null && log.CompanyCode != undefined ? input.FilterWhere + " Lost.CoCode = '" + log.CompanyCode + "' AND" : input.FilterWhere;
+                input.FilterWhere = log.ApplicationType != null && log.ApplicationType != undefined && log.ApplicationType != '' ? input.FilterWhere + " Lost.RefNo like '%" + log.ApplicationType + "%' AND" : input.FilterWhere;
+                input.FilterWhere = log.ERMSDocNo != null && log.ERMSDocNo != undefined && log.ERMSDocNo != '' ? input.FilterWhere + " Lost.ERMSDocNo = '" + log.ERMSDocNo + "' AND" : input.FilterWhere;
+                input.FilterWhere = log.NameOnBD != null && log.NameOnBD != undefined && log.NameOnBD != '' ? input.FilterWhere + " Lost.NameOnBD = '" + log.NameOnBD + "' AND" : input.FilterWhere;
+                input.FilterWhere = log.BDNo != null && log.BDNo != undefined && log.BDNo != '' ? input.FilterWhere + " Lost.BDNo = '" + log.BDNo + "' AND" : input.FilterWhere;
+                input.FilterWhere = log.Status != null && log.Status != undefined && log.Status != '' ? input.FilterWhere + " Lost.Status = '" + log.Status + "' AND" : input.FilterWhere;
+            }
+
+            if (log.TableName == 'Recovery') {
+                //input.FilterWhere = log.ReferenceNo != null && log.ReferenceNo != undefined ? input.FilterWhere + " Cancellation.RefNo = '" + log.ReferenceNo + "' AND" : input.FilterWhere;
+                input.FilterWhere = log.BusinessArea != null && log.BusinessArea != undefined ? input.FilterWhere + " Recovery.BA = '" + log.BusinessArea + "' AND" : input.FilterWhere;
+                input.FilterWhere = log.CompanyCode != null && log.CompanyCode != undefined ? input.FilterWhere + " Recovery.CoCode = '" + log.CompanyCode + "' AND" : input.FilterWhere;
+                input.FilterWhere = log.ApplicationType != null && log.ApplicationType != undefined && log.ApplicationType != '' ? input.FilterWhere + " Recovery.RefNo like '%" + log.ApplicationType + "%' AND" : input.FilterWhere;
+                input.FilterWhere = log.ERMSDocNo != null && log.ERMSDocNo != undefined && log.ERMSDocNo != '' ? input.FilterWhere + " Recovery.ERMSDocNo = '" + log.ERMSDocNo + "' AND" : input.FilterWhere;
+                input.FilterWhere = log.NameOnBD != null && log.NameOnBD != undefined && log.NameOnBD != '' ? input.FilterWhere + " Recovery.NameOnBD = '" + log.NameOnBD + "' AND" : input.FilterWhere;
+                input.FilterWhere = log.BDNo != null && log.BDNo != undefined && log.BDNo != '' ? input.FilterWhere + " Recovery.BDNo = '" + log.BDNo + "' AND" : input.FilterWhere;
+                input.FilterWhere = log.Status != null && log.Status != undefined && log.Status != '' ? input.FilterWhere + " Recovery.Status = '" + log.Status + "' AND" : input.FilterWhere;
+                input.FilterWhere = log.RecoveryType != null && log.re != undefined && log.RecoveryType != '' ? input.FilterWhere + " Recovery.RecoveryType = '" + log.RecoveryType + "' AND" : input.FilterWhere;
+            }
+
+            loadTable();
+
+        }
+
+
+        function loadTable() {
+            if (table) {
+                $('#example').DataTable().destroy();
+                $('#example').empty();
+            }
+            $("#example").append("<thead><tr></tr></thead>");
+
+            input.ColumnList.forEach((col) => {
+                 $("#example thead tr").append(`<th>${col}</th>`);
+            })
+
+            table = $("#example").DataTable({
+                "paging": true,
+                "searching": true,
+                "processing": true, // for show progress bar
+                "serverSide": true, // for process server side
+                //"filter": true, // this is for disable filter (search box)
+                "orderMulti": false, // for disable multiple column at once
+                //"order": [[3, "desc"]],
+                //"lengthMenu": [ [10, 25, 50, 100, -1], [10, 25, 50, 100, "All"] ],
+                "ajax": {
+                    "url": "/api/log/getlog",
+                    "type": "POST",
+                    "datatype": "json",
+                    "data": input
+                },
+                "scrollX": true,
+                "columns":  input.ColumnList.map((col) => { return { "data": col, "className": col, "autoWidth": true } }),
+                "deferRender": true,
+                "drawCallback": function() {
+                    getRelationalData()
+                     $("#example").DataTable().columns.adjust();
+                     $("#btnsExport").slideDown();
+                }
+            });
+            $("#generateBtn").prop('disabled', false)
+
+            //notify("success", "Logs has been loaded successfully!");
+
+            $("th").each(function (index) {
+                try {
+                    let currCol = $(this).text();
+                    $(this).text(columns.find(x => x[0] == currCol)[1])
+                }
+                catch (e){}
+            })
+
+        }
+
+        function exportToCsv(){
+            //$("#loadingRange").val(0);
+            //$("#loadingExport").modal("show");
+            //notify("warning", "Exporting data... Please wait!")
+            swal({
+                showCancelButton: false, // There won't be any cancel button
+                showConfirmButton: false, // There won't be any confirm button
+                allowOutsideClick: false,
+		        title: `${sweet_loader}Exporting data... Please wait!`,
+                text: "This may take a while...",
+                html: true,
+	        });
+            $.ajax({
+                url: "/reporting/getlogfull",
+                xhrFields: {
+                    withCredentials: true
+                },
+                data: input,
+                type: "POST"
+            }).done(function (datas) {
+                datas = JSON.parse(datas)
+                //currentPercent = 0
+                //totalPercent = data.length * columns.length
+                //$("#loadingRange").attr("max", totalPercent);
+                datas.forEach(function(row, rowIndex) {
+                    let meetingCode;
+                    Object.keys(row).forEach(function(key){
+                        if (key == "Meeting Code") meetingCode = row[key];
+                        datas[rowIndex][key] = getRelationalDataExport(key, row[key], meetingCode);
+                    })
+                });
+                let csvData = new Blob([Papa.unparse(datas)], { type: 'text/csv' });
+                let a = document.createElement('a');
+                let csvUrl = URL.createObjectURL(csvData);
+                a.target      = '_blank';
+                a.download    = `HSE_LOG_${new Date().toISOString()}.csv`;
+                a.href =  csvUrl;
+
+                document.body.appendChild(a);
+                a.click(); // This will download the data file named "my_data.csv".
+                swal.close()
+                //notify("success", "Data exported!")
+            })
+        }
+
+        function downloadPDF (){
+            function buildTableBody(data, columns) {
+                let body = [];
+
+                let col = [];
+                columns.forEach(function (item) {
+                    col.push({ text: item, style: 'tableHeader' });
+                });
+
+                body.push(col);
+
+                data.forEach(function (row) {
+                    let dataRow = [];
+                    let meetingCode;
+                    columns.forEach(function (column) {
+                        if (column == "Meeting Code") meetingCode = row[column];
+                        let formattedData = getRelationalDataExport(column, row[column], meetingCode);
+                        dataRow.push(formattedData != null ? formattedData : "");
+                    })
+
+                    body.push(dataRow);
+                });
+
+                return body;
+            }
+
+            function table(data, columns) {
+                return {
+                    table: {
+                        headerRows: 1,
+                        body: buildTableBody(data, columns)
+                    }
+                };
+            }
+
+            //notify("warning", "Exporting data... Please wait!")
+            swal({
+                showCancelButton: false, // There won't be any cancel button
+                showConfirmButton: false, // There won't be any confirm button
+                allowOutsideClick: false,
+		        title: `${sweet_loader}Exporting data... Please wait!`,
+                text: "This may take a while...",
+                html: true,
+	        });
+            $.ajax({
+                url: "/reporting/getlogfull",
+                xhrFields: {
+                    withCredentials: true
+                },
+                data: input,
+                type: "POST"
+            }).done(function (datas) {
+                let data = JSON.parse(datas)
+
+                let csv_file_name = `HSE_LOG_${new Date().toISOString()}`;
+
+                let dd = {
+                    pageSize: $("#globalPageSize").text(),
+                    pageOrientation: 'landscape',
+                    content: [
+                        table(data, Object.keys(data[0]))
+                    ],
+                    styles: {
+                        header: {
+                            fontSize: 5,
+                            bold: true,
+                            margin: [0, 0, 0, 10]
+                        },
+                        subheader: {
+                            fontSize: 5,
+                            bold: true,
+                            margin: [0, 10, 0, 5]
+                        },
+                        tableExample: {
+                            margin: [0, 5, 0, 15]
+                        },
+                        tableHeader: {
+                            bold: true,
+                            fontSize: 5,
+                            color: 'black'
+                        }
+                    },
+                    defaultStyle: {
+                        alignment: 'justify',
+                        fontSize: 5,
+                    }
+                }
+                pdfMake.createPdf(dd).download(csv_file_name + '.pdf');
+
+                swal.close()
+                //notify("success", "Data exported!")
+            })
+        };
+
+        function previewPDF (){
+            function buildTableBody(data, columns) {
+                let body = [];
+
+                let col = [];
+                columns.forEach(function (item) {
+                    col.push({ text: item, style: 'tableHeader' });
+                });
+
+                body.push(col);
+
+                data.forEach(function (row) {
+                    let dataRow = [];
+                    let meetingCode;
+                    columns.forEach(function (column) {
+                        if (column == "Meeting Code") meetingCode = row[column];
+                        let formattedData = getRelationalDataExport(column, row[column], meetingCode);
+                        dataRow.push(formattedData != null ? formattedData : "");
+                    })
+
+                    body.push(dataRow);
+                });
+
+                return body;
+            }
+
+            function table(data, columns) {
+                return {
+                    table: {
+                        headerRows: 1,
+                        body: buildTableBody(data, columns)
+                    }
+                };
+            }
+
+            //notify("warning", "Exporting data... Please wait!")
+            swal({
+                showCancelButton: false, // There won't be any cancel button
+                showConfirmButton: false, // There won't be any confirm button
+                allowOutsideClick: false,
+		        title: `${sweet_loader}Exporting data... Please wait!`,
+                text: "This may take a while...",
+                html: true,
+	        });
+            $.ajax({
+                url: "/hse/getlogpreview",
+                xhrFields: {
+                    withCredentials: true
+                },
+                data: input,
+                type: "POST"
+            }).done(function (datas) {
+                let data = JSON.parse(datas)
+
+                let csv_file_name = `HSE_LOG_${new Date().toISOString()}`;
+
+                let dd = {
+                    pageSize: $("#globalPageSize").text(),
+                    pageOrientation: 'landscape',
+                    content: [
+                        table(data, Object.keys(data[0]))
+                    ],
+                    styles: {
+                        header: {
+                            fontSize: 5,
+                            bold: true,
+                            margin: [0, 0, 0, 10]
+                        },
+                        subheader: {
+                            fontSize: 5,
+                            bold: true,
+                            margin: [0, 10, 0, 5]
+                        },
+                        tableExample: {
+                            margin: [0, 5, 0, 15]
+                        },
+                        tableHeader: {
+                            bold: true,
+                            fontSize: 5,
+                            color: 'black'
+                        }
+                    },
+                    defaultStyle: {
+                        alignment: 'justify',
+                        fontSize: 5,
+                    }
+                }
+                pdfMake.createPdf(dd).open();
+
+                swal.close()
+                //notify("success", "Data exported!")
+            })
+        };
+
+        var nclCategories = JSON.parse('@Html.Raw(JsonConvert.SerializeObject(ViewBag.NclCategories))');
+        var nclClassifications = JSON.parse('@Html.Raw(JsonConvert.SerializeObject(ViewBag.NclClassifications))');
+        var nclAgencies = JSON.parse('@Html.Raw(JsonConvert.SerializeObject(ViewBag.NclAgencies))');
+        var ncrRequirements = JSON.parse('@Html.Raw(JsonConvert.SerializeObject(ViewBag.NclRegulations))');
+        var ncrRootCauses = [];
+        var chemBrands = JSON.parse('@Html.Raw(JsonConvert.SerializeObject(ViewBag.ChemBrands))');
+        var chemTypePpe = JSON.parse('@Html.Raw(JsonConvert.SerializeObject(ViewBag.ChemTypePpe))');
+        var chemTypeEC = JSON.parse('@Html.Raw(JsonConvert.SerializeObject(ViewBag.ChemTypeEC))');
+        var chemFormChemical = JSON.parse('@Html.Raw(JsonConvert.SerializeObject(ViewBag.ChemFormChemical))');
+        var chemHazardH = JSON.parse('@Html.Raw(JsonConvert.SerializeObject(ViewBag.ChemHazardH))');
+        var chemHazardS = JSON.parse('@Html.Raw(JsonConvert.SerializeObject(ViewBag.ChemHazardS))');
+        var chemHazardE = JSON.parse('@Html.Raw(JsonConvert.SerializeObject(ViewBag.ChemHazardE))');
+
+        $('#ncrRootCauseSelect option').each(function() {
+            if ($(this).val() == "") return;
+            ncrRootCauses.push({ id: $(this).val(), desc: $(this).text() })
+        })
+
+        var users = [];
+        var bas = [];
+        var coCodes = [];
+        var statuss = [];
+        var subzones = [];
+        var units = [];
+        var statuses = [];
+        var types = [];
+        var sections = [
+            { id: 0, desc: 'Draft' },
+            { id: 1, desc: 'Created' },
+            { id: 2, desc: 'Verified' },
+            { id: 3, desc: 'Action Taken' },
+            { id: 4, desc: 'Endorsed' }
+        ];
+        var steps = [
+            { id: 0, desc: 'Draft' },
+            { id: 1, desc: 'Detailed' },
+            { id: 2, desc: 'Action Plan' },
+            { id: 3, desc: 'Action Approval' },
+            { id: 4, desc: 'Evidence Submission' },
+            { id: 5, desc: 'Evidence Acceptence' },
+            { id: 6, desc: 'Verified' }
+        ];
+
+        var nclIdColumns = ['ncl id']
+        var ncrIdColumns = ['ncr id']
+        var dateColumns = ['due date', 'date issued', 'created date', 'report date']
+        var userColumns = ['created by', 'im', 'pic', 'auditee', 'new approved id', 'mom approved by', 'approver user', 'lead user', 'chem approval', 'modify by'];
+        var usersColumns = ['notified person', 'notify user'];
+        var categoryColumns = ['category'];
+        var stateColumns = ['State'];
+        var baColumns = ['Business Area'];
+        var appTypeColumns = ['issue by'];
+        var coCodeColumns = ['Company Code'];
+        var statusColumns = ['Status'];
+        var subzoneColumns = ['subzone'];
+        var unitColumns = ['unit'];
+        var statusColumns = ['status'];
+        var shcTypeColumns = ['shc type'];
+        var typeColumns = ['type'];
+        var legalColumns = ['legality'];
+        var sectionColumns = ['section'];
+        var requirementColumns = ['requirement'];
+        var stepColumns = ['ncr step']
+        var shcColumns = ['shc']
+        var prevMeetColumns = ['prev meeting']
+        var brandColumns = ['brand']
+        var boolColumns = ['chem hazard', 'chem pack', 'chem carcinogenic', 'chem mutagenic', 'chem respiratory', 'chem contain lcc', 'chem forlabs']
+        var typePpeColumns = ['type control ppe']
+        var typeEcColumns = ['type control engcontrol']
+        var formChemColumns = ['chem formchemical']
+        var hazardHColumns = ['comply class h']
+        var hazardSColumns = ['comply class s']
+        var hazardEColumns = ['comply class e']
+        var genderColumns = ['gender']
+        var rootCausesColumns = ['root cause category']
+
+        function getRelationalData() {
+
+            $("th").each(function (indexTh){
+                let currentElem = $(this);
+                let currCol = currentElem.text();
+
+                if (userColumns.includes(currCol.toLowerCase())){
+                    $("tbody tr").each(function (indexTd){
+                        let chosenElem = $(this).children().eq(indexTh)
+                        let currUser = users.find(x => x.user_id == chosenElem.text());
+                        if (typeof currUser !== 'undefined') chosenElem.text(currUser.fullname);
+                    })
+                }
+                else if (dateColumns.includes(currCol.toLowerCase()) || currCol.toLowerCase().includes('date')){
+                    $("tbody tr").each(function (indexTd){
+                        let chosenElem = $(this).children().eq(indexTh)
+                        let currDate = dateToStringV3(new Date(chosenElem.text()));
+                        if (typeof currDate !== 'undefined' && !currDate.includes('undefined') && !currDate.includes('NaN')) chosenElem.text(currDate);
+                    })
+                }
+                else if (appTypeColumns.includes(currCol.toLowerCase())){
+                    $("tbody tr").each(function (indexTd){
+                        let chosenElem = $(this).children().eq(indexTh)
+                        let currAppType = nclAgencies.find(x => x.issue_id == chosenElem.text());
+                        if (typeof currAppType !== 'undefined') chosenElem.text(currAppType.issue_desc);
+                    })
+                }
+                else if (usersColumns.includes(currCol.toLowerCase())) {
+                    $("tbody tr").each(function (indexTd){
+                        let chosenElem = $(this).children().eq(indexTh)
+                        let userIdsStr = `${chosenElem.text()}`
+                        let userIds = userIdsStr.split(",");
+                        let fullNames = "";
+                        userIds.forEach(function(userId) {
+                            let currUser = users.find(x => x.user_id == userId);
+                            fullNames += typeof currUser !== 'undefined' ? currUser.fullname : userId;
+                            fullNames += ", "
+                        })
+                        chosenElem.text(fullNames.replace(/(^, )|(, $)/g, ""))
+                    })
+                }
+                else if (categoryColumns.includes(currCol.toLowerCase())){
+                    $("tbody tr").each(function (indexTd){
+                        let chosenElem = $(this).children().eq(indexTh)
+                        let catIdsStr = `${chosenElem.text()}`
+                        let catIds = catIdsStr.split(",");
+                        let fullCats = "";
+                        catIds.forEach(function(catId) {
+                            let currCat = nclCategories.find(x => x.category_id == catId);
+                            fullCats += typeof currCat !== 'undefined' ? currCat.category_desc : catId;
+                            fullCats += ", "
+                        })
+                        chosenElem.text(fullCats.replace(/(^, )|(, $)/g, ""))
+                    })
+                }
+                else if (stateColumns.includes(currCol.toLowerCase())){
+                    $("tbody tr").each(function (indexTd){
+                        let chosenElem = $(this).children().eq(indexTh)
+                        let currState = states.find(x => x.State == chosenElem.text());
+                        if (typeof currState !== 'undefined') chosenElem.text(currState.class_desc);
+                    })
+                }
+                else if (baColumns.includes(currCol.toLowerCase())){
+                    $("tbody tr").each(function (indexTd){
+                        let chosenElem = $(this).children().eq(indexTh)
+                        let currBa = bas.find(x => x.BA == chosenElem.text());
+                        if (typeof currBa !== 'undefined') chosenElem.text(currBa.division_desc);
+                    })
+                }
+                else if (coCodeColumns.includes(currCol.toLowerCase())){
+                    $("tbody tr").each(function (indexTd){
+                        let chosenElem = $(this).children().eq(indexTh)
+                        let currCoCode = coCodes.find(x => x.CoCode == chosenElem.text());
+                        if (typeof currCoCode !== 'undefined') chosenElem.text(currCoCode.department_desc);
+                    })
+                }
+                else if (statusColumns.includes(currCol.toLowerCase())){
+                    $("tbody tr").each(function (indexTd){
+                        let chosenElem = $(this).children().eq(indexTh)
+                        let currStatus = statuss.find(x => x.Status == chosenElem.text());
+                        if (typeof currStatus !== 'undefined') chosenElem.text(currStatus.zone_desc);
+                    })
+                }
+                else if (subzoneColumns.includes(currCol.toLowerCase())){
+                    $("tbody tr").each(function (indexTd){
+                        let chosenElem = $(this).children().eq(indexTh)
+                        let currSubzone = subzones.find(x => x.subzone_id == chosenElem.text());
+                        if (typeof currSubzone !== 'undefined') chosenElem.text(currSubzone.subzone_desc);
+                    })
+                }
+                else if (unitColumns.includes(currCol.toLowerCase())){
+                    $("tbody tr").each(function (indexTd){
+                        let chosenElem = $(this).children().eq(indexTh)
+                        let currUnit = units.find(x => x.unit_id == chosenElem.text());
+                        if (typeof currUnit !== 'undefined') chosenElem.text(currUnit.unit_desc);
+                    })
+                }
+                else if (statusColumns.includes(currCol.toLowerCase())){
+                    $("tbody tr").each(function (indexTd){
+                        let chosenElem = $(this).children().eq(indexTh)
+                        let currStatus = statuss.find(x => x.status_id == chosenElem.text());
+                        if (typeof currStatus !== 'undefined') chosenElem.text(currStatus.status_desc);
+                    })
+                }
+                else if (typeColumns.includes(currCol.toLowerCase())){
+                    $("tbody tr").each(function (indexTd){
+                        let chosenElem = $(this).children().eq(indexTh)
+                        let currType = types.find(x => x.type_id == chosenElem.text());
+                        if (typeof currType !== 'undefined') chosenElem.text(currType.type_desc);
+                    })
+                }
+                else if (shcTypeColumns.includes(currCol.toLowerCase())){
+                    $("tbody tr").each(function (indexTd){
+                        let chosenElem = $(this).children().eq(indexTh)
+                        switch (chosenElem.text()) {
+                            case "1":
+                                chosenElem.text("Function");
+                                break;
+                            case "2":
+                                chosenElem.text("Building");
+                                break;
+                            default:
+                                break;
+                        }
+                    })
+                }
+                else if (legalColumns.includes(currCol.toLowerCase())){
+                    $("tbody tr").each(function (indexTd){
+                        let chosenElem = $(this).children().eq(indexTh)
+                        switch (chosenElem.text()) {
+                            case "0":
+                                chosenElem.text("Non Legal");
+                                break;
+                            case "1":
+                                chosenElem.text("Legal");
+                                break;
+                            default:
+                                chosenElem.text("N/A");
+                                break;
+                        }
+                    })
+                }
+                else if (sectionColumns.includes(currCol.toLowerCase())){
+                    $("tbody tr").each(function (indexTd){
+                        let chosenElem = $(this).children().eq(indexTh)
+                        let currSection = sections.find(x => x.id == chosenElem.text());
+                        if (typeof currSection !== 'undefined') chosenElem.text(currSection.desc);
+                    })
+                }
+                else if (requirementColumns.includes(currCol.toLowerCase())){
+                    $("tbody tr").each(function (indexTd){
+                        let chosenElem = $(this).children().eq(indexTh)
+                        let currReq = ncrRequirements.find(x => x.regulation_id == chosenElem.text());
+                        if (typeof currReq !== 'undefined') chosenElem.text(currReq.regulation_desc);
+                    })
+                }
+                else if (stepColumns.includes(currCol.toLowerCase())){
+                    $("tbody tr").each(function (indexTd){
+                        let chosenElem = $(this).children().eq(indexTh)
+                        let currStep = steps.find(x => x.id == chosenElem.text());
+                        if (typeof currStep !== 'undefined') chosenElem.text(currStep.desc);
+                    })
+                }
+                else if (shcColumns.includes(currCol.toLowerCase())){
+                    let format = new Intl.NumberFormat('en-US', {
+                        minimumIntegerDigits: 4
+                    });
+                    $("tbody tr").each(function (indexTd){
+                        let chosenElem = $(this).children().eq(indexTh)
+                        let currShc = `SHC${format.format(chosenElem.text())}`;
+                        if (typeof currShc !== 'undefined' && !currShc.includes('undefined') && !currShc.includes('NaN')) chosenElem.text(currShc.replace(/\,/g,''));
+                    })
+                }
+                else if (prevMeetColumns.includes(currCol.toLowerCase())){
+                    let format = new Intl.NumberFormat('en-US', {
+                        minimumIntegerDigits: 8
+                    });
+                    $("tbody tr").each(function (indexTd){
+                        let thIndex = $('thead th.Meetingcode').eq(0).index();
+                        let chosenElem = $(this).children().eq(indexTh)
+                        if (chosenElem.text() == "") return chosenElem.text("No Previous Meeting");
+                        if (thIndex == -1) return;
+                        let meetingCode = $(this).children().eq(thIndex).text()
+                        let currMeet = `${meetingCode.split("/")[0]}/MEETING-${format.format(chosenElem.text())}`;
+                        if (typeof currMeet !== 'currMeet' && !currMeet.includes('currMeet') && !currMeet.includes('currMeet')) chosenElem.text(currMeet.replace(/\,/g,''));
+                    })
+                }
+                else if (brandColumns.includes(currCol.toLowerCase())){
+                    $("tbody tr").each(function (indexTd){
+                        let chosenElem = $(this).children().eq(indexTh)
+                        let currBrand = chemBrands.find(x => x.id == chosenElem.text());
+                        if (typeof currBrand !== 'undefined') chosenElem.text(currBrand.desc);
+                    })
+                }
+                else if (boolColumns.includes(currCol.toLowerCase())){
+                    $("tbody tr").each(function (indexTd){
+                        let chosenElem = $(this).children().eq(indexTh)
+                        let currBool = chosenElem.text() == "1" ? "YES" : "NO";
+                        if (typeof currBool !== 'undefined') chosenElem.text(currBool);
+                    })
+                }
+                else if (typePpeColumns.includes(currCol.toLowerCase())){
+                    $("tbody tr").each(function (indexTd){
+                        let chosenElem = $(this).children().eq(indexTh)
+                        let ppeIdsStr = `${chosenElem.text()}`
+                        let ppeIds = ppeIdsStr.split(",");
+                        let fullPpes = "";
+                        ppeIds.forEach(function(ppeId) {
+                            let currPpe = chemTypePpe.find(x => x.id == ppeId);
+                            fullPpes += typeof currPpe !== 'undefined' ? currPpe.descr : ppeId;
+                            fullPpes += ", "
+                        })
+                        chosenElem.text(fullPpes.replace(/(^, )|(, $)/g, ""))
+                    })
+                }
+                else if (typeEcColumns.includes(currCol.toLowerCase())){
+                    $("tbody tr").each(function (indexTd){
+                        let chosenElem = $(this).children().eq(indexTh)
+                        let currEC = chemTypeEC.find(x => x.id == chosenElem.text());
+                        if (typeof currEC !== 'undefined') chosenElem.text(currEC.descr);
+                    })
+                }
+                else if (formChemColumns.includes(currCol.toLowerCase())){
+                    $("tbody tr").each(function (indexTd){
+                        let chosenElem = $(this).children().eq(indexTh)
+                        let currFormChem = chemFormChemical.find(x => x.id == chosenElem.text());
+                        if (typeof currFormChem !== 'undefined') chosenElem.text(currFormChem.descr);
+                    })
+                }
+                else if (hazardHColumns.includes(currCol.toLowerCase())){
+                    $("tbody tr").each(function (indexTd){
+                        let chosenElem = $(this).children().eq(indexTh)
+                        let currHazH = chemHazardH.find(x => x.id == chosenElem.text());
+                        if (typeof currHazH !== 'undefined') chosenElem.text(currHazH.descr);
+                    })
+                }
+                else if (hazardSColumns.includes(currCol.toLowerCase())){
+                    $("tbody tr").each(function (indexTd){
+                        let chosenElem = $(this).children().eq(indexTh)
+                        let currHazS = chemHazardS.find(x => x.id == chosenElem.text());
+                        if (typeof currHazS !== 'undefined') chosenElem.text(currHazS.descr);
+                    })
+                }
+                else if (hazardEColumns.includes(currCol.toLowerCase())){
+                    $("tbody tr").each(function (indexTd){
+                        let chosenElem = $(this).children().eq(indexTh)
+                        let currHazE = chemHazardE.find(x => x.id == chosenElem.text());
+                        if (typeof currHazE !== 'undefined') chosenElem.text(currHazE.descr);
+                    })
+                }
+                else if (rootCausesColumns.includes(currCol.toLowerCase())){
+                    $("tbody tr").each(function (indexTd){
+                        let chosenElem = $(this).children().eq(indexTh)
+                        let currRootCause = ncrRootCauses.find(x => x.id == chosenElem.text());
+                        if (typeof currRootCause !== 'undefined') chosenElem.text(currRootCause.desc);
+                    })
+                }
+                else if (genderColumns.includes(currCol.toLowerCase())){
+                    $("tbody tr").each(function (indexTd){
+                        let chosenElem = $(this).children().eq(indexTh)
+                        let gender;
+                        switch(chosenElem.text()){
+                            case "1":
+                                gender = "Male";
+                                break;
+                            case "2":
+                                gender = "Female";
+                                break;
+                            default:
+                                gender = undefined;
+                        }
+                        if (typeof gender !== 'undefined') chosenElem.text(gender);
+                    })
+                }
+                else if (nclIdColumns.includes(currCol.toLowerCase())) {
+                    $("tbody tr").each(function (indexTd) {
+                        let chosenElem = $(this).children().eq(indexTh)
+                        let nclId = `NCL${padLeadingZeros(chosenElem.text(), 7)}`
+                        if (typeof chosenElem.text() !== 'undefined') chosenElem.text(nclId);
+                    })
+                }
+                else if (ncrIdColumns.includes(currCol.toLowerCase())) {
+                    $("tbody tr").each(function (indexTd) {
+                        let chosenElem = $(this).children().eq(indexTh)
+                        let ncrId = `NCR${padLeadingZeros(chosenElem.text(), 7)}`
+                        if (typeof chosenElem.text() !== 'undefined') chosenElem.text(ncrId);
+                    })
+                }
+            })
+
+        }
+
+        function getRelationalDataExport(col, data, meetingCode = "") {
+
+            if (userColumns.includes(col.toLowerCase())){
+                let currUser = users.find(x => x.user_id == data);
+                if (typeof currUser !== 'undefined') return currUser.fullname;
+            }
+            else if (dateColumns.includes(col.toLowerCase()) || col.toLowerCase().includes('date')){
+                let currDate = dateToStringV3(new Date(data));
+                if (typeof currDate !== 'undefined' && !currDate.includes('undefined') && !currDate.includes('NaN')) return currDate;
+            }
+            //else if (appTypeColumns.includes(col.toLowerCase())){
+            //    let currAppType = .find(x => x.ReferenceNo == data);
+            //    if (typeof currAppType !== 'undefined') return currAppType.issue_desc;
+            //}
+            else if (usersColumns.includes(col.toLowerCase())) {
+                let userIdsStr = data;
+                let userIds = userIdsStr.split(",");
+                let fullNames = "";
+                userIds.forEach(function(userId) {
+                    let currUser = users.find(x => x.user_id == userId);
+                    fullNames += typeof currUser !== 'undefined' ? currUser.fullname : userId;
+                    fullNames += ", "
+                })
+                return fullNames.replace(/(^, )|(, $)/g, "")
+            }
+            else if (categoryColumns.includes(col.toLowerCase())){
+                let catIdsStr = data
+                let catIds = catIdsStr.split(",");
+                let fullCats = "";
+                catIds.forEach(function(catId) {
+                    let currCat = nclCategories.find(x => x.category_id == catId);
+                    fullCats += typeof currCat !== 'undefined' ? currCat.category_desc : catId;
+                    fullCats += ", "
+                })
+                return fullCats.replace(/(^, )|(, $)/g, "")
+            }
+            else if (stateColumns.includes(col.toLowerCase())){
+                let currState = states.find(x => x.state == data);
+                if (typeof currState !== 'undefined') return currState.state_desc;
+            }
+            else if (baColumns.includes(col.toLowerCase())){
+                let currBa = BAs.find(x => x.BA == data);
+                if (typeof currBa !== 'undefined') return currBa.BA_desc;
+            }
+            else if (coCodeColumns.includes(col.toLowerCase())){
+                let currCoCode = coCodes.find(x => x.CoCode == data);
+                if (typeof currCoCode !== 'undefined') return currCoCode.department_desc;
+            }
+            else if (statusColumns.includes(col.toLowerCase())){
+                let currStatus = statuses.find(x => x.Status == data);
+                if (typeof currStatus !== 'undefined') return currStatus.status_desc;
+            }
+            else if (subzoneColumns.includes(col.toLowerCase())){
+                let currSubzone = subzones.find(x => x.subzone_id == data);
+                if (typeof currSubzone !== 'undefined') return currSubzone.subzone_desc;
+            }
+            else if (unitColumns.includes(col.toLowerCase())){
+                let currUnit = units.find(x => x.unit_id == data);
+                if (typeof currUnit !== 'undefined') return currUnit.unit_desc;
+            }
+            else if (statusColumns.includes(col.toLowerCase())){
+                let currStatus = statuses.find(x => x.status_id == data);
+                if (typeof currStatus !== 'undefined') return currStatus.status_desc;
+            }
+            else if (typeColumns.includes(col.toLowerCase())){
+                let currType = types.find(x => x.type_id == data);
+                if (typeof currType !== 'undefined') return currType.type_desc;
+            }
+            else if (shcTypeColumns.includes(col.toLowerCase())){
+                switch (data) {
+                    case "1":
+                        return "Function";
+                        break;
+                    case "2":
+                        return "Building";
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else if (legalColumns.includes(col.toLowerCase())){
+                switch (data) {
+                    case 0:
+                        return "Non Legal";
+                        break;
+                    case 1:
+                        return "Legal";
+                        break;
+                    default:
+                        return "N/A";
+                        break;
+                }
+            }
+            else if (sectionColumns.includes(col.toLowerCase())){
+                let currSection = sections.find(x => x.id == data);
+                if (typeof currSection !== 'undefined') return currSection.desc;
+            }
+            else if (requirementColumns.includes(col.toLowerCase())){
+                let currReq = ncrRequirements.find(x => x.regulation_id == data);
+                if (typeof currReq !== 'undefined') return currReq.regulation_desc;
+            }
+            else if (stepColumns.includes(col.toLowerCase())){
+                let currStep = steps.find(x => x.id == data);
+                if (typeof currStep !== 'undefined') return currStep.desc;
+            }
+            else if (shcColumns.includes(col.toLowerCase())){
+                let format = new Intl.NumberFormat('en-US', {
+                    minimumIntegerDigits: 4
+                });
+                let currShc = `SHC${format.format(data)}`;
+                if (typeof currShc !== 'undefined' && !currShc.includes('undefined') && !currShc.includes('NaN')) return currShc.replace(/\,/g,'');
+            }
+            else if (prevMeetColumns.includes(col.toLowerCase())){
+                let format = new Intl.NumberFormat('en-US', {
+                    minimumIntegerDigits: 8
+                });
+                if (data == "") return "No Previous Meeting";
+                if (meetingCode == "") return data;
+                let currMeet = `${meetingCode.split("/")[0]}/MEETING-${format.format(data)}`;
+                if (typeof currMeet !== 'currMeet' && !currMeet.includes('currMeet') && !currMeet.includes('currMeet')) return currMeet.replace(/\,/g,'');
+            }
+            else if (brandColumns.includes(col.toLowerCase())){
+                let currBrand = chemBrands.find(x => x.id == data);
+                if (typeof currBrand !== 'undefined') return currBrand.desc;
+            }
+            else if (boolColumns.includes(col.toLowerCase())){
+                let currBool = data == "1" ? "YES" : "NO";
+                if (typeof currBool !== 'undefined') return currBool;
+            }
+            else if (typePpeColumns.includes(col.toLowerCase())){
+                let ppeIdsStr = data;
+                let ppeIds = ppeIdsStr.split(",");
+                let fullPpes = "";
+                ppeIds.forEach(function(ppeId) {
+                    let currPpe = chemTypePpe.find(x => x.id == ppeId);
+                    fullPpes += typeof currPpe !== 'undefined' ? currPpe.descr : ppeId;
+                    fullPpes += ", "
+                })
+                return fullPpes.replace(/(^, )|(, $)/g, "")
+            }
+            else if (typeEcColumns.includes(col.toLowerCase())){
+                let currEC = chemTypeEC.find(x => x.id == data);
+                if (typeof currEC !== 'undefined') return currEC.descr;
+            }
+            else if (formChemColumns.includes(col.toLowerCase())){
+                let currFormChem = chemFormChemical.find(x => x.id == data);
+                if (typeof currFormChem !== 'undefined') return currFormChem.descr;
+            }
+            else if (hazardHColumns.includes(col.toLowerCase())){
+                let currHazH = chemHazardH.find(x => x.id == data);
+                if (typeof currHazH !== 'undefined') return currHazH.descr;
+            }
+            else if (hazardSColumns.includes(col.toLowerCase())){
+                let currHazS = chemHazardS.find(x => x.id == data);
+                if (typeof currHazS !== 'undefined') return currHazS.descr;
+            }
+            else if (hazardEColumns.includes(col.toLowerCase())){
+                let currHazE = chemHazardE.find(x => x.id == data);
+                if (typeof currHazE !== 'undefined') return currHazE.descr;
+            }
+            else if (rootCausesColumns.includes(col.toLowerCase())){
+                let currRootCause = ncrRootCauses.find(x => x.id == data);
+                if (typeof currRootCause !== 'undefined') return currRootCause.desc;
+            }
+            else if (genderColumns.includes(col.toLowerCase())){
+                let gender;
+                switch(data){
+                    case "1":
+                        gender = "Male";
+                        break;
+                    case "2":
+                        gender = "Female";
+                        break;
+                    default:
+                        gender = undefined;
+                }
+                if (typeof gender !== 'undefined') return gender;
+            }
+            else if (nclIdColumns.includes(col.toLowerCase())) {
+                let nclId = `NCL${padLeadingZeros(data, 7)}`
+                if (typeof nclId !== 'undefined') return nclId;
+            }
+            else if (ncrIdColumns.includes(col.toLowerCase())) {
+                let ncrId = `NCR${padLeadingZeros(data, 7)}`
+                if (typeof ncrId !== 'undefined') return ncrId;
+            }
+
+            return data;
+        }
+
+        var totalPercent;
+        var currentPercent = 0;
+
+        // JSON to CSV Converter
+        function ConvertToCSVOld(data) {
+            const items = data
+            const replacer = (key, value) => value === null ? '' : value // specify how you want to handle null values here
+            const header = Object.keys(items[0])
+            let meetingCode;
+
+            const csv = [
+              header.join(','), // header row first
+              ...items.map(row => header.map((fieldName, index) => {
+                if (fieldName == "Meeting Code") meetingCode = row[fieldName];
+                let formattedData = getRelationalDataExport(fieldName, row[fieldName], meetingCode);
+                //currentPercent += 1;
+                //$("#loadingRange").val(currentPercent)
+                if (typeof formattedData == "string"){
+                    formattedData = formattedData.replace(`"`, `''`).replace(`\"`, `''`);
+                }
+                console.log(formattedData);
+                console.log(JSON.stringify(formattedData, replacer))
+                return JSON.stringify(formattedData, replacer)
+              }).join(','))
+            ].join('\r\n')
+
+            return csv
+        }
+
+        function isNumeric(str) {
+            if (typeof str != "string") return false // we only process strings!
+            return !isNaN(str) && // use type coercion to parse the _entirety_ of the string (`parseFloat` alone does not do this)...
+                    !isNaN(parseFloat(str)) // ...and ensure strings of whitespace fail
+        }
+
+        function dateToStringV3(date) {
+            //This function only return this format - dd-MMM-yyyy
+            const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            let day = date.getDate();
+            day = day.toString().length != 2 ? '0' + day : day;
+            //month = monthNames[date.getMonth()];
+            month = date.getMonth() + 1;
+            return day + '/' + month + '/' + date.getFullYear();
+        }
+
+
+        function padLeadingZeros(num, size) {
+            var s = num + "";
+            while (s.length < size) s = "0" + s;
+            return s;
+        }
+
+        var sweet_loader = '<div class="sweet_loader"><svg viewBox="0 0 140 140" width="140" height="140"><g class="outline"><path d="m 70 28 a 1 1 0 0 0 0 84 a 1 1 0 0 0 0 -84" stroke="rgba(0,0,0,0.1)" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></g><g class="circle"><path d="m 70 28 a 1 1 0 0 0 0 84 a 1 1 0 0 0 0 -84" stroke="#71BBFF" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dashoffset="200" stroke-dasharray="300"></path></g></svg></div>';
+
+
+        $(document).ready(function () {
+
+            $(function () {
+                $("nav").addClass("shrinked");
+            });
+
+
+            $("#companyCodeSelect").select2({
+                minimumResultsForSearch: -1,
+                ajax: {
+                    url: "/BankDraft/GetAllCompanyCode",
+                    dataType: 'json',
+                    type: "GET",
+                    processResults: function (data) {
+                        console.log(data);
+                        return {
+                            results: $.map(data, function (item) {
+                                return {
+                                    text: item.name,
+                                    id: item.code,
+                                    code: item.code
+                                }
+
+                            })
+                        };
+                    }
+                }
+            });
+
+            $("#businessAreaSelect").select2({
+                minimumResultsForSearch: -1,
+                ajax: {
+                    url: "/BankDraft/GetAllBA",
+                    dataType: 'json',
+                    type: "GET",
+                    processResults: function (data) {
+                        console.log(data);
+                        return {
+                            results: $.map(data, function (item) {
+                                return {
+                                    text: item.name,
+                                    id: item.name,
+                                    code: item.code
+                                }
+
+                            })
+                        };
+                    }
+                }
+            });
+
+            $("#stateSelect").select2({
+                minimumResultsForSearch: -1,
+                ajax: {
+                    url: "/BankDraft/GetAllState",
+                    dataType: 'json',
+                    type: "GET",
+                    processResults: function (data) {
+                        console.log(data);
+                        return {
+                            results: $.map(data, function (item) {
+                                return {
+                                    text: item.name,
+                                    id: item.id,
+                                    code: item.code
+                                }
+
+                            })
+                        };
+                    }
+                }
+            });
+
+            $("#statusSelect").select2({
+                minimumResultsForSearch: -1,
+                ajax: {
+                    url: "/BankDraft/GetAllStatus",
+                    dataType: 'json',
+                    type: "GET",
+                    processResults: function (data) {
+                        console.log(data);
+                        return {
+                            results: $.map(data, function (item) {
+                                return {
+                                    text: item.name,
+                                    id: item.id,
+                                    code: item.code
+                                }
+
+                            })
+                        };
+                    }
+                }
+            });
+
+            //// companyCodeSelect select2 definition
+            //$('#companyCodeSelect').select2({
+            //    placeholder: "Please select a Company Code",
+            //    minimumResultsForSearch: -1,
+            //    ajax: {
+            //        url: '/BankDraft/GetAllCompanyCode',
+            //        processResults: function (data) {
+            //            return {
+            //                results: $.map(data, function (obj, index) {
+            //                    return { id: obj.division_id, text: `${obj.division_desc} - ${obj.division_code}` };
+            //                })
+            //            }
+            //        },
+            //        delay: 250,
+            //    },
+            //    cache: true
+            //})
+
+            // divisionSelect bind child
+            $("#divisionSelect").change(function () {
+                $("#departmentSelect").val('').trigger('change')
+                if ($(this).find(":selected").val()) {
+                    $("#departmentSelect").prop("disabled", false)
+                } else {
+                    $("#departmentSelect").prop("disabled", true)
+                }
+            })
+
+            // departmentSelect select2 definition
+            $('#departmentSelect').select2({
+                placeholder: "Please select a Department",
+                minimumResultsForSearch: -1,
+                ajax: {
+                    url: '/sys/getselectdepartment',
+                    data: function (params) {
+                        let parentValue = $("#divisionSelect").find(":selected").val()
+                        let query = {
+                            divisionid: parentValue
+                        }
+                        return query;
+                    },
+                    processResults: function (data) {
+                        return {
+                            results: $.map(data, function (obj, index) {
+                                return { id: obj.department_id, text: `${obj.department_desc} - ${obj.department_code}` };
+                            })
+                        }
+                    },
+                    delay: 250,
+                },
+                cache: true
+            })
+
+            // departmentSelect bind child
+            $("#departmentSelect").change(function () {
+                $("#unitSelect").val('').trigger('change')
+                if ($(this).find(":selected").val()) {
+                    $("#unitSelect").prop("disabled", false)
+                } else {
+                    $("#unitSelect").prop("disabled", true)
+                }
+            })
+
+            // unitSelect select2 definition
+            $('#unitSelect').select2({
+                placeholder: "Please select a Unit",
+                minimumResultsForSearch: -1,
+                ajax: {
+                    url: '/sys/getselectunit',
+                    data: function () {
+                        let parentValue = $("#departmentSelect").find(":selected").val()
+                        let query = {
+                            departmentid: parentValue
+                        }
+                        return query;
+                    },
+                    processResults: function (data) {
+                        return {
+                            results: $.map(data, function (obj, index) {
+                                return { id: obj.unit_id, text: `${obj.unit_desc} - ${obj.unit_code}` };
+                            })
+                        }
+                    },
+                    delay: 250,
+                },
+                cache: true
+            })
+        })
+    </script>
+}

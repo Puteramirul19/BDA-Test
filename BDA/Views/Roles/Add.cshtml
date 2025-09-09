@@ -1,0 +1,205 @@
+﻿
+@{
+    ViewData["Title"] = "AddRole";
+}
+
+@section Styles{
+
+    <style>
+        .btn-create {
+            background-color: #5d5386;
+            color: white;
+        }
+
+        .btn-apply:hover {
+            background-color: white;
+            color: black;
+        }
+
+        .btn-cancel:hover {
+            background-color: red;
+            color: white;
+        }
+
+        .btn-create:hover {
+            background-color: limegreen;
+            color: white;
+        }
+
+        .btn-lost:hover {
+            background-color: #FFC300;
+            color: white;
+        }
+
+        select.filter {
+            height: 33px !important;
+        }
+
+        .form-staff {
+            margin-bottom: 2rem;
+        }
+    </style>
+}
+<div class="content-inner">
+    <div class="container-fluid">
+        <!-- Begin Page Header-->
+        <div class="row">
+            <div class="page-header">
+                <div class="d-flex align-items-center">
+                    <h2 class="page-header-title">Add Role</h2>
+                </div>
+            </div>
+        </div>
+        <div class="widget has-shadow">
+            <div class="widget-body">
+                <form action="" method="post">
+                    <div class="form-group row">
+                        <div class="col-sm-2 form-control-label d-flex align-items-center">Name</div>
+                        <div class="col-xl-4">
+                            <input type="text" id="newRoleName" value="" class="form-control">
+                        </div>
+                    </div>
+                    <br/>
+                    <div class="form-group row">
+                        <div class="col-sm-2 form-control-label d-flex align-items-center">Need to specify Division?</div>
+                        <div class="col-xl-4">
+                            <div class="styled-checkbox">
+                                <input type="checkbox" name="checkbox" id="checkboxDiv">
+                                <label for="checkboxDiv"></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-2 form-control-label d-flex align-items-center">Need to specify Function?</div>
+                        <div class="col-xl-4">
+                            <div class="styled-checkbox">
+                                <input type="checkbox" name="checkbox" id="checkboxFunc">
+                                <label for="checkboxFunc"></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-2 form-control-label d-flex align-items-center">Need to specify Zone?</div>
+                        <div class="col-xl-4">
+                            <div class="styled-checkbox">
+                                <input type="checkbox" name="checkbox" id="checkboxZone">
+                                <label for="checkboxZone"></label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-2 form-control-label d-flex align-items-center">Need to specify Unit?</div>
+                        <div class="col-xl-4">
+                            <div class="styled-checkbox">
+                                <input type="checkbox" name="checkbox" id="checkboxUnit">
+                                <label for="checkboxUnit"></label>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- End Container -->
+    <!-- Begin Page Footer-->
+    <!-- End Page Footer -->
+    <a href="#" class="go-top"><i class="la la-arrow-up"></i></a>
+    <!-- Offcanvas Sidebar -->
+    <!-- End Offcanvas Sidebar -->
+</div>
+
+@section Scripts{
+    <script src="~/assets/vendors/js/tablefilter/jquery.tablefilter.js"></script>
+    <script src="~/assets/vendors/js/tablefilter/jquery.tabledatafilter.min.js"></script>
+    @*<script src="~/assets/vendors/js/tablefilter/jquery.tableditfixedheader.min.js"></script>*@
+
+    <script>
+
+        $(function () {
+            //$("nav").addClass("shrinked");
+            //$("#toggle-btn").addClass("active");
+            $(".brand-big").hide()
+            $(".brand-small").hide();
+            $("#submitGroupBtn").show();
+            //$("td a i.ti-upload").show();
+            $("td a i.la-chain").show();
+            $("td a i.la-trash").show();
+            $("td a i.la-download").show();
+            $(".status-footer").hide();
+
+        });
+
+        //script for button toggle sidebar
+        $('#toggle-btn').on('click', function (e) {
+            e.preventDefault();
+            $(this).toggleClass('active');
+
+            $('.side-navbar').toggleClass('shrinked');
+            $('.content-inner').toggleClass('active');
+
+            if ($(window).outerWidth() > 1183) {
+                if ($('#toggle-btn').hasClass('active')) {
+                    $('.navbar-header .brand-small').hide();
+                    $('.navbar-header .brand-big').show();
+                } else {
+                    $('.navbar-header .brand-small').show();
+                    $('.navbar-header .brand-big').hide();
+                }
+            }
+
+            if ($(window).outerWidth() < 1183) {
+                $('.navbar-header .brand-small').show();
+            }
+
+        });
+
+        $(document).ready(function () {
+            // Setup - add a text input to each footer cell
+            $('#tblDashboard thead filterCol').appendTo('#tblDashboard thead');
+
+
+            var table = $('#tblDashboard').DataTable({
+                orderCellsTop: true,
+                fixedHeader: true,
+                "lengthChange": false
+            });
+
+            $.each($('.input-filter', table.table().header()), function () {
+                var column = table.column($(this).index());
+
+                $('input', this).on('keyup change', function () {
+                    if (column.search() !== this.value) {
+                        column
+                            .search(this.value)
+                            .draw();
+                    }
+                });
+            });
+
+            // Apply the search
+            $.each($('.select-filter', table.table().header()), function () {
+                var column = table.column($(this).index());
+
+                $('select', this).on('change', function () {
+                    if (column.search() !== this.value) {
+                        column
+                            .search(this.value)
+                            .draw();
+
+                    } else if (column.search() !== "") {
+                        column
+                            .draw();
+                    }
+                });
+            });
+        });
+
+
+
+
+    </script>
+}
+
+
+

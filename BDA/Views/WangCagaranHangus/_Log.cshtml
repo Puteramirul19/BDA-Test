@@ -1,0 +1,139 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+
+<a href="#off-canvas" class="float open-sidebar">
+    <p class="fa  my-float">ERMS Log</p>
+</a>
+
+<div class="off-sidebar from-right" >
+    <div class="off-sidebar-container" style="width:400px">
+        <header class="off-sidebar-header">
+            <ul class="button-nav nav nav-tabs mt-3 mb-3 ml-3" role="tablist" id="weather-tab">
+                <!--<li><a class="active" data-toggle="tab" href="#messenger" role="tab" id="messenger-tab">Messages</a></li>-->
+                <li>
+                    <div class="box-header with-border">
+                        <h3 class="box-title" style="margin-top: 10px;margin-left: 10px;">Action History</h3>
+                    </div>
+                </li>
+            </ul>
+            <a href="#off-canvas" class="off-sidebar-close"></a>
+        </header>
+        <div class="off-sidebar-content offcanvas-scroll auto-scroll">
+            <div class="tab-content">
+                <!-- Begin Messenger -->
+                <div class="box box-warning">
+                    @*<div class="box-header with-border">
+                            <h3 class="box-title">Action History</h3>
+                        </div>*@
+                    <div class="box-body no-padding">
+                        <style>
+                            .action-type {
+                                font-weight: bold;
+                                font-size: 110%;
+                            }
+
+                            #listViewActionHistory {
+                                border: 0 !important;
+                            }
+
+                            /*table, td, th {
+                                border: 1px solid black;
+                            }
+
+                            table {
+                                border-collapse: collapse;
+                                width: 100%;
+                            }
+
+                            th {
+                                text-align: left;
+                            }*/
+                        </style>
+                        <div class="widget-body">
+                            <table border="1" style="font-size: 12px;">
+                                <thead>
+                                    <tr>
+                                        <th style="text-align:center">Ref No</th>
+                                        <th style="text-align:center">Function</th>
+                                        <th style="text-align:center">Status</th>
+                                        <th style="text-align:center">Action Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>JK1</td>
+                                        <td>Update</td>
+                                        <td>Success</td>
+                                        <td>08/04/2019 01:11:30pm</td>
+                                    </tr>
+                                    <tr>
+                                        <td>JK1</td>
+                                        <td>NoticeStatus</td>
+                                        <td>Timeout</td>
+                                        <td>08/04/2019 01:17:30pm</td>
+                                    </tr>
+                                </tbody>
+                                
+
+
+                            </table>
+                        </div>
+                        @*<div id="listViewActionHistory" data-role="listview" class="k-widget k-listview" role="listbox">
+                            <div class="row" data-uid="e1ff9486-b988-4e56-aec8-e78f9e0beb62" role="option" aria-selected="false">
+                                <div style="margin: 10px 30px 0 30px">
+                                    <span class="action-type">Submitted by</span>
+                                    <div></div>
+                                </div>
+                                <div style="margin: 0px 30px; font-size: 90%; text-align:left">
+                                    10090456 - Shafix B Zulkipli  <br />
+                                    10:36 AM 29/07/2019
+                                </div>
+                            </div>
+                            <hr data-uid="dd5bd226-0665-4579-98d1-70d2346c9263" role="option" aria-selected="false">
+
+                            <div class="row">
+                                <div style="margin: 10px 30px 0 30px">
+                                    <span class="action-type">Verified by</span>
+                                    <div></div>
+                                </div>
+                                <div style="margin: 0px 30px; font-size: 90%; text-align:left">
+                                      10090544 - Aiman B Leman  <br />
+                                    11:36 AM 29/08/2019
+                                </div>
+                            </div>
+                            <hr data-uid="dd5bd226-0665-4579-98d1-70d2346c9263" role="option" aria-selected="false">
+                            <div class="row">
+                                <div style="margin: 10px 30px 0 30px">
+                                    <span class="action-type">Approved by</span>
+                                    <div></div>
+                                </div>
+                                <div style="margin: 0px 30px; font-size: 90%; text-align:left">
+                                    10020456 - Jamal B Sulaiman  <br />
+                                    11:36 AM 29/08/2019
+                                </div>
+                            </div>
+                            <hr data-uid="dd5bd226-0665-4579-98d1-70d2346c9263" role="option" aria-selected="false">
+                            <div class="row">
+                                <div style="margin: 10px 30px 0 30px">
+                                    <span class="action-type">Declined by</span>
+                                    <div></div>
+                                </div>
+                                <br />
+                                <div style="margin: 0px 30px; font-size: 90%; text-align:left">
+                                    10080456 - Mujaini B Jayus  <br />
+                                    11:36 AM 29/08/2019
+                                </div>
+                            </div>
+                            <hr>
+                        </div>*@
+                    </div>
+                </div>
+                <!-- End Messenger -->
+            </div>
+        </div>
+        <!-- End Offcanvas Container -->
+    </div>
+    <!-- End Offsidebar Container -->
+</div>

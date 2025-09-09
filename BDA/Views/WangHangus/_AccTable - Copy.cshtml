@@ -1,0 +1,143 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+<div class="widget-header d-flex align-items-center" aria-expanded="true">
+    @*<h3>Borang - FSSC(AP) BD001</h3>*@
+</div>
+<div id="pnl_main_form" class="widget-body">
+    <div class="widget-header bordered no-actions d-flex align-items-center">
+        <h4>Accounting Table</h4>
+    </div>
+    <div class="widget-body">
+        <div class="table-responsive">
+            @*<table id="example1" class="table mb-0">*@
+            <table class="table mb-0">
+                <thead>
+                    <tr>
+                        <th>Dr/Cr</th>
+                        <th>GL Account</th>
+                        <th>C/O/N/W</th>
+                        <th>C/O/N/W No.</th>
+                        <th></th>
+                        <th>Cost Object/Charge</th>
+                        <th>Tax Code</th>
+                        <th>Currency</th>
+                        <th>Tax Amount</th>
+                        <th>Amount</th>
+                        <th id="actionCol">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>DR</td>
+                        <td>88010</td>
+                        <td>C</td>
+                        <td>C-123</td>
+                        <td>
+                            <button id="btnCheckBudget" style="width:130px" type="button" class="btn btn-warning btn-budget" data-toggle="modal" data-target="#budget-modal">
+                                Semak Bajet
+                            </button>
+                        </td>
+                        <td>Cost Object</td>
+                        <td>551</td>
+                        <td>MYR</td>
+                        <td>312.00</td>
+                        <td>20,312.00</td>
+                        <td class="td-actions">
+                            <a href="#"><i class="la la-edit edit"></i></a>
+                            <a href="#"><i class="la la-close delete"></i></a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>DR</td>
+                        <td>70881</td>
+                        <td>N</td>
+                        <td>N-123</td>
+                        <td>
+                            <button id="btnCheckBudget" style="width:130px" type="button" class="btn btn-warning btn-budget" data-toggle="modal" data-target="#budget-modal">
+                                Semak Bajet
+                            </button>
+                        </td>
+                        <td>Charge Code</td>
+                        <td>009</td>
+                        <td>MYR</td>
+                        <td>987.00</td>
+                        <td>80,987.00</td>
+                        <td class="td-actions">
+                            <a href="#"><i class="la la-edit edit"></i></a>
+                            <a href="#"><i class="la la-close delete"></i></a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>CR</td>
+                        <td>90001</td>
+                        <td>W</td>
+                        <td>W-123</td>
+                        <td>
+                            <button id="btnCheckBudget" style="width:130px" type="button" class="btn btn-warning btn-budget" data-toggle="modal" data-target="#budget-modal">
+                                Semak Bajet
+                            </button>
+                        </td>
+                        <td>Cost Object</td>
+                        <td>551</td>
+                        <td>MYR</td>
+                        <td>650.00</td>
+                        <td>70,560.00</td>
+                        <td class="td-actions">
+                            <a href="#"><i class="la la-edit edit"></i></a>
+                            <a href="#"><i class="la la-close delete"></i></a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>CR</td>
+                        <td>90001</td>
+                        <td>W</td>
+                        <td>W-123</td>
+                        <td>
+                            <button id="btnCheckBudget" style="width:130px" type="button" class="btn btn-warning btn-budget" data-toggle="modal" data-target="#budget-modal">
+                                Semak Bajet
+                            </button>
+                        </td>
+                        <td>Cost Object</td>
+                        <td>551</td>
+                        <td>MYR</td>
+                        <td>451.00</td>
+                        <td>30,451.00</td>
+                        <td class="td-actions">
+                            <a href="#"><i class="la la-edit edit"></i></a>
+                            <a href="#"><i class="la la-close delete"></i></a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>Add SST</td>
+                        <td>6%</td>
+                        <td>12,138.60</td>
+                        <td class="td-actions">
+                            <a href="#"><i class="la la-edit edit"></i></a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>TOTAL</td>
+                        <td></td>
+                        <td>214,448.60</td>
+                        
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

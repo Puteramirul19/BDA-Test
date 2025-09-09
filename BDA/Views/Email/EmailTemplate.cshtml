@@ -1,0 +1,149 @@
+﻿
+@{
+    ViewData["Title"] = "Email Template";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles{
+
+    <style>
+        .btn-create {
+            background-color: #5d5386;
+            color: white;
+        }
+
+        .btn-apply:hover {
+            background-color: white;
+            color: black;
+        }
+
+        .btn-cancel:hover {
+            background-color: red;
+            color: white;
+        }
+
+        .btn-create:hover {
+            background-color: limegreen;
+            color: white;
+        }
+
+        .btn-lost:hover {
+            background-color: #FFC300;
+            color: white;
+        }
+
+        select.filter {
+            height: 33px !important;
+        }
+    </style>
+}
+<div class="content-inner">
+    <div class="container-fluid">
+        <!-- Begin Page Header-->
+        <div class="row">
+            <div class="page-header">
+                <div class="d-flex align-items-center">
+                    <h2 class="page-header-title">Divisions</h2>
+                    <div>
+                        <!--<div class="page-header-tools">
+                            <a class="btn btn-gradient-01" href="#">Add Widget</a>
+                        </div>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Row -->
+        <!-- Begin Row -->
+        <div class="row flex-row">
+            <div class="widget has-shadow" style="width:100%">
+                <div class="widget-body">
+                    <div class="form flex-row">
+                        <div class="col-xl-9 col-md-2">
+                            <div>
+                                <label style="font-weight:bold">Select template type</label>
+                                <select id="ddlVendorType" name="ddlVendorType" class="select2 form-control">
+                                    <option value="1E1">1E1.BD Application Submission</option>
+                                    <option value="1E2">1E2.BD Application Verification</option>
+                                    <option value="1E3">1E3.BD Application Approval</option>
+                                    <option value="1E4">1E4.BD Application Acceptance</option>
+                                    <option value="1E5">1E5.BD Application with Instruction Letter to Bank</option>
+                                    <option value="1E6">1E6.BD Application with Letter from Bank to Requestor</option>
+                                    <option value="1E7">1E7.BD Application Awaiting Receipt Reminder</option>
+                                    <option value="1E8">1E8.BD Application Verification Rejection</option>
+                                    <option value="1E9">1E9.BD Application Approval Rejection</option>
+                                    <option value="1E10">1E10.BD Application Acceptance Rejection</option>
+                                </select>
+                            </div>
+                            <br />
+                            <div>
+                                <label style="font-weight:bold">Subject Template</label>
+                                <input type="text" value="" class="form-control">
+                            </div>
+                            <br />
+                            <div id="sample" class="nicEdit-panelContain">
+                                <label style="font-weight:bold">Content Template</label>
+                                <textarea style="height: 100px;width:875px" cols="50" id="area2">
+                                    HTML content default in textarea
+                                </textarea>
+                            </div>
+                            <br/>
+                            <div class="row">
+                                <a id="btnPreviewEmail" href="#" data-target="" class="btn btn-secondary" data-toggle="modal">Preview</a>
+                                <a id="btnSaveTemplate" href="#" data-target="" class="btn btn-info" data-toggle="modal">Save Template</a>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 ">
+                            <div style="background-color:#e4e8f0" class="widget-header border">Variables</div>
+                            <div class="widget-body border">
+                                <div>{{RefNo}}</div>
+                                <div>{{ApplicationType}}</div>
+                                <div>{{BaseUrl}}</div>
+                                <div>{{RequesterId}}</div>
+                                <div>{{RequesterName}}</div>
+                                <div>{{VerifierId}}</div>
+                                <div>{{VerifierName}}</div>
+                                <div>{{ApproverId}}</div>
+                                <div>{{ApproverName}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+                    
+
+            </div>
+        </div>
+        <div class="row flex-row">
+            
+        </div>
+    </div>
+    <!-- End Container -->
+    <!-- Begin Page Footer-->
+    <!-- End Page Footer -->
+    <a href="#" class="go-top"><i class="la la-arrow-up"></i></a>
+    <!-- Offcanvas Sidebar -->
+    <!-- End Offcanvas Sidebar -->
+</div>
+
+@section Scripts{
+    @*<script src="~/assets/vendors/js/tablefilter/jquery.tablefilter.js"></script>
+        <script src="~/assets/vendors/js/tablefilter/jquery.tabledatafilter.min.js"></script>*@
+
+    <script src="~/assets/js/components/email/nicEdit.js"></script>
+
+    <script type="text/javascript">
+        //<![CDATA[
+        bkLib.onDomLoaded(function () { nicEditors.allTextAreas() });
+
+        //for table
+        bkLib.onDomLoaded(function () { nicEditors.allTextAreas({ buttonList: ["bold", "italic", "underline", "left", "center", "right", "justify", "ol", "ul", "fontFormat", "indent", "outdent", "image", "link", "unlink", "xhtml", "table"] }) });
+            //]]>
+    </script>
+
+    @*<script src="~/assets/vendors/js/tablefilter/jquery.tableditfixedheader.min.js"></script>*@
+
+
+}
+
+
+

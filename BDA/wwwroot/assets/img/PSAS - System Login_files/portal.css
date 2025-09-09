@@ -1,0 +1,293 @@
+﻿body, html
+{
+    padding: 0;
+    margin: 0;
+}
+body {
+    background: url("/Images/PSAS-login-2_no-login-edited.jpg") top center;
+	background-size: cover;
+    background-repeat: no-repeat;
+}
+.row {
+    margin-right: 0;
+    margin-left: 0;
+}
+.app-title
+{
+    margin: 0;
+    padding: 0;
+    line-height: 1.2;
+    font-size: 1.7em;
+    font-weight: bolder;
+    color: White;
+    padding-left: 20px;
+    text-shadow: 1px 1px 1px #040085;
+}
+.inner-header
+{
+    color: #1b3664;
+    padding: 4px;
+    background-image: url("/loadprofile/Public/images/bg-header.jpg");
+    background-repeat: repeat-x;
+}
+
+.user-profile-panel
+{
+    margin: 0;
+    padding: 0;
+    margin-top: 2px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+.user-profile-panel > li
+{
+    margin-right: 20px;
+    list-style-type: none;
+    display: inline;
+}
+.user-profile-panel > li:last-child
+{
+    margin-right: 0 !important;
+}
+        
+.user-profile-panel a
+{
+    color: #1b3664 !important;
+}
+.user-profile-panel a.no-decor
+{
+    text-decoration: none;
+}
+.user-profile-panel a.pointer-as-link
+{
+    cursor: pointer;
+}
+
+.panel-info > .panel-heading {
+    background-color: white;
+}
+
+.panel-info .panel-title {
+    color: #1b3664 !important;
+    font-size: 1.2em;
+    color: inherit;
+}
+
+.panel-heading {
+    padding: 5px 15px;
+}
+
+.panel-body {
+    padding: 0 15px;
+}
+
+.popover.bottom > .arrow::after {
+    border-bottom-color: #E9EDF5 !important;
+}
+        
+.popover-content
+{
+    padding: 0;
+}
+.popover_menu > li
+{
+    padding: 0 6px !important;
+}
+        
+textarea, textarea.form-control, input.form-control, input[type=text], input[type=password], input[type=email], input[type=number], [type=text].form-control, [type=password].form-control, [type=email].form-control, [type=tel].form-control, [contenteditable].form-control
+{
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    border: 1px solid #CCC;
+    padding: 0 5px 0 5px;
+    height: 26px;
+    font-size: 13px;
+}
+        
+textarea:focus, textarea.form-control:focus, input.form-control:focus, input[type=text]:focus, input[type=password]:focus, input[type=email]:focus, input[type=number]:focus, [type=text].form-control:focus, [type=password].form-control:focus, [type=email].form-control:focus, [type=tel].form-control:focus, [contenteditable].form-control:focus
+{
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    border: 2px solid #AAA;
+}
+select.form-control, select.form-control:focus 
+{
+    box-shadow: none;
+    border: 1px solid #CCC;
+    padding: 0 5px 0 5px;
+    height: 26px;
+    font-size: 13px;
+    color: Black;
+}
+
+.fix-width 
+{
+    width: 200px !important;
+}
+
+.col-sm-1, .col-sm-3, .col-sm-4,.col-sm-9 
+{
+    padding-left: 0;
+    padding-right: 0;
+}
+.rightpadding 
+{
+    padding-right: 10px;
+}
+.btn-link, .btn-link:focus, .btn-link:hover 
+{
+    text-decoration: none;
+    border: 1px solid #adadad;
+    color: inherit;
+    padding: 0 5px 0 5px;
+    height: 26px;
+}
+.btn {
+    padding: 3px 10px;
+}
+
+.input-group {
+    margin-bottom: 5px; 
+}
+.well 
+{
+    background-color: #a9a9a9;
+}
+
+.validation-alert 
+{
+    background-color: transparent !important;
+    color: #E51C23;
+}
+
+.validation-success 
+{
+    background-color: transparent !important;
+    color: Blue;
+}
+.navbar-fixed-bottom {
+    background-color: black;
+    color: aliceblue;
+    min-height: 30px;
+
+}
+
+
+/*New style Login*/
+
+.transparent, .transparent:focus, .transparent:active {
+    background-color: transparent;
+    border: none !important;
+}
+
+.login-box {
+    border-radius: 30px;
+    -webkit-box-shadow: inset 0px 2px 14px -1px rgba(0,0,0,0.3);
+    -moz-box-shadow: inset 0px 2px 14px -1px rgba(0,0,0,0.3);
+    box-shadow: inset 0px 2px 14px -1px rgba(0,0,0,0.3);
+    border-top: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+    background: rgba(64,99,155,1);
+    background: -moz-linear-gradient(top, rgba(64,99,155,1) 0%, rgba(27,71,136,1) 100%);
+    background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(64,99,155,1)), color-stop(100%, rgba(27,71,136,1)));
+    background: -webkit-linear-gradient(top, rgba(64,99,155,1) 0%, rgba(27,71,136,1) 100%);
+    background: -o-linear-gradient(top, rgba(64,99,155,1) 0%, rgba(27,71,136,1) 100%);
+    background: -ms-linear-gradient(top, rgba(64,99,155,1) 0%, rgba(27,71,136,1) 100%);
+    background: linear-gradient(to bottom, rgba(64,99,155,1) 0%, rgba(27,71,136,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#40639b', endColorstr='#1b4788', GradientType=0 );
+}
+
+.login-wrapper {
+    max-width: 990px;
+    margin: auto;
+    height: 100vh;
+    position: relative;
+}
+
+.verticle-position {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+}
+
+.welcome {
+    padding: 30px 30px 10px;
+    border-bottom: 1px solid red;
+}
+
+.login-input {
+    padding: 30px 30px 20px;
+}
+
+.form-horizontal {
+    width: 100%;
+}
+
+.full-btn {
+    width: 100%;
+    background-color: #2b4cad;
+    background-image: none;
+}
+
+.input-val {
+    padding: 5px;
+}
+
+.custom-input {
+    border: 1px solid #ddd;
+    width: 100%;
+    padding: 10px 15px 10px 0;
+    background-color: #fff;
+    border-radius: 3px;
+    -webkit-box-shadow: inset 0px 2px 5px 0px rgba(0,0,0,0.3);
+    -moz-box-shadow: inset 0px 2px 5px 0px rgba(0,0,0,0.3);
+    box-shadow: inset 0px 2px 5px 0px rgba(0,0,0,0.3);
+    margin-bottom: 15px;
+}
+
+.custom-input input {
+    font-size: 15px !important;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    transition: background-color 5000s ease-in-out 0s;
+}
+
+.login-cust-btn {
+    padding: 10px;
+    background-color: #5fcbf1;
+    font-size: 16px;
+}
+
+
+
+#new-logo > img {
+    max-width: 300px;
+    margin-top: 150px;
+}
+
+#new-logo {
+    text-align: right;
+}
+    
+
+/* Small devices (tablets, mobile only) */
+@media (max-width: 768px) {
+    #new-logo > img {
+        max-width: 300px;
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+ 
+    #new-logo {
+        text-align: center;
+    }
+}
+
+
+

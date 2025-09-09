@@ -1,0 +1,236 @@
+﻿
+@{
+    ViewData["Title"] = "CreateDetails";
+}
+
+@section Styles{
+
+    <style>
+        .btn-create {
+            background-color: #5d5386;
+            color: white;
+        }
+
+        .btn-apply:hover {
+            background-color: white;
+            color: black;
+        }
+
+        .btn-cancel:hover {
+            background-color: red;
+            color: white;
+        }
+
+        .btn-create:hover {
+            background-color: limegreen;
+            color: white;
+        }
+
+        .btn-lost:hover {
+            background-color: #FFC300;
+            color: white;
+        }
+
+        select.filter {
+            height: 33px !important;
+        }
+
+        .form-staff {
+            margin-bottom: 2rem;
+        }
+    </style>
+}
+<div id="pnl_main_form" class="widget-body">
+    <div class="padding-left-20 padding-right-20">
+        <div class="row flex-row">
+            <div class="col-xl-12 col-md-12">
+                <div class="table-responsive">
+                    <div class="widget has-shadow">
+                        <div class="widget-body">
+                            <div class="padding-left-10 padding-right-20">
+                                <div class="form-group row">
+                                    <div class="col-sm-2 form-control-label d-flex align-items-center">Ref No.</div>
+                                    <div class="col-xl-4">
+                                        <input type="text" id="txtRefNo" value="<<Auto Generated>>" class="form-control" disabled>
+                                    </div>
+                                </div>
+                                <br/>
+                                <div class="form-group row">
+                                    <div class="col-sm-2 form-control-label d-flex">Justification of Lost<span class="text-danger ml-2">*</span></div>
+                                    <div class="col-xl-10">
+                                        @*<input type="text" id="txtJustify" class="form-control" placeholder="Insert your justifications here">*@
+
+                                        <textarea class="form-control" placeholder="Komen dan cadangan"></textarea>
+                                    </div>
+                                </div>
+                                <div id="reasonOthers" class="form-group row" style="display:none">
+                                    <div class="col-sm-2 form-control-label d-flex align-items-center" style="display:none">Others:<span class="text-danger ml-2">*</span></div>
+                                    <div class="col-xl-4">
+                                        <input name="txtOtherReason" id="txtOtherReason" type="text" class="form-control" placeholder="State your reason">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-sm-2 form-control-label d-flex align-items-center">
+                                        BD No<span class="text-danger ml-2">*</span>
+                                        @*<p class="ion-information-circled" data-toggle="tooltip" data-placement="top" data-original-title="Project No."></p>*@
+                                    </div>
+                                    <div class="col-xl-4">
+                                        <div class="input-group">
+                                            <input name="txtBDNo" id="txtBDNo" type="text" class="form-control" placeholder="Search BD No.">
+                                            <span class="input-group-btn">
+                                                <input type="button" id="btnLoadProjDetails" class="btn btn-outline-primary mr-1 mb-2" value="Search" data-toggle="modal" data-target="#search-results-modal">
+                                                @*<input type="button" id="btnLoadProjDetails" class="btn btn-outline-primary mr-1 mb-2" value="Search">*@
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2 form-control-label d-flex align-items-center">Proj No./Assignment<span class="text-danger ml-2">*</span></div>
+                                    <div class="col-xl-4">
+                                        <input name="BDNo" id="txtBDNo" type="text" class="form-control">
+                                        @*<div class="input-group">
+                    <input name="txtBDDetails" id="txtBDDetails" type="text" class="form-control" placeholder="Search BD No.">
+                    <span class="input-group-btn">
+                        <input type="button" id="btnLoadBDDetails" class="btn btn-outline-primary mr-1 mb-2" value="Search">
+                    </span>
+                </div>*@
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-sm-2 form-control-label d-flex align-items-center">BD Requestor's Name</div>
+                                    <div class="col-xl-4">
+                                        <input type="text" id="txtReqName" class="form-control">
+                                    </div>
+                                    <div class="col-sm-2 form-control-label d-flex align-items-center">ERMS Doc No.</div>
+                                    <div class="col-xl-4">
+                                        <input type="text" id="txtERMSDocNo" value="<<Auto Populated>>" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-sm-2 form-control-label d-flex align-items-center">Company Code<span class="text-danger ml-2">*</span></div>
+                                    <div class="col-xl-4">
+                                        <input type="text" id="txtCompCode" value="<<Auto Populated>>" class="form-control">
+                                    </div>
+                                    <div class="col-sm-2 form-control-label d-flex align-items-center">Business Area<span class="text-danger ml-2">*</span></div>
+                                    <div class="col-xl-4">
+                                        <input type="text" id="txtBusinessArea" value="<<Auto Populated>>" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-sm-2 form-control-label d-flex align-items-center">Name on BD<span class="text-danger ml-2">*</span></div>
+                                    <div class="col-xl-4">
+                                        <input type="text" id="txtPBTName" value="<<Auto Populated>>" class="form-control">
+                                    </div>
+                                    <div class="col-sm-2 form-control-label d-flex align-items-center">BD Amount<span class="text-danger ml-2">*</span></div>
+                                    <div class="col-xl-4">
+                                        <input type="text" id="BDAmount" value="<<Auto Populated>>" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="search-results-modal" class="modal modal-top fade" style="display: none; padding-right: 17px;" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content" style="width:1000px;margin-left:-220px;margin-top:100px">
+            <div class="modal-header">
+                <h4 class="modal-title">Modal Title</h4>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">×</span>
+                    <span class="sr-only">close</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table id="tblSearchResults" class="table table-hover mb-0 display table-bordered">
+                    <thead>
+                        <tr>
+                            <td>Proj No/Assignment</td>
+                            <td>BD No</td>
+                            <td>ERMS Doc No</td>
+                            <td>Business Area</td>
+                            <td>State</td>
+                            <td>ERMS Posting Date</td>
+                            <td>Created Date</td>
+                            <td>BD Amount (RM)</td>
+                            <td>Text</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>PROJ00001</td>
+                            <td>
+                                <a href="#" type="button" class="btn-search-results" data-dismiss="modal">BD00001</a>
+                            </td>
+                            <td>01233455</td>
+                            <td>6000</td>
+                            <td>HQ_6000</td>
+                            <td>01/12/2019</td>
+                            <td>12/11/2019</td>
+                            <td>120,000.00</td>
+                            <td>
+                                PENGARAH JKR PAHANG / MSVT APMM - SSU CHERATING
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>PROJ00001</td>
+                            <td>
+                                <a href="#" type="button" class="btn-search-results" data-dismiss="modal">BD00002</a>
+                            </td>
+                            <td>01333455</td>
+                            <td>6000</td>
+                            <td>HQ_6000</td>
+                            <td>01/08/2019</td>
+                            <td>12/07/2019</td>
+                            <td>34,000.00</td>
+                            <td>
+                                PENGARAH JKR PAHANG / MSVT APMM - SSU CHERATING
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-shadow" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+
+    <script src="~/assets/js/components/wizard/form-wizard.min.js"></script>
+    <script src="~/assets/vendors/js/bootstrap-select/bootstrap-select.min.js"></script>
+
+    <script src="assets/vendors/js/base/jquery.min.js"></script>
+    <script src="assets/vendors/js/base/core.min.js"></script>
+    <!-- End Vendor Js -->
+    <!-- Begin Page Vendor Js -->
+    <script src="assets/vendors/js/nicescroll/nicescroll.min.js"></script>
+    <script src="assets/vendors/js/app/app.min.js"></script>
+
+    <script>
+
+        var check = function () {
+            if (document.getElementById('txtPassword').value ==
+                document.getElementById('txtRepassword').value) {
+                document.getElementById('message').style.color = 'green';
+                document.getElementById('message').innerHTML = 'Password matching';
+            } else {
+                document.getElementById('message').style.color = 'red';
+                document.getElementById('message').innerHTML = 'Password not matching';
+            }
+        }
+        $("#btnSubmit").on('click', function (e) {
+            console.log('submit');
+            $("#formAddUser").submit();
+        });
+
+    </script>
+}
+
+
+
+
+
+

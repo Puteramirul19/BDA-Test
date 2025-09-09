@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Make</title>
+
+    <!-- PDFMake -->
+    <script type='text/javascript' src='~/lib/pdfmake/pdfmake.min.js'></script>
+    <script type='text/javascript' src='~/lib/pdfmake/vfs_fonts.js'></script>
+
+
+    <style>
+        #viewPdf {
+            position: fixed;
+            top: 0px;
+            left: 0px;
+            display: block;
+            padding: 0px;
+            border: 0px;
+            margin: 0px;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <iframe id="viewPdf" name="viewPdf"></iframe>
+
+    <script>
+        const docDefinition = {
+            pageMargins: [0, 0, 0, 0],
+            content: 'This is an sample PDF printed with pdfMake'
+        };
+
+        pdfMake.createPdf(docDefinition).open(window.frames['viewPdf']);
+    </script>
+</body>
+</html>

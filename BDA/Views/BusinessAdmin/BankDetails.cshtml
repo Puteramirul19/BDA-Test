@@ -1,0 +1,242 @@
+﻿@model BDA.ViewModel.BankDetailsViewModel
+@{
+    ViewData["Title"] = "BankDetails";
+}
+
+@section Styles{
+
+    <style>
+        .btn-create {
+            background-color: #5d5386;
+            color: white;
+        }
+
+        .btn-apply:hover {
+            background-color: white;
+            color: black;
+        }
+
+        .btn-cancel:hover {
+            background-color: red;
+            color: white;
+        }
+
+        .btn-create:hover {
+            background-color: limegreen;
+            color: white;
+        }
+
+        .btn-lost:hover {
+            background-color: #FFC300;
+            color: white;
+        }
+
+        select.filter {
+            height: 33px !important;
+        }
+
+        .form-staff {
+            margin-bottom: 2rem;
+        }
+    </style>
+}
+
+<div class="content-inner">
+    <div class="container-fluid">
+
+        <!-- Begin Page Header-->
+        <div class="row">
+            <div class="page-header">
+                <div class="d-flex align-items-center">
+                    <h2 class="page-header-title">Add New Bank</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row flex-row">
+            <div class="col-xl-12 col-md-12">
+                <div class="table-responsive">
+                    <div class="widget has-shadow">
+                        <div class="widget-body">
+                            @using (Html.BeginForm("Create", "Users", Model, FormMethod.Post, false, new { @id = "formAddUser", @class = "form-horizontal" }))
+                            {
+                                <fieldset>
+                                    <legend class="form-staff">Bank Details</legend>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="form-staff row">
+                                                <div class="col-sm-2 form-control-label d-flex align-items-center">Bank Name</div>
+                                                <div class="col-xl-4">
+                                                    @Html.TextBoxFor(x => x.BankName, new { @class = "form-control", id = "txtBankName" })
+                                                </div>
+                                            </div>
+                                            <div class="form-staff row">
+                                                <div class="col-sm-2 form-control-label d-flex align-items-center">Bank PIC Name</div>
+                                                <div class="col-xl-4">
+                                                    @Html.TextBoxFor(x => x.BankPIC, new { @class = "form-control", id = "txtBankPIC" })
+                                                </div>
+                                                <div class="col-sm-2 form-control-label d-flex align-items-center">Bank PIC Position</div>
+                                                <div class="col-xl-4">
+                                                    @Html.TextBoxFor(x => x.BankPICPosition, new { @class = "form-control", id = "txtBankPICPosition" })
+                                                </div>
+                                            </div>
+                                            <div class="form-staff row">
+                                                <div class="col-sm-2 form-control-label d-flex align-items-center">Address Line 1</div>
+                                                <div class="col-xl-4">
+                                                    @Html.TextBoxFor(x => x.AddressLine1, new { @class = "form-control" })
+                                                </div>
+                                                <div class="col-sm-2 form-control-label d-flex align-items-center">Address Line 2</div>
+                                                <div class="col-xl-4">
+                                                    @Html.TextBoxFor(x => x.AddressLine2, new { @class = "form-control" })
+                                                </div>
+                                            </div>
+                                            <div class="form-staff row">
+                                                <div class="col-sm-2 form-control-label d-flex align-items-center">Street</div>
+                                                <div class="col-xl-4">
+                                                    @Html.TextBoxFor(x => x.Street, new { @class = "form-control" })
+                                                </div>
+                                                <div class="col-sm-2 form-control-label d-flex align-items-center">State</div>
+                                                <div class="col-xl-4">
+                                                    @Html.TextBoxFor(x => x.State, new { @class = "form-control" })
+                                                </div>
+                                            </div>
+                                            <div class="form-staff row">
+                                                <div class="col-sm-2 form-control-label d-flex align-items-center">Account No.</div>
+                                                <div class="col-xl-4">
+                                                    @Html.TextBoxFor(x => x.AccountNo1, new { @class = "form-control" })
+                                                </div>
+                                                <div class="col-sm-2 form-control-label d-flex align-items-center">Charged Account No.</div>
+                                                <div class="col-xl-4">
+                                                    @Html.TextBoxFor(x => x.ChargeAccountNo, new { @class = "form-control" })
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </fieldset>
+                                <div>
+                                    <div id="saveBtn" class="wizard text-center">
+                                        <button id="btnSubmit" type="button" class="btn btn-success">Save</button>
+                                        @*<a id="btnSave" href="#" data-target="#save-edit-user" class="btn btn-success" data-toggle="modal" data-bind="click: createUser">Save</a>*@
+                                    </div>
+                                </div>
+                            }
+                            @Html.Partial("~/Views/Users/_ActionButton.cshtml")
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- End Container -->
+    <!-- Begin Page Footer-->
+    <!-- End Page Footer -->
+    <a href="#" class="go-top"><i class="la la-arrow-up"></i></a>
+    <!-- Offcanvas Sidebar -->
+    <!-- End Offcanvas Sidebar -->
+</div>
+
+@section Scripts{
+
+    <script>
+
+     var check = function () {
+        if (document.getElementById('txtPassword').value == document.getElementById('txtRepassword').value) {
+            document.getElementById('message').style.color = 'green';
+            document.getElementById('message').innerHTML = 'Password matching';
+        } else {
+            document.getElementById('message').style.color = 'red';
+            document.getElementById('message').innerHTML = 'Password not matching';
+        }
+    }
+
+         function navigateURL(value) {
+
+            var url = '@Url.Action("EditUser", "Users", new {userName = "_value" })';
+            var urlWithValue = url.replace('_value', value);
+            setTimeout(function () { window.location.href = urlWithValue; }, 500);
+        }
+
+        $("#btnSearchAD").on('click', function (e) {
+             var userName = document.getElementById("txtStaffNo").value;
+             console.log('searchAD');
+            $.get("@Url.RouteUrl("DefaultApi", new { controller = "DirectoryUser", id = "" })/?staffNo=" + userName, {
+                dataType: 'json'
+            })
+                .done(function (result) {
+                    if (result != null) {
+                        ShowNoty("success", "User exist");
+                        $("#txtStaffName").val(result.fullName);
+                        $("#txtEmail").val(result.email);
+                        $("#txtOfficeNo").val(result.officeNo);
+                        $("#txtPhoneNo").val(result.phoneNumber);
+                    } else {
+                        ShowNoty("warning", "User does not exist");
+                    }
+                })
+
+        });
+
+        $("#btnSubmit").on('click', function (e) {
+            console.log('submit');
+            $("#formAddUser").submit();
+        });
+
+        $(document).ready(function () {
+
+                 $("input[name='AuthenticationMethod']").on("click", function() {
+                    var login = $(this).val();
+                    if(login == "ActiveDirectory")
+                    {
+                        $("#pnlAD").show();
+                        $("#pnlStaffNo").hide();
+                        $("#pnlInternal1").hide();
+                        $("#pnlInternal2").hide();
+                        $("#pnlInternal3").hide();
+                    }
+                    else if(login == "Internal")
+                    {
+                         $("#pnlAD").hide();
+                        $("#pnlInternal1").show();
+                        $("#pnlInternal2").show();
+                        $("#pnlInternal3").show();
+                    }
+                 });
+
+            $("#formAddUser").submit(function (e) {
+                var userName = document.getElementById("txtStaffNo").value;
+                e.preventDefault(); // avoid to execute the actual submit of the form.
+
+                ShowNoty("warning", "Saving User");
+
+                var form = $(this);
+                var url = form.attr('action');
+
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: form.serialize(), // serializes the form's elements.
+                    success: function (data) {
+                        console.log(data);
+                        if (data.response.statusCode == 200) {
+                            ShowNoty("success", data.message);
+                            navigateURL(userName);
+                        } else {
+                            ShowNoty("error", data.message);
+                        }
+                        refresh();
+                    }
+                });
+            });
+
+        });
+
+    </script>
+}
+
+
+
+
+

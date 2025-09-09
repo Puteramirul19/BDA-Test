@@ -1,0 +1,327 @@
+﻿@{
+    ViewData["Title"] = "Recovery Bank Draft List";
+}
+
+@section Styles{
+
+    <style>
+        .btn-create {
+            background-color: #5d5386;
+            color: white;
+        }
+        .btn-apply:hover {
+            background-color: white;
+            color: black;
+        }
+
+        .btn-cancel:hover {
+            background-color: red;
+            color: white;
+        }
+
+        .btn-recover:hover {
+            background-color: limegreen;
+            color: white;
+        }
+
+        .btn-lost:hover {
+            background-color: #FFC300;
+            color: white;
+        }
+
+        select.filter {
+            height: 33px !important;
+        }
+    </style>
+}
+<div class="content-inner active">
+    <div class="container-fluid">
+        <!-- Begin Page Header-->
+        <div class="row">
+            <div class="page-header">
+                <div class="d-flex align-items-center">
+                    <h2 class="page-header-title">Lost Bank Draft</h2>
+                    <div>
+                        <!--<div class="page-header-tools">
+                        <a class="btn btn-gradient-01" href="#">Add Widget</a>
+                    </div>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Page Header -->
+        <!-- Begin Row -->
+        <!-- End Row -->
+        <!-- Begin Row -->
+        <div class="row flex-row">
+            <div class="col-xl-3 col-md-6 col-sm-6">
+                <a id="btnCreateLost" href="/Lost/Create" class="btn btn-create">Create New Lost Application</a>
+            </div>
+        </div>
+        <br/>
+        <div class="row flex-row">
+            <div class="col-xl-12">
+                <!-- Form -->
+                <div class="widget-body sliding-tabs">
+                    <ul class="nav nav-tabs form-tab" id="ul-form-tab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="base-tab-1" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="true">In Progress</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="base-tab-2" data-toggle="tab" href="#tab-2" role="tab" aria-controls="tab-2" aria-selected="false">Completed</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content pt-3">
+                        <div class="tab-pane fade active show" id="tab-1" role="tabpanel" aria-labelledby="base-tab-1">
+                            <div class="row flex-row">
+                                <div class="col-xl-12 col-md-12">
+                                    <div class="table-responsive">
+                                        <div class="widget has-shadow">
+                                            <div class="widget-body">
+                                                <div class="table-responsive">
+                                                    <table id="tblInProgress" class="table table-hover mb-0 display" style="width:100%">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Ref No.</th>
+                                                                <th>BD No.</th>
+                                                                <th>Proj. No</th>
+                                                                <th>Name on BD</th>
+                                                                <th>Requester</th>
+                                                                <th>Co. Code</th>
+                                                                <th>Business Area</th>
+                                                                <th>BD Amount</th>
+                                                                <th>Status</th>
+                                                                <th></th>
+                                                            </tr>
+                                                            <tr class="filterrow">
+                                                                <th class="input-filter"><input type="text" class="form-control tchatchaca" style="height:40px !important;" placeholder="Search.."></th>
+                                                                <th class="input-filter"><input type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                                                <th class="input-filter"><input type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                                                <th class="input-filter"><input type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                                                <th class="input-filter"><input type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                                                <th class="input-filter"><input type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                                                <th class="input-filter"><input type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                                                <th class="input-filter"><input type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                                                <th class="input-filter"><input type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                                                <th></th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>TNB/WC/00007/L</td>
+                                                                <td>BD123</td>
+                                                                <td>PROJ123</td>
+                                                                <td>JKR</td>
+                                                                <td>Ihsan Rafi Jamal</td>
+                                                                <td>6001</td>
+                                                                <td>6301</td>
+                                                                <td>RM120,000.00</td>
+                                                                <td>Processing</td>
+                                                                <td class="td-actions" style="text-align:center">
+                                                                    <div class="col-xl-12 col-md-6 col-sm-6">
+                                                                        <a href="/Recovery/Create" class="btn btn-lost btn-block mb-2" style="border-radius: 0%;background-color: #f4f4f4;border-color: #ddd;">View</a>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>TNB/WC/00008/L</td>
+                                                                <td>BD345</td>
+                                                                <td>PROJ345</td>
+                                                                <td>JKR</td>
+                                                                <td>Ikmal Izuddin</td>
+                                                                <td>4001</td>
+                                                                <td>6021</td>
+                                                                <td>RM203,000.00</td>
+                                                                <td>Submitted</td>
+                                                                <td class="td-actions" style="text-align:center">
+                                                                    <div class="col-xl-12 col-md-6 col-sm-6">
+                                                                        <a href="/Recovery/Create" class="btn btn-lost btn-block mb-2" style="border-radius: 0%;background-color: #f4f4f4;border-color: #ddd;">View</a>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="tab-2" role="tabpanel" aria-labelledby="base-tab-2">
+                            <div class="row flex-row">
+                                <div class="col-xl-12 col-md-12">
+                                    <div class="table-responsive">
+                                        <div class="widget has-shadow">
+                                            <div class="widget-body">
+                                                <div class="table-responsive">
+                                                    <table id="tblRecovered" class="table table-hover mb-0 display" style="width:100%">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Ref No.</th>
+                                                                <th>BD No.</th>
+                                                                <th>Proj. No</th>
+                                                                <th>Name on BD</th>
+                                                                <th>Requestor</th>
+                                                                <th>Co. Code</th>
+                                                                <th>Business Area</th>
+                                                                <th>BD Amount</th>
+                                                                <th>Status</th>
+                                                                <th></th>
+                                                            </tr>
+                                                            <tr class="filterrow">
+                                                                <th class="input-filter"><input type="text" class="form-control tchatchaca" style="height:40px !important;" placeholder="Search.."></th>
+                                                                <th class="input-filter"><input type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                                                <th class="input-filter"><input type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                                                <th class="input-filter"><input type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                                                <th class="input-filter"><input type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                                                <th class="input-filter"><input type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                                                <th class="input-filter"><input type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                                                <th class="input-filter"><input type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                                                <th class="input-filter"><input type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                                                <th></th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>TNB/WC/00009/L</td>
+                                                                <td>BD123</td>
+                                                                <td>PROJ123</td>
+                                                                <td>JKR</td>
+                                                                <td>Ihsan Rafi Jamal</td>
+                                                                <td>6001</td>
+                                                                <td>6051</td>
+                                                                <td>RM20,000.00</td>
+                                                                <td>Processing</td>
+                                                                <td class="td-actions" style="text-align:center">
+                                                                    <div class="col-xl-12 col-md-6 col-sm-6">
+                                                                        <a href="/Recovery/Create" class="btn btn-lost btn-block mb-2" style="border-radius: 0%;background-color: #f4f4f4;border-color: #ddd;">View</a>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>TNB/WC/00010/L</td>
+                                                                <td>BD345</td>
+                                                                <td>PROJ345</td>
+                                                                <td>JKR</td>
+                                                                <td>Ikmal Izuddin</td>
+                                                                <td>4001</td>
+                                                                <td>6102</td>
+                                                                <td>RM204,000.00</td>
+                                                                <td>Submitted</td>
+                                                                <td class="td-actions" style="text-align:center">
+                                                                    <div class="col-xl-12 col-md-6 col-sm-6">
+                                                                        <a href="/Recovery/Create" class="btn btn-lost btn-block mb-2" style="border-radius: 0%;background-color: #f4f4f4;border-color: #ddd;">View</a>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Form -->
+            </div>
+        </div>
+    </div>
+    <!-- End Container -->
+    <!-- Begin Page Footer-->
+    <!-- End Page Footer -->
+    <a href="#" class="go-top"><i class="la la-arrow-up"></i></a>
+    <!-- Offcanvas Sidebar -->
+    <!-- End Offcanvas Sidebar -->
+</div>
+
+@section Scripts{
+    <script src="~/assets/vendors/js/tablefilter/jquery.tablefilter.js"></script>
+    <script src="~/assets/vendors/js/tablefilter/jquery.tabledatafilter.min.js"></script>
+    @*<script src="~/assets/vendors/js/tablefilter/jquery.tableditfixedheader.min.js"></script>*@
+    <script>
+        $(function () {
+            $("nav").addClass("shrinked");
+        });
+
+        $(document).ready(function () {
+            // Setup - add a text input to each footer cell
+            $('#tblInProgress thead filterCol').appendTo('#tblInProgress thead');
+            var table = $('#tblInProgress').DataTable({
+                orderCellsTop: true,
+                fixedHeader: true,
+                "lengthChange": false
+            });
+
+            $.each($('.input-filter', table.table().header()), function () {
+                var column = table.column($(this).index());
+
+                $('input', this).on('keyup change', function () {
+                    if (column.search() !== this.value) {
+                        column
+                            .search(this.value)
+                            .draw();
+                    }
+                });
+            });
+
+            // Apply the search
+            $.each($('.select-filter', table.table().header()), function () {
+                var column = table.column($(this).index());
+
+                $('select', this).on('change', function () {
+                    if (column.search() !== this.value) {
+                        column
+                            .search(this.value)
+                            .draw();
+
+                    } else if (column.search() !== "") {
+                        column
+                            .draw();
+                    }
+                });
+            });
+
+            $('#tblRecovered thead filterCol').appendTo('#tblRecovered thead');
+            var table = $('#tblRecovered').DataTable({
+                orderCellsTop: true,
+                fixedHeader: true,
+                "lengthChange": false
+            });
+
+            $.each($('.input-filter', table.table().header()), function () {
+                var column = table.column($(this).index());
+
+                $('input', this).on('keyup change', function () {
+                    if (column.search() !== this.value) {
+                        column
+                            .search(this.value)
+                            .draw();
+                    }
+                });
+            });
+
+            // Apply the search
+            $.each($('.select-filter', table.table().header()), function () {
+                var column = table.column($(this).index());
+
+                $('select', this).on('change', function () {
+                    if (column.search() !== this.value) {
+                        column
+                            .search(this.value)
+                            .draw();
+
+                    } else if (column.search() !== "") {
+                        column
+                            .draw();
+                    }
+                });
+            });
+        });
+
+
+    </script>
+}

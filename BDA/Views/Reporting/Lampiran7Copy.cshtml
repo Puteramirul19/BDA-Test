@@ -1,0 +1,180 @@
+﻿@{
+    ViewData["Title"] = "Reporting";
+}
+
+@section Styles{
+
+    <style>
+        .btn-create {
+            background-color: #5d5386;
+            color: white;
+        }
+
+        .btn-apply:hover {
+            background-color: white;
+            color: black;
+        }
+
+        .btn-cancel:hover {
+            background-color: red;
+            color: white;
+        }
+
+        .btn-recover:hover {
+            background-color: limegreen;
+            color: white;
+        }
+
+        .btn-lost:hover {
+            background-color: #FFC300;
+            color: white;
+        }
+
+        select.filter {
+            height: 33px !important;
+        }
+    </style>
+}
+<div class="content-inner active">
+    <div class="container-fluid">
+        <!-- Begin Page Header-->
+        <div class="row">
+            <div class="page-header">
+                <div class="d-flex align-items-center">
+                    <div>
+                        <h2 class="page-header-title">Reports</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="widget has-shadow">
+            <div class="row flex-row">
+                <div class="col-xl-12">
+                    <div class="row flex-row">
+                        <div class="col-xl-12 col-md-12">
+                            <div class="table-responsive">
+                                <div class="widget has-shadow">
+                                    <h2 style="padding-top:30px;padding-left:30px">Lampiran 7</h2>
+                                    <div class="widget-body">
+                                        <p style="margin-left:10px"><b>BD Dates Log</b></p>
+                                        <div class="table-responsive">
+                                            <table id="tblLampiran7" class="table table-bordered table-hover mb-0 display" styles="width:100%">
+                                                <thead>
+                                                    <tr style="border:1px solid">
+                                                        <th></th>
+                                                        <th colspan="3" style="text-align:center">Requester</th>
+                                                        <th colspan="3" style="text-align:center">TGBS AP Banking</th>
+                                                    </tr>
+                                                    <tr style="border:1px solid">
+                                                        <th style="text-align:center;border:1px solid">Ref. No</th>@*added by Hanif 15032020*@
+                                                        <th style="text-align:center;border:1px solid">Date Submitted</th>
+                                                        <th style="text-align:center;border:1px solid">Date Verified</th>
+                                                        <th style="text-align:center;border:1px solid">Date Approved</th>
+                                                        <th style="text-align:center;border:1px solid">Date Accepted</th>
+                                                        <th style="text-align:center;border:1px solid">Date Receive Original BD & Update BD Info</th>
+                                                        <th style="text-align:center;border:1px solid">Date Set Status as BD Issued & Postage No.</th>
+                                                    </tr>
+                                                    @*<tr class="filterrow">
+                                                        <th class="input-filter"></th>
+                                                        <th class="input-filter"><input id='search-refNo' type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                                        <th class="input-filter"><input id='search-ermsDocNo' type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                                        <th class="input-filter"><input id='search-ba' type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                                        <th class="input-filter"><input id='search-state' type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                                        <th class="input-filter"><input id='search-pkType' type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                                        <th class="input-filter"><input id='search-docDate' type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                                        <th class="input-filter"><input id='search-ermsPostingDate' type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                                        <th class="input-filter"><input id="search-bdAmount" type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                                        <th class="input-filter"><input id="search-keteranganKerja" type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                                        <th></th>
+                                                    </tr>*@
+</thead>
+                                                <tbody>
+                                                    <tr style="text-align:center">
+                                                        <td>TNB/WC/0001</td>
+                                                        <td>10/03/2020</td>
+                                                        <td>11/03/2020</td>
+                                                        <td>11/03/2020</td>
+                                                        <td>12/03/2020</td>
+                                                        <td>14/03/2020</td>
+                                                        <td>16/03/2020</td>
+                                                    </tr>
+                                                    <tr style="text-align:center">
+                                                        <td>TNB/WC/0002</td>
+                                                        <td>10/03/2020</td>
+                                                        <td>11/03/2020</td>
+                                                        <td>11/03/2020</td>
+                                                        <td>12/03/2020</td>
+                                                        <td>14/03/2020</td>
+                                                        <td>16/03/2020</td>
+                                                    </tr>
+                                                    <tr style="text-align:center">
+                                                        <td>TNB/WC/0003</td>
+                                                        <td>10/03/2020</td>
+                                                        <td>11/03/2020</td>
+                                                        <td>11/03/2020</td>
+                                                        <td>12/03/2020</td>
+                                                        <td>14/03/2020</td>
+                                                        <td>16/03/2020</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Form -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Container -->
+    <!-- Begin Page Footer-->
+    <!-- End Page Footer -->
+    <a href="#" class="go-top"><i class="la la-arrow-up"></i></a>
+    <!-- Offcanvas Sidebar -->
+    <!-- End Offcanvas Sidebar -->
+</div>
+
+@section Scripts{
+
+    <script src="~/assets/vendors/js/datatables/datatables.min.js"></script>
+    <script src="~/assets/vendors/js/datatables/dataTables.select.min.js"></script>
+    <script src="~/assets/vendors/js/datatables/dataTables.buttons.min.js"></script>
+    <script src="~/assets/vendors/js/datatables/buttons.flash.js"></script>
+    <script src="~/assets/vendors/js/datatables/buttons.print.min.js"></script>
+    <script src="~/assets/vendors/js/datatables/buttons.html5.js"></script>
+
+    <script src="~/assets/vendors/js/tablefilter/jquery.tablefilter.js"></script>
+    <script src="~/assets/vendors/js/tablefilter/jquery.tabledatafilter.min.js"></script>
+    <script>
+
+        $(document).ready(function () {
+            $(function () {
+                $("nav").addClass("shrinked");
+            });
+
+            
+            $('.table thead filterCol').appendTo('table thead');
+
+            $.each($('.input-filter', table.table().header()), function () {
+                var column = table.column($(this).index());
+
+                $('input', this).on('keyup change', function () {
+                    table.ajax.reload();
+                });
+            });
+
+            $.each($('.select-filter', table.table().header()), function () {
+                var column = table.column($(this).index());
+
+                $('select', this).on('change', function () {
+                    table.ajax.reload();
+                });
+            });
+        });
+
+
+    </script>
+}

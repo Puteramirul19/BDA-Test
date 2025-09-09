@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>BDA</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="DataAccessRepository\**" />
+    <Compile Remove="Interface\**" />
+    <Compile Remove="Provider\**" />
+    <Compile Remove="Repository\**" />
+    <Compile Remove="Service\**" />
+    <EmbeddedResource Remove="DataAccessRepository\**" />
+    <EmbeddedResource Remove="Interface\**" />
+    <EmbeddedResource Remove="Provider\**" />
+    <EmbeddedResource Remove="Repository\**" />
+    <EmbeddedResource Remove="Service\**" />
+    <None Remove="DataAccessRepository\**" />
+    <None Remove="Interface\**" />
+    <None Remove="Provider\**" />
+    <None Remove="Repository\**" />
+    <None Remove="Service\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Migrations\20191021024201_UserRoles.cs" />
+    <Compile Remove="Migrations\20191021024201_UserRoles.Designer.cs" />
+    <Compile Remove="Migrations\20191022021353_FirstSetup.cs" />
+    <Compile Remove="Migrations\20191022021353_FirstSetup.Designer.cs" />
+    <Compile Remove="Migrations\20191022022442_RunningNo-addName.cs" />
+    <Compile Remove="Migrations\20191022022442_RunningNo-addName.Designer.cs" />
+    <Compile Remove="Migrations\20191022043550_EditUserRoleId.cs" />
+    <Compile Remove="Migrations\20191022043550_EditUserRoleId.Designer.cs" />
+    <Compile Remove="Migrations\20191022043812_EditUserAppIdRemoveVirtual.cs" />
+    <Compile Remove="Migrations\20191022043812_EditUserAppIdRemoveVirtual.Designer.cs" />
+    <Compile Remove="Migrations\20191022054830_EditUserAppIdAddVirtual.cs" />
+    <Compile Remove="Migrations\20191022054830_EditUserAppIdAddVirtual.Designer.cs" />
+    <Compile Remove="Migrations\20191022060119_BankDraft-WangCagaran.cs" />
+    <Compile Remove="Migrations\20191022060119_BankDraft-WangCagaran.Designer.cs" />
+    <Compile Remove="Migrations\20191022062040_OverwriteinDBContext.cs" />
+    <Compile Remove="Migrations\20191022062040_OverwriteinDBContext.Designer.cs" />
+    <Compile Remove="Migrations\20191022071501_BankDraft-addCreatedBy.cs" />
+    <Compile Remove="Migrations\20191022071501_BankDraft-addCreatedBy.Designer.cs" />
+    <Compile Remove="Migrations\20191023023902_Attachment.cs" />
+    <Compile Remove="Migrations\20191023023902_Attachment.Designer.cs" />
+    <Compile Remove="Migrations\20191023095248_AddStateTable.cs" />
+    <Compile Remove="Migrations\20191023095248_AddStateTable.Designer.cs" />
+    <Compile Remove="Migrations\20191023095457_AddStateTable.cs" />
+    <Compile Remove="Migrations\20191023095457_AddStateTable.Designer.cs" />
+    <Compile Remove="Migrations\20191024034250_AddCountryTable.cs" />
+    <Compile Remove="Migrations\20191024034250_AddCountryTable.Designer.cs" />
+    <Compile Remove="Migrations\20191024071410_BankDraft-LetterRefNo-MemoRefNo.cs" />
+    <Compile Remove="Migrations\20191024071410_BankDraft-LetterRefNo-MemoRefNo.Designer.cs" />
+    <Compile Remove="Migrations\20191025014816_BankDratfAlter.cs" />
+    <Compile Remove="Migrations\20191025021209_bankdraft.cs" />
+    <Compile Remove="Migrations\20191103100449_AddIdColumnForUserRole2.cs" />
+    <Compile Remove="Migrations\20191103100449_AddIdColumnForUserRole2.Designer.cs" />
+    <Compile Remove="Migrations\20191106022412_resetup.cs" />
+    <Compile Remove="Migrations\20191106022412_resetup.Designer.cs" />
+    <Compile Remove="Migrations\20200818021649_addDivisionIdToBA.cs" />
+    <Compile Remove="Migrations\20200818021649_addDivisionIdToBA.Designer.cs" />
+    <Compile Remove="Migrations\20201230063116_AddSessionIdnSessionExpire.cs" />
+    <Compile Remove="Migrations\20201230063116_AddSessionIdnSessionExpire.Designer.cs" />
+    <Compile Remove="Migrations\20201231031501_deleteAllSessionExpire.cs" />
+    <Compile Remove="Migrations\20201231031501_deleteAllSessionExpire.Designer.cs" />
+    <Compile Remove="ViewModel\TableViewModel.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="9.0.0" />
+    <PackageReference Include="Chart.js" Version="2.9.3" />
+    <PackageReference Include="CoreWCF.Http" Version="1.4.0" />
+    <PackageReference Include="Hangfire" Version="1.7.7" />
+    <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="8.0.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.3" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="7.0.10" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="NLog" Version="5.3.2" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.0" />
+    <PackageReference Include="System.DirectoryServices" Version="8.0.0" />
+    <!--    System.ServiceModel.* to replace with gRPC-->
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="System.ServiceModel.Duplex" Version="4.10.*" />
+    <PackageReference Include="System.ServiceModel.Http" Version="4.10.*" />
+    <PackageReference Include="System.ServiceModel.NetTcp" Version="4.10.*" />
+    <PackageReference Include="System.ServiceModel.Security" Version="4.10.*" />
+    <PackageReference Include="System.ServiceModel.Federation" Version="4.10.*" />
+  </ItemGroup>
+</Project>

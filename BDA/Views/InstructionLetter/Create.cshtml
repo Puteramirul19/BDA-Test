@@ -1,0 +1,299 @@
+﻿@model BDA.ViewModel.InstructionLetterViewModel
+@{
+    ViewData["Title"] = "New Instruction Letter";
+    Layout = "~/Views/Shared/_FormLayout.cshtml";
+
+    //var processingType = ViewBag.ProcessingType;
+}
+
+<div class="tab-content">
+    <div class="tab-pane active" id="tab1">
+        @using (Html.BeginForm("Create", "InstructionLetter", Model, FormMethod.Post, false, new { @id = "formAddInstructionLetter", @class = "form-horizontal" }))
+        {
+            @Html.AntiForgeryToken()
+            <div class="section-title mt-5 mb-5">
+                <h4>Letter Details</h4>
+            </div>
+            <div class="form-group row mb-3" style="margin-bottom:0rem!important">
+                <div class="col-sm-6 mb-3">
+                    <label class="form-control-label">Email&nbsp;<i class="ion-information-circled" data-toggle="tooltip" title="Alamat email pihak Maybank"></i><span class="text-danger ml-2"></span></label>
+                    @Html.TextBoxFor(x => x.InstructionLetterEmail, new { @class = "form-control", type = "email" })
+                </div>
+                <div class="col-sm-6 mb-3">
+                    <label class="form-control-label">Date&nbsp;<i class="ion-information-circled" data-toggle="tooltip" title="Tarikh value date"></i><span class="text-danger ml-2">*</span></label>
+                    <div class="input-group">
+
+                        @Html.TextBoxFor(x => x.LetterDate, new { @class = "form-control date", id = "dateApply" })
+                        <span class="input-group-addon">
+                            <i class="la la-calendar"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row mb-3">
+                <div class="col-sm-6">
+                    <label class="form-control-label">Recipient's Title<span class="text-danger ml-2">*</span></label>
+                    @Html.TextBoxFor(x => x.AddressLine1, new { @class = "form-control", required = "required" })
+                </div>
+                <div class="col-sm-6">
+                    <label class="form-control-label">Recipient<span class="text-danger ml-2">*</span></label>
+                    @Html.TextBoxFor(x => x.BankPIC, new { @class = "form-control", required = "required" })
+                </div>
+            </div>
+            <div class="form-group row mb-3">
+                <div class="col-sm-6">
+                    <label class="form-control-label">Address<span class="text-danger ml-2">*</span></label>
+                    @Html.TextBoxFor(x => x.AddressLine2, new { @class = "form-control", required = "required" })
+                </div>
+                <div class="col-sm-6">
+                    <label class="form-control-label">Street<span class="text-danger ml-2">*</span></label>
+                    @Html.TextBoxFor(x => x.AddressLine3, new { @class = "form-control", required = "required" })
+                </div>
+            </div>
+            <div class="form-group row mb-3">
+                <div class="col-sm-6 mb-3">
+                    <label class="form-control-label">State<span class="text-danger ml-2">*</span></label>
+                    @Html.TextBoxFor(x => x.State, new { @class = "form-control", required = "required" })
+                </div>
+                <div class="col-sm-6 mb-3">
+                    <label class="form-control-label">Value Date<span class="text-danger ml-2">*</span></label>
+                    <div class="input-group">
+                        @Html.TextBoxFor(x => x.ValueDate, new { @class = "form-control date", required = "required" })
+                        <span class="input-group-addon">
+                            <i class="la la-calendar"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-title mt-5 mb-5">
+                <h4>
+                    Application List
+                </h4>
+            </div>
+            <div class="form-group row mb-3">
+                <div class="col-sm-12 mb-3">
+                    <label class="form-control-label">Reference No.&nbsp;<i class="ion-information-circled" data-toggle="tooltip" title="If there are more than 1 Rujukan No. , it means they are being processed in bulk"></i><span class="text-danger ml-2">*</span></label>
+                    @Html.DropDownListFor(x => x.ReferenceNo, Enumerable.Empty<SelectListItem>(), new { @class = "form-control select2-multiple", id = "ddlReferenceNo", multiple = "multiple", required = "required" })
+                    <br /><br /><input type="button" id="btnGetJumlah" class="btn btn-info" value="Calculate Total" />
+                    <i class="ion-information-circled" data-toggle="tooltip" title="Senarai permohonan"></i>
+                </div>
+            </div>
+            @*<div class="form-group row mb-3">
+                <div class="col-sm-6 mb-3">
+                    <label class="form-control-label">Jumlah: </label>
+                    <label class="form-control-label"><b>RM200,000.00</b></label>
+                </div>
+            </div>*@
+            <div class="form-group row mb-3">
+                <div class="col-sm-12">
+                    <label class="form-control-label">
+                        Amount written in letters
+                        &nbsp;<i class="ion-information-circled" data-toggle="tooltip" title="Jumlah keseluruhan"></i><span class="text-danger ml-2">*</span>
+                    </label>
+                    @Html.TextBoxFor(x => x.RinggitText, new { @class = "form-control", placeholder = "DUA RATUS RIBU RINGGIT", required = "required" })
+                    <label id="jumlahDigit" class="form-control-label"></label>
+                </div>
+            </div>
+            <div class="section-title mt-5 mb-5">
+                <h4>Bank Details</h4>
+            </div>
+            <div class="form-group row mb-3">
+                <div class="col-sm-6 mb-3">
+                    <label class="form-control-label">Bank Name<span class="text-danger ml-2">*</span></label>
+                    @Html.TextBoxFor(x => x.BankName, new { @class = "form-control", @readonly = "readonly"})
+
+                    @*@Html.DropDownListFor(x => x.BankName, Enumerable.Empty<SelectListItem>(), new { @class = "form-control select2", id = "ddlBankName", required = "required" })*@
+                </div>
+            </div>
+            <div class="form-group row mb-3">
+                <div class="col-sm-6">
+                    <label class="form-control-label">Bank Account<span class="text-danger ml-2">*</span></label>
+                    @Html.DropDownListFor(x => x.BankAccount, Enumerable.Empty<SelectListItem>(), new { @class = "form-control select2", id = "ddlBankAccount", required = "required" })
+
+                    @*@Html.TextBoxFor(x => x.BankAccount, new { @class = "form-control", required = "required" })*@
+                    @*<input type="text" value="5-14253-33333-4" class="form-control">*@
+                </div>
+                <div class="col-sm-6">
+                    <label class="form-control-label">Bank Charges Account<span class="text-danger ml-2">*</span></label>
+                    @Html.TextBoxFor(x => x.ChargedBankAccount, new { @class = "form-control", required = "required" })
+                    @*<input type="text" value="5-14253-50002-0" class="form-control">*@
+                </div>
+            </div>
+            <div class="form-group row mb-3">
+                <div class="col-sm-12">
+                    <label class="form-control-label">Ref/Remarks&nbsp;<i class="ion-information-circled" data-toggle="tooltip" title="Short form untuk setiap BD"></i><span class="text-danger ml-2"></span></label>
+                    @Html.TextBoxFor(x => x.Remarks, new { @class = "form-control" })
+                    @*<input type="text" value="Ref: 1)PKRPP 2)DBKL" class="form-control">*@
+                </div>
+            </div>
+            <div class="wizard text-center">
+                <button type="button" id="btnSubmit" class="btn btn-success">Save</button>
+            </div>
+        }
+    </div>
+
+    <div id="pnlSuccess" style="display:none" class="wizard text-center">
+        <h3>Instruction Letter Created!</h3><br /><br />
+        <span class="heading">Reference No:</span><br />
+        <span id="NewRefNo" class="sub-heading"></span>
+        <br /><br />
+        @*<button type="button" id="btnEdit" class="btn btn-info">Edit</button>
+        <a href="#" id="btnView" class="btn btn-primary">View Letter</a>
+        <a id="btnSubmitBD" class="btn btn-success">Submit to Bank</a>*@
+    </div>
+</div>
+
+    @section Scripts{
+    <!--  validation script  -->
+    <script src="~/js/jquery.validate.js"></script>
+
+    @*added by Hanif 08112019*@
+        <script>
+            @*var processingType = '@ViewBag.ProcessingType';*@
+
+            $(function () {
+                var vbRefNo = '@ViewBag.RefNo';
+                if(vbRefNo != '') { SetMultiSelectedValue(vbRefNo, "#ddlReferenceNo"); }
+
+                $('#ddlReferenceNo').select2({
+                                minimumResultsForSearch: -1,
+                    ajax: {
+                                    url: "/InstructionLetter/GetAllWCReferenceNo",
+                        dataType: 'json',
+                        type: "GET",
+                        processResults: function (data) {
+                                            return {
+                                            results: $.map(data, function (item) {
+                                                    return {
+                                                    text: item.name,
+                                        id: item.id
+                                                    }
+                                                })
+                            };
+                    }
+                }
+                });
+
+                $('#ddlBankAccount').select2({
+                minimumResultsForSearch: -1,
+                    ajax: {
+                    url: "/InstructionLetter/GetAllBankAccount",
+                        dataType: 'json',
+                        type: "GET",
+                        processResults: function (data) {
+                            return {
+                            results: $.map(data, function (item) {
+                                    return {
+                                    text: item.name,
+                                        id: item.id
+                                    }
+                                })
+                            };
+                        }
+                    }
+                });
+            });
+
+            $("#btnGetJumlah").on('click', function (e) {
+                var strRefNo = $('#ddlReferenceNo').val();
+                $.ajax({
+                    type: "GET",
+                    url: '/InstructionLetter/GetJumlah?RefNo='+strRefNo,
+                    processData: false,
+                    contentType: false,
+                    success: function (data) {
+                        $('#jumlahDigit').text("RM" + data[0]);
+                        $('#RinggitText').val(data[1]);
+                        //$('#RinggitText').val(data + ' RINGGIT');
+                    }
+                });
+            });
+
+            $("#btnSubmit").on('click', function (e) {
+
+                if ($("#formAddInstructionLetter").valid()) {
+                    $("#Status").val("Submit");
+                    $("#formAddInstructionLetter").submit();
+                }
+                else {
+                    ShowNoty("error", "Please fill all required fields!");
+                }
+            });
+
+            $('#btnEdit').on('click', function (e) {
+                $("#tab1").show();
+                $("#pnlSuccess").hide();
+            });
+
+
+            $("#formAddInstructionLetter").submit(function (e) {
+
+                e.preventDefault(); // avoid to execute the actual submit of the form.
+
+                ShowNoty("warning", "Saving Instruction Letter..");
+
+                var form = $(this);
+                var url = form.attr('action');
+                var fdata = new FormData();
+
+                //fdata.append("ProcessingType", processingType);
+
+                $("input, textarea, select").each(function (x, y) {
+                    fdata.append($(y).attr("name"), $(y).val());
+                });
+
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: fdata,//form.serialize(), // serializes the form's elements.
+                    processData: false,
+                    contentType: false,
+                    success: function (data) {
+                        if (data.response.statusCode == 200) {
+                            ShowNoty("success",data.message);
+                            $("#tab1").hide();
+                            $("#NewRefNo").html(data.letterRefNo);
+                            $("#btnView").attr("href", "/InstructionLetter/Letter?LetterRefNo=" + data.letterRefNo);
+                            $("#btnSubmitBD").attr("href", "/InstructionLetter/SubmitToBank?id=" + data.letterId);
+                            $("#pnlSuccess").show();
+                            setTimeout(function () {
+                                // or opener.location.href = opener.location.href;
+                                window.close(); // or self.close();
+                            }, 5000);
+                            opener.location.reload();
+                        } else {
+                            ShowNoty("error", data.message);
+                        }
+                    }
+                });
+            });
+
+            $(document).ready(function () {
+
+                $.ajax({
+                    type: "GET",
+                    url: "/InstructionLetter/GetBankDetails?type=Application",
+                    processData: false,
+                    contentType: false,
+                    success: function (data) {
+                        console.log(data.bankName);
+                        $("#InstructionLetterEmail").val(data.email);
+                        $("#BankName").val(data.bankName);
+                        $("#AddressLine1").val(data.bankPICPosition);
+                        $("#AddressLine2").val(data.addressLine1);
+                        $("#AddressLine3").val(data.addressLine2);
+                        $("#State").val(data.state);
+                        $("#BankPIC").val(data.bankPIC);
+                        $("#ChargedBankAccount").val(data.chargeAccountNo);
+                        $("#ddlBankAccount").append("<option value=''>Please Select</option>");
+                    }
+                });
+
+             
+            });
+
+
+
+        </script>
+    }

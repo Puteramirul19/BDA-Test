@@ -1,0 +1,416 @@
+﻿@{
+    ViewData["Title"] = "Reporting";
+}
+
+
+@section Styles  {
+
+    <link rel="stylesheet" href="~/assets/css/bootstrap-select/bootstrap-select.min.css">
+}
+<body>
+    <div class="content-inner active">
+        <div class="container-fluid">
+            <div style="padding-bottom:20px">
+                <h2 class="page-header-title">Reports</h2>
+            </div>
+            <div class="widget has-shadow" style="margin-left:-30px">
+                <h2 style="padding-top:30px;padding-left:30px">Lampiran 2</h2>
+                <div class="widget-body">
+                    <div class="form-group row" style="margin-left:200px">
+                        <p style="margin-top:10px">From</p>
+                        <div class="col-xl-2">
+                            <select id="ddlMonth" name="ddlMonth" class="selectpicker show-menu-arrow form-control" tabindex="-98" style="background-color:white">
+                                <option value="0" selected disabled>Month</option>
+                                <option value="1">January</option>
+                                <option value="2">February</option>
+                                <option value="3">March</option>
+                                <option value="4">April</option>
+                                <option value="5">May</option>
+                                <option value="6">June</option>
+                                <option value="7">July</option>
+                                <option value="8">August</option>
+                                <option value="9">September</option>
+                                <option value="10">October</option>
+                                <option value="11">November</option>
+                                <option value="12">December</option>
+                            </select>
+                        </div>
+                        <div class="col-xl-2">
+                            <select id="ddlYear" name="ddlYear" class="selectpicker show-menu-arrow form-control" tabindex="-98">
+                                <option value="0" selected disabled>Year</option>
+                                <option value="2015">2015</option>
+                                <option value="2016">2016</option>
+                                <option value="2017">2017</option>
+                                <option value="2018">2018</option>
+                                <option value="2019">2019</option>
+                                <option value="2020">2020</option>
+                            </select>
+                        </div>
+                        <p style="padding-left:20px;padding-right:20px;margin-top:10px">To</p>
+                        <div class="col-xl-2">
+                            <select id="ddlMonth" name="ddlMonth" class="selectpicker show-menu-arrow form-control" tabindex="-98" style="background-color:white">
+                                <option value="0" selected disabled>Month</option>
+                                <option value="1">January</option>
+                                <option value="2">February</option>
+                                <option value="3">March</option>
+                                <option value="4">April</option>
+                                <option value="5">May</option>
+                                <option value="6">June</option>
+                                <option value="7">July</option>
+                                <option value="8">August</option>
+                                <option value="9">September</option>
+                                <option value="10">October</option>
+                                <option value="11">November</option>
+                                <option value="12">December</option>
+                            </select>
+                        </div>
+                        <div class="col-xl-2">
+                            <select id="ddlYear" name="ddlYear" class="selectpicker show-menu-arrow form-control" tabindex="-98">
+                                <option value="0" selected disabled>Year</option>
+                                <option value="2015">2015</option>
+                                <option value="2016">2016</option>
+                                <option value="2017">2017</option>
+                                <option value="2018">2018</option>
+                                <option value="2019">2019</option>
+                                <option value="2020">2020</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div>
+                        @*<div id="chartLampiran2Issue" style="height: 300px; width: 97%; margin-left:50px"></div>*@
+                        <canvas id="bar-chart1" width="800" height="450"></canvas>
+                    </div>
+                    <div>
+                        <table class="table table-hover table-bordered mb-0 display" style="background-color:white;padding-right:30px;margin-left:-10px;font-size:10px">
+                            <tr>
+                                <td>Month</td>
+                                <td>Jan-19</td>
+                                <td>Feb-19</td>
+                                <td>Mar-19</td>
+                                <td>Apr-19</td>
+                                <td>May-19</td>
+                                <td>Jun-19</td>
+                                <td>Jul-19</td>
+                                <td>Aug-19</td>
+                                <td>Sep-19</td>
+                                <td>Oct-19</td>
+                                <td>Nov-19</td>
+                            </tr>
+                            <tr>
+                                <td>RM</td>
+                                <td>8,609,192</td>
+                                <td>10,209,192</td>
+                                <td>12,639,192</td>
+                                <td>15,336,108</td>
+                                <td>18,366,108</td>
+                                <td>23,386,108</td>
+                                <td>25,273,083</td>
+                                <td>27,273,083</td>
+                                <td>31,480,691</td>
+                                <td>34,480,691</td>
+                                <td>46,480,691</td>
+                            </tr>
+                            <tr>
+                                <td>Diff RM (Million)</td>
+                                <td>7,609,192</td>
+                                <td>2,209,192</td>
+                                <td>3,639,192</td>
+                                <td>8,336,108</td>
+                                <td>8,366,108</td>
+                                <td>3,386,108</td>
+                                <td>9,273,083</td>
+                                <td>4,273,083</td>
+                                <td>6,480,691</td>
+                                <td>6,480,691</td>
+                                <td>4,480,691</td>
+                            </tr>
+                            <tr>
+                                <td>Percentage %</td>
+                                <td>7</td>
+                                <td>6</td>
+                                <td>5</td>
+                                <td>7</td>
+                                <td>8</td>
+                                <td>9</td>
+                                <td>8</td>
+                                <td>19</td>
+                                <td>18</td>
+                                <td>21</td>
+                                <td>7</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <br/><br/>
+                         <div>
+                             <canvas id="bar-chart2" width="800" height="450"></canvas>
+                             @*<div id="chartLampiran2Recover" style="height: 300px; width: 97%; margin-left:50px"></div>*@
+                         </div>
+                         <div>
+                             <table class="table table-hover table-bordered mb-0 display" style="background-color:white;padding-right:30px;margin-left:-10px;font-size:10px">
+                                 <tr>
+                                     <td>Month</td>
+                                     <td>Jan-19</td>
+                                     <td>Feb-19</td>
+                                     <td>Mar-19</td>
+                                     <td>Apr-19</td>
+                                     <td>May-19</td>
+                                     <td>Jun-19</td>
+                                     <td>Jul-19</td>
+                                     <td>Aug-19</td>
+                                     <td>Sep-19</td>
+                                     <td>Oct-19</td>
+                                     <td>Nov-19</td>
+                                 </tr>
+                                 <tr>
+                                     <td>RM</td>
+                                     <td>8,609,192</td>
+                                     <td>10,209,192</td>
+                                     <td>12,639,192</td>
+                                     <td>15,336,108</td>
+                                     <td>18,366,108</td>
+                                     <td>23,386,108</td>
+                                     <td>25,273,083</td>
+                                     <td>27,273,083</td>
+                                     <td>31,480,691</td>
+                                     <td>34,480,691</td>
+                                     <td>46,480,691</td>
+                                 </tr>
+                                 <tr>
+                                     <td>Diff RM (Million)</td>
+                                     <td>7,609,192</td>
+                                     <td>2,209,192</td>
+                                     <td>3,639,192</td>
+                                     <td>8,336,108</td>
+                                     <td>8,366,108</td>
+                                     <td>3,386,108</td>
+                                     <td>9,273,083</td>
+                                     <td>4,273,083</td>
+                                     <td>6,480,691</td>
+                                     <td>6,480,691</td>
+                                     <td>4,480,691</td>
+                                 </tr>
+                                 <tr>
+                                     <td>Percentage %</td>
+                                     <td>7</td>
+                                     <td>6</td>
+                                     <td>5</td>
+                                     <td>7</td>
+                                     <td>8</td>
+                                     <td>9</td>
+                                     <td>8</td>
+                                     <td>19</td>
+                                     <td>18</td>
+                                     <td>21</td>
+                                     <td>7</td>
+                                 </tr>
+                             </table>
+                             @*<table class="table table-hover table-bordered mb-0 display" style="background-color:white;padding-right:30px;margin-left:-10px;font-size:10px">
+            <tr>
+                <td>RM (Million)</td>
+                <td>17.9</td>
+                <td>18.4</td>
+                <td>19</td>
+                <td>22</td>
+                <td>23</td>
+                <td>25</td>
+                <td>26</td>
+                <td>27</td>
+                <td>30</td>
+                <td>42</td>
+                <td>44</td>
+                <td>46</td>
+                <td>50</td>
+                <td>56</td>
+                <td>59</td>
+                <td>64</td>
+                <td>67</td>
+                <td>74</td>
+                <td>77.6</td>
+            </tr>
+            <tr>
+                <td>Diff RM (Million)</td>
+                <td>7</td>
+                <td>6</td>
+                <td>5</td>
+                <td>7</td>
+                <td>8</td>
+                <td>9</td>
+                <td>8</td>
+                <td>19</td>
+                <td>18</td>
+                <td>21</td>
+                <td>7</td>
+                <td>6</td>
+                <td>7</td>
+                <td>4</td>
+                <td>27</td>
+                <td>13</td>
+                <td>7</td>
+                <td>2</td>
+            </tr>
+            <tr>
+                <td>Percentage %</td>
+                <td>7</td>
+                <td>6</td>
+                <td>5</td>
+                <td>7</td>
+                <td>8</td>
+                <td>9</td>
+                <td>8</td>
+                <td>19</td>
+                <td>18</td>
+                <td>21</td>
+                <td>7</td>
+                <td>6</td>
+                <td>7</td>
+                <td>4</td>
+                <td>27</td>
+                <td>13</td>
+                <td>7</td>
+                <td>2</td>
+            </tr>
+        </table>*@
+                         </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+@section Scripts{
+    @*<script src="~/assets/vendors/js/base/jquery.min.js"></script>*@
+
+    <script src="~/assets/js/components/wizard/form-wizard.min.js"></script>
+    <script src="~/assets/vendors/js/bootstrap-select/bootstrap-select.min.js"></script>
+    <script src="~/assets/js/components/chartjs/chartjs.min.js"></script>
+    <!-- End Page Snippets -->
+    <script src="~/assets/vendors/js/tablefilter/jquery.tablefilter.js"></script>
+    <script src="~/assets/vendors/js/tablefilter/jquery.tabledatafilter.min.js"></script>
+    <script src="~/assets/vendors/js/chart/chart.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $(function () {
+                $("nav").addClass("shrinked");
+            });
+        });
+
+
+    </script>
+    @*<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>*@
+    <script type="text/javascript">
+
+        window.onload = function () {
+
+            new Chart(document.getElementById("bar-chart1"), {
+                type: 'bar',
+                data: {
+                    labels: ["Jan-2019", "Feb-2019", "Mar-2019", "Apr-2019", "May-2019", "Jun-2019", "Jul-2019", "Aug-2019", "Sep-2019", "Oct-2019", "Nov-2019"],
+                    datasets: [
+                        {
+                            label: "RM (millions)",
+                            backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#d45850", "#2E1A16", "#162E1F", "#708DB9", "#9ACAC4", "#c45850", "#6EE9DA"],
+                            data: [8, 10, 12, 15, 18, 23, 25, 27, 28, 31, 34]
+                        }
+                    ]
+                },
+                options: {
+                    legend: { display: false },
+                    title: {
+                        display: true,
+                        text: 'BD Issued from Jan-19 to Nov-19 & Percentage Increased'
+                    }
+                }
+            });
+
+
+
+            new Chart(document.getElementById("bar-chart2"), {
+                type: 'bar',
+                data: {
+                    labels: ["Jan-2019", "Feb-2019", "Mar-2019", "Apr-2019", "May-2019", "Jun-2019", "Jul-2019", "Aug-2019", "Sep-2019", "Oct-2019", "Nov-2019"],
+                    datasets: [
+                        {
+                            label: "RM (millions)",
+                            backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#d45850", "#2E1A16", "#162E1F", "#708DB9", "#9ACAC4", "#c45850", "#6EE9DA"],
+                            data: [8, 10, 12, 15, 18, 23, 25, 27, 28, 31, 34]
+                        }
+                    ]
+                },
+                options: {
+                    legend: { display: false },
+                    title: {
+                        display: true,
+                        text: 'BD Recovery from Jan-19 to Nov-19 & Percentage Increased'
+                    }
+                }
+            });
+
+            //var chart1 = new CanvasJS.Chart("chartLampiran2Issue", {
+            //    title: {
+            //        text: "BD Issued from January 2018 to June 2019 & Percentage Increased"
+            //    },
+            //    data: [
+            //        {
+            //            // Change type to "doughnut", "line", "splineArea", etc.
+            //            type: "column",
+            //            dataPoints: [
+            //                { label: "Jan-18", x: 1, y: 18.4 },
+            //                { label: "Feb-18", x: 2, y: 18.7 },
+            //                { label: "Mar-18", x: 3, y: 19.3 },
+            //                { label: "Apr-18", x: 4, y: 22.1 },
+            //                { label: "May-18", x: 5, y: 23 },
+            //                { label: "Jun-18", x: 6, y: 25 },
+            //                { label: "Jul-18", x: 7, y: 26 },
+            //                { label: "Aug-18", x: 8, y: 27.7 },
+            //                { label: "Sep-18", x: 9, y: 30.6 },
+            //                { label: "Oct-18", x: 10, y: 42 },
+            //                { label: "Nov-18", x: 11, y: 44 },
+            //                { label: "Dec-18", x: 12, y: 46 },
+            //                { label: "Jan-19", x: 13, y: 50 },
+            //                { label: "Feb-19", x: 14, y: 56 },
+            //                { label: "Mar-19", x: 15, y: 59 },
+            //                { label: "Apr-19", x: 16, y: 64 },
+            //                { label: "May-19", x: 17, y: 67 },
+            //                { label: "Jun-19", x: 18, y: 77 },
+            //            ]
+            //        }
+            //    ]
+            //});
+            //chart1.render();
+
+            //var chart2 = new CanvasJS.Chart("chartLampiran2Recover", {
+            //    title: {
+            //        text: "BD Recovery from January 2018 to June 2019 & Percentage Increased"
+            //    },
+            //    data: [
+            //        {
+            //            // Change type to "doughnut", "line", "splineArea", etc.
+            //            type: "column",
+            //            dataPoints: [
+            //                { label: "B/F", x: 1, y: 17.9 },
+            //                { label: "Jan-18", x: 2, y: 18.4 },
+            //                { label: "Feb-18", x: 3, y: 18.7 },
+            //                { label: "Mar-18", x: 4, y: 19.3 },
+            //                { label: "Apr-18", x: 5, y: 22.1 },
+            //                { label: "May-18", x: 6, y: 23 },
+            //                { label: "Jun-18", x: 7, y: 25 },
+            //                { label: "Jul-18", x: 8, y: 26 },
+            //                { label: "Aug-18", x: 9, y: 27.7 },
+            //                { label: "Sep-18", x: 10, y: 30.6 },
+            //                { label: "Oct-18", x: 11, y: 42 },
+            //                { label: "Nov-18", x: 12, y: 44 },
+            //                { label: "Dec-18", x: 13, y: 46 },
+            //                { label: "Jan-19", x: 14, y: 50 },
+            //                { label: "Feb-19", x: 15, y: 56 },
+            //                { label: "Mar-19", x: 16, y: 59 },
+            //                { label: "Apr-19", x: 17, y: 64 },
+            //                { label: "May-19", x: 18, y: 67 },
+            //                { label: "Jun-19", x: 19, y: 77 },
+            //            ]
+            //        }
+            //    ]
+            //});
+            //chart2.render();
+        }
+    </script>
+}

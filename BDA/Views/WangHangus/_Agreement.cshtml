@@ -1,0 +1,25 @@
+﻿@model BDA.ViewModel.BankDraftViewModel
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+<div class="widget-header d-flex align-items-center" aria-expanded="true">
+    <h3>Terms and Conditions</h3>
+ @*<div id="asteriskComment" class="col-sm-1 form-control-label d-flex"><span class="text-danger ml-2">*</span></div>*@
+</div>
+<div id="pnl_approver" class="widget-body">
+    <div class="padding-left-20 padding-right-20">
+        <div class="form-group row">
+            <div class="col-sm-11">
+                @Html.CheckBox("isActive", false, new { id = "cbxActive", required = "required" })
+                &nbsp;&nbsp;Saya mengesahkan bahawa permohonan Bank Deraf ini adalah betul dan tiada duplicate.
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-sm-11">
+                @Html.CheckBox("isActive", false, new { id = "cbxActive2", required = "required" })
+                &nbsp;&nbsp;Saya akan bertanggungjawab terhadap Bank Deraf tersebut sehingga pembayaran dilakukan dengan mendapatkan resit dan muat naik dalam sistem ini sebagai bukti pembayaran.
+            </div>
+        </div>
+    </div>
+</div>

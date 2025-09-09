@@ -1,0 +1,240 @@
+﻿
+@{
+    ViewData["Title"] = "ManageRole";
+}
+
+@section Styles{
+
+    <style>
+        .btn-create {
+            background-color: #5d5386;
+            color: white;
+        }
+
+        .btn-apply:hover {
+            background-color: white;
+            color: black;
+        }
+
+        .btn-cancel:hover {
+            background-color: red;
+            color: white;
+        }
+
+        .btn-create:hover {
+            background-color: limegreen;
+            color: white;
+        }
+
+        .btn-lost:hover {
+            background-color: #FFC300;
+            color: white;
+        }
+
+        select.filter {
+            height: 33px !important;
+        }
+
+        .form-staff {
+            margin-bottom: 2rem;
+        }
+    </style>
+}
+<div class="content-inner">
+    <div class="container-fluid">
+        <!-- Begin Page Header-->
+        <div class="row">
+            <div class="page-header">
+                <div class="d-flex align-items-center">
+                    <h2 class="page-header-title">User Manual</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row flex-row">
+            <div class="col-xl-12 col-md-12">
+                <div class="table-responsive">
+                    <div class="widget has-shadow">
+                        <div class="widget-body">
+                            <div class="table-responsive">
+                                <table id="tblUserManual" class="table table-hover mb-0 display" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>File</th>
+                                        </tr>
+                                        @*<tr class="filterrow">
+                                            <th class="input-filter"><input type="text" class="form-control tchatchaca" style="height:40px !important;" placeholder="Search.."></th>
+                                            <th></th>
+                                        </tr>*@
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>User Manual for Wang Cagaran Application</td>
+                                            <td><a href="">User Manual Wang Cagaran.pdf</a></td>
+                                        </tr>
+                                        <tr>
+                                            <td>User Manual for Wang Hangus Application</td>
+                                            <td><a href="">User Manual Wang Hangus.pdf</a></td>
+                                        </tr>
+                                        <tr>
+                                            <td>User Manual for Bank Draft Recovery</td>
+                                            <td><a href="">User Manual Bank Draft Recovery.pdf</a></td>
+                                        </tr>
+                                        <tr>
+                                            <td>User Manual for Bank Draft Cancellation</td>
+                                            <td><a href="">User Manual Bank Draft Cancellation.pdf</a></td>
+                                        </tr>
+                                        <tr>
+                                            <td>User Manual for Lost Bank Draft</td>
+                                            <td><a href="">User Manual Lost Bank Draft.pdf</a></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Container -->
+    <!-- Begin Page Footer-->
+    <!-- End Page Footer -->
+    <a href="#" class="go-top"><i class="la la-arrow-up"></i></a>
+    <!-- Offcanvas Sidebar -->
+    <!-- End Offcanvas Sidebar -->
+</div>
+
+@section Scripts{
+    <script src="~/assets/vendors/js/tablefilter/jquery.tablefilter.js"></script>
+    <script src="~/assets/vendors/js/tablefilter/jquery.tabledatafilter.min.js"></script>
+    @*<script src="~/assets/vendors/js/tablefilter/jquery.tableditfixedheader.min.js"></script>*@
+
+    <script>
+
+        $(document).ready(function () {
+            // Setup - add a text input to each footer cell
+            //$('#tblUserManual thead filterCol').appendTo('#tblUserManual thead');
+            //$('#tblDashboard thead tr:eq(1) th .input-filter').each(function (i) {
+            //    var title = $(this).text();
+            //    $(this).html('<input type="text" placeholder="Search ' + title + '" />');
+
+            //    $('input', this).on('keyup change', function () {
+            //        if (table.column(i).search() !== this.value) {
+            //            table
+            //                .column(i)
+            //                .search(this.value)
+            //                .draw();
+            //        }
+            //    });
+            //});
+
+            //$('#tblDashboard thead tr:eq(1) th .select-filter').each(function (i) {
+            //    var column = table.column($(this).index());
+
+            //    $('select', this).on('change', function () {
+            //        if (column.search() !== this.value) {
+            //            column
+            //                .search(this.value)
+            //                .draw();
+
+            //        } else if (column.search() !== "") {
+            //            column
+            //                .draw();
+            //        }
+            //    });
+            //});
+
+            var table = $('#tblUserManual').DataTable({
+                    dom: "Bfrtip",
+                "processing": true,
+                //"columnDefs": [
+                //    { className: "dt-body-right", "targets": [5] },
+                //],
+                    //serverSide: true,
+                    "ajax": {
+                        url:  "@Url.Action("GetAllUserManual", "Home")",
+                        type: "GET",
+                        data: function (d) {
+                           
+                        },
+                        dataFilter: function (result) {
+                            var jData = JSON.parse(result);
+                            var dtData = JSON.stringify({ "data": jData });
+                            return dtData;
+                        }
+                     },
+                    order: [[1, 'asc']],
+                    columns: [
+                        { data: "name" },                   
+                        //{ data: "filename" },
+                        {
+                            data: "filename",
+                            "render": function (data, type, row) {
+                                var id = data;
+                                var href = "/manual/" + id;
+                                if (type == "display") {
+                                    data = '<a href="' + href + '">' + id  +'</a>';
+                                }
+                                return data;
+                            }
+                        }
+                    ],
+                    "bPaginate": true,
+                    "bLengthChange": false,
+                    "bFilter": false,
+                    "bInfo": true,
+                    "bAutoWidth": false,
+                    orderCellsTop: true,
+                    fixedHeader: true,
+                    "lengthChange": false,
+            });
+
+
+            $('#tblUserManual thead filterCol').appendTo('table thead');
+
+            $.each($('.input-filter', table.table().header()), function () {
+                var column = table.column($(this).index());
+
+                $('input', this).on('keyup change', function () {
+                    table.ajax.reload();
+                });
+            });
+
+            $.each($('.select-filter', table.table().header()), function () {
+                var column = table.column($(this).index());
+
+                $('select', this).on('change', function () {
+                    table.ajax.reload();
+                });
+            });
+
+            $('#tblUserManual').dataTable.ext.errMode = 'throw';
+
+            //var table = $('#tblUserManual').DataTable({
+            //    orderCellsTop: true,
+            //    fixedHeader: true,
+            //    "lengthChange": false
+            //});
+
+            //$.each($('.input-filter', table.table().header()), function () {
+            //    var column = table.column($(this).index());
+
+            //    $('input', this).on('keyup change', function () {
+            //        if (column.search() !== this.value) {
+            //            column
+            //                .search(this.value)
+            //                .draw();
+            //        }
+            //    });
+            //});
+
+        });
+
+
+    </script>
+}
+
+
+

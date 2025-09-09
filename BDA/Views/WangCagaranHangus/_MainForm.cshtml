@@ -1,0 +1,226 @@
+﻿@model BDA.ViewModel.BankDraftViewModel
+@{
+    var RefNo = "";
+    var ERMS = "";
+    var userFullName = ViewBag.Fullname;
+
+    if (Model != null)
+    {
+        RefNo = Model.RefNo;
+        ERMS = Model.WangCagaranHangusViewModel.ErmsDocNo;
+        userFullName = Model.WangCagaranHangusViewModel.Pemula;
+       
+    }
+
+}
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+<div class="widget-header d-flex align-items-center" aria-expanded="true">
+    @*<h3>Borang - FSSC(AP) BD001</h3>*@
+</div>
+<div id="pnl_main_form" class="widget-body">
+    <div class="padding-left-20 padding-right-20">
+        <form action="" method="post">
+            <div class="form-group row">
+                <div class="col-sm-2 form-control-label d-flex align-items-center">
+                    Reference No.
+                </div>
+                <div class="col-xl-4">
+                    @Html.TextBoxFor(x => x.RefNo, new { @class = "form-control", @readonly = "readonly" })
+                    @*<input type="text" id="txtRefNo" value="@RefNo" class="form-control" disabled>*@
+                </div>
+
+            </div>
+            <div class="form-group row">
+                <div id="lblErmsNo" class="col-sm-2 form-control-label d-flex align-items-center">
+                    ERMS Document No.
+                    &nbsp;<i class="ion-information-circled" data-toggle="tooltip" title="Masukkan nombor dokumen ERMS yang telah dipancang"></i>
+                </div>
+                <div class="col-xl-4">
+                    @Html.TextBoxFor(x => x.WangCagaranHangusViewModel.ErmsDocNo, new { @class = "form-control", disabled = "disabled", id = "ermsNoId", type = "number" })
+                    @*<input type="text" id="txtERMSDocNo" name="ErmsDocNo" value="@ERMS" class="form-control" disabled>*@
+                </div>
+                <div id="lblErmsDate" class="col-sm-2 form-control-label align-items-center">Posting Date</div>
+                <div class="col-sm-4">
+                    <div class="input-group">
+                        @Html.TextBoxFor(x => x.WangCagaranHangusViewModel.PostingDate, new { @class = "form-control date", disabled = "disabled", id = "ermsPostingDate" })
+                        <span class="input-group-addon">
+                            <i class="la la-calendar"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-2 form-control-label align-items-center">
+                    Requester/Initiator
+                </div>
+                <div class="col-xl-4">
+                    @*@Html.TextBoxFor(x => x.CreatedByName, new { @class = "form-control" })*@
+                    @Html.TextBoxFor(x => x.WangCagaranHangusViewModel.Pemula, new { @class = "form-control", @readonly = "readonly" })
+                    @*<input type="text" id="Pemula" name="Pemula" value="@userFullName" class="form-control" disabled>*@
+                </div>
+                <div class="col-sm-2 form-control-label align-items-center">
+                    Date
+                </div>
+                <div class="col-sm-4">
+                    <div class="input-group">
+                        @Html.TextBoxFor(x => x.WangCagaranHangusViewModel.Tarikh, new { @class = "form-control", id = "dateApply", @readonly = "readonly" })
+                        <span class="input-group-addon">
+                            <i class="la la-calendar"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-2 form-control-label d-flex align-items-center">
+                    Address Requestor
+                    <span class="text-danger ml-2">*</span>
+                </div>
+                <div class="col-xl-4">
+                    @Html.TextBoxFor(x => x.WangCagaranHangusViewModel.Alamat1, new { @class = "form-control", required = "required" })
+
+                </div>
+                <div class="col-sm-2 form-control-label d-flex align-items-center">
+                    Address Requestor
+                </div>
+                <div class="col-xl-4">
+                    @Html.TextBoxFor(x => x.WangCagaranHangusViewModel.Alamat2, new { @class = "form-control" })
+
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-2 form-control-label d-flex align-items-center">
+                    City
+                    <span class="text-danger ml-2">*</span>
+                </div>
+                <div class="col-xl-4">
+                    @Html.TextBoxFor(x => x.WangCagaranHangusViewModel.Bandar, new { @class = "form-control", required = "required" })
+
+                </div>
+                <div class="col-sm-2 form-control-label d-flex align-items-center">Postcode<span class="text-danger ml-2">*</span></div>
+                <div class="col-xl-4">
+                    @Html.TextBoxFor(x => x.WangCagaranHangusViewModel.Poskod, new { @class = "form-control", required = "required" })
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-2 form-control-label d-flex align-items-center">
+                    State (PBT)
+                    <span class="text-danger ml-2">*</span>
+                </div>
+                <div class="col-xl-4">
+                    @Html.DropDownListFor(x => x.WangCagaranHangusViewModel.Negeri, Enumerable.Empty<SelectListItem>(), new { @class = "form-control select2", id = "ddlState", required = "required" })
+                    @*@Html.HiddenFor(x => x.WangCagaranViewModel.Negeri)*@
+                </div>
+                <div class="col-sm-2 form-control-label d-flex align-items-center">
+                    Business Area
+                    <span class="text-danger ml-2">*</span>
+                </div>
+                <div class="col-xl-4">
+                    @Html.DropDownListFor(x => x.WangCagaranHangusViewModel.BusinessArea, Enumerable.Empty<SelectListItem>(), new { @class = "form-control select2", id = "ddlBusinessArea", required = "required", onkeyup = "filterFunction()" })
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-2 form-control-label d-flex align-items-center">Company Code<span class="text-danger ml-2">*</span></div>
+                <div class="col-xl-4">
+                    @Html.DropDownListFor(x => x.WangCagaranHangusViewModel.CoCode, Enumerable.Empty<SelectListItem>(), new { @class = "form-control select2", id = "ddlCoCode", required = "required" })
+                    @*@Html.HiddenFor(x => x.WangCagaranViewModel.Negeri)*@
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-2 form-control-label d-flex align-items-center">
+                    Job description
+                    <span class="text-danger ml-2">*</span>
+                </div>
+                <div class="col-xl-10">
+                    @Html.TextAreaFor(x => x.WangCagaranHangusViewModel.KeteranganKerja, new { @class = "form-control", required = "required" })
+                    @*<textarea class="form-control submission" name="KeteranganKerja">Kerja kerja penurapan jalan tar</textarea>*@
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-sm-2 form-control-label d-flex align-items-center">
+                    Work involving JKR
+                    <span class="text-danger ml-2">*</span>
+                </div>
+                <div class="col-xl-4">
+                    <div class="">
+                        @Html.CheckBoxFor(x => x.WangCagaranHangusViewModel.JKRInvolved, new { id = "cbxJKR" }) <label for="JKRInvolved"> Ya</label>
+                        @*<input type="checkbox" name="JKRInvolved" id="cbxJKR">*@
+                    </div>
+                    <div class="form-group" id="groupJKR" style="display:none">
+                        @Html.DropDownListFor(x => x.WangCagaranHangusViewModel.JKRType, Enumerable.Empty<SelectListItem>(), new { @class = "form-control select2", id = "ddlJKRType", required = "required" })
+                        @*@Html.HiddenFor(x => x.WangCagaranViewModel.UserRole)*@
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-2 form-control-label d-flex align-items-center">
+                        Name on Bank Draft
+                        <span class="text-danger ml-2">*</span>
+                    @*<p class="ion-information-circled" data-toggle="tooltip" data-placement="top" data-original-title="Nama yang dinyatakan atas deraf bank"></p>*@
+                </div>
+                <div class="col-xl-4 mb-1">
+                    @Html.TextBoxFor(x => x.WangCagaranHangusViewModel.NamaPemegangCagaran, new { @class = "form-control", required = "required" })
+                </div>
+                <div class="col-sm-2 form-control-label d-flex align-items-center">
+                    Charge Code
+                    <span class="text-danger ml-2">*</span>
+                </div>
+                <div class="col-xl-4">
+                    @Html.TextBoxFor(x => x.WangCagaranHangusViewModel.CajKod, new { @class = "form-control", required = "required" })
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-2 form-control-label d-flex align-items-center">
+                    Total BD (RM)
+                </div>
+                <div class="col-xl-4">
+                    @Html.TextBoxFor(x => x.WangCagaranHangusViewModel.Jumlah, "{0:c}", new { @class = "form-control", required = "required", id = "jumlah", @readonly = "readonly" })
+                </div>
+                <div class="col-sm-2 form-control-label align-items-center">
+                    Project No. (WBS)
+                    <span class="text-danger ml-2">*</span>
+                </div>
+                <div class="col-xl-4">
+                    @*col-sm-2*@
+                    @Html.TextBoxFor(x => x.WangCagaranHangusViewModel.WBSProjekNo, new { @class = "form-control", required = "required" })
+                </div>
+                @*<div class="col-sm-2 no-padding">
+            <div class="row" style="margin-left:5px">
+                <button id="btnCheckBudget" type="button" class="btn btn-warning btn-budget" data-toggle="modal" data-target="#budget-modal">
+                    Semak Bajet
+                </button>
+                <p><i class="ion-information-circled" data-toggle="tooltip" title="Bajet peruntukan untuk projek mesti telah dicipta dan mencukupi dalam ERMS"></i></p>
+            </div>
+        </div>*@
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-2 form-control-label d-flex align-items-center">
+                    Wang Cagaran (RM)
+                    <span class="text-danger ml-2">*</span>
+                </div>
+                <div class="col-xl-4">
+                    @Html.TextBoxFor(x => x.WangCagaranHangusViewModel.RMCagaran, "{0:c}", new { @class = "form-control", required = "required", id = "rmcagaran" })
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-2 form-control-label d-flex align-items-center">
+                    Wang Hangus (RM)
+                    <span class="text-danger ml-2">*</span>
+                </div>
+                <div class="col-xl-4">
+                    @Html.TextBoxFor(x => x.WangCagaranHangusViewModel.RMHangus, "{0:c}", new { @class = "form-control", required = "required", id = "rmhangus" })
+                </div>
+                <div class="col-sm-2 form-control-label d-flex align-items-center">
+                    GL Account for Wang Hangus
+                    <span class="text-danger ml-2">*</span>
+                </div>
+                <div class="col-xl-4">
+                    @Html.TextBoxFor(x => x.WangCagaranHangusViewModel.GL, new { @class = "form-control", required = "required" })
+                </div>
+            </div>
+        </form>
+    </div>
+
+</div>

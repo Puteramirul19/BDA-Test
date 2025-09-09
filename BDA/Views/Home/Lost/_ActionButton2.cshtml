@@ -1,0 +1,396 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+<div id="CreateGroupBtn" class="wizard text-center" style="display:none">
+    @*<button id="btnWithdraw" href="#" data-target="#confirmation-withdraw-modal" class="btn btn-warning" data-toggle="modal">Withdraw</button>*@
+    <button id="btnDraft" data-target="#save-modal" class="btn btn-secondary ripple" data-toggle="modal">Save as Draft</button>
+    <button id="btnCreate" href="#" data-target="#confirmation-create-modal" class="btn btn-success" data-toggle="modal">Create</button>
+</div>
+<div id="ApproveGroupBtn" class="wizard text-center" style="display:none">
+    <button href="#" data-target="#confirmation-rejectApprove-modal" class="btn btn-danger" data-toggle="modal">Reject</button>
+    <button href="#" data-target="#confirmation-approve-modal" class="btn btn-success" data-toggle="modal">Approve</button>
+</div>
+<div id="AcceptGroupBtn" class="wizard text-center" style="display:none">
+    <button href="#" data-target="confirmation-decline-modal" class="btn btn-danger" data-toggle="modal">Decline</button>
+    <button href="#" data-target="#confirmation-accept-modal" class="btn btn-success" data-toggle="modal">Accept</button>
+</div>
+<div id="ProcessGroupBtn" class="wizard text-center" style="display:none">
+    <button href="#" data-target="#save-modal" class="btn btn-secondary ripple" data-toggle="modal">Save as Draft</button>
+    <button id="btnProcess" href="#" data-target="#confirmation-process-modal" class="btn btn-success" data-toggle="modal">Process</button>
+</div>
+<div id="SubmitGroupBtn" class="wizard text-center" style="display:none">
+    <button href="#" data-target="#save-modal" class="btn btn-secondary ripple" data-toggle="modal">Save as Draft</button>
+    <button id="btnSubmit" href="#" data-target="#confirmation-submit-modal" class="btn btn-success" data-toggle="modal">Submit</button>
+</div>
+<div id="ConfirmGroupBtn" class="wizard text-center" style="display:none">
+    <button id="btnConfirm" href="#" data-target="#confirmation-confirm-modal" class="btn btn-success" data-toggle="modal">Submit to AP Banking</button>
+</div>
+<div id="CompleteGroupBtn" class="wizard text-center" style="display:none">
+    <button id="btnComplete" href="#" data-target="#confirmation-complete-modal" class="btn btn-success" data-toggle="modal">Complete</button>
+</div>
+<div id="SubmitBulkGroupBtn" class="wizard text-center" style="display:none">
+    <button href="#" data-target="#save-modal" class="btn btn-secondary ripple" data-toggle="modal">Save</button>
+    <button id="btnSubmitBulk" href="#" data-target="#confirmation-submitbulk-modal" class="btn btn-success" data-toggle="modal">Submit to Bank</button>
+</div>
+@*<div id="WithdrawGroupBtn" class="wizard text-center" style="display:none">
+        <button id="btnWithdraw" href="#" data-target="#confirmation-withdraw-modal" class="btn btn-warning btn-square" data-toggle="modal">Withdraw</button>
+    </div>*@
+
+<!-- Begin Modal -->
+<div id="confirmation-create-modal" class="modal fade">
+    <div class="modal-dialog modal-dialog-centered" style="width:200px">
+        <div class="modal-content">
+            <div class="modal-header">
+            </div>
+            <div class="modal-body" style="text-align:center">
+                <p>
+                    Are you sure?
+                </p>
+                <button id="btnCreateConfirm" class="btn btn-success" data-toggle="modal" data-dismiss="modal">Yes</button>
+                @*<button href="btnCreateConfirm" class="btn btn-success" data-target="#create-modal" data-toggle="modal" data-dismiss="modal">Yes</button>*@
+                <button type="button" class="btn btn-shadow" data-dismiss="modal">No</button>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div id="confirmation-approve-modal" class="modal fade">
+    <div class="modal-dialog modal-dialog-centered" style="width:200px">
+        <div class="modal-content">
+            <div class="modal-header">
+            </div>
+            <div class="modal-body" style="text-align:center">
+                <p>
+                    Are you sure?
+                </p>
+                <button id="btnApprove" href="#" class="btn btn-success" data-target="#approve-modal" data-toggle="modal" data-dismiss="modal">Yes</button>
+                <button type="button" class="btn btn-shadow" data-dismiss="modal">No</button>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+<div id="confirmation-rejectApprove-modal" class="modal fade">
+    <div class="modal-dialog modal-dialog-centered" style="width:200px">
+        <div class="modal-content">
+            <div class="modal-header">
+            </div>
+            <div class="modal-body" style="text-align:center">
+                <p>
+                    Are you sure?
+                </p>
+                <button type="button" id="btnRejectApprove" class="btn btn-success" data-dismiss="modal">Yes</button>
+                <button type="button" class="btn btn-shadow" data-dismiss="modal">No</button>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+<div id="confirmation-accept-modal" class="modal fade">
+    <div class="modal-dialog modal-dialog-centered" style="width:200px">
+        <div class="modal-content">
+            <div class="modal-header">
+            </div>
+            <div class="modal-body" style="text-align:center">
+                <p>
+                    Are you sure?
+                </p>
+                <button id="btnAccept" href="#" class="btn btn-success" data-target="#accept-modal" data-toggle="modal" data-dismiss="modal">Yes</button>
+                <button type="button" class="btn btn-shadow" data-dismiss="modal">No</button>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+<div id="confirmation-decline-modal" class="modal fade">
+    <div class="modal-dialog modal-dialog-centered" style="width:200px">
+        <div class="modal-content">
+            <div class="modal-header">
+            </div>
+            <div class="modal-body" style="text-align:center">
+                <p>
+                    Are you sure?
+                </p>
+                <button type="submit" id="btnDeclined" class="btn btn-success" data-dismiss="modal">Yes</button>
+                <button type="button" class="btn btn-shadow" data-dismiss="modal">No</button>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+<div id="confirmation-process-modal" class="modal fade">
+    <div class="modal-dialog modal-dialog-centered" style="width:200px">
+        <div class="modal-content">
+            <div class="modal-header">
+            </div>
+            <div class="modal-body" style="text-align:center">
+                <p>
+                    Are you sure?
+                </p>
+                <button id="btnSubmitToBank" type="submit" class="btn btn-success" data-target="#process-modal" data-toggle="modal" data-dismiss="modal">Yes</button>
+                <button type="button" class="btn btn-shadow" data-dismiss="modal">No</button>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+<div id="confirmation-submit-modal" class="modal fade">
+    <div class="modal-dialog modal-dialog-centered" style="width:200px">
+        <div class="modal-content">
+            <div class="modal-header">
+            </div>
+            <div class="modal-body" style="text-align:center">
+                <p>
+                    Are you sure?
+                </p>
+                <button type="submit" class="btn btn-success" data-target="#submit-modal" data-toggle="modal" data-dismiss="modal">Yes</button>
+                <button type="button" class="btn btn-shadow" data-dismiss="modal">No</button>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+<div id="confirmation-submitbulk-modal" class="modal fade">
+    <div class="modal-dialog modal-dialog-centered" style="width:200px">
+        <div class="modal-content">
+            <div class="modal-header">
+            </div>
+            <div class="modal-body" style="text-align:center">
+                <p>
+                    Are you sure?
+                </p>
+                <button type="submit" class="btn btn-success" data-target="#submitbulk-modal" data-toggle="modal" data-dismiss="modal">Yes</button>
+                <button type="button" class="btn btn-shadow" data-dismiss="modal">No</button>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+<div id="confirmation-confirm-modal" class="modal fade">
+    <div class="modal-dialog modal-dialog-centered" style="width:200px">
+        <div class="modal-content">
+            <div class="modal-header">
+            </div>
+            <div class="modal-body" style="text-align:center">
+                <p>
+                    Are you sure?
+                </p>
+                <button type="submit" class="btn btn-success" data-target="#confirm-modal" data-toggle="modal" data-dismiss="modal">Yes</button>
+                <button type="button" class="btn btn-shadow" data-dismiss="modal">No</button>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+<div id="confirmation-complete-modal" class="modal fade">
+    <div class="modal-dialog modal-dialog-centered" style="width:200px">
+        <div class="modal-content">
+            <div class="modal-header">
+            </div>
+            <div class="modal-body" style="text-align:center">
+                <p>
+                    Are you sure?
+                </p>
+                <button type="submit" class="btn btn-success" data-target="#complete-modal" data-toggle="modal" data-dismiss="modal">Yes</button>
+                <button type="button" class="btn btn-shadow" data-dismiss="modal">No</button>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+<div id="confirmation-withdraw-modal" class="modal fade">
+    <div class="modal-dialog modal-dialog-centered" style="width:200px">
+        <div class="modal-content">
+            <div class="modal-header">
+            </div>
+            <div class="modal-body" style="text-align:center">
+                <p>
+                    Are you sure?
+                </p>
+                <button type="submit" class="btn btn-success" data-target="#withdraw-modal" data-toggle="modal" data-dismiss="modal">Yes</button>
+                <button type="button" class="btn btn-shadow" data-dismiss="modal">No</button>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="create-modal" class="modal fade">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <div class="sa-icon sa-success animate" style="display: block;">
+                    <span class="sa-line sa-tip animateSuccessTip" style="background-color:limegreen"></span>
+                    <span class="sa-line sa-long animateSuccessLong" style="background-color:limegreen"></span>
+                    <div class="sa-placeholder"></div>
+                    <div class="sa-fix"></div>
+                </div>
+                <div class="section-title mt-5 mb-2">
+                    <h2 class="text-gradient-02">Thank you!</h2>
+                </div>
+                <p class="mc-5">The form was created successfully</p>
+                <button type="button" id="btn-end-created" class="btn btn-shadow mb-3" data-dismiss="modal">Ok</button>
+            </div>
+        </div>
+    </div>
+</div><div id="approve-modal" class="modal fade">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <div class="sa-icon sa-success animate" style="display: block;">
+                    <span class="sa-line sa-tip animateSuccessTip" style="background-color:limegreen"></span>
+                    <span class="sa-line sa-long animateSuccessLong" style="background-color:limegreen"></span>
+                    <div class="sa-placeholder"></div>
+                    <div class="sa-fix"></div>
+                </div>
+                <div class="section-title mt-5 mb-2">
+                    <h2 class="text-gradient-02">Thank you!</h2>
+                </div>
+                <p class="mc-5">The form was approved successfully</p>
+                <button type="button" id="btn-end-approved" class="btn btn-shadow mb-3" data-dismiss="modal">Ok</button>
+            </div>
+        </div>
+    </div>
+</div><div id="accept-modal" class="modal fade">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <div class="sa-icon sa-success animate" style="display: block;">
+                    <span class="sa-line sa-tip animateSuccessTip" style="background-color:limegreen"></span>
+                    <span class="sa-line sa-long animateSuccessLong" style="background-color:limegreen"></span>
+                    <div class="sa-placeholder"></div>
+                    <div class="sa-fix"></div>
+                </div>
+                <div class="section-title mt-5 mb-2">
+                    <h2 class="text-gradient-02">Thank you!</h2>
+                </div>
+                <p class="mc-5">The form was accepted successfully</p>
+                <button type="button" id="btn-end-accepted" class="btn btn-shadow mb-3" data-dismiss="modal">Ok</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="process-modal" class="modal fade">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <div class="sa-icon sa-success animate" style="display: block;">
+                    <span class="sa-line sa-tip animateSuccessTip" style="background-color:limegreen"></span>
+                    <span class="sa-line sa-long animateSuccessLong" style="background-color:limegreen"></span>
+                    <div class="sa-placeholder"></div>
+                    <div class="sa-fix"></div>
+                </div>
+                <div class="section-title mt-5 mb-2">
+                    <h2 class="text-gradient-02">Thank you!</h2>
+                </div>
+                <p class="mc-5">The form was processed successfully</p>
+                <button type="button" id="btn-end-processed" class="btn btn-shadow mb-3" data-dismiss="modal">Ok</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="submit-modal" class="modal fade">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <div class="sa-icon sa-success animate" style="display: block;">
+                    <span class="sa-line sa-tip animateSuccessTip" style="background-color:limegreen"></span>
+                    <span class="sa-line sa-long animateSuccessLong" style="background-color:limegreen"></span>
+                    <div class="sa-placeholder"></div>
+                    <div class="sa-fix"></div>
+                </div>
+                <div class="section-title mt-5 mb-2">
+                    <h2 class="text-gradient-02">Thank you!</h2>
+                </div>
+                <p class="mc-5">The form was submitted successfully</p>
+                <button type="button" id="btn-end-submitted" class="btn btn-shadow mb-3" data-dismiss="modal">Ok</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="submitbulk-modal" class="modal fade">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <div class="sa-icon sa-success animate" style="display: block;">
+                    <span class="sa-line sa-tip animateSuccessTip" style="background-color:limegreen"></span>
+                    <span class="sa-line sa-long animateSuccessLong" style="background-color:limegreen"></span>
+                    <div class="sa-placeholder"></div>
+                    <div class="sa-fix"></div>
+                </div>
+                <div class="section-title mt-5 mb-2">
+                    <h2 class="text-gradient-02">Thank you!</h2>
+                </div>
+                <p class="mc-5">The form was submitted successfully</p>
+                <button type="button" id="btn-end-submittedbulk" class="btn btn-shadow mb-3" data-dismiss="modal">Ok</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="confirm-modal" class="modal fade">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <div class="sa-icon sa-success animate" style="display: block;">
+                    <span class="sa-line sa-tip animateSuccessTip" style="background-color:limegreen"></span>
+                    <span class="sa-line sa-long animateSuccessLong" style="background-color:limegreen"></span>
+                    <div class="sa-placeholder"></div>
+                    <div class="sa-fix"></div>
+                </div>
+                <div class="section-title mt-5 mb-2">
+                    <h2 class="text-gradient-02">Thank you!</h2>
+                </div>
+                <p class="mc-5">The bank statement was confirmed successfully</p>
+                <button type="button" id="btn-end-confirmed" class="btn btn-shadow mb-3" data-dismiss="modal">Ok</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="complete-modal" class="modal fade">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <div class="sa-icon sa-success animate" style="display: block;">
+                    <span class="sa-line sa-tip animateSuccessTip" style="background-color:limegreen"></span>
+                    <span class="sa-line sa-long animateSuccessLong" style="background-color:limegreen"></span>
+                    <div class="sa-placeholder"></div>
+                    <div class="sa-fix"></div>
+                </div>
+                <div class="section-title mt-5 mb-2">
+                    <h2 class="text-gradient-02">Thank you!</h2>
+                </div>
+                <p class="mc-5">The form was submitted successfully</p>
+                <button type="button" id="btn-end-completed" class="btn btn-shadow mb-3" data-dismiss="modal">Ok</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="withdraw-modal" class="modal fade">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <div class="sa-icon sa-success animate" style="display: block;">
+                    <span class="sa-line sa-tip animateSuccessTip" style="background-color:limegreen"></span>
+                    <span class="sa-line sa-long animateSuccessLong" style="background-color:limegreen"></span>
+                    <div class="sa-placeholder"></div>
+                    <div class="sa-fix"></div>
+                </div>
+                <div class="section-title mt-5 mb-2">
+                    <h2 class="text-gradient-02">Thank you!</h2>
+                </div>
+                <p class="mc-5">The form was withdrawn successfully</p>
+                <button type="button" id="btn-end-withdrawn" class="btn btn-shadow mb-3" data-dismiss="modal">Ok</button>
+            </div>
+        </div>
+    </div>
+</div>

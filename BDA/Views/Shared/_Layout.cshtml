@@ -1,0 +1,802 @@
+﻿@{
+    var userId = User.Identity.Name;
+    var requesterWangCagaranLess5M = User.HasClaim("_permission", "RequestWangCagaranLess5M");
+    var requesterWangHangusLess500k = User.HasClaim("_permission", "RequestWangHangusLess500K");
+    var requesterWangHangusMore500k = User.HasClaim("_permission", "RequestWangHangusMore500K");
+    var requesterWangCagaranMore5M = User.HasClaim("_permission", "RequestWangCagaranMore5M");
+    var reqCancellation = User.HasClaim("_permission", "RequestCancellation");
+    var reqRecovery = User.HasClaim("_permission", "RequestRecovery");
+    var reqLost = User.HasClaim("_permission", "RequestLost");
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    @*<title>@ViewData["Title"] - BDA</title>*@
+    <title>BDA</title>
+
+
+    <!-- Google Fonts -->
+    @*<script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>*@
+    <script src="~/assets/js/webfont/webfont.js"></script>
+    <script>
+        WebFont.load({
+            google: { "families": ["Montserrat:400,500,600,700", "Noto+Sans:400,700"] },
+            active: function () {
+                sessionStorage.fonts = true;
+            }
+        });
+
+    </script>
+
+
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="~/assets/img/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="~/assets/img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="~/assets/img/favicon-16x16.png">
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="~/assets/upd/bootstrap-4.6.2.min.css">
+    <link rel="stylesheet" href="~/assets/vendors/css/base/elisyam-1.5.min.css">
+    <link rel="stylesheet" href="~/assets/css/owl-carousel/owl.carousel.min.css">
+    <link rel="stylesheet" href="~/assets/css/owl-carousel/owl.theme.min.css">
+
+    @*<link rel="stylesheet" href="~/assets/css/datatables.editor/editor.bootstrap.css">
+        <link rel="stylesheet" href="~/assets/css/datatables.editor/editor.dataTables.css">*@
+    <link rel="stylesheet" href="~/assets/css/bootstrap-select/bootstrap-select.min.css">
+    <!-- Tweaks for older IEs-->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
+    <link rel="stylesheet" href="~/assets/css/datatables/datatables.min.css">
+    <link rel="stylesheet" href="~/css/jquery.dataTables.min.css">
+
+
+
+    <link rel="stylesheet" href="~/assets/vendors/select2-4.0/dist/css/select2.css">
+    <link rel="stylesheet" type="text/css" href="~/assets/vendors/jsgrid-1.5.3/css/jsgrid.css" />
+    <link rel="stylesheet" type="text/css" href="~/assets/vendors/jsgrid-1.5.3/css/theme.css" />
+    <style>
+
+        thead input {
+            width: 100%;
+        }
+        /*.dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {
+            background-image: none !important;
+        }*/
+
+        /*added by Hanif 24042020*/
+        .dropdown-menu > li > a:hover {
+            background-color: #5d5386;
+            color: white !important;
+        }
+
+        i:hover, a:hover {
+            cursor: pointer;
+        }
+
+        table.contact-persons td {
+            font-size: 12px;
+            color: darkblue;
+        }
+
+        table.contact-persons tr {
+            padding: 10px;
+        }
+    </style>
+    <link rel="stylesheet" href="~/css/custom.css">
+
+    @RenderSection("Styles", required: false)
+</head>
+
+<body>
+    <!-- Begin Preloader -->
+    <div id="preloader">
+        <div class="canvas">
+            <img src="~/assets/img/logo.png" alt="logo" class="loader-logo">
+            <div class="spinner"></div>
+        </div>
+    </div>
+    <!-- End Preloader -->
+    <div class="page">
+        <!-- Begin Header -->
+        <header class="header">
+            <nav class="navbar fixed-top" style="height:70px">
+                <!-- Begin Search Box-->
+                <div class="search-box">
+                    <button class="dismiss"><i class="ion-close-round"></i></button>
+                    <form id="searchForm" action="#" role="search">
+                        <input type="search" placeholder="Search something ..." class="form-control">
+                    </form>
+                </div>
+                <!-- End Search Box-->
+                <!-- Begin Topbar -->
+                <div class="navbar-holder d-flex align-items-center align-middle justify-content-between">
+                    <!-- Begin Logo -->
+                    <div class="navbar-header">
+                        <a href="/home/dashboard" class="navbar-brand">
+                            <div class="brand-image brand-big">
+                                <img src="~/assets/img/tnb-logo-1.jpeg" alt="logo" class="logo-small">
+                            </div>
+                            <div class="brand-image brand-small">
+                                <img src="~/assets/img/tnb-logo-1.jpeg" alt="logo" class="logo-small">
+                            </div>
+                        </a>
+                        <!-- Toggle Button -->
+                        <a id="toggle-btn" href="#" class="menu-btn active">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </a>
+                        <!-- End Toggle -->
+                    </div>
+                    <!-- End Logo -->
+                    <!-- Begin Navbar Menu -->
+                    <ul class="nav-menu list-unstyled d-flex flex-md-row align-items-md-center pull-right">
+
+                        @*<li class="nav-item">
+                            <li><a href="javascript:document.getElementById('logoutForm').submit()" title="Logout">Hello, @User.Identity.Name <i class="ti-user"></i></a></li>
+                            </li>*@
+                    </ul>
+                    <ul class="nav-menu list-unstyled d-flex flex-md-row align-items-md-center pull-right">
+
+                        <li class="nav-item">
+                        </li>
+                    </ul>
+                    <ul class="nav-menu list-unstyled d-flex flex-md-row align-items-md-center pull-right">
+
+                        <li class="nav-item">
+                        </li>
+                    </ul>
+                    <ul class="nav-menu list-unstyled d-flex flex-md-row align-items-md-center pull-right">
+
+                        <li class="nav-item">
+                        </li>
+                    </ul>
+                    <ul class="nav-menu list-unstyled d-flex flex-md-row align-items-md-center pull-right">
+
+                        <li class="nav-item">
+                        </li>
+                    </ul>
+                    <ul class="nav-menu list-unstyled d-flex flex-md-row align-items-md-center pull-right">
+
+                        <li class="nav-item">
+                        </li>
+                    </ul>
+                    <ul class="nav-menu list-unstyled d-flex flex-md-row align-items-md-center pull-right">
+
+                        <li class="nav-item">
+                        </li>
+                    </ul>
+                    <ul class="nav-menu list-unstyled d-flex flex-md-row align-items-md-center pull-right">
+
+                        <li class="nav-item">
+                        </li>
+                    </ul>
+                    <ul class="nav-menu list-unstyled d-flex flex-md-row align-items-md-center pull-right">
+                        <li class="nav-item dropdown">
+                        </li>
+                    </ul>
+                    <ul class="nav-menu list-unstyled d-flex flex-md-row align-items-md-center pull-right">
+                        <a data-target="#" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link">Hello, @userId<i class="ti-user"></i></a>
+                        <ul class="dropdown-menu align-items-md-center pull-right" style="min-width:130px">
+                            <li style="text-align:center">
+                                <a href="/home/userprofile" class="dropdown-item" style="font-weight:600">User Profile</a>
+                            </li>
+                            <li style="text-align:center">
+                                <a href="javascript:document.getElementById('logoutForm').submit()" title="Logout" style="font-weight:600">Logout <i class="ti-power-off"></i></a>
+                                @using (Html.BeginForm("LogOut", "Account", FormMethod.Post, new { id = "logoutForm" }))
+                                {
+                                    @Html.AntiForgeryToken()
+
+                                }
+                            </li>
+                        </ul>
+
+
+
+                        @*rel="nofollow" data-target="#confirmation-logout-modal" class="dropdown-item logout text-center rounded-circle" data-toggle="modal"*@
+
+                        <!-- End User -->
+                        <!-- Begin Quick Actions -->
+                        @*<li class="nav-item"><a href="#off-canvas" class="open-sidebar"><i class="la la-ellipsis-h"></i></a></li>*@
+                        <!-- End Quick Actions -->
+                    </ul>
+                    <!-- End Navbar Menu -->
+                </div>
+                <!-- End Topbar -->
+            </nav>
+        </header>
+        <!-- End Header -->
+        <!-- Begin Page Content -->
+        <div class="page-content d-flex align-items-stretch has-shadow">
+            @*style="background-color:azure"*@
+            <div class="default-sidebar">
+                <!-- Begin Side Navbar -->
+                <nav class="side-navbar box-scroll sidebar-scroll">
+                    <!-- Begin Main Navigation -->
+
+                    <ul class="list-unstyled">
+                        <li>
+                            <a href="/home/dashboard" aria-expanded="false"><i class="la la-columns"></i><span>Home</span></a>
+                        </li>
+                        @if (!User.IsInRole("Head of Unit") && !User.IsInRole("General Manager/Senior General Manager") && !User.IsInRole("TGBS Banking") && !User.IsInRole("TGBS Reconciliation")
+&& !User.IsInRole("Business Partner") && !User.IsInRole("Business Admin") && !User.IsInRole("ICT Admin") && !User.IsInRole("Viewer"))
+                        {
+                            <li>
+                                <a href="#dropdown-app" aria-expanded="false" data-toggle="collapse"><i class="la la-file"></i><span>Create Application</span></a>
+                                <ul id="dropdown-app" class="collapse list-unstyled pt-0">
+                                    @if (User.HasClaim("_permission", "RequestWangCagaranLess5M") && User.HasClaim("_permission", "RequestWangHangusLess500K"))
+                                    {
+                                        <li><a href="/WangCagaran/Create">Wang Cagaran</a></li>
+                                        <li><a href="/WangCagaranHangus/Create">Wang Cagaran with Hangus</a></li>
+                                        <li><a href="/wanghangus/Create">Wang Hangus</a></li>
+                                    }
+                                    else if (User.HasClaim("_permission", "RequestWangCagaranMore5M"))
+                                    {
+                                        <li><a href="/WangCagaran/Create">Wang Cagaran</a></li>
+                                        <li><a href="/WangCagaranHangus/Create">Wang Cagaran with Hangus</a></li>
+                                    }
+                                    else if (User.HasClaim("_permission", "RequestWangHangusMore500K"))
+                                    {
+                                        <li><a href="/wanghangus/Create">Wang Hangus</a></li>
+                                    }
+
+                                    @if (User.HasClaim("_permission", "RequestCancellation"))
+                                    {
+                                        <li><a href="/Cancellation/Create">Cancel Application</a></li>
+                                    }
+                                    @if (User.HasClaim("_permission", "RequestRecovery"))
+                                    {
+                                        <li><a href="/Recovery/Create">Recover Application</a></li>
+                                    }
+                                    @if (User.HasClaim("_permission", "RequestLost"))
+                                    {
+                                        <li><a href="/Lost/Create">Lost Application</a></li>
+                                    }
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#dropdown-ui2" aria-expanded="false" data-toggle="collapse"><i class="la la-th-list"></i><span>My Request</span></a>
+                                <ul id="dropdown-ui2" class="collapse list-unstyled pt-0">
+                                    @if (User.HasClaim("_permission", "RequestWangCagaranLess5M") && User.HasClaim("_permission", "RequestWangHangusLess500K"))
+                                    {
+                                        <li><a href="/application/myapplication">Application</a></li>
+                                    }
+                                    else if (User.HasClaim("_permission", "RequestWangCagaranMore5M"))
+                                    {
+                                        <li><a href="/application/myapplication">Application</a></li>
+                                    }
+                                    else if (User.HasClaim("_permission", "RequestWangHangusMore500K"))
+                                    {
+                                        <li><a href="/application/myapplication">Application</a></li>
+                                    }
+                                    @if (User.HasClaim("_permission", "RequestCancellation"))
+                                    {
+                                        <li><a href="/application/mycancellation">Cancellation</a></li>
+                                    }
+                                    @if (User.HasClaim("_permission", "RequestRecovery"))
+                                    {
+                                        <li><a href="/application/myrecovery">Recovery</a></li>
+                                    }
+                                    @if (User.HasClaim("_permission", "RequestLost"))
+                                    {
+                                        <li><a href="/application/mylost">Lost</a></li>
+                                    }
+                                </ul>
+                            </li>
+                        }
+                        @if (!User.IsInRole("Business Partner") && !User.IsInRole("Viewer"))
+                        {
+                            <li>
+                                <a href="#dropdown-ui" aria-expanded="false" data-toggle="collapse"><i class="la la-th-list"></i><span>Manage Application</span></a>
+                                <ul id="dropdown-ui" class="collapse list-unstyled pt-0">
+                                    <li><a href="/application/manageApplication">Application</a></li>
+                                    <li><a href="/application/manageCancellation">Cancellation</a></li>
+                                    <li><a href="/UMA/List">UMA</a></li>
+                                    <li><a href="/application/manageRecovery">Recovery</a></li>
+                                    <li><a href="/application/manageLost">Lost</a></li>
+                                </ul>
+                            </li>
+                        }
+                        else
+                        {
+                            <li>
+                                <a href="#dropdown-ui" aria-expanded="false" data-toggle="collapse"><i class="la la-th-list"></i><span>Manage Application</span></a>
+                                <ul id="dropdown-ui" class="collapse list-unstyled pt-0">
+                                    <li><a href="/application/manageApplicationV2">Application</a></li>
+                                    <li><a href="/application/manageCancellationV2">Cancellation</a></li>
+                                    <li><a href="/UMA/List">UMA</a></li>
+                                    <li><a href="/application/manageRecoveryV2">Recovery</a></li>
+                                    <li><a href="/application/manageLostV2">Lost</a></li>
+                                </ul>
+                            </li>
+                        }
+
+                        @if (User.HasClaim("_permission", "ProcessBankDrafApplication") || User.HasClaim("_permission", "SuperUser"))
+                        {
+                            <li>
+                                <a href="#dropdown-bulk" aria-expanded="false" data-toggle="collapse"><i class="ti-harddrives"></i><span>Bulk Processing</span></a>
+                                <ul id="dropdown-bulk" class="collapse list-unstyled pt-0">
+                                    @if (User.IsInRole("TGBS Banking") || User.IsInRole("Business Admin") || User.HasClaim("_permission", "SuperUser"))
+                                    {
+                                        <li><a href="/instructionletter/index">Instruction Letter to Bank (Application)</a></li>
+                                        <li><a href="/instructionletter/cancellation">Instruction Letter to Bank (Cancellation)</a></li>
+                                        <li><a href="/covermemo/bulkbankdraft">Update Bank Draft (Application)</a></li>
+                                        <li><a href="/covermemo/index">Cover Memo to Requestor</a></li>
+                                    }
+                                    @if (User.IsInRole("TGBS Reconciliation") || User.HasClaim("_permission", "SuperUser"))
+                                    {
+                                        <li><a href="/recovery/bulkbankdraft">Update Bank Draft (Recovery)</a></li>
+                                        <li><a href="/cancellation/bulkbankdraft">Update Bank Draft (Cancellation)</a></li>
+                                    }
+                                </ul>
+                            </li>
+
+                        }
+
+                        @if (User.HasClaim("_permission", "ProcessBankDrafApplication") || User.HasClaim("_permission", "SuperUser") || User.HasClaim("_permission", "ManageSettings"))
+                        {
+                            <li>
+                                <a href="#dropdown-authentication" aria-expanded="false" data-toggle="collapse"><i class="la la-file-text"></i><span>Reports</span></a>
+                                <ul id="dropdown-authentication" class="collapse list-unstyled pt-0">
+                                    <li><a href="/reporting/lampiran1">Lampiran 1</a></li>
+                                    <li><a href="/reporting/lampiran2">Lampiran 2</a></li>
+                                    <li><a href="/reporting/lampiran3">Lampiran 3</a></li>
+                                    <li><a href="/reporting/lampiran4">Lampiran 4</a></li>
+                                    <li><a href="/reporting/lampiran5">Lampiran 5</a></li>
+                                    <li><a href="/reporting/lampiran6">Lampiran 6</a></li>
+                                    <li><a href="/reporting/lampiran7">Lampiran 7</a></li>
+                                    <li><a href="/reporting/log">Custom Report</a></li>
+                                </ul>
+                            </li>
+                        }
+
+                        @if (User.HasClaim("_permission", "SuperUser") || User.HasClaim("_permission", "ManageSettings"))
+                        {
+                            <li>
+                                <a href="#dropdown-generic" aria-expanded="false" data-toggle="collapse"><i class="la la-gear"></i><span>Settings</span></a>
+                                <ul id="dropdown-generic" class="collapse list-unstyled pt-0">
+                                    <li><a href="/users/manageuser">User</a></li>
+                                    @*<li><a href="/roles/managerole">Roles</a></li>*@
+                                    <li><a href="/division/managedivision">Division</a></li>
+                                    <li><a href="/function/managefunction">Function</a></li>
+                                    <li><a href="/zone/managezone">Zone</a></li>
+                                    <li><a href="/businessArea/manageBusinessArea">Business Area</a></li>
+                                    <li><a href="/unit/manageunit">Unit</a></li>
+                                    <li><a href="/bankDetails/manageBankDetails">Bank Details</a></li>
+                                    <li><a href="/emailTemplate/index">Email Template</a></li>
+                                    <li><a href="/adminConsole/index">Admin Console</a></li>
+                                    <li><a href="/ermsLog/index">Erms Log</a></li>
+                                    @*<li><a href="/testConsole/index">Test Console</a></li>*@
+                                    @*<li><a href="/email/emailqueue">Email Queue</a></li>*@
+                                </ul>
+                            </li>
+                        }
+                        <li><a href="/Home/UserManual"><i class="la la-book"></i><span>User Manual</span></a></li>
+                        @*<li>
+                                <a href="#" aria-expanded="false"><i class="la la-th"></i><span>Manage All Application</span></a>
+                            </li>*@
+
+                    </ul>
+                    <!-- End Main Navigation -->
+                </nav>
+                <!-- End Side Navbar -->
+            </div>
+            <!-- End Left Sidebar -->
+            @RenderBody()
+            <!-- End Content -->
+
+
+
+        </div>
+        <footer class="main-footer" style="padding: 15px 100px; margin-left: 160px">
+            <div class="row">
+                <div style="font-size:12px" class="col-xl-12 col-lg-6 col-md-6 col-sm-12 d-flex align-items-center justify-content-xl-start justify-content-lg-start justify-content-md-start justify-content-center">
+                    <p class="text-gradient-02">Copyright © 2020. Tenaga Nasional Berhad. All Rights Reserved.</p><br /><br />
+                    @*<i style="font-family:Arial;font-size:12px;margin-left:30px" data-toggle="tooltip"
+                        title="This website, the domain and all information contain herein belongs to Tenaga Nasional Berhad (TNB).
+                        Any modification, copying, reproduction, republication, uploading, posting, transmission, or distribution, in any manner,
+                        of any information contain in this website, including text, graphics, code and/or software without TNB’s prior written permission
+                        is strictly prohibited.">Terms and Conditions.</i>*@
+                    <a data-toggle="modal" data-target="#modal-TandC" style="margin-left:20px">Terms and Conditions</a>
+                    <a data-toggle="modal" data-target="#modal-contact" style="margin-left:20px;color:Highlight">Contact Us</a>
+                </div>
+            </div>
+        </footer>
+        <!-- End Page Content -->
+    </div>
+    <div class='container'>
+        @*Seconds : <div id='seconds'></div>*@
+    </div>
+    @RenderSection("Modal", required: false)
+    <div id="modal-contact" class="modal fade">
+        <div class="modal-dialog modal-dialog-centered" style="width:300px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <b>Contact Us</b>
+                </div>
+                <div class="modal-body">
+                    <p style="font-weight:bold;font-size:12px;color:navy;margin-bottom:8px">Contact us at:</p>
+                    <table class="contact-persons" width="100%">
+                        <thead>
+                        <th></th>
+                        <th></th>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Mujaini bin Jayus : </td>
+                                <td>019-2575607</td>
+                            </tr>
+                            <tr>
+                                <td>Kong Kam Hong : </td>
+                                <td>019-2661761</td>
+                            </tr>
+                            <tr>
+                                <td>Muhammad Nazri Naim : </td>
+                                <td> 012-9352007</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    @*<div class="row">
+                            <div class="col-xl-12">
+                            </div>
+                        </div>*@
+                    <p style="font-weight:bold;font-size:12px;color:red;margin-bottom:8px;margin-top:8px">OR</p>
+                    <p style="font-weight:bold;font-size:12px;color:navy;margin-bottom:5px">
+                        Email your enquiries at :
+                    </p>
+                    <p style="font-size:12px;font-weight:bold">bdaiquiry@tnb.com.my</p>
+                    <br />
+                    <div style="text-align:center">
+                        <button type="button" class="btn btn-shadow center" data-dismiss="modal">OK</button>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="modal-TandC" class="modal fade">
+        <div class="modal-dialog modal-dialog-centered" style="width:500px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <b>Terms and Conditions</b>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        This website, the domain and all information contain herein belongs to Tenaga Nasional Berhad (TNB).
+                        Any modification, copying, reproduction, republication, uploading, posting, transmission, or distribution, in any manner,
+                        of any information contain in this website, including text, graphics, code and/or software without TNB’s prior written permission
+                        is strictly prohibited.
+                    </div>
+                    <br />
+                    <div style="text-align:center">
+                        <button type="button" class="btn btn-shadow center" data-dismiss="modal">OK</button>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="timeoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="exampleModalLabel">Sesi Tamat</h3>
+                    @*<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>*@
+                </div>
+                <div class="modal-body">
+                    <div class="content" style="font-size:15px; color:black">
+                        <p>Sesi anda telah tamat. Adakah anda mahu menyambung sesi kembali?</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="btnShutModal" type="button" class="btn btn-secondary">Sambung</button>
+                    <button id="btnForceLogout" type="button" class="btn btn-secondary">Keluar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="confirmation-logout-modal" class="modal fade">
+        <div class="modal-dialog modal-dialog-centered" style="width:200px">
+            <div class="modal-content">
+                <div class="modal-header">
+                </div>
+                <div class="modal-body" style="text-align:center">
+                    <p style="color:black">
+                        Are you sure?
+                    </p>
+                    <br />
+                    <a id="btnOk" style="color:white" href="/businessadmin/manageunit" class="btn btn-success" data-toggle="modal" data-dismiss="modal">Yes</a>
+                    <button type="button" class="btn btn-shadow" data-dismiss="modal">No</button>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    @*<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+        <script src="https://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>*@
+    @*<script src="~/js/jquery-1.10.2.js"></script>*@
+    @*<script src="~/js/jquery-ui.js"></script>*@
+    @*<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>*@
+    <script src="~/assets/upd/jquery-3.7.1.min.js"></script>
+    <script src="~/js/jquery-ui.js"></script>
+    <script src="~/assets/upd/popper.min.js"></script>
+
+    <script type='text/javascript' src='~/lib/pdfmake/pdfmake.min.js'></script>
+    <script type='text/javascript' src='~/lib/pdfmake/vfs_fonts.js'></script>
+
+    @*<script src="~/assets/vendors/jsgrid-1.5.3/external/jquery/jquery-1.8.3.js"></script>*@
+
+    @*For field validation*@
+
+    <script src="~/assets/js/components/validation/validation.min.js"></script>
+
+    <script src="~/assets/vendors/jsgrid-1.5.3/src/jsgrid.core.js"></script>
+    <script src="~/assets/vendors/jsgrid-1.5.3/src/jsgrid.load-indicator.js"></script>
+    <script src="~/assets/vendors/jsgrid-1.5.3/src/jsgrid.load-strategies.js"></script>
+    <script src="~/assets/vendors/jsgrid-1.5.3/src/jsgrid.sort-strategies.js"></script>
+    <script src="~/assets/vendors/jsgrid-1.5.3/src/jsgrid.field.js"></script>
+    <script src="~/assets/vendors/jsgrid-1.5.3/src/fields/jsgrid.field.text.js"></script>
+    <script src="~/assets/vendors/jsgrid-1.5.3/src/fields/jsgrid.field.number.js"></script>
+    <script src="~/assets/vendors/jsgrid-1.5.3/src/fields/jsgrid.field.select.js"></script>
+    <script src="~/assets/vendors/jsgrid-1.5.3/src/fields/jsgrid.field.checkbox.js"></script>
+    <script src="~/assets/vendors/jsgrid-1.5.3/src/fields/jsgrid.field.control.js"></script>
+    <!-- Begin Vendor Js -->
+
+    <script src="~/assets/upd/bootstrap-4.6.2-core.js"></script>
+    <script src="~/assets/vendors/js/nicescroll/nicescroll.min.js"></script>
+    <script src="~/assets/vendors/js/chart/chart.min.js"></script>
+    <script src="~/assets/vendors/js/progress/circle-progress.min.js"></script>
+    <script src="~/assets/vendors/js/calendar/moment.min.js"></script>
+    <script src="~/assets/vendors/js/calendar/fullcalendar.min.js"></script>
+    <script src="~/assets/vendors/js/owl-carousel/owl.carousel.min.js"></script>
+    <script src="~/assets/vendors/js/app/app.js"></script>
+    <script src="~/assets/vendors/js/bootstrap-wizard/bootstrap.wizard.min.js"></script>
+    <script src="~/assets/vendors/js/app/app.min.js"></script>
+    <script src="~/assets/vendors/js/datepicker/moment.min.js"></script>
+    <script src="~/assets/vendors/js/datepicker/daterangepicker.js"></script>
+    <script src="~/assets/vendors/js/noty/noty.js"></script>
+    <script src="~/js/idle.js"></script>
+    <script src="~/assets/js/components/datepicker/datepicker.js"></script>
+
+    <!-- End Page Js -->
+
+    <script>
+        $('#btnOk').click(function (event) {
+            event.preventDefault();
+            window.location.href = '/'
+        });
+
+        $('#btnShutModal').on('click', function (e) {
+            $("#timeoutModal").modal('hide');
+        });
+
+        //script for button toggle sidebar
+        $('#toggle-btn').on('click', function (e) {
+            e.preventDefault();
+            $(this).toggleClass('active');
+
+            $('.side-navbar').toggleClass('shrinked');
+            $('.content-inner').toggleClass('active');
+            $('.main-footer').toggleClass('active');
+
+            if ($(window).outerWidth() > 1183) {
+                if ($('#toggle-btn').hasClass('active')) {
+                    $('.navbar-header .brand-small').hide();
+                    $('.navbar-header .brand-big').show();
+                } else {
+                    $('.navbar-header .brand-small').show();
+                    $('.navbar-header .brand-big').hide();
+                }
+            }
+
+            if ($(window).outerWidth() < 1183) {
+                $('.navbar-header .brand-small').show();
+            }
+        });
+
+        $(".txtNumber").blur(function () {
+            var reg = /^\d+(\.\d{1,2})?$/;
+            if (reg.test($(this).val())) {
+                //
+            }
+            else {
+                this.value = "";
+            }
+        });
+
+        function ShowNoty(_type = "success", _message = "") {
+            new Noty({
+                type: _type,
+                layout: 'topRight',
+                text: _message
+            }).show().setTimeout(3000);
+        }
+
+        function SetSelectedValue(_value, _id) {
+            var data = { id: 1, text: _value };
+            var newOption = new Option(data.text, data.id, false, false);
+            $(_id).append(newOption).trigger('change');
+        }
+
+        var timeout = 0;
+
+        function endSession() {
+            $.ajax({
+                type: "GET",
+                url: '/Home/KillSession',
+                //data: form.serialize(), // serializes the form's elements.
+                success: function (data) {
+                    console.log(data.message);
+                }
+            });
+        }
+
+        function Counter(options) {
+            var timer;
+            var instance = this;
+            var seconds = options.seconds || 10;
+            var onUpdateStatus = options.onUpdateStatus || function () { };
+            var onCounterEnd = options.onCounterEnd || function () { };
+            var onCounterStart = options.onCounterStart || function () { };
+
+            function decrementCounter() {
+                onUpdateStatus(seconds);
+                if (seconds === 0) {
+                    stopCounter();
+                    onCounterEnd();
+                    return;
+                }
+                seconds--;
+            };
+
+            function startCounter() {
+                onCounterStart();
+                clearInterval(timer);
+                timer = 0;
+                decrementCounter();
+                timer = setInterval(decrementCounter, 1000);
+            };
+
+            function stopCounter() {
+                clearInterval(timer);
+            };
+
+            return {
+                start: function () {
+                    startCounter();
+                },
+                stop: function () {
+                    stopCounter();
+                }
+            }
+        };
+
+        function sessionStart() {
+            $.ajax({
+                type: "GET",
+                url: '/Session/GetSessionTimeOut',
+                //data: form.serialize(), // serializes the form's elements.
+                success: function (data) {
+                    console.log(parseInt(data.timeout.split(":")[1]));
+                    timeout = parseInt(data.timeout.split(":")[1]);
+
+
+                    var countdown = new Counter({
+                        // number of seconds to count down
+                        seconds: timeout * 60,
+
+                        onCounterStart: function () {
+                            // show pop up with a message
+                            console.log("_counterStart_");
+                        },
+
+                        // callback function for each second
+                        onUpdateStatus: function (second) {
+                            // change the UI that displays the seconds remaining in the timeout
+                            console.log(second);
+                        },
+
+                        // callback function for final action after countdown
+                        onCounterEnd: function () {
+                            // show message that session is over, perhaps redirect or log out
+                            //alert("Sesi anda telah tamat. Sila log masuk semula.");
+                            //console.log("_counterEnd_");
+                            $("#timeoutModal").modal({
+                                backdrop: 'static',
+                                keyboard: false
+                            });
+
+                            endSession();
+                        }
+                    });
+
+                    countdown.start();
+                }
+            });
+        }
+
+        var ms = 1000; // 1000 = 1 Sec | 60000 = 1 Min
+        var IdleTime;
+
+        $(document).ready(function () {
+            IdleTime = 1080;
+            //900;
+            setIdleTimeout(IdleTime * ms);
+
+
+        });
+
+        document.onIdle = function () {
+            //$("#timeoutModal").modal({
+            //    backdrop: 'static',
+            //    keyboard: false
+            //});
+
+            $.ajax({
+                type: "POST",
+                url: "/Account/Logout2",
+                success: function (data) {
+                    console.log(data)
+                    if (data.response.statusCode == 200) {
+                        window.location.href = "/Account/Login";
+                    } else {
+
+                    }
+                }
+            });
+        }
+
+        $("#btnForceLogout").click(function () {
+            //window.location.href = "/Account/Login";
+
+            $.ajax({
+                type: "POST",
+                url: "/Account/Logout2",
+                success: function (data) {
+                    console.log(data)
+                    if (data.response.statusCode == 200) {
+                        window.location.href = "/Account/Login";
+                    } else {
+
+                    }
+                }
+            });
+
+        });
+
+        //window.addEventListener('beforeunload', function (e) {
+        //    e.preventDefault();
+        //    e.returnValue = '';
+        //});
+
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+            $('[data-toggle="popover"]').popover();
+        })
+
+                                                        //$('.titleA:contains("Laporan Pihak Pengurusan")').parent().addClass("titleB");
+                                                        //const fieldItem = document.querySelector('#paraA .titleA')
+                                                        //fieldItem.innerText === 'Laporan Pihak Pengurusan' ? fieldItem.classList.add('titleB') : '';
+
+                                                        //if ($("#paraA > div.field-item:contains('Pengurusan')").length) {
+                                                        //    $("#paraA").addClass("titleB");
+                                                        //}
+
+    </script>
+
+    @RenderSection("Scripts", required: false)
+
+    <script src="~/assets/vendors/select2-4.0/dist/js/select2.js"></script>
+</body>
+</html>

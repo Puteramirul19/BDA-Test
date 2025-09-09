@@ -1,0 +1,488 @@
+﻿
+@{
+    ViewData["Title"] = "Home Page";
+    var userId = User.Identity.Name;
+    var requesterWangCagaranLess5M = User.HasClaim("_permission", "RequestWangCagaranLess5M");
+    var requesterWangHangusLess500k = User.HasClaim("_permission", "RequestWangHangusLess500K");
+    var requesterWangHangusMore500k = User.HasClaim("_permission", "RequestWangHangusMore500K");
+    var requesterWangCagaranMore5M = User.HasClaim("_permission", "RequestWangCagaranMore5M");
+    var reqCancellation = User.HasClaim("_permission", "RequestCancellation");
+    var reqRecovery = User.HasClaim("_permission", "RequestRecovery");
+    var reqLost = User.HasClaim("_permission", "RequestLost");
+}
+
+@section Styles{
+
+    <style>
+
+        .btn-apply:hover {
+            background-color: white;
+            color: black;
+        }
+
+        .btn-cancel:hover {
+            background-color: red;
+            color: white;
+        }
+
+        .btn-recover:hover {
+            background-color: limegreen;
+            color: white;
+        }
+
+        .btn-lost:hover {
+            background-color: #FFC300;
+            color: white;
+        }
+
+        select.filter {
+            height: 33px !important;
+        }
+
+        #notiWC, #notiWH, #notiCancel, #notiRec{
+            cursor:pointer;
+        }
+    </style>
+}
+<div class="content-inner">
+    <div class="container-fluid">
+        <!-- Begin Page Header-->
+        <div class="row">
+            <div class="page-header">
+                <div class="d-flex align-items-center">
+                    <h2 class="page-header-title">Home</h2>
+                    <div>
+                        <!--<div class="page-header-tools">
+                            <a class="btn btn-gradient-01" href="#">Add Widget</a>
+                        </div>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Page Header -->
+        <!-- Begin Row -->
+        <div class="row flex-row">
+
+            <!--<div class="col-xl-3 col-md-6 col-sm-6">
+                <a class="btn btn-gradient-03" href="apply.html">New Application</a>
+            </div>-->
+            @*<div class="col-xl-3 col-md-6 col-sm-6">
+                    <div class="btn-group mr-1 mb-2">
+                        <a class="btn" style="background-color:#5d5386; color:white;text-align:right">
+                            New Application
+                        </a>
+                        <a class="btn btn-primary dropdown-toggle  btn-apply d-flex align-items-center" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="cursor:pointer;">
+                            <i class="la la-angle-down mr-0" "></i>
+                        </a>
+                        <div class="dropdown-menu btn-apply" x-placement="top-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(92px, -2px, 0px);">
+                            <a class="dropdown-item" href="/wangcagaran/apply">Wang Cagaran</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="/wanghangus/apply">Wang Hangus</a>
+                        </div>
+                    </div>
+                </div>*@
+            <div class="col-xl-3 col-md-6 col-sm-6">
+
+                <div class="btn-group mr-1 mb-2">
+
+
+                    @*@User.HasClaim("_permission", "RequestWangHangus")*@
+
+                    @if (requesterWangCagaranLess5M && requesterWangHangusLess500k)
+                    {
+                        <button class="btn btn-primary dropdown-toggle  btn-apply" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="cursor:pointer;">
+                            New Application  &nbsp;  &nbsp;
+                            <i class="la la-angle-down mr-0"></i>
+                        </button>
+                        <div class="dropdown-menu btn-apply" x-placement="top-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(92px, -2px, 0px);">
+                            <a class="dropdown-item" href="/wangcagaran/create">Wang Cagaran</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="/wanghangus/create">Wang Hangus</a>
+                        </div>
+                    }
+<<<<<<< HEAD
+                    else if (requesterWangCagaranMore10M)
+=======
+                    else if (requesterWangCagaranMore5M )
+>>>>>>> ff92e7633b653348f06d1a8d837c7f9651643547
+                    {
+                        <button class="btn btn-primary dropdown-toggle  btn-apply" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="cursor:pointer;">
+                            New Application  &nbsp;  &nbsp;
+                            <i class="la la-angle-down mr-0"></i>
+                        </button>
+                        <div class="dropdown-menu btn-apply" x-placement="top-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(92px, -2px, 0px);">
+                            <a class="dropdown-item" href="/wangcagaran/create">Wang Cagaran</a>
+                        </div>
+                    }
+                    else if (requesterWangHangusMore500k)
+                    {
+                        <button class="btn btn-primary dropdown-toggle  btn-apply" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="cursor:pointer;">
+                            New Application  &nbsp;  &nbsp;
+                            <i class="la la-angle-down mr-0"></i>
+                        </button>
+                        <div class="dropdown-menu btn-apply" x-placement="top-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(92px, -2px, 0px);">
+                            <a class="dropdown-item" href="/wanghangus/create">Wang Hangus</a>
+                        </div>
+                    }
+                    else
+                    {
+                        @*<button class="btn btn-primary btn-apply" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="cursor:pointer;">
+                                New Application  &nbsp;  &nbsp;
+                            </button>*@
+                    }
+
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-6 col-sm-6">
+                @if (reqCancellation)
+                {
+                    <button id="btnCancel" href="/Cancellation/Create" type="button" class="btn btn-shadow btn-cancel btn-block mb-2">Cancel Application</button>
+                }
+            </div>
+            <div class="col-xl-3 col-md-6 col-sm-6">
+                @if (reqRecovery)
+                {
+                    <button id="btnRecover" href="/Recovery/Create" type="button" class="btn btn-shadow btn-recover btn-block mb-2">Recover Application</button>
+                }
+            </div>
+            <div class="col-xl-3 col-md-6 col-sm-6">
+                @if (reqLost)
+                {
+                    <button id="btnLost" href="/Lost/Create" type="button" class="btn btn-shadow btn-lost btn-block mb-2">Lost Application</button>
+                }
+            </div>
+        </div>
+        <!-- End Row -->
+        <!-- Begin Row -->
+        <div class="row flex-row">
+            <br />
+        </div>
+        @*added by hanif 16032020*@
+        <div class="row flex-row">
+            <div class="col-xl-12 col-md-12">
+                <div class="table-responsive">
+                    <div class="widget has-shadow">
+                        <div class="widget-header bordered no-actions d-flex align-items-center">
+                            <h4>Summary</h4>
+                        </div>
+                        <div class="widget-body">
+                            <div class="row flex-row">
+                                @*<!-- Begin Widget 16 -->
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                    <div class="widget widget-16 has-shadow">
+                        <div class="widget-body">
+                            <div class="row">
+                                <div class="col-xl-8 d-flex flex-column justify-content-center align-items-center">
+                                    <div class="counter">258,036</div>
+                                    <div class="total-views">Total Page Views</div>
+                                </div>
+                                <div class="col-xl-4 d-flex justify-content-center align-items-center">
+                                    <button type="button" class="btn btn-primary ripple mr-1 mb-2">Primary</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Widget 16 -->
+                <!-- Begin Widget 17 -->
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                    <div class="widget widget-17 has-shadow">
+                        <div class="widget-body">
+                            <div class="row">
+                                <div class="col-xl-7 d-flex flex-column justify-content-center align-items-center">
+                                    <div class="counter">1,658</div>
+                                    <div class="total-visitors">Visitors Online</div>
+                                </div>
+                                <div class="col-xl-5 d-flex justify-content-center align-items-center">
+                                    <div class="visitors">
+                                        <div class="percent"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Widget 17 -->*@
+                            </div>
+
+
+                        </div>
+                        <!-- Other Style -->
+                        <div class="col-xl-12 col-md-12">
+                            <div class="row flex-row">
+                                <div class="col-xl-6">
+                                    <div id="notiWC" class="alert btn-gradient-03 alert-lg square" style="text-align:center;color:white;padding:10px" role="alert">
+                                        <i style="margin-right:60px;font-size:40px" class="la la-money"></i>
+                                        <b href="/application/manageapplication" style="font-weight:bold;font-size:18px">Wang Cagaran Application</b>
+                                        &nbsp;
+                                        <a href="/application/manageapplication" class="btn mr-1 mb-2" style="font-weight:bold;margin-top:5px;margin-left:15px;font-size:17px;background:white;color:#6859ea">5</a>
+                                    </div>
+                                </div>
+                                <div class="col-xl-6">
+                                    <div id="notiWH" class="alert btn-gradient-05 alert-primary-bordered alert-lg square" style="text-align:center;color:white;padding:10px;box-shadow:7px 0 0 0 #e23f83 inset" role="alert">
+                                        <i style="margin-right:60px;font-size:40px" class="la la-area-chart"></i>
+                                        <b href="/application/manageapplication" style="font-weight:bold;font-size:18px">Wang Hangus Application</b>
+                                        &nbsp;
+                                        <a href="/application/manageapplication" class="btn mr-1 mb-2" style="font-weight:bold;margin-top:5px;margin-left:15px;font-size:17px;background:white;color:#bc0056">5</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row flex-row">
+                                <div class="col-xl-6">
+                                    <div id="notiCancel" class="alert btn-gradient-01 alert-primary-bordered alert-lg square" style="text-align:center;color:white;padding:10px;box-shadow:7px 0 0 0 #e95050 inset" role="alert">
+                                        <i style="margin-right:60px;font-size:40px" class="ion-close-circled"></i>
+                                        <b href="/application/Cancellation" style="font-weight:bold;font-size:18px">Cancellation Request</b>
+                                        &nbsp;
+                                        <a href="/application/Cancellation" class="btn mr-1 mb-2" style="font-weight:bold;margin-top:5px;margin-left:55px;font-size:17px;background:white;color:#e23f83">5</a>
+                                    </div>
+                                </div>
+                                <div class="col-xl-6">
+                                    <div id="notiRec" class="alert btn-gradient-04 alert-primary-bordered alert-lg square" style="text-align:center;color:white;padding:10px;box-shadow:7px 0 0 0 #3b9c5a inset" role="alert">
+                                        <i style="margin-right:70px;font-size:40px" class="ion-loop"></i>
+                                        <b href="/application/Recovery" style="font-weight:bold;font-size:18px">Recovery Request</b>
+                                        &nbsp;
+                                        <a href="/application/manageapplication" class="btn mr-1 mb-2" style="font-weight:bold;margin-top:5px;margin-left:90px;font-size:17px;background:white;color:#3b9c5a">5</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        @*<div class="col-xl-12 col-md-12">
+            <div class="row flex-row">
+                <div class="col-xl-6">
+                    <div class="alert alert-primary-bordered alert-lg square" style="text-align:center" role="alert">
+                        <a href="/application/manageapplication" style="font-weight:bold">Wang Cagaran Application</a>
+                        &nbsp;
+                        <a href="/application/manageapplication" class="btn btn-gradient-03 mr-1 mb-2" style="font-weight:bold;margin-top:5px;margin-left:15px;font-size:15px">5</a>
+                    </div>
+                </div>
+                <div class="col-xl-6">
+                    <div class="alert alert-primary-bordered alert-lg square" style="text-align:center" role="alert">
+                        <a href="/application/manageapplication" style="font-weight:bold">Wang Hangus Application</a>
+                        &nbsp;
+                        <a href="/application/manageapplication" class="btn btn-gradient-03 mr-1 mb-2" style="font-weight:bold;margin-top:5px;margin-left:15px;font-size:15px">5</a>
+                    </div>
+                </div>
+            </div>
+            <div class="row flex-row">
+                <div class="col-xl-6">
+                    <div class="alert alert-info-bordered alert-lg square" style="text-align:center;color:#e95050;box-shadow:7px 0 0 0 #e95050 inset" role="alert">
+                        <a href="/application/Cancellation" style="font-weight:bold">Cancellation Request</a>
+                        &nbsp;&nbsp;
+                        <a href="/application/Cancellation" class="btn btn-gradient-01 mr-1 mb-2" style="font-weight:bold;margin-top:5px;margin-left:50px;font-size:15px">5</a>
+                    </div>
+                </div>
+                <div class="col-xl-6">
+                    <div class="alert alert-info-bordered alert-lg square" style="text-align:center;color:#3b9c5a;box-shadow:7px 0 0 0 #3b9c5a inset" role="alert">
+                        <a href="/application/Recovery" style="font-weight:bold">Recovery Request</a>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <a href="/application/Recovery" class="btn btn-gradient-04 mr-1 mb-2" style="font-weight:bold;margin-top:5px;margin-left:50px;font-size:15px">5</a>
+                    </div>
+                </div>
+            </div>
+        </div>*@
+                        <!-- End Other Style -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        @*end 16032020*@
+        <div class="row flex-row">
+            <div class="col-xl-12 col-md-12">
+                <div class="table-responsive">
+                    <div class="widget has-shadow">
+                        <div class="widget-header bordered no-actions d-flex align-items-center">
+                            <h4>Recent History</h4>
+                        </div>
+                        <div class="widget-body">
+                            <div class="table-responsive">
+                                <table id="tblDashboard" class="table table-hover mb-0 display" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th>Reference No.</th>
+                                            <th>BD No.</th>
+                                            <th>Project No.</th>
+                                            <th><span style="width:150px;">Application Type</span></th>
+                                            <th>Submission Date</th>
+                                            <th><span style="width:130px;">Status</span></th>
+                                            <th>Status Date</th>
+                                            <th>Action</th>
+                                        </tr>
+                                        <tr class="filterrow">
+                                            <th class="input-filter"><input id="search-refNo" type="text" class="form-control tchatchaca" style="height:40px !important;" placeholder="Search.."></th>
+                                            <th class="input-filter"><input id="search-BDNo" type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                            <th class="input-filter"><input id="search-projectNo" type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                            @*<th class="input-filter"><input id="search-applicationType" type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>*@
+                                            <th class="select-filter">
+                                                <select id="search-applicationType" class="form-control filter" style="height:40px !important;" placeholder="Type">
+                                                    <option value="">All</option>
+                                                    <option value="WangCagaran">Wang Cagaran</option>
+                                                    <option value="WangHangus">Wang Hangus</option>
+                                                    <option value="Cancel">Cancel</option>
+                                                    <option value="Recover">Recover</option>
+                                                    <option value="Lost">Lost</option>
+                                                </select>
+                                            </th>
+                                            <th class="input-filter"><input id="search-submitDate" type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                            <th class="select-filter">
+                                                <select id="search-status" class="form-control filter" style="height:40px !important;" placeholder="Status">
+                                                    <option value="">All</option>
+                                                    <option value="Submitted">Submitted</option>
+                                                    <option value="Verified">Verified</option>
+                                                    <option value="Approved">Approved</option>
+                                                    <option value="Accepted">Accepted</option>
+                                                    <option value="Processed">Processed</option>
+                                                    <option value="Issued">Issued</option>
+                                                    <option value="Completed">Completed</option>
+                                                </select>
+                                            </th>
+                                            <th class="input-filter"><input id="search-updatedOn" type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Container -->
+    <!-- Begin Page Footer-->
+    <!-- End Page Footer -->
+    <a href="#" class="go-top"><i class="la la-arrow-up"></i></a>
+    <!-- Offcanvas Sidebar -->
+    <!-- End Offcanvas Sidebar -->
+</div>
+
+@section Scripts{
+    <script src="~/assets/vendors/js/datatables/datatables.min.js"></script>
+    <script src="~/assets/vendors/js/datatables/dataTables.select.min.js"></script>
+    <script src="~/assets/vendors/js/datatables/dataTables.buttons.min.js"></script>
+    <script src="~/assets/vendors/js/datatables/buttons.flash.js"></script>
+    <script src="~/assets/vendors/js/datatables/buttons.print.min.js"></script>
+    <script src="~/assets/vendors/js/datatables/buttons.html5.js"></script>
+
+    <script src="~/assets/vendors/js/tablefilter/jquery.tablefilter.js"></script>
+    <script src="~/assets/vendors/js/tablefilter/jquery.tabledatafilter.min.js"></script>
+
+    <script>
+
+        window.onload = function () {
+            if (!window.location.hash) {
+                window.location = window.location + '#';
+                window.location.reload();
+            }
+        }
+
+        $(document).ready(function () {
+
+              var table =   $('#tblDashboard').DataTable({
+                    dom: "Bfrtip",
+                    "processing": true,
+                    //serverSide: true,
+                    "ajax": {
+                        url:  "@Url.Action("GetAll5RecentTask", "Home")",
+                        type: "GET",
+                        data: function (d) {
+                            d.refNo = $('#search-refNo').val();
+                            d.bDNo = $('#search-BDNo').val();
+                            d.projectNo = $('#search-projectNo').val();
+                            d.applicationType = $('#search-applicationType option:selected').val();
+                            d.submitDate = $('#search-submitDate').val();
+                            d.status = $('#search-status option:selected').val();
+                            d.updatedOn = $('#search-updatedOn').val();
+                        },
+                        dataFilter: function (result) {
+                            var jData = JSON.parse(result);
+                            var dtData = JSON.stringify({ "data": jData });
+                            return dtData;
+                        }
+                     },
+                    order: [[1, 'asc']],
+                    columns: [
+                        { data: "refNo" },
+                        { data: "bdNo" },
+                        { data: "projectNo" },
+                        { data: "applicationType" },
+                        { data: "submitDate" },
+                        { data: "status" },
+                        { data: "updatedOn" },
+                        {
+                            data: "id",
+                            "render": function (data, type, row) {
+                                var id = data;
+                                var href = "/" + row["applicationType"] + "/Edit/" + id;
+                                if (type == "display") {
+                                    data = '<a href="' + href + '" style="border-radius: 0%;background-color: #f4f4f4;border-color: #ddd;" class="btn btn-lost btn-block mb-2">View</a>';
+                                }
+                                return data;
+                            }
+                        }
+                    ],
+                    "bPaginate": false,
+                    "bLengthChange": false,
+                    "bFilter": false,
+                    "bInfo": false,
+                    "bAutoWidth": false,
+                    orderCellsTop: true,
+                    fixedHeader: true,
+                    "lengthChange": false,
+            });
+
+            $('.table thead filterCol').appendTo('table thead');
+
+            $.each($('.input-filter', table.table().header()), function () {
+                var column = table.column($(this).index());
+
+                $('input', this).on('keyup change', function () {
+                    table.ajax.reload();
+                });
+            });
+
+            $.each($('.select-filter', table.table().header()), function () {
+                var column = table.column($(this).index());
+
+                $('select', this).on('change', function () {
+                    table.ajax.reload();
+                });
+            });
+
+        });
+
+        $('#btnCancel').on('click', function (e) {
+            window.location.href = '/Cancellation/Create'
+        });
+
+        $('#btnRecover').on('click', function (e) {
+            window.location.href = '/Recovery/Create'
+        });
+
+        $('#btnLost').on('click', function (e) {
+            window.location.href = '/Lost/Create'
+        });
+
+        $('#notiWC').on('click', function (e) {
+            window.location.href = '/application/manageapplication'
+        });
+
+        $('#notiWH').on('click', function (e) {
+            window.location.href = '/application/manageapplication'
+        });
+
+        $('#notiCancel').on('click', function (e) {
+            window.location.href = '/application/Cancellation'
+        });
+
+        $('#notiRec').on('click', function (e) {
+            window.location.href = '/application/Recovery'
+        });
+
+
+
+
+    </script>
+}

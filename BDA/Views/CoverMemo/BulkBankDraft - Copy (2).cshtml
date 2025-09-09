@@ -1,0 +1,249 @@
+﻿
+@{
+    ViewData["Title"] = "New Instruction Letter";
+    //Layout = "~/Views/Shared/_FormLayout.cshtml";
+}
+
+<div class="content-inner">
+    <div class="container-fluid">
+        <!-- Begin Page Header-->
+        <div class="row">
+            <div class="page-header">
+                <div class="d-flex align-items-center">
+                    <h2 class="page-header-title">Bulk Processing</h2>
+                    <div>
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="db-default.html"><i class="ti ti-home"></i></a></li>
+                            <li class="breadcrumb-item"><a href="#">Bulk Processing</a></li>
+                            <li class="breadcrumb-item active">Update Bank Draft</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Page Header -->
+        <!-- Begin Row -->
+        <div class="row flex-row">
+            <div class="col-xl-12">
+                <!-- Form -->
+                <div class="widget has-shadow">
+                    <div class="widget-header bordered no-actions d-flex align-items-center">
+                        <h4>Update Bank Draft</h4>
+                    </div>
+                    <div class="widget-body">
+                        <div class="row flex-row justify-content-center">
+                            <div class="col-xl-12">
+                                <div class="form-group row mb-3">
+                                    <div class="col-sm-12 mb-3">
+                                        <table id="tblBulkBankDraft" class="display" cellspacing="0" width="100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>Wang Cagaran Reference No</th>
+                                                    <th>No Bank Draft</th>
+                                                    <th>Send Method</th>
+                                                    <th>Received By</th>
+                                                    <th>Contact No</th>
+                                                    <th></th>
+                                                </tr>
+                                                <tr class="filterrow">
+                                                    <th class="input-filter"><input type="text" class="form-control tchatchaca" style="height:40px !important;" placeholder="Search.."></th>
+                                                    <th class="input-filter"><input type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                                    <th class="input-filter"><input type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                                    <th class="input-filter"><input type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                                    <th class="input-filter"><input type="text" style="height:40px !important;" class="form-control tchatchaca" placeholder="Search.."></th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Form -->
+            </div>
+        </div>
+        <!-- End Row -->
+    </div>
+    <!-- End Container -->
+    <!-- Begin Page Footer-->
+    <!-- End Page Footer -->
+    <a href="#" class="go-top"><i class="la la-arrow-up"></i></a>
+    <!-- Offcanvas Sidebar -->
+    @*@Html.Partial("_Log.cshtml")*@
+    <!-- End Offcanvas Sidebar -->
+</div>
+
+
+<div id="edit-modal" class="modal fade">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Edit Bank Draft</h4>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">×</span>
+                    <span class="sr-only">close</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="padding-left-20 padding-right-20">
+                    <div class="form-group row">
+                        <div class="col-sm-2 form-control-label d-flex align-items-center">Method Of Sending</div>
+                        <div class="col-xl-4">
+                            <select id="ddlSendMethod" name="ddlSendMethod" class="selectpicker show-menu-arrow form-control" tabindex="-98">
+                                <option value="1">Self Collect</option>
+                                <option value="2">By Post</option>
+                            </select>
+                            <input style="display:none" type="text" id="txtPostageNo" name="txtPostageNo" value="MY12394848E" class="form-control">
+                        </div>
+                        <div class="col-sm-2 form-control-label d-flex align-items-center">No Bank Draft</div>
+                        <div class="col-xl-4">
+                            <input type="text" value="16028123938" class="form-control">
+                        </div>
+                    </div>
+                    <div id="pnlPostageNo" class="form-group row" style="display:none">
+                        <div class="col-sm-2 form-control-label d-flex align-items-center">Tracking No</div>
+                        <div class="col-xl-4">
+                            <input type="text" id="txtPostageNo" name="txtPostageNo" value="MY12394848E" class="form-control">
+                        </div>
+                        <div class="col-sm-2 form-control-label d-flex align-items-center"></div>
+                        <div class="col-xl-4"></div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-2 form-control-label d-flex align-items-center">Received By</div>
+                        <div class="col-xl-4">
+                            <select id="ddlReceivedBy" name="ddlReceivedBy" data-live-search="true" class="selectpicker show-menu-arrow form-control" tabindex="-98">
+                                <option value="1">10080223 - Siti Rohani</option>
+                                <option value="1">10083604 - Ahmad Hasree</option>
+                                <option value="1">10072633 - Nurul Syafika</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-2 form-control-label d-flex align-items-center">Contact No</div>
+                        <div class="col-xl-4">
+                            <input type="text" id="txtContactNo" name="txtContactNo" value="0122938839" class="form-control">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-shadow" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+    <script src="~/assets/vendors/js/datatables/datatables.min.js"></script>
+    <script src="~/assets/vendors/js/datatables/dataTables.select.min.js"></script>
+    <script src="~/assets/vendors/js/datatables/dataTables.buttons.min.js"></script>
+    <script src="~/assets/vendors/js/datatables/buttons.flash.js"></script>
+    <script src="~/assets/vendors/js/datatables/buttons.print.min.js"></script>
+    <script src="~/assets/vendors/js/datatables/buttons.html5.js"></script>
+
+    <script src="~/assets/vendors/js/tablefilter/jquery.tablefilter.js"></script>
+    <script src="~/assets/vendors/js/tablefilter/jquery.tabledatafilter.min.js"></script>
+    <script>
+        $(function () {
+
+        });
+
+        $('#btnSubmit').on('click', function (e) {
+            $("#tab1").hide();
+            $("#pnlSuccess").show();
+        });
+        $('#btnEdit').on('click', function (e) {
+            $("#tab1").show();
+            $("#pnlSuccess").hide();
+        });
+
+        var editor; // use a global for the submit and return data rendering in the examples
+
+        $(document).ready(function () {
+
+            $('#ddlSendMethod').on('change', function (e) {
+                if (this.value == "2") {
+                    $('#pnlPostageNo').show();
+                } else {
+                    $('#pnlPostageNo').hide();
+                }
+            });
+
+
+
+            // Setup - add a text input to each footer cell
+
+            var table = $('#tblBulkBankDraft').DataTable({
+                dom: "Bfrtip",
+                "data": [
+                    {
+                        "WCRefNo": "TNB/WC/102938931",
+                        "NoBD": "169200823",
+                        "SendMethod": "Self Collect",
+                        "ReceivedBy": "100892933",
+                        "ReceivedByContactNo": "",
+                        "DT_RowId": "2"
+                    },
+                    {
+                        "WCRefNo": "TNB/WC/123097373",
+                        "NoBD": "169123332",
+                        "SendMethod": "Postage <br>(MY-91288223-E)",
+                        "ReceivedBy": "",
+                        "ReceivedByContactNo": "",
+                        "DT_RowId": "1"
+                    }
+                ],
+                order: [[1, 'asc']],
+                columns: [
+                    { data: "WCRefNo" },
+                    { data: "NoBD" },
+                    { data: "SendMethod" },
+                    { data: "ReceivedBy" },
+                    { data: "ReceivedByContactNo" },
+                    {
+                        data: "DT_RowId",
+                        "render": function (data, type, row) {
+                            var text = "";
+                            if (type == "display") {
+                                data = "<a href=#  data-target='#edit-modal' data-toggle='modal'><i class='la la-edit edit'></i></a>";
+                            }
+                            return data;
+                        }
+                    }
+                ],
+                //"columnDefs": [
+                //    { "orderable": false, "targets": 0 },
+                //    {
+                //        "targets": 0,
+                //        "data": "",
+                //        "render": function (data, type, full) {
+                //            return "<a data-toggle='modal' data-target='#infoModal' data-id='' id='getCompany' class='blue'><i class='ace-icon fa fa-search-plus bigger-130'></i></a> ";
+                //        }
+                //    }],
+                "bPaginate": false,
+                "bLengthChange": false,
+                "bFilter": false,
+                "bInfo": false,
+                "bAutoWidth": false,
+                orderCellsTop: true,
+                fixedHeader: true,
+                "lengthChange": false,
+            });
+
+            $.each($('.input-filter', table.table().header()), function () {
+                var column = table.column($(this).index());
+
+                $('input', this).on('keyup change', function () {
+                    console.log(this.value);
+                    if (column.search() !== this.value) {
+                        column
+                            .search(this.value)
+                            .draw();
+                    }
+                });
+            });
+        });
+    </script>
+}

@@ -1,0 +1,361 @@
+﻿@{
+    ViewData["Title"] = "Reporting";
+}
+
+@section Styles{
+
+    <style>
+
+        .btn-create {
+            background-color: #5d5386;
+            color: white;
+        }
+
+        .btn-apply:hover {
+            background-color: white;
+            color: black;
+        }
+
+        .btn-cancel:hover {
+            background-color: red;
+            color: white;
+        }
+
+        .btn-recover:hover {
+            background-color: limegreen;
+            color: white;
+        }
+
+        .btn-lost:hover {
+            background-color: #FFC300;
+            color: white;
+        }
+
+        select.filter {
+            height: 33px !important;
+        }
+
+        .dataTable > thead > tr > th[class*="sort"]:before,
+        .dataTable > thead > tr > th[class*="sort"]:after {
+            content: "" !important;
+        }
+
+        .dt-body-right {
+            text-align: right;
+        }
+
+        .dt-body-center {
+            text-align: center;
+        }
+    </style>
+}
+<div class="content-inner active">
+    <div class="container-fluid">
+        <!-- Begin Page Header-->
+        <div class="row">
+            <div class="page-header">
+                <div class="d-flex align-items-center">
+                    <div>
+                        <h2 class="page-header-title">Admin Console</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="widget has-shadow">
+            <div id="pnl_main_form" class="widget-body">
+                <div class="padding-left-20 padding-right-20">
+                    <h4 style="padding-top:30px;" class="page-header-title">State Report</h4>
+                    @*<form action="" method="post">*@
+                        <div class="form-group row">
+                            <br />
+                            <br />
+                            <div class="col-sm-2 form-control-label d-flex align-items-center">Month</div>
+                            <div class="col-xl-2">
+                                <select id="ddlMonth" name="ddlMonth" class="selectpicker" style="background-color:white">
+                                    <option value="0">Month</option>
+                                    <option value="1">January</option>
+                                    <option value="2">February</option>
+                                    <option value="3">March</option>
+                                    <option value="4">April</option>
+                                    <option value="5">May</option>
+                                    <option value="6">June</option>
+                                    <option value="7">July</option>
+                                    <option value="8">August</option>
+                                    <option value="9">September</option>
+                                    <option value="10">October</option>
+                                    <option value="11">November</option>
+                                    <option value="12">December</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-2 form-control-label d-flex align-items-center">Year</div>
+                            <div class="col-xl-2">
+                                <select id="ddlYear" name="ddlYear" class="selectpicker">
+                                    <option value="0" selected>Year</option>
+                                    <option value="2001">2001</option>
+                                    <option value="2002">2002</option>
+                                    <option value="2003">2003</option>
+                                    <option value="2004">2004</option>
+                                    <option value="2005">2005</option>
+                                    <option value="2006">2006</option>
+                                    <option value="2007">2007</option>
+                                    <option value="2008">2008</option>
+                                    <option value="2009">2009</option>
+                                    <option value="2010">2010</option>
+                                    <option value="2011">2011</option>
+                                    <option value="2012">2012</option>
+                                    <option value="2013">2013</option>
+                                    <option value="2014">2014</option>
+                                    <option value="2015">2015</option>
+                                    <option value="2016">2016</option>
+                                    <option value="2017">2017</option>
+                                    <option value="2018">2018</option>
+                                    <option value="2019">2019</option>
+                                    <option value="2020">2020</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-2 form-control-label d-flex align-items-center">Company Code</div>
+                            <div class="col-xl-2">
+                                <select name="ddlCoCode2" id="ddlCoCode2" class="form-control" tabindex="-98"></select>
+                            </div>
+                            <div class="col-sm-2 form-control-label d-flex align-items-center"></div>
+                            <div class="col-xl-2">
+                                @*<select name="ddlCoCode2" id="ddlCoCode2" class="form-control" tabindex="-98"></select>*@
+                            </div>
+                            <button id="btnRun1" class="btn btn-create">Run</button>
+                        </div>
+                    @*</form>*@
+                </div>
+                <div class="padding-left-20 padding-right-20">
+                    <h4 style="padding-top:30px;" class="page-header-title">Month Report</h4>
+                    @*<form action="" method="post">*@
+                        <div class="form-group row">
+                            <br />
+                            <br />
+                            <div class="col-sm-2 form-control-label d-flex align-items-center">All Years</div>
+                            <div class="col-xl-2">
+                                <select name="ddlCoCode" id="ddlCoCode" class="form-control"></select>
+                            </div>
+                            <div class="col-sm-2 form-control-label d-flex align-items-center"></div>
+                            <div class="col-xl-2">
+                                @*<select id="ddlMonth" name="ddlMonth" class="selectpicker" style="background-color:white">
+                <option value="0">Month</option>
+                <option value="1">January</option>
+                <option value="2">February</option>
+                <option value="3">March</option>
+                <option value="4">April</option>
+                <option value="5">May</option>
+                <option value="6">June</option>
+                <option value="7">July</option>
+                <option value="8">August</option>
+                <option value="9">September</option>
+                <option value="10">October</option>
+                <option value="11">November</option>
+                <option value="12">December</option>
+            </select>*@
+                            </div>
+                            <button id="btnRun2" class="btn btn-create">Run</button>
+                        </div>
+                    @*</form>*@
+                </div>
+            </div>
+            @*<button id="btnDelete" class="btn btn-create">Run Delete</button>
+            <button id="btnEdit" class="btn btn-create">Run Edit</button>*@
+        </div>
+    </div>
+    <!-- End Container -->
+    <!-- Begin Page Footer-->
+    <!-- End Page Footer -->
+    <a href="#" class="go-top"><i class="la la-arrow-up"></i></a>
+    <!-- Offcanvas Sidebar -->
+    <!-- End Offcanvas Sidebar -->
+</div>
+
+@section Scripts{
+    <script src="~/assets/vendors/js/bootstrap-select/bootstrap-select.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+    <script src=https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.html5.min.js"></script>
+
+
+
+    @*<script src="~/assets/vendors/js/datatables/datatables.min.js"></script>
+        <script src="~/assets/vendors/js/datatables/dataTables.select.min.js"></script>
+        <script src="~/assets/vendors/js/datatables/dataTables.buttons.min.js"></script>
+        @*<script src="~/assets/vendors/js/datatables/buttons.flash.js"></script>
+        <script src="~/assets/vendors/js/datatables/buttons.print.min.js"></script>*@
+    @*<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+        <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.html5.min.js"></script>*@
+    @*<script src="~/assets/vendors/js/datatables/buttons.html5.js"></script>*@
+
+    @*<script src="~/assets/vendors/js/tablefilter/jquery.tablefilter.js"></script>
+        <script src="~/assets/vendors/js/tablefilter/jquery.tabledatafilter.min.js"></script>*@
+    <script src="~/assets/vendors/js/datatables/sum.js"></script>
+    @*<script src="~/assets/vendors/js/tablefilter/jquery.tableditfixedheader.min.js"></script>*@
+    <script>
+        var months = ["", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        var d = new Date();
+        var currMonth = d.getMonth() + 1;
+        var currYear = d.getFullYear();
+        var monthName = months[currMonth];
+        var month = $("#ddlMonth").val(currMonth);
+        var year = $("#ddlYear").val(currYear);
+
+        var data = {
+
+            id: 4001,
+            text: '4001 - Corporate'
+        };
+
+        $(function () {
+            $("nav").addClass("shrinked");
+        });
+
+
+        $(document).ready(function () {
+
+            var newOption = new Option(data.text, data.id, false, false);
+            var newOption2 = new Option(data.text, data.id, false, false);
+            $('#ddlCoCode').append(newOption).trigger('change');
+            $('#ddlCoCode2').append(newOption2).trigger('change');
+
+            $("#ddlCoCode").select2({
+                minimumResultsForSearch: -1,
+                ajax: {
+                    url: "/Reporting/GetAllCompanyCode",
+                    dataType: 'json',
+                    type: "GET",
+                    processResults: function (data) {
+                        console.log(data);
+                        return {
+                            results: $.map(data, function (item) {
+                                return {
+                                    text: item.name,
+                                    id: item.id
+                                }
+
+                            })
+                        };
+
+                    }
+                }
+            });
+
+            $('#ddlCoCode').on('select2:select', function (e) {
+                var data = e.params.data;
+                if (data.selected) {
+                    var coCode = data.id;
+                    //alert(coCode);
+                    //month = $('#ddlMonth').val();
+                    //year = $('#ddlYear').val();
+                    //$("#ddlCoCode").val(coCode);
+                    //table.ajax.url("/Reporting/GetReportForState?month=" + month + "&year=" + year + "&coCode=" + coCode + "").load();
+                }
+            });
+
+            $("#ddlCoCode2").select2({
+                minimumResultsForSearch: -1,
+                ajax: {
+                    url: "/Reporting/GetAllCompanyCode",
+                    dataType: 'json',
+                    type: "GET",
+                    processResults: function (data) {
+                        console.log(data);
+                        return {
+                            results: $.map(data, function (item) {
+                                return {
+                                    text: item.name,
+                                    id: item.id
+                                }
+
+                            })
+                        };
+
+                    }
+                }
+            });
+
+            $('#ddlCoCode2').on('select2:select', function (e) {
+                var data = e.params.data;
+                if (data.selected) {
+                    var coCode = data.id;
+                    //alert(coCode);
+                    //month = $('#ddlMonth').val();
+                    //year = $('#ddlYear').val();
+                    //$("#ddlCoCode").val(coCode);
+                    //table.ajax.url("/Reporting/GetReportForState?month=" + month + "&year=" + year + "&coCode=" + coCode + "").load();
+                }
+            });
+
+        });
+
+         $("#btnRun1").on('click', function () {
+           
+                $.ajax({
+                         type: "GET",
+                    url: "/AdminConsole/GetReportForState?month=" + $("#ddlMonth").val() + "&year=" + $("#ddlYear").val() + "&coCode=" + $("#ddlCoCode2").val(),
+                         processData: false,
+                         contentType: false,
+                         success: function (data) {
+                                      for (var i = 0; i < data.length; i++) {
+                                           console.log(data[i]);
+                                       
+                                   }
+                                }
+                        });
+        });
+
+        $("#btnRun2").on('click', function () {
+
+            $.ajax({
+                type: "POST",
+                url: "/AdminConsole/GenerateApplicationForLampiran2?coCode=" + $('#ddlCoCode').val(),
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    for (var i = 0; i < data.length; i++) {
+                        console.log(data[i]);
+
+                    }
+                }
+            });
+        });
+
+        $("#btnDelete").on('click', function () {
+
+            $.ajax({
+                type: "POST",
+                url: "/AdminConsole/CleanseData",
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    for (var i = 0; i < data.length; i++) {
+                        console.log(data[i]);
+
+                    }
+                }
+            });
+        });
+
+        $("#btnEdit").on('click', function () {
+
+            $.ajax({
+                type: "POST",
+                url: "/AdminConsole/EditData",
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    for (var i = 0; i < data.length; i++) {
+                        console.log(data[i]);
+
+                    }
+                }
+            });
+        });
+
+    </script>
+}

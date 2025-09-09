@@ -1,0 +1,75 @@
+﻿@model BDA.ViewModel.BankDraftViewModel
+@{
+
+    var evidence = "";
+
+    if (Model != null)
+    {
+        evidence = Model.EvidenceVM.FileName;
+    }
+}
+<div class="widget-header d-flex align-items-center" aria-expanded="true">
+    <h3>Bank Draft Acceptance</h3>
+</div>
+<div id="pnl_bank_details" class="widget-body">
+    <div class="padding-left-20 padding-right-20">
+        <div class="form-group row">
+            <div class="col-sm-2 form-control-label d-flex align-items-center">Date of Acceptance</div>
+            <div class="col-xl-4">
+                <div class="input-group">
+                    @*<input type="text" class="form-control date" id="dateReceivedBD" placeholder="Select value">*@
+                    @Html.TextBoxFor(x => x.ReceiveBankDraftDate, new { @class = "form-control date" })
+                    <span class="input-group-addon">
+                        <i class="la la-calendar"></i>
+                    </span>
+                </div>
+            </div>
+            @*<div class="col-sm-2 form-control-label d-flex align-items-center">Received By</div>
+                <div class="col-xl-4">
+                    <select id="ddlApprover" name="ddlApprover" class="selectpicker show-menu-arrow form-control" multiple="" data-max-options="2" tabindex="-98">
+                        <option value="1">Ahmad Hasree Abu Samah</option>
+                        <option value="2">Mohammad Nazeef</option>
+                        <option value="3">Siti Rohani</option>
+                    </select>
+                </div>*@
+        </div>
+    </div>
+</div>
+
+
+<div class="widget-header d-flex align-items-center" aria-expanded="true">
+    <h3>Receipt</h3>
+</div>
+<div id="pnl_bank_details" class="widget-body">
+    <div class="padding-left-20 padding-right-20">
+        <div class="form-group row">
+            <div class="col-sm-2 form-control-label d-flex align-items-center">Receipt No</div>
+            <div class="col-xl-4">
+                @Html.TextBoxFor(x => x.ReceiptNo, new { @class = "form-control" })
+
+            </div>
+            <div class="col-sm-2 form-control-label d-flex align-items-center">Evidence</div>
+            <div class="col-xl-4">
+                @*<input type="file" class="">*@
+                @if (evidence == "" || evidence == null)
+                {
+                    <div class="file-upload">
+                        @Html.TextBoxFor(m => m.EvidenceVM.File, new { type = "file", name = "Evidence" })
+                    </div>
+                }
+                else
+                {
+                    var file = evidence;
+                    <div id="noFile-Evidence" class="file-upload" style="display:none">
+                        @Html.TextBoxFor(m => m.EvidenceVM.File, new { type = "file", name = "Evidence" })
+                    </div>
+                    <div id="hasFile-Evidence">
+                        <input type="hidden" value="@file" id="hdnEvidence" />
+                        <a href="~/documents/@file"><i class="ti-printer"></i></a>
+                        <a onclick="RemoveAttachment('@Model.EvidenceVM.Id','Evidence');"><i class="la la-trash delete before-complete" data-toggle="tooltip" data-placement="top" data-original-title="Remove attachment"></i></a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

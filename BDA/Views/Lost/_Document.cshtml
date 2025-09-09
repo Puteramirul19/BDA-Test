@@ -1,0 +1,121 @@
+﻿@model BDA.ViewModel.LostViewModel
+@{
+    var report = "";
+    var pbt = "";
+
+    if (Model != null)
+    {
+        report = Model.ScannedPoliceReportVM.FileName;
+        pbt = Model.ScannedPBTDocVM.FileName;
+    }
+
+}
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+<div class="widget-header d-flex align-items-center" aria-expanded="true">
+    <h3>Supporting Document</h3>
+</div>
+<div id="pnl_document" class="widget-body">
+    <div class="table-responsive padding-left-20 padding-right-20">
+        <table id="tblListVerifier" class="table table-hover mb-0 display table-bordered">
+            <thead>
+                <tr>
+                    <th style="width:5px">No</th>
+                    <th style="width:400px">Name</th>
+                    <th style="width:250px">Action</th>
+                </tr>
+
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>
+                        <p>Police Report (Scanned) and Memo (Scanned)<span class="text-danger ml-2">*</span></p>
+                        <p><b style="color:red;font-style:italic;font-size:12px">*Original Police Report (Physical) and Memo (Physical) must be delivered to TGBS AP Banking Management</b></p>
+                    </td>
+                    <td class="td-actions">
+                        @if (report == "" || report == null)
+                        {
+                            <div id="noFile-ScannedPoliceReport" class="file-upload before-submit">
+                                @Html.TextBoxFor(m => m.ScannedPoliceReportVM.File, new { type = "file", name = "ScannedPoliceReport" })
+
+                            </div>
+                        }
+                        else
+                        {
+                            var file = report;
+                            <div id="noFile-ScannedPoliceReport" class="file-upload" style="display:none">
+                                @Html.TextBoxFor(m => m.ScannedPoliceReportVM.File, new { type = "file", name = "ScannedPoliceReport" })
+                            </div>
+                            <div id="hasFile-ScannedPoliceReport">
+                                <table>
+                                    <tr>
+                                        <td rowspan="2" style="border-collapse: collapse;border:none;"><input type="hidden" value="@file" id="hdnScannedPoliceReport" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border-collapse: collapse; border:none;"> <a onclick="window.open('../../../documents/@file','newwindow','width=900,height=750');"><i class="ti-printer"></i>@Model.ScannedPoliceReportVM.FileName</a></td>
+                                        <td style="border-collapse: collapse; border:none;"><a onclick="RemoveAttachment('@Model.ScannedPoliceReportVM.Id','ScannedPoliceReport');"><i class="la la-trash delete before-submit" data-toggle="tooltip" data-placement="top" data-original-title="Remove attachment"></i></a></td>
+                                    </tr>
+                                    <tr>
+                                       
+                                    </tr>
+                                </table>
+                            </div>
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>
+                        <p>Supporting Documents from PBT if applicable (Scanned)</p>
+                    </td>
+                    <td class="td-actions">
+                        @if (pbt == "" || pbt == null)
+                        {
+                            <div id="noFile-ScannedPBTDoc" class="file-upload before-submit">
+                                @Html.TextBoxFor(m => m.ScannedPBTDocVM.File, new { type = "file", name = "ScannedPBTDoc" })
+                            </div>
+                        }
+                        else
+                        {
+                            var file = pbt;
+                                <div id="noFile-ScannedPBTDoc" class="file-upload" style="display:none">
+                                    @Html.TextBoxFor(m => m.ScannedPBTDocVM.File, new { type = "file", name = "ScannedPBTDoc" })
+                                </div>
+                                <div id="hasFile-ScannedPBTDoc">
+                                    <table>
+                                        <tr>
+                                            <td rowspan="2" style="border-collapse: collapse;border:none;"><input type="hidden" value="@file" id="hdnScannedPBTDoc" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="border-collapse: collapse; border:none;"><a onclick="window.open('../../../documents/@file','newwindow','width=900,height=750');"><i class="ti-printer"></i> @Model.ScannedPBTDocVM.FileName</a></td>
+                                            <td style="border-collapse: collapse; border:none;"><a onclick="RemoveAttachment('@Model.ScannedPBTDocVM.Id','ScannedPBTDoc');"><i class="la la-trash delete before-submit" data-toggle="tooltip" data-placement="top" data-original-title="Remove attachment"></i></a></td>
+                                        </tr>  
+                                    </table>
+                                </div>
+                        }
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div id="pnl_first_form" class="widget">
+        <div class="padding-left-20 padding-right-20">
+            <br /><br/>
+            <h4>Additional Document</h4>
+            <table id="suppDoc" class="display" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Name</th>
+                        <th>Attachment</th>
+                        <th></th>
+                    </tr>
+                </thead>
+            </table>
+            <br />
+            <button type="button" id="addRow" class="btn btn-secondary ripple">Add Attachment</button>
+        </div>
+    </div>
+</div>

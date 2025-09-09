@@ -1,0 +1,2005 @@
+﻿@model BDA.ViewModel.BankDraftViewModel
+
+@{
+    ViewData["Title"] = "Wang Cagaran";
+    var status = Model.Status;
+    var userId = User.Identity.Name;
+
+}
+
+
+
+@section Styles  {
+
+    <!-- Tweaks for older IEs-->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
+
+    <link rel="stylesheet" href="~/assets/css/bootstrap-select/bootstrap-select.min.css">
+    <style>
+        .break {
+            word-wrap: break-word;
+        }
+    </style>
+}
+
+<div class="content-inner active">
+    <div class="container-fluid">
+        <!-- Begin Page Header-->
+        <div class="row">
+            <div class="page-header">
+                <div class="d-flex align-items-center">
+                    <h2 class="page-header-title">Permohonan Deraf Bank <span> - Wang Cagaran</span></h2>
+                    <div>
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="db-default.html"><i class="ti ti-home"></i></a></li>
+                            <li class="breadcrumb-item"><a href="#">New Application</a></li>
+                            <li class="breadcrumb-item active">Wang Cagaran</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Page Header -->
+        <div class="row flex-row">
+            <div class="col-xl-12">
+                <!-- Form -->
+                <div class="widget has-shadow">
+                    @*<div class="widget-header bordered no-actions d-flex align-items-center">
+                            <h4>Permohonan Deraf Bank</h4>
+                        </div>*@
+                    <div class="widget-body">
+                        <div class="row flex-row justify-content-center">
+                            <div class="col-xl-12">
+                                <div id="rootwizard">
+                                    @Html.Partial("_StatusPendingAction.cshtml")
+                                    @Html.Partial("_StatusBar.cshtml")
+                                    <div class="tab-content" style="font-family: Arial">
+
+                                        <div class="body-content">
+                                            <input type="hidden" id="hdnRefNo" value="@Model.RefNo" class="form-control">
+                                            <div>
+                                                @*<h4>Submitted by: En. Requestor</h4>*@
+                                                <br>
+                                            </div>
+                                            <div class="widget has-shadow">
+                                                <div class="widget-body sliding-tabs">
+                                                    <ul class="nav nav-tabs form-tab" id="ul-form-tab" role="tablist">
+                                                        <li class="nav-item">
+                                                            <a class="nav-link @((status == "Draft" || status == "Withdrawn" || status == "RejectedVerify" || status == "RejectedApprove" || status == "Declined" || status == "Submitted" || status == "Verified" || status == "Approved" || status == "Complete" || status == "Posted" || status == "ToDecline") ? "active" : "")" id="base-tab-1" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="true">Main Application</a>
+                                                        </li>
+                                                        <li class="nav-item">
+                                                            <a class="nav-link @(status == "Accepted" ? "active" : "") @((status == "Accepted" || status == "Processed" || status == "Issued" || status == "Complete") ? "" : "disabled")" id="base-tab-2" data-toggle="tab" href="#tab-2" role="tab" aria-controls="tab-2" aria-selected="false">Bank Details</a>
+                                                        </li>
+                                                        <li class="nav-item">
+                                                            <a class="nav-link @(status == "Processed" ? "active" : "") @((status == "Processed" || status == "Issued" || status == "Complete") ? "" : "disabled")" id="base-tab-3" data-toggle="tab" href="#tab-3" role="tab" aria-controls="tab-3" aria-selected="false">Bank Draft Issued</a>
+                                                        </li>
+                                                        <li class="nav-item">
+                                                            <a class="nav-link @(status == "Issued" ? "active" : "") @((status == "Issued" || status == "Complete") ? "" : "disabled")" id="base-tab-4" data-toggle="tab" href="#tab-4" role="tab" aria-controls="tab-4" aria-selected="false">Bank Draft Acceptance</a>
+                                                        </li>
+                                                    </ul>
+                                                    <div class="tab-content pt-3">
+                                                        <div class="tab-pane fade @((status == "Draft" ||  status == "Withdrawn" || status == "RejectedVerify" || status == "RejectedApprove" || status == "Declined"  || status == "Submitted" || status == "Verified" || status == "Approved" || status == "Complete" || status == "Posted" || status == "ToDecline") ? "active show" : "")" id="tab-1" role="tabpanel" aria-labelledby="base-tab-1">
+                                                            @using (Html.BeginForm("Edit", "BankDraft", Model, FormMethod.Post, false, new { @id = "formEditApplication", @class = "form-horizontal", enctype = "multipart/form-data" }))
+                                                            {
+                                                                @Html.AntiForgeryToken()
+                                                                @Html.HiddenFor(x => x.Status)
+                                                                @Html.HiddenFor(x => x.WangCagaranViewModel.Id)
+                                                                @Html.Partial("_MainForm.cshtml")
+                                                                @Html.Partial("_Document.cshtml")
+                                                                @Html.Partial("_ApproverList.cshtml")
+                                                                @Html.Partial("_Agreement.cshtml")
+
+                                                                if (status != "Draft")
+                                                                {
+                                                                    @Html.Partial("_ActionHistory.cshtml")
+                                                                }
+
+                                                                if (((status == "Draft" || status == "RejectedVerify" || status == "RejectedApprove" || status == "Declined") && Model.RequesterId == userId))
+                                                                {
+                                                                    @Html.Partial("_Comment.cshtml")
+                                                                }
+                                                            }
+                                                            @using (Html.BeginForm("NextAction", "BankDraft", Model, FormMethod.Post, false, new { @id = "formNextAction", @class = "form-horizontal" }))
+                                                            {
+                                                                if (((status == "Submitted" && (Model.VerifierId == userId || Model.RequesterId == userId)) || (status == "Withdrawn" && Model.RequesterId == userId)) || (status == "Verified" && Model.ApproverId == userId) ||
+                                                                    (status == "Approved" && User.IsInRole("TGBS Banking")) || (status == "ToDecline" && User.IsInRole("TGBS Banking")) || (status == "Approved" && User.IsInRole("Business Admin")))
+                                                                {
+                                                                    @Html.AntiForgeryToken()
+                                                                    @Html.HiddenFor(x => x.UserAction)
+                                                                    @Html.Partial("_Comment.cshtml")
+
+                                                                }
+                                                            }
+                                                        </div>
+                                                        <div class="tab-pane fade @(status == "Accepted" || status == "SaveProcessed" ? "active show" : "")" id="tab-2" role="tabpanel" aria-labelledby="base-tab-2">
+                                                            @if (status == "Accepted" || status == "Processed" || status == "Issued" || status == "Complete")
+                                                            {
+                                                                @using (Html.BeginForm("SaveBankDetails", "BankDraft", Model, FormMethod.Post, false, new { @id = "formSaveBankDetails", @class = "form-horizontal", enctype = "multipart/form-data" }))
+                                                                {
+                                                                    @Html.HiddenFor(x => x.UserAction)
+                                                                    @Html.Partial("_BankDetails.cshtml")
+                                                                }
+                                                            }
+                                                        </div>
+                                                        <div class="tab-pane fade @(status == "Processed" ? "active show" : "")" id="tab-3" role="tabpanel" aria-labelledby="base-tab-3">
+                                                            @if (status == "Processed" || status == "Issued" || status == "Complete")
+                                                            {
+                                                                @using (Html.BeginForm("SaveBankIssue", "BankDraft", Model, FormMethod.Post, false, new { @id = "formSaveBankIssue", @class = "form-horizontal", enctype = "multipart/form-data" }))
+                                                                {
+                                                                    @Html.HiddenFor(x => x.UserAction)
+                                                                    @Html.Partial("_BDIssued.cshtml")
+                                                                }
+
+                                                            }
+                                                        </div>
+                                                        <div class="tab-pane fade @(status == "Issued" ? "active show" : "")" id="tab-4" role="tabpanel" aria-labelledby="base-tab-4">
+                                                            @if (status == "Issued" || status == "Complete")
+                                                            {
+                                                                @using (Html.BeginForm("SaveBankAcceptance", "BankDraft", Model, FormMethod.Post, false, new { @id = "formSaveBankAcceptance", @class = "form-horizontal", enctype = "multipart/form-data" }))
+                                                                {
+                                                                    @Html.HiddenFor(x => x.UserAction)
+                                                                    @Html.Partial("_BDAcceptance.cshtml")
+                                                                }
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            @if ((status == "Submitted" && (Model.VerifierId == userId || Model.RequesterId == userId)) || (status == "Withdrawn" && Model.RequesterId == userId) || (status == "Verified" && Model.ApproverId == userId) ||
+                                               (status == "Approved" && User.IsInRole("TGBS Banking")|| User.IsInRole("Business Admin")) ||
+                                                (status == "ToDecline" && User.IsInRole("TGBS Banking") || User.IsInRole("Business Admin")) || (status == "Accepted" && User.IsInRole("TGBS Banking") ||
+                                               User.IsInRole("Business Admin")) || ((status == "Processed") && User.IsInRole("TGBS Banking") || User.IsInRole("Business Admin")) || ((status == "Issued") && Model.RequesterId == userId) || ((status == "Draft" || status == "RejectedVerify" || status == "RejectedApprove" || status == "Declined") && Model.RequesterId == userId))
+                                            {
+                                                @Html.HiddenFor(x => x.UserAction)
+                                                @Html.Partial("_ActionButton.cshtml")
+                                            }
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Form -->
+            </div>
+        </div>
+        <!-- End Row -->
+    </div>
+    <!-- End Container -->
+    <!-- Begin Page Footer-->
+    <!-- End Page Footer -->
+    <a href="#" class="go-top"><i class="la la-arrow-up"></i></a>
+    <!-- Offcanvas Sidebar -->
+    @*@Html.Partial("_Log.cshtml")*@
+    <!-- End Offcanvas Sidebar -->
+</div>
+
+<!-- Begin Modal -->
+
+
+
+@section Scripts{
+
+
+    @*<script src="~/assets/vendors/js/tablefilter/jquery.tablefilter.js"></script>
+        <script src="~/assets/vendors/js/tablefilter/jquery.tabledatafilter.min.js"></script>*@
+
+
+    @*<script src="~/assets/vendors/js/datatables/datatables.min.js"></script>
+        <script src="~/assets/vendors/js/datatables/dataTables.select.min.js"></script>
+            <script src="~/assets/vendors/js/datatables/dataTables.buttons.min.js"></script>
+            <script src="~/assets/vendors/js/datatables/buttons.flash.js"></script>
+            <script src="~/assets/vendors/js/datatables/buttons.print.min.js"></script>
+            <script src="~/assets/vendors/js/datatables/buttons.html5.js"></script>*@
+    <script src="~/js/jquery.validate.js"></script>
+    <script src="~/assets/js/components/wizard/form-wizard.min.js"></script>
+    <script src="~/assets/vendors/js/tablefilter/jquery.tabledatafilter.min.js"></script>
+
+    <script>
+
+        var bdId = '@Model.Id';
+        var negeri = '@Model.WangCagaranViewModel.Negeri';
+        var jkr = '@Model.WangCagaranViewModel.JKRType';
+        var jkrType;
+        var jkrInvolved = '@Model.WangCagaranViewModel.JKRInvolved';
+        var state = '@Model.WangCagaranViewModel.Negeri';
+        var sendingMethod = '@Model.SendMethod';
+        var sendMethod = "";
+        var userId = '@User.Identity.Name';
+        var ba = '@Model.WangCagaranViewModel.BusinessArea';
+        var busArea;
+        var executive = '@User.IsInRole("Executive/Engineer")';
+        var jumlah = '@Model.WangCagaranViewModel.Jumlah';
+        var amount = $('#jumlah').val();
+        var manager = '@User.IsInRole("Manager/Senior Engineer")';
+        var refNo = '@Model.RefNo';
+        var coCode = '@Model.WangCagaranViewModel.CoCode';
+        var counts = 0;
+        var coCodeId = '@Model.WangCagaranViewModel.CoCode';
+        var coCodeName;
+        var coCodeCode = '@Model.WangCagaranViewModel.CoCode';
+        var fileId;
+        var fileType;
+        //var coCodeInitial;
+
+        function convert(currency) {
+
+            // Using replace() method
+            // to make currency string suitable
+            // for parseFloat() to convert
+            var temp = currency.replace(/[^0-9.-]+/g, "");
+
+            // Converting string to float
+            // or double and return
+            return parseFloat(temp);
+
+        }
+
+        $(function () {
+            $("nav").addClass("shrinked");
+            $("#submitGroupBtn").show();
+
+        });
+
+        function popupwindow(url, title, w, h) {
+            var y = window.outerHeight / 2 + window.screenY - (h / 2)
+            var x = window.outerWidth / 2 + window.screenX - (w / 2)
+            return window.open(url, title, 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width=' + w + ', height=' + h + ', top=' + y + ', left=' + x);
+        }
+
+         function getVerifier() {
+
+              $.get("@Url.Action("GetAllVerifier", "BankDraft")", {
+                dataType: 'json'
+            })
+                .done(function (result) {
+                    if (result != null) {
+                        console.log(result[0].name);
+                        SetSelectedValue(result[0].name, "#ddlVerifier");
+                        $("#VerifierId").val(result[0].id);
+                    } else {
+
+                    }
+                })
+        }
+
+         function getVerifierSpecialCase() {
+
+              $.get("@Url.Action("GetAllVerifierForMore5M", "BankDraft")", {
+                dataType: 'json'
+            })
+                .done(function (result) {
+                    if (result != null) {
+                        console.log(result[0].name);
+                        SetSelectedValue(result[0].name, "#ddlVerifier");
+                        $("#VerifierId").val(result[0].id);
+                    } else {
+
+                    }
+                })
+        }
+
+        function getApprover() {
+
+              $.get("@Url.Action("GetAllWCApprover", "BankDraft")", {
+                dataType: 'json'
+            })
+                .done(function (result) {
+                    if (result != null) {
+                        console.log(result[0].name);
+                        SetSelectedValue(result[0].name, "#ddlApprover");
+                        $("#ApproverId").val(result[0].id);
+                    } else {
+
+                    }
+                })
+        }
+
+          function getApproverSpecialCase() {
+
+              $.get("@Url.Action("GetAllWCApproverForMore5M", "BankDraft")", {
+                dataType: 'json'
+            })
+                .done(function (result) {
+                    if (result != null) {
+                        console.log(result[0].name);
+                        SetSelectedValue(result[0].name, "#ddlApprover");
+                        $("#ApproverId").val(result[0].id);
+                    } else {
+
+                    }
+                })
+        }
+
+
+        function refresh() {
+            setTimeout(function () { location.reload(); }, 500);
+
+        }
+
+       
+
+        $(document).ready(function () {
+
+            $("#cbxActive").prop('checked', true);
+            $("#cbxActive2").prop('checked', true);
+
+            //sessionStart();
+            //alert(ba);
+            //console.log(amount);
+
+            //$.ajax({
+            //    type: "GET",
+            //    url: "/CoverMemo/GetCoverMemoForBulk?refNo=" + refNo + "",
+            //    processData: false,
+            //    contentType: false,
+            //    success: function (data) {
+            //        $("#CoverMemoRefNo").val(data.coverRefNo);
+            //        console.log(data);
+            //        var cmrn = $("#CoverMemoRefNo").val();
+
+            //        if (cmrn !== "") {
+            //            $("#CoverMemoRefNo").attr("disabled", "disabled");
+            //            $("#btnNewMemo").hide();
+            //            $("#btnViewMemo").show();
+            //            $("#btnEditMemo").show();
+            //        }
+            //    }
+            //});
+
+            //window.open("/../documents/Touch n go statement_1df2.docx", "popupWindow", "width=800,height=1200,scrollbars=yes");
+
+            if (sendingMethod == "ByPos") {
+                $('#pnlPostageNo').show();
+            }
+            else {
+                $('#pnlPostageNo').hide();
+            }
+
+             SetSelectedValue('@ViewBag.ApproverId', "#ddlApprover");
+             SetSelectedValue('@ViewBag.VerifierId', "#ddlVerifier");
+
+            if (executive == 'True' && jumlah > 5000000) {
+
+                $("#ddlVerifier").select2({
+                    minimumResultsForSearch: -1,
+                    ajax: {
+                        url: "/BankDraft/GetAllVerifierForMore5M",
+                        dataType: 'json',
+                        type: "GET",
+                        processResults: function (data) {
+                            console.log(data);
+                            return {
+                                results: $.map(data, function (item) {
+                                    return {
+                                        text: item.name,
+                                        id: item.id
+                                    }
+
+                                })
+                            };
+
+                        }
+                    }
+                });
+
+                //SetSelectedValue("", "#ddlVerifier");
+
+                $('#ddlVerifier').on('select2:select', function (e) {
+                    var data = e.params.data;
+                    if (data.selected) {
+                        var id = data.id;
+                        $("#VerifierId").val(id);
+                    }
+                });
+
+
+                $("#ddlApprover").select2({
+                    minimumResultsForSearch: -1,
+                    ajax: {
+                        url: "/BankDraft/GetAllWCApproverForMore5M",
+                        dataType: 'json',
+                        type: "GET",
+                        processResults: function (data) {
+                            return {
+                                results: $.map(data, function (item) {
+                                    return {
+                                        text: item.name,
+                                        id: item.id
+                                    }
+
+                                })
+                            };
+                        }
+                    }
+                });
+
+                $('#ddlApprover').on('select2:select', function (e) {
+                    var data = e.params.data;
+                    if (data.selected) {
+                        var id = data.id;
+                        $("#ApproverId").val(id);
+                    }
+                });
+            }
+            else {
+
+                $("#ddlVerifier").select2({
+                    minimumResultsForSearch: -1,
+                    ajax: {
+                        url: "/BankDraft/GetAllVerifier",
+                        dataType: 'json',
+                        type: "GET",
+                        processResults: function (data) {
+                            console.log(data);
+                            return {
+                                results: $.map(data, function (item) {
+                                    return {
+                                        text: item.name,
+                                        id: item.id
+                                    }
+
+                                })
+                            };
+
+                        }
+                    }
+                });
+
+                //SetSelectedValue("", "#ddlVerifier");
+
+                $('#ddlVerifier').on('select2:select', function (e) {
+                    var data = e.params.data;
+                    if (data.selected) {
+                        var id = data.id;
+                        $("#VerifierId").val(id);
+                    }
+                });
+
+                $("#ddlApprover").select2({
+                    minimumResultsForSearch: -1,
+                    ajax: {
+                        url: "/BankDraft/GetAllWCApprover",
+                        dataType: 'json',
+                        type: "GET",
+                        processResults: function (data) {
+                            return {
+                                results: $.map(data, function (item) {
+                                    return {
+                                        text: item.name,
+                                        id: item.id
+                                    }
+
+                                })
+                            };
+                        }
+                    }
+                });
+
+                $('#ddlApprover').on('select2:select', function (e) {
+                    var data = e.params.data;
+                    if (data.selected) {
+                        var id = data.id;
+                        $("#ApproverId").val(id);
+                    }
+                });
+            }
+
+            $('#jumlah').on('keyup click change paste input', function (event) {
+                $(this).val(function (index, value) {
+                    if (value != "") {
+                        //return '$' + value.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                        var decimalCount;
+                        value.match(/\./g) === null ? decimalCount = 0 : decimalCount = value.match(/\./g);
+
+                        if (decimalCount.length > 1) {
+                            value = value.slice(0, -1);
+                        }
+
+                        var components = value.toString().split(".");
+                        if (components.length === 1)
+                            components[0] = value;
+                        components[0] = components[0].replace(/\D/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                        if (components.length === 2) {
+                            components[1] = components[1].replace(/\D/g, '').replace(/^\d{3}$/, '');
+                        }
+
+                        if (components.join('.') != '')
+                            return 'RM ' + components.join('.');
+                        else
+                            return '';
+                    }
+                });
+            });
+
+            $('#jumlah').on('change', function () {
+                var totalAmount = $('#jumlah').val();
+                totalAmount = convert(totalAmount);
+
+                $('#ddlVerifier').empty();
+                $('#ddlApprover').empty();
+
+                if (executive == 'True' && totalAmount > 5000000) {
+                    getVerifierSpecialCase();
+                    getApproverSpecialCase();
+
+                    $("#ddlVerifier").select2({
+                        minimumResultsForSearch: -1,
+                        ajax: {
+                            url: "/BankDraft/GetAllVerifierForMore5M",
+                            dataType: 'json',
+                            type: "GET",
+                            processResults: function (data) {
+                                console.log(data);
+                                return {
+                                    results: $.map(data, function (item) {
+                                        return {
+                                            text: item.name,
+                                            id: item.id
+                                        }
+
+                                    })
+                                };
+
+                            }
+                        }
+                    });
+
+                    //SetSelectedValue("", "#ddlVerifier");
+
+                    $('#ddlVerifier').on('select2:select', function (e) {
+                        var data = e.params.data;
+                        if (data.selected) {
+                            var id = data.id;
+                            $("#VerifierId").val(id);
+                        }
+                    });
+
+
+                    $("#ddlApprover").select2({
+                        minimumResultsForSearch: -1,
+                        ajax: {
+                            url: "/BankDraft/GetAllWCApproverForMore5M",
+                            dataType: 'json',
+                            type: "GET",
+                            processResults: function (data) {
+                                return {
+                                    results: $.map(data, function (item) {
+                                        return {
+                                            text: item.name,
+                                            id: item.id
+                                        }
+
+                                    })
+                                };
+                            }
+                        }
+                    });
+
+                    $('#ddlApprover').on('select2:select', function (e) {
+                        var data = e.params.data;
+                        if (data.selected) {
+                            var id = data.id;
+                            $("#ApproverId").val(id);
+                        }
+                    });
+                }
+                else {
+                    getApprover();
+                    getVerifier();
+
+                    $("#ddlVerifier").select2({
+                        minimumResultsForSearch: -1,
+                        ajax: {
+                            url: "/BankDraft/GetAllVerifier",
+                            dataType: 'json',
+                            type: "GET",
+                            processResults: function (data) {
+                                console.log(data);
+                                return {
+                                    results: $.map(data, function (item) {
+                                        return {
+                                            text: item.name,
+                                            id: item.id
+                                        }
+
+                                    })
+                                };
+
+                            }
+                        }
+                    });
+
+                    //SetSelectedValue("", "#ddlVerifier");
+
+                    $('#ddlVerifier').on('select2:select', function (e) {
+                        var data = e.params.data;
+                        if (data.selected) {
+                            var id = data.id;
+                            $("#VerifierId").val(id);
+                        }
+                    });
+
+                    $("#ddlApprover").select2({
+                        minimumResultsForSearch: -1,
+                        ajax: {
+                            url: "/BankDraft/GetAllWCApprover",
+                            dataType: 'json',
+                            type: "GET",
+                            processResults: function (data) {
+                                return {
+                                    results: $.map(data, function (item) {
+                                        return {
+                                            text: item.name,
+                                            id: item.id
+                                        }
+
+                                    })
+                                };
+                            }
+                        }
+                    });
+
+                    $('#ddlApprover').on('select2:select', function (e) {
+                        var data = e.params.data;
+                        if (data.selected) {
+                            var id = data.id;
+                            $("#ApproverId").val(id);
+                        }
+                    });
+                }
+            });
+
+            console.log(sendMethod + "test");
+            //if (sendMethod == "") {
+            //    SetSelectedValue("Please Select", "#ddlSendMethod");
+            //}
+
+            if (sendingMethod == "") {
+                SetSelectedValue("SelfCollect", "#ddlSendMethod");
+            }
+            else {
+                SetSelectedValue(sendingMethod, "#ddlSendMethod");
+                if (sendingMethod == "ByPos") {
+                    $('#pnlPostageNo').show();
+                }
+            }
+
+            var db = {
+
+                loadData: function (filter) {
+                    return $.ajax({
+                        url: "/BankDraftAction/GetBankDraftActionById?id="+bdId,
+                        type: "GET",
+                        dataType : "JSON",
+                        //data: function (d) {
+                        //    d.id = bdId;
+                        //}
+                    })
+                }
+
+            };
+
+            window.db = db;
+
+            //$("#jsGrid").jsGrid("sort", "on");
+            $("#jsGrid").jsGrid("sort", 0);
+            //$("#jsGrid").jsGrid("sort", { field: "on", order: "asc" });
+
+            $("#jsGrid").jsGrid({
+                width: "100%",
+                filtering: false,
+                editing: false,
+                inserting: false,
+                sorting: true,
+                paging: false,
+                autoload: true,
+                pageSize: 10,
+                pageButtonCount: 2,
+                //deleteConfirm: "Do you really want to delete the client?",
+                controller: db,
+                fields: [
+                    { name: "actionRole", title: "Action Role", width: 50, readOnly: true },
+                    { name: "byId", title: "Action By", type: "myDateField", width: 150, readOnly: true },
+                    {
+                        name: "comment", title: "Comment", readOnly: true, width: 150, css: "break",
+                        itemTemplate: function (value) {
+
+                            if (value == null) {
+                                return "";
+                            }
+                            else if (value.includes("&&")) {
+                                console.log(value);
+                                var comment = value.split("&&");
+                                var message = comment[0] + "<br>";
+                         
+                                for (var i = 1; i < comment.length; i++)  {
+                                    message += "<small> " + i + ") " + comment[i] + "</small>" + "<br>";
+                                }
+
+                                return "" + message + "";
+                            }
+                            else {
+                                console.log(value);
+                                return "" + value + "";
+                            }
+
+                        },
+                    },
+                    { name: "actionType", title: "Action Type", type: "text", width: 50, readOnly: true },
+                    { name: "on", title: "Action Date", type: "text", width: 60, readOnly: true }
+                    //{ type: "control", deleteButton: false, modeSwitchButton: false }
+                ]
+            });
+
+            var db = {
+
+                loadData: function (filter) {
+                    return $.ajax({
+                        url: "/BankDraftAction/GetBankDraftActionById?id="+bdId,
+                        type: "GET",
+                        dataType : "JSON",
+                        //data: function (d) {
+                        //    d.id = bdId;
+                        //}
+                    })
+                }
+
+            };
+
+
+
+
+            if (jkr == "undefined") {
+                $("#ddlJKRType").append("<option value=''>Please Select</option>");
+            }
+            else {
+                SetSelectedValue(jkr, "#ddlJKRType");
+            }
+
+            //console.log(jkr + jkrType);
+            //if (jkr != jkrType) {
+                //SetSelectedValue(jkr, "#ddlJKRType");
+            //}
+
+            $("#ddlJKRType").select2({
+                minimumResultsForSearch: -1,
+                ajax: {
+                    url: "/WangCagaran/GetJKRType",
+                    //url: "/BankDraft/GetAllBusinessArea",
+                    dataType: 'json',
+                    type: "GET",
+                    processResults: function (data) {
+                        console.log(data);
+                        return {
+                            results: $.map(data, function (item) {
+                                return {
+                                    text: item.name,
+                                    id: item.id
+                                }
+
+                            })
+                        };
+                    }
+                }
+            });
+
+            $('#ddlJKRType').on('select2:select', function (e) {
+                var data = e.params.data;
+                if (data.selected) {
+                    jkr = data.text;
+
+                     //SetSelectedValue("Persekutuan", "#ddlJKRType");
+                }
+            });
+
+            //$("#ddlBusinessArea").select2({
+            //    minimumResultsForSearch: -1,
+            //    ajax: {
+            //        url: "/BankDraft/GetAllBusinessArea",
+            //        dataType: 'json',
+            //        type: "GET",
+            //        processResults: function (data) {
+            //            console.log(data);
+            //            return {
+            //                results: $.map(data, function (item) {
+            //                    return {
+            //                        text: item.name,
+            //                        id: item.name
+            //                    }
+
+            //                })
+            //            };
+            //        }
+            //    }
+            //});
+
+            //$('#ddlBusinessArea').on('select2:select', function (e) {
+            //    var data = e.params.data;
+            //    if (data.selected) {
+            //        ba = data.text;
+            //    }
+            //});
+
+            $("#ddlBusinessArea").select2({
+                //minimumResultsForSearch: 1,
+                //matcher: matchStart,
+
+                ajax: {
+                    //url: "/BankDraft/GetAllBusinessAreaBasedOnCompanyCode?coCode=" + coCodeId,
+                    url: "/BankDraft/GetAllBusinessArea",
+                    dataType: 'json',
+                    data: function (params) {
+                        console.log(params);
+                        return {
+                            search: params.term,// search term
+                            coCode: coCodeId
+                        };
+                    },
+                    type: "GET",
+                    processResults: function (data) {
+
+                        console.log(data);
+                        return {
+                            results: $.map(data, function (item) {
+                                return {
+                                    text: item.description,
+                                    id: item.name
+                                }
+
+                            })
+                        };
+                    }
+                }
+            });
+
+            $('#ddlBusinessArea').on('select2:select', function (e) {
+                var data = e.params.data;
+                if (data.selected) {
+                    ba = data.id;
+                    //$("#WangCagaranViewModel.Negeri").val(data.text);
+
+                }
+            });
+
+            $("#ddlState").select2({
+                minimumResultsForSearch: -1,
+                ajax: {
+                    url: "/BankDraft/GetAllState",
+                    dataType: 'json',
+                    type: "GET",
+                    processResults: function (data) {
+                        console.log(data);
+                        return {
+                            results: $.map(data, function (item) {
+                                return {
+                                    text: item.name,
+                                    id: item.id
+                                }
+
+                            })
+                        };
+                    }
+                }
+            });
+
+            $('#ddlState').on('select2:select', function (e) {
+                var data = e.params.data;
+                if (data.selected) {
+                    state = data.text;
+
+                }
+            });
+
+            $("#ddlCoCode").select2({
+                minimumResultsForSearch: -1,
+                ajax: {
+                    url: "/BankDraft/GetAllCompanyCode",
+                    dataType: 'json',
+                    type: "GET",
+                    processResults: function (data) {
+                        console.log(data);
+                        return {
+                            results: $.map(data, function (item) {
+                                return {
+                                    text: item.name,
+                                    id: item.id,
+                                    code: item.code
+                                }
+
+                            })
+                        };
+                    }
+                }
+            });
+
+            $('#ddlCoCode').on('select2:select', function (e) {
+                var data = e.params.data;
+                if (data.selected) {
+                    coCode = data.text;
+                    coCodeId = data.code;
+                    coCodeCode = data.code;
+                    //$("#WangCagaranViewModel.Negeri").val(data.text);
+
+                }
+            });
+
+            $('#ddlCoCode').on('change', function () {
+
+                var previous = $(this).val();
+                if ($('#ddlCoCode').val() != 1) {
+                    $("#ddlBusinessArea").empty();
+                    $("#ddlBusinessArea").append("<option value=''>Please Select</option>");
+                }
+                else if (previous != $('#ddlCoCode').val()) {
+                    //alert(previous);
+                    $("#ddlBusinessArea").empty();
+                    $("#ddlBusinessArea").append("<option value=''>Please Select</option>");
+                }
+                //alert($('#ddlCoCode').val());
+            });
+
+            $("#ddlSendMethod").select2({
+                minimumResultsForSearch: -1,
+                ajax: {
+                    url: "/BankDraft/GetAllSendMethod",
+                    dataType: 'json',
+                    type: "GET",
+                    processResults: function (data) {
+                        return {
+                            results: $.map(data, function (item) {
+                                return {
+                                    text: item.name,
+                                    id: item.id
+                                }
+
+                            })
+                        };
+                    }
+                }
+            });
+
+            $('#ddlSendMethod').on('select2:select', function (e) {
+                var data = e.params.data;
+                if (data.selected) {
+                    sendMethod = data.text;
+                    console.log(sendMethod);
+                    if (sendMethod == "ByPos") {
+                        $('#pnlPostageNo').show();
+
+                    }
+                    else {
+                        $('#pnlPostageNo').hide();
+                    }
+                }
+            });
+
+            //if ($("#cbxJKR").is(':checked')) {
+            //    SetSelectedValue($(jkr, "#ddlJKRType"));
+            //};
+
+         
+
+            if ($('input[id="cbxJKR"]').is(':checked')) {
+                $("#groupJKR").show();
+                //SetSelectedValue(jkrType, "#ddlJKRType");
+            } else {
+                $("#groupJKR").hide();
+            }
+
+            if (state == "undefined") {
+                $("#ddlState").append("<option value=''>Please Select</option>");
+            }
+            else {
+                SetSelectedValue(state, "#ddlState");
+            }
+
+            if (coCode == "undefined") {
+                $("#ddlCoCode").append("<option value=''>Please Select</option>");
+            }
+            else {
+                //SetSelectedValue(coCode, "#ddlCoCode");
+                $.ajax({
+                    type: "GET",
+                    url: "/BankDraft/GetSpecificCoCode?coCode=" + coCode,
+                    success: function (data) {
+                        SetSelectedValue(data.name, "#ddlCoCode");
+                        coCodeName = data.name;
+                    }
+                });
+
+            }
+            //alert(ba);
+            if (ba == "undefined") {
+                $("#ddlBusinessArea").append("<option value=''>Please Select</option>");
+            }
+            else {
+
+                $.ajax({
+                    type: "GET",
+                    url: "/BankDraft/GetSpecificBusinessArea?ba=" + ba + "&coCode=" + coCode,
+                    success: function (data) {
+                        SetSelectedValue(data.description, "#ddlBusinessArea");
+                    }
+                });
+                //SetSelectedValue(ba, "#ddlBusinessArea");
+            }
+
+            var status = $("#Status").val();
+
+            if (status == "Draft") {
+                   if ('@User.IsInRole("Business Admin")' == 'True') {
+                       $("#submitGroupBtn").hide();
+                }
+            }
+
+            if (status != "Draft") {
+
+                $("#submitGroupBtn").hide();
+                $(".before-submit").hide();
+                $(".after-submit").show();
+                $("#trashId1").hide();
+                $("#trashId2").hide();
+                //$(".after-issue").hide();
+                $("input[type=text], input[type=checkbox],input[type=button],input[type=file], select, textarea, .submission").attr("disabled", "disabled");
+                $(".txaComment").removeAttr('disabled');
+                $("#addRow").hide();
+
+                if (status == "RejectedVerify" || status == "RejectedApprove" || status == "Declined" || status == "Withdrawn") {
+                    if ('@Model.RequesterId' == userId) {
+                        if (status == "Withdrawn") {
+                            $("#stsWithdrawn").show();
+                        }
+                        else {
+                            $("#stsRejected").show();
+                        }
+
+                        $("#submitGroupBtn").show();
+
+                         if ('@User.IsInRole("Business Admin")' == 'True') {
+                             $("#submitGroupBtn").hide();
+                        }
+
+                        $(".before-submit").show();
+                        $(".after-submit").hide();
+                        $("#trashId1").show();
+                        $("#trashId2").show();
+                        //$("#btnDraft").hide();
+                        $("input[type=text], input[type=checkbox],input[type=file], select, textarea, .submission").removeAttr('disabled');
+                        $("#ermsNoId").attr("disabled", "disabled");
+                        $("#ermsPostingDate").attr("disabled", "disabled");
+                        $("#ermsPostingDate").val("");
+                        $("#addRow").show();
+                    }
+                    else {
+                        if (status == "Withdrawn") {
+                            $("#stsWithdrawn").show();
+                        }
+                        else {
+                            $("#stsRejectedApprover").show();
+                        }
+
+                    }
+
+                }
+
+                else if (status == "Submitted") {
+                    $("#stsSubmitted").show();
+                    $("#ermsPostingDate").val("");
+                    if ('@Model.RequesterId' == userId) {
+                        $("#withdrawGroupBtn").show();
+                    }
+                    else {
+                        $("#verifyGroupBtn").show();
+                    }
+
+                    if ('@User.IsInRole("Business Admin")' == 'True') {
+                           $("#verifyGroupBtn").hide();
+                    }
+
+                    $("#li-2").click();
+                }
+                else if (status == "Verified") {
+                    $("#stsVerified").show();
+                    $("#approveGroupBtn").show();
+
+                    if ('@User.IsInRole("Business Admin")' == 'True') {
+                        $("#approveGroupBtn").hide();
+                    }
+
+                    $("#ermsPostingDate").val("");
+                    $("#li-3").click();
+                }
+                else if (status == "Approved" || status == "ToDecline" ) {
+                    $("#stsApproved").show();
+                    $("#acceptGroupBtn").show();
+                    $("#li-4").click();
+                    if ('@User.IsInRole("TGBS Banking")' == 'True' || '@User.IsInRole("Business Admin")' == 'True') {
+                        //$("#ermsNoId").removeAttr('disabled');
+                        //$("#ermsNoId").attr("required", "required");
+                        //$("#ermsPostingDate").val("");
+                        //$("#ermsPostingDate").removeAttr('disabled');
+                        //$("#ermsPostingDate").attr("required", "required");
+                        //$("#lblErmsNo").append("<span class='text-danger ml-2'>*</span>");
+                        //$("#lblErmsDate").append("<span class='text-danger ml-2'>*</span>");
+
+                        if ('@User.IsInRole("Business Admin")' == 'True') {
+                            $("#ddlBusinessArea").removeAttr('disabled');
+                            $('#ddlCoCode').removeAttr('disabled');  
+                         
+                            //attachment edit
+                            $(".before-submit").show();
+                            $(".after-submit").hide();
+                            //$("#trashId1").show();
+                            //$("#trashId2").show();
+                            $("input[type=file]").removeAttr('disabled');
+
+                            //supporting doc
+                            $("#addRow").show();
+                        }
+                    }
+                }
+                else if (status == "Accepted" || status == "SaveProcessed") {
+                    $("#stsAccepted").show();
+                    $("#processGroupBtn").show();
+                    $("#li-5").click();
+
+                    if ('@User.IsInRole("TGBS Banking")' == 'True' || '@User.IsInRole("Business Admin")' == 'True') {
+
+                      
+                        $("#tab-2 input").removeAttr('disabled');
+
+                        $.ajax({
+                            type: "GET",
+                            url: "/InstructionLetter/GetInstructionLetter?refNo=" + $("#InstructionLetterRefNo").val(),
+                            processData: false,
+                            contentType: false,
+                            success: function (data) {
+                                if (data.processingType == "Bulk") {
+                                    $("#SignedLetterVM_File").attr('disabled', 'disabled');
+                                    ShowNoty("error", "This application's Instruction letter is processed through Bulk-Processing, please attach the Signed Letter in Bulk Processing");
+                                }
+                            }
+                        });
+                    }
+                   
+                }
+                else if (status == "Processed") {
+                    $("#stsProcessed").show();
+
+                    if ('@User.IsInRole("TGBS Banking")' == 'True' || '@User.IsInRole("Business Admin")' == 'True') {
+                        $("#issueGroupBtn").show();
+                        $("#tab-3 input, #tab-3 select, #tab-3 textarea").removeAttr('disabled');
+                        $.ajax({
+                            type: "GET",
+                            url: "/CoverMemo/GetCoverMemoForBulk?refNo=" + refNo,
+                            processData: false,
+                            contentType: false,
+                            success: function (data) {
+                                if (data.referenceNo.includes(',')) {
+                                    $("#SignedMemoVM_File").attr('disabled', 'disabled');
+                                    ShowNoty("error", "This application's Memo is processed through Bulk-Processing, please attach the Signed Covering Memo in the particular Memo in Bulk Processing");
+                                }
+                                //console.log(data);
+                            }
+                        });
+                        $("#btnViewLetter").removeAttr('disabled');
+                    }
+
+                    $(".before-process").hide();
+                    $("#li-6").click();
+
+                }
+                else if (status == "Issued") {
+                    $("#stsIssued").show();
+                    if ('@Model.RequesterId' == userId) {
+                        $("#completeGroupBtn").show();
+                        $("#tab-4 input").removeAttr('disabled');
+
+                    }
+
+                    if ('@User.IsInRole("Business Admin")' == 'True') {
+                            $("#completeGroupBtn").hide();
+                    }
+
+                    $("#btnViewLetter").removeAttr('disabled');
+                    $("#btnViewMemo").removeAttr('disabled');
+                    SetSelectedValue(sendingMethod, "#ddlSendMethod");
+                    $(".before-process").hide();
+                    $(".before-issue").hide();
+                    $("#li-7").click();
+
+                }
+                else if (status == "Complete") {
+                    $("#stsCompleted").show();
+                    $(".before-process").hide();
+                    $(".before-issue").hide();
+                    $("#btnViewLetter").removeAttr('disabled');
+                    $("#btnViewMemo").removeAttr('disabled');
+                    $("#btnEditLetter").hide();
+                    $(".before-complete").hide();
+                    $("#li-8").click();
+                    SetSelectedValue(sendingMethod, "#ddlSendMethod");
+                }
+            }
+
+              //Add new role - Viewer cant view Bank Details tab 22/02/2021
+            if ('@User.IsInRole("Viewer")' == 'True') {
+
+                if (status == "Accepted") {
+                    $("#tab-2").removeClass("active show");
+                    $("#tab-1").addClass("active show");
+                }
+
+                $("#base-tab-2").removeClass("active");
+                $("#base-tab-2").addClass("disabled");
+
+            }
+
+            var t = $('#suppDoc').DataTable({ searching: false, paging: false, info: false });
+
+            console.log(status + " status " + '@Model.RequesterId'+ " userId");
+            if ((status == "Draft" || status == "Declined" || status == "RejectedVerify" || status == "RejectedApprove" || status == "Withdrawn") && '@Model.RequesterId' == userId) {
+                $.ajax({
+                    type: "GET",
+                    url: "/BankDraft/GetSupportDocument?parentid=" + bdId + "&fileType=BankDraft&fileSubType=WCDocument",
+                    success: function (data) {
+                        existAttachment = data.length;
+                        $.each(data, function (i, val) {
+                            var url = "../../../documents/" + val.fileName + "";
+                            var load = "window.open('" + url + "', '', 'width=900,height=750');"
+
+                            i = i + 1;
+                            var link = "RemoveAttachment('" + val.id + "','WCDocument')";
+                            t.row.add([
+                                i,
+                                //'Attachment ' + i,
+                                val.title,
+                                '<td class="td-actions"><input type="hidden" value="' + val.fileName + '" id="hdnWHDocument" /><a href="" onclick="' + load + '">' + val.fileName + '</a></td>',
+                                '<a onclick=' + link + ' id="dustbinId"><i class="la la-trash"></i></a>'
+                            ]).draw(false);
+
+                            counts = i;
+                            counter1 = i;
+                        });
+                    }
+                });
+            }
+            else {
+                $.ajax({
+                    type: "GET",
+                    url: "/BankDraft/GetSupportDocument?parentid=" + bdId + "&fileType=BankDraft&fileSubType=WCDocument",
+                    success: function (data) {
+                        existAttachment = data.length;
+                        $.each(data, function (i, val) {
+                            var url = "../../../documents/" + val.fileName + "";
+                            var load = "window.open('" + url + "', '', 'width=900,height=750');"
+                            i = i + 1;
+                            var link = "RemoveAttachment('" + val.id + "','WCDocument')";
+                            t.row.add([
+                                i,
+                                //'Attachment ' + i,
+                                val.title,
+                                '<td class="td-actions"><input type="hidden" value="' + val.fileName + '" id="hdnWHDocument" /><a href="" onclick="' + load + '">' + val.fileName + '</a></td>',
+                                '<a onclick=' + link + ' id="dustbinId"></a>'
+                            ]).draw(false);
+
+                            counts = i;
+                            counter1 = i;
+                        });
+                    }
+                });
+            }
+
+            counter2 = 0;
+            $('#addRow').on('click', function () {
+                counts++;
+
+                t.row.add([
+                    counts,
+                    //'Attachment ' + counts,
+                    '<td class="td-actions"><div class="before-submit"><input type="text" id="fname' + counter2 + 'Id" name="fname" class="form-control"></div></td>',
+                    '<td class="td-actions"><div class="file-upload before-submit"><input id="otherDoc' + counter2 + 'Id" name="doc" type="file"></div></td>',
+                    '<a id="dustbinId2"><i class="la la-trash"></i></a>'
+                ]).draw(false);
+
+                counter2++;
+            });
+
+            //$('#suppDoc tbody').on('click', '#dustbinId', function () {
+            //    t
+            //        .row($(this).parents('tr'))
+            //        .remove()
+            //        .draw();
+            //    counts--;
+            //    counter1--;
+            //});
+
+            $('#suppDoc tbody').on('click', '#dustbinId2', function () {
+                t
+                    .row($(this).parents('tr'))
+                    .remove()
+                    .draw();
+                counts--;
+                counter2--;
+            });
+
+            //// Automatically add a first row of data
+            $('#addRow').click();
+            $('#dustbinId').click();
+            $('#dustbinId2').click();
+
+            var ilrn = $("#InstructionLetterRefNo").val();
+            console.log("ilrn " + ilrn);
+            if (ilrn !== "") {
+                $("#InstructionLetterRefNo").attr("disabled", "disabled");
+                $("#btnNewLetter").hide();
+                $("#btnViewLetter").show();
+                $("#btnEditLetter").show();
+            }
+
+            var cmrn = $("#CoverMemoRefNo").val();
+            if (cmrn !== "") {
+                $("#CoverMemoRefNo").attr("disabled", "disabled");
+                $("#btnNewMemo").hide();
+                $("#btnViewMemo").show();
+                $("#btnEditMemo").show();
+            }
+
+            $("#InstructionLetterRefNo").blur(function (e) {
+                $.ajax({
+                    type: "POST",
+                    url: "/InstructionLetter/SetBDInstructionLetter?LetterRefNo=" + $(this).val() + "&bdRefNo=" + $("#hdnRefNo").val(),
+                    processData: false,
+                    contentType: false,
+                    success: function (data) {
+                        if (data.response.statusCode == 200) {
+                            ShowNoty("success", data.message);
+                            $("#InstructionLetterRefNo").attr("disabled", "disabled");
+                            $("#btnNewLetter").hide();
+                            $("#btnViewLetter").show();
+                            $("#btnEditLetter").show();
+                        } else {
+                            ShowNoty("error", data.message);
+                        }
+                    }
+                });
+            });
+            $("#CoverMemoRefNo").blur(function (e) {
+                $.ajax({
+                    type: "POST",
+                    url: "/CoverMemo/SetBDCoverMemo?CoverMemoRefNo=" + $(this).val() + "&bdRefNo=" + $("#hdnRefNo").val(),
+                    processData: false,
+                    contentType: false,
+                    success: function (data) {
+                        if (data.response.statusCode == 200) {
+                            ShowNoty("success", data.message);
+                            $("#CoverMemoRefNo").attr("disabled", "disabled");
+                            $("#btnNewMemo").hide();
+                            $("#btnViewMemo").show();
+                            $("#btnEditMemo").show();
+                        } else {
+                            ShowNoty("error", data.message);
+                        }
+                    }
+                });
+            });
+
+            $("#cbxJKR").change(function () {
+                if (this.checked) {
+                    $("#groupJKR").show();
+                    jkrInvolved = true;
+                } else {
+                    $("#groupJKR").hide();
+                    jkrInvolved = false;
+                }
+            });
+        });
+
+
+        //$("#btnRemoveLetter").click(function (e) {
+        //    event.preventDefault();
+        //    $.ajax({
+        //        type: "POST",
+        //        url: "/InstructionLetter/RemoveBDInstructionLetter?LetterRefNo=" + $("#InstructionLetterRefNo").val() + "&bdRefNo=" + $("#hdnRefNo").val(),
+        //        processData: false,
+        //        contentType: false,
+        //        success: function (data) {
+        //            if (data.response.statusCode == 200) {
+        //                ShowNoty("success", data.message);
+        //                $("#InstructionLetterRefNo").removeAttr('disabled');
+        //                $("#btnNewLetter").show();
+        //                $("#btnViewLetter").hide();
+        //                $("#btnRemoveLetter").hide();
+        //            } else {
+        //                ShowNoty("error", data.message);
+        //            }
+        //        }
+        //    });
+        //});
+
+
+
+        $('#btnNewLetter').click(function (event) {
+            event.preventDefault();
+          window.open("/InstructionLetter/Create?RefNo=" + $("#RefNo").val(), "popupWindow", "width=600,height=600,scrollbars=yes");
+            //var loop = setInterval(function () {
+            //    if (winObj.closed) {
+            //        letterBlur();
+            //        clearInterval(loop);
+            //    }
+            //}, 1000);
+        });
+        $('#btnViewLetter').click(function (event) {
+            event.preventDefault();
+            window.open("/InstructionLetter/Letter?LetterRefNo=" + $("#InstructionLetterRefNo").val() , "popupWindow", "width=600,height=600,scrollbars=yes");
+        });
+        $('#btnEditLetter').click(function (event) {
+            event.preventDefault();
+            window.open("/InstructionLetter/Edit?LetterRefNo=" + $("#InstructionLetterRefNo").val(), "popupWindow", "width=600,height=600,scrollbars=yes");
+        });
+        //$("#btnRemoveMemo").click(function (e) {
+        //    event.preventDefault();
+        //    $.ajax({
+        //        type: "POST",
+        //        url: "/CoverMemo/RemoveBDCoverMemo?CoverMemoRefNo=" + $("#CoverMemoRefNo").val() + "&bdRefNo=" + $("#hdnRefNo").val(),
+        //        processData: false,
+        //        contentType: false,
+        //        success: function (data) {
+        //            if (data.response.statusCode == 200) {
+        //                ShowNoty("success", data.message);
+        //                $("#CoverMemoRefNo").removeAttr('disabled');
+        //                $("#btnNewMemo").show();
+        //                $("#btnViewMemo").hide();
+        //                $("#btnRemoveMemo").hide();
+        //            } else {
+        //                ShowNoty("error", data.message);
+        //            }
+        //        }
+        //    });
+        //});
+        $('#btnEditMemo').click(function (event) {
+            event.preventDefault();
+            window.open("/CoverMemo/Edit?CoverMemoRefNo=" + $("#CoverMemoRefNo").val(), "popupWindow", "width=600,height=600,scrollbars=yes");
+        });
+        $('#btnNewMemo').click(function (event) {
+            event.preventDefault();
+
+             $.ajax({
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                type: 'POST',
+                url: "@Url.Action("UpdateBankIssue", "BankDraft")",
+                data: refNo + "," + "" + "," + $('#BankDrafNoIssued').val() + "," + sendMethod + "," + $('#PostageNo').val() + "," + $('#ReceiverContactNo').val() + "," + $('#BankDraftDate').val(),
+                success: function (data) {
+                    if (data.response.statusCode == 200) {
+                        //ShowNoty("success", data.message);
+                    } else {
+                        ShowNoty("error", data.message);
+                    }
+                },
+                failure: function (response) {
+                    ShowNoty("error", response);
+                }
+            })
+
+            window.open("/CoverMemo/Create?RefNo=" + $("#RefNo").val(), "popupWindow", "width=600,height=600,scrollbars=yes");
+
+        });
+        $('#btnViewMemo').click(function (event) {
+            event.preventDefault();
+            window.open("/CoverMemo/Memo?CoverMemoRefNo=" + $("#CoverMemoRefNo").val() , "popupWindow", "width=600,height=600,scrollbars=yes");
+        });
+        $("#btnDraft").on('click', function (e) {
+            $("#Status").val("Draft");
+            $("#formEditApplication").submit();
+        });
+        $("#btnSubmitConfirm").on('click', function (e) {
+
+            var totalAmount = $('#jumlah').val();
+            totalAmount = convert(totalAmount);
+            console.log("manager:" + manager);
+            console.log(totalAmount);
+
+            if (executive == 'True') {
+
+
+                if ($("#formEditApplication").valid()) {
+                    $("#Status").val("Submit");
+                    if (!$('#cbxActive').get(0).checked) {
+
+                        ShowNoty("error", "Please tick terms & agreement before submitting!");
+                    }
+                    else if (!$('#cbxActive2').get(0).checked) {
+                        ShowNoty("error", "Please tick terms & agreement before submitting!");
+                    }
+                    else {
+                        $("#formEditApplication").submit();
+                    }
+                    
+                }
+                else {
+                    ShowNoty("error", "Please fill all required fields!");
+                }
+
+            }
+            else if (manager == 'True') {
+                // if (totalAmount <= 5000000) {
+                //     ShowNoty("error", "Not authoritive to apply wang cagaran that have less amount than RM5,000,000..");
+                // }
+                // else if (totalAmount > 5000000) {
+                    if ($("#formEditApplication").valid()) {
+                        console.log("valid");
+                        $("#Status").val("Submit");
+
+                        if (!$('#cbxActive').get(0).checked) {
+
+                            ShowNoty("error", "Please tick terms & agreement before submitting!");
+                        }
+                        else if (!$('#cbxActive2').get(0).checked) {
+                            ShowNoty("error", "Please tick terms & agreement before submitting!");
+                        }
+                        else {
+                            $("#formEditApplication").submit();
+                        }
+                    }
+                    else {
+                        ShowNoty("error", "Please fill all required fields!");
+                    }
+                // }
+            }
+        });
+
+        $('#btnWithdrawConfirm').on('click', function (e) {
+                $("#UserAction").val("Withdrawn");
+                $("#formNextAction").submit();
+        });
+
+
+
+        $('#btnVerify').on('click', function (e) {
+
+            if ($("#formNextAction").valid()) {
+                $("#UserAction").val("Verify");
+                $("#formNextAction").submit();
+            }
+            else {
+                ShowNoty("error", "Please fill all required fields!");
+            }
+        });
+
+        $('#btnApprove').on('click', function (e) {
+
+            if ($("#formNextAction").valid()) {
+                $('#btnApprove').attr("disabled", "disabled");
+                $("#UserAction").val("Approve");
+                $("#formNextAction").submit();
+            }
+            else {
+                ShowNoty("error", "Please fill all required fields!");
+            }
+        });
+        $('#btnRejectVerify').on('click', function (e) {
+            if ($("#formNextAction").valid()) {
+                $("#UserAction").val("RejectVerify");
+                $("#formNextAction").submit();
+            }
+            else {
+                ShowNoty("error", "Please fill all required fields!");
+            }
+        });
+        $('#btnRejectApprove').on('click', function (e) {
+            if ($("#formNextAction").valid()) {
+                $("#UserAction").val("RejectApprove");
+                $("#formNextAction").submit();
+            }
+            else {
+                ShowNoty("error", "Please fill all required fields!");
+            }
+        });
+        $('#btnAccept').on('click', function (e) {
+
+            var valid1 = $("#formEditApplication").valid();
+                //$("#ermsNoId").valid();
+            var valid2 = $("#formNextAction").valid();
+            //var valid3 = $("#ddlCoCode").valid();
+            //var valid4 = $("#ddlBusinessArea").valid();
+            //var valid5 = $("#ermsPostingDate").valid();
+
+            if (valid1 && valid2) {
+                $('#btnAccept').attr("disabled", "disabled");
+                $("#UserAction").val("Accept");
+                $("#formNextAction").submit();
+            }
+            else {
+                ShowNoty("error", "Please fill all required fields!");
+            }
+        });
+        $('#btnDeclined').on('click', function (e) {
+            if ($("#formNextAction").valid()) {
+                $("#UserAction").val("Decline");
+                $("#formNextAction").submit();
+            }
+            else {
+                ShowNoty("error", "Please fill all required fields!");
+            }
+        });
+        $('#btnSaveLetter').on('click', function (e) {
+            $("#UserAction").val("SaveLetter");
+            $("#formSaveBankDetails").submit();
+        });
+        $('#btnSubmitToBank').on('click', function (e) {
+            if ($("#formSaveBankDetails").valid()) {
+                $("#UserAction").val("SubmitToBank");
+                $("#formSaveBankDetails").submit();
+            }
+            else {
+                ShowNoty("error", "Please fill all required fields!");
+            }
+        });
+
+        $('#btnSaveMemo').on('click', function (e) {
+            $("#UserAction").val("SaveMemo");
+            $("#formSaveBankIssue").submit();
+        });
+        $('#btnSubmitToRequestor').on('click', function (e) {
+            if ($("#formSaveBankIssue").valid()) {
+                $("#UserAction").val("SubmitToRequestor");
+                $("#formSaveBankIssue").submit();
+            }
+            else {
+                ShowNoty("error", "Please fill all required fields!");
+            }
+        });
+
+        $('#btnSaveComplete').on('click', function (e) {
+            $("#UserAction").val("SaveComplete");
+            $("#formSaveBankAcceptance").submit();
+
+        });
+        $('#btnComplete').on('click', function (e) {
+
+            if ($("#formSaveBankAcceptance").valid()) {
+                $("#UserAction").val("Complete");
+                $("#formSaveBankAcceptance").submit();
+            }
+            else {
+                ShowNoty("error", "Please fill all required fields!");
+            }
+
+        });
+
+        $("#formEditApplication").submit(function (e) {
+
+            e.preventDefault(); // avoid to execute the actual submit of the form.
+
+            ShowNoty("warning", "Saving Bank Draft..");
+
+            var form = $(this);
+            var url = form.attr('action');
+            var fdata = new FormData();
+            console.log(amount);
+            var totalAmount = $('#jumlah').val();
+            fdata.append("WangCagaranViewModel.Jumlah", convert(totalAmount));
+
+            if ($('#WCSuratKelulusanVM_File').get(0).files.length !== 0) {
+                var fileInput = $('#WCSuratKelulusanVM_File')[0];
+                var file = fileInput.files[0];
+                fdata.append("WCSuratKelulusan", file);
+            }
+
+            if ($('#WCUMAPVM_File').get(0).files.length !== 0) {
+                var fileInput2 = $('#WCUMAPVM_File')[0];
+                var file2 = fileInput2.files[0];
+                fdata.append("WCUMAP", file2);
+            }
+
+            fdata.append("WangCagaranViewModel.JKRInvolved", jkrInvolved);
+            fdata.append("WangCagaranViewModel.BusinessArea", ba);
+            fdata.append("WangCagaranViewModel.Negeri", state);
+            fdata.append("WangCagaranViewModel.JKRType", jkr);
+            fdata.append("WangCagaranViewModel.CoCode", coCodeCode);
+
+            // You can update the jquery selector to use a css class if you want
+            $("input, textarea").each(function (x, y) {
+                fdata.append($(y).attr("name"), $(y).val());
+            });
+
+            for (var i = 0; i < counter2; i++) {
+                var fileInput = $('#otherDoc' + i + 'Id')[0];
+                var file = fileInput.files[0];
+                fdata.append("WCFile", file);
+
+                var fileName = $('#fname' + i + 'Id').val();
+                fdata.append("WCFileName", fileName);
+            }
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: fdata, //form.serialize(), // serializes the form's elements.
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    if (data.response.statusCode == 200) {
+                        ShowNoty("success", data.message);
+                        href = "/Application/MyApplication";
+                        setTimeout(function () {
+                            window.location.href = href;
+                        }, 3000);
+                    } else {
+                        ShowNoty("error", data.message);
+                    }
+                }
+            });
+        });
+
+        $("#formNextAction").submit(function (e) {
+
+            e.preventDefault(); // avoid to execute the actual submit of the form.
+            ShowNoty("warning", "Updating Application..");
+
+            var form = $(this);
+            var url = form.attr('action');
+            var fdata = new FormData();
+            //$("input").each(function (x, y) {
+            //    fdata.append($(y).attr("name"), $(y).val());
+            //});
+
+
+            if ($('#WCSuratKelulusanVM_File').get(0).files.length !== 0) {
+                var fileInput = $('#WCSuratKelulusanVM_File')[0];
+                var file = fileInput.files[0];
+                fdata.append("WCSuratKelulusan", file);
+            }
+
+            if ($('#WCUMAPVM_File').get(0).files.length !== 0) {
+                var fileInput2 = $('#WCUMAPVM_File')[0];
+                var file2 = fileInput2.files[0];
+                fdata.append("WCUMAP", file2);
+            }
+
+            fdata.append("WangCagaranViewModel.BusinessArea", ba);
+            fdata.append("WangCagaranViewModel.CoCode", coCodeCode);
+
+            $("input, textarea").each(function (x, y) {
+                fdata.append($(y).attr("name"), $(y).val());
+            });
+
+            for (var i = 0; i < counter2; i++) {
+                var fileInput = $('#otherDoc' + i + 'Id')[0];
+                var file = fileInput.files[0];
+                fdata.append("WCFile", file);
+
+                var fileName = $('#fname' + i + 'Id').val();
+                fdata.append("WCFileName", fileName);
+            }
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: fdata, //form.serialize(), // serializes the form's elements.
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    console.log(data);
+                    if (data.response.statusCode == 200) {
+
+                        if ($("#UserAction").val() == "Decline") {
+                            ShowNoty("success", "Declined Successful");
+                        }
+                        else {
+                            ShowNoty("success", data.message);
+                        }
+
+                        if ($("#UserAction").val() == "Withdrawn") {
+                            href = "/WangCagaran/Edit/" + data.id;
+                        }
+                        else {
+                            href = "/Application/ManageApplication";
+                        }
+                        setTimeout(function () {
+                            window.location.href = href;
+                        }, 3000);
+                    } else {
+                        ShowNoty("error", data.message);
+                        //refresh();
+                    }
+                }
+            });
+        });
+
+        $("#formSaveBankDetails").submit(function (e) {
+
+            e.preventDefault(); // avoid to execute the actual submit of the form.
+
+            ShowNoty("warning", "Saving Bank Draft..");
+
+            var form = $(this);
+            var url = form.attr('action');
+            var fdata = new FormData();
+
+            if ($('#SignedLetterVM_File').get(0).files.length !== 0) {
+                var fileInput = $('#SignedLetterVM_File')[0];
+                var file = fileInput.files[0];
+                fdata.append("SignedLetter", file);
+            }
+
+            // You can update the jquery selector to use a css class if you want
+            $("input, select, textarea").each(function (x, y) {
+                fdata.append($(y).attr("name"), $(y).val());
+            });
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: fdata, //form.serialize(), // serializes the form's elements.
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    if (data.response.statusCode == 200) {
+                        ShowNoty("success", data.message);
+                        href = "/Application/ManageApplication";
+                        setTimeout(function () {
+                            window.location.href = href;
+                        }, 3000);
+                    } else {
+                        ShowNoty("error", data.message);
+                        //refresh();
+                    }
+                }
+            });
+        });
+        $("#formSaveBankIssue").submit(function (e) {
+
+            e.preventDefault(); // avoid to execute the actual submit of the form.
+
+            ShowNoty("warning", "Saving Bank Draft..");
+
+            var form = $(this);
+            var url = form.attr('action');
+            var fdata = new FormData();
+
+            if ($('#SignedMemoVM_File').get(0).files.length !== 0) {
+                var fileInput = $('#SignedMemoVM_File')[0];
+                var file = fileInput.files[0];
+                fdata.append("SignedMemo", file);
+            }
+            fdata.append("SendMethod", sendMethod);
+
+            // You can update the jquery selector to use a css class if you want
+            $("input, textarea").each(function (x, y) {
+                fdata.append($(y).attr("name"), $(y).val());
+            });
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: fdata, //form.serialize(), // serializes the form's elements.
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    if (data.response.statusCode == 200) {
+                        ShowNoty("success", data.message);
+                        href = "/Application/ManageApplication";
+                        setTimeout(function () {
+                            window.location.href = href;
+                        }, 3000);
+                    } else {
+                        ShowNoty("error", data.message);
+                        //refresh();
+                    }
+                }
+            });
+        });
+        $("#formSaveBankAcceptance").submit(function (e) {
+
+            e.preventDefault(); // avoid to execute the actual submit of the form.
+
+            ShowNoty("warning", "Saving Bank Draft..");
+
+            var form = $(this);
+            var url = form.attr('action');
+            var fdata = new FormData();
+
+            if ($('#EvidenceVM_File').get(0).files.length !== 0) {
+                var fileInput = $('#EvidenceVM_File')[0];
+                var file = fileInput.files[0];
+                fdata.append("Evidence", file);
+            }
+
+            // You can update the jquery selector to use a css class if you want
+            $("input, select, textarea").each(function (x, y) {
+                fdata.append($(y).attr("name"), $(y).val());
+            });
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: fdata, //form.serialize(), // serializes the form's elements.
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    if (data.response.statusCode == 200) {
+                        ShowNoty("success", data.message);
+                        href = "/Application/MyApplication";
+                        setTimeout(function () {
+                            window.location.href = href;
+                        }, 3000);
+                    } else {
+                        ShowNoty("error", data.message);
+                    }
+                }
+            });
+        });
+
+        function RemoveAttachment(id, type) {
+
+            fileId = id;
+            fileType = type;
+
+            $("#confirmation-remove-attachment-modal").modal({
+                backdrop: 'static',
+                keyboard: false
+            });
+
+        }
+
+        $('#btnRemoveAttachment').on('click', function (e) {
+             ShowNoty("warning", "Deleting Attachment..");
+            $.ajax({
+                type: "GET",
+                url: "/BankDraft/RemoveAttachment/" + fileId,
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    console.log('hello ' + data.response.statusCode);
+                    if (data.response.statusCode == 200) {
+                        $('#hdnWCSuratKelulusan').val("");
+                        $('#noFile-' + fileType).show();
+                        $('#hasFile-' + fileType).hide();
+                        ShowNoty("success", data.message);
+                        refresh();
+                    } else {
+                        ShowNoty("error", data.message);
+                    }
+                   
+                }
+            });
+        });
+
+        //function RemoveAttachment(id, type) {
+        //    ShowNoty("warning", "Deleting Attachment..");
+        //    $.ajax({
+        //        type: "GET",
+        //        url: "/BankDraft/RemoveAttachment/" + id,
+        //        processData: false,
+        //        contentType: false,
+        //        success: function (data) {
+        //            if (data.response.statusCode == 200) {
+        //                $('#hdnWCSuratKelulusan').val("");
+        //                $('#noFile-' + type).show();
+        //                $('#hasFile-' + type).hide();
+        //                ShowNoty("success", data.message);
+        //                refresh();
+        //            } else {
+        //                ShowNoty("error", data.message);
+        //            }
+        //        }
+        //    });
+
+        //}
+
+    </script>
+
+}
+
+
+
+
+

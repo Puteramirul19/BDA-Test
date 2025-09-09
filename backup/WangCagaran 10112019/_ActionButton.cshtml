@@ -1,0 +1,520 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+<div id="submitGroupBtn" class="wizard text-center" style="display:none">
+    <a id="btnDraft" href="#" class="btn btn-secondary ripple">Save as Draft</a>
+    @*<a type="submit" id="btnSubmit" href="#" data-target="#confirmation-submit-modal" class="btn btn-success" data-toggle="modal" >Submit</a>*@
+    <button type="button" id="btnSubmit" href="#" data-target="#confirmation-submit-modal" class="btn btn-success" data-toggle="modal">Submit</button>
+</div>
+
+<div id="verifyGroupBtn" class="wizard text-center" style="display:none">
+    <a href="#" data-target="#confirmation-rejectVerify-modal" class="btn btn-danger" data-toggle="modal">Reject</a>
+    <a href="#" data-target="#confirmation-verify-modal" class="btn btn-success" data-toggle="modal">Verify</a>
+</div>
+
+
+<div id="approveGroupBtn" class="wizard text-center" style="display:none">
+    <a href="#" data-target="#confirmation-rejectApprove-modal" class="btn btn-danger" data-toggle="modal">Reject</a>
+    <a href="#" data-target="#confirmation-approve-modal" class="btn btn-success" data-toggle="modal">Approve</a>
+</div>
+
+<div id="acceptGroupBtn" class="wizard text-center" style="display:none">
+    <a href="#" data-target="#confirmation-decline-modal" class="btn btn-danger" data-toggle="modal">Decline</a>
+    <a href="#" data-target="#confirmation-accept-modal" class="btn btn-success" data-toggle="modal">Accept</a>
+</div>
+<div id="processGroupBtn" class="wizard text-center" style="display:none">
+    <button id="btnSaveLetter" class="btn btn-secondary ripple">Save</button>
+    <button type="button" data-target="#confirmation-process-modal" data-toggle="modal" class="btn btn-success">Submit to Bank</button>
+</div>
+<div id="issueGroupBtn" class="wizard text-center" style="display:none">
+    <button type="button" id="btnSaveMemo" class="btn btn-secondary ripple">Save</button>
+    <button type="button" data-target="#confirmation-issue-modal" data-toggle="modal" class="btn btn-success">Submit to Requestor</button>
+</div>
+<div id="completeGroupBtn" class="wizard text-center" style="display:none">
+    <button type="button" id="btnSaveComplete" class="btn btn-secondary ripple">Save</button>
+    <button type="button" data-target="#confirmation-complete-modal" class="btn btn-success" data-toggle="modal">Complete Application</button>
+</div>
+<!-- Begin Modal -->
+<div id="success-modal" class="modal fade">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <div class="sa-icon sa-success animate" style="display: block;">
+                    <span class="sa-line sa-tip animateSuccessTip" style="background-color:limegreen"></span>
+                    <span class="sa-line sa-long animateSuccessLong" style="background-color:limegreen"></span>
+                    <div class="sa-placeholder"></div>
+                    <div class="sa-fix"></div>
+                </div>
+                <div class="section-title mt-5 mb-2">
+                    <h2 class="text-gradient-02">Thank you!</h2>
+                </div>
+                <p class="mc-5">The form was submitted successfully</p>
+                <button type="button" id="btn-end-submit" class="btn btn-shadow mb-3" data-dismiss="modal">Ok</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="budget-modal" class="modal fade">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <div class="sa-icon sa-success animate" style="display: block;">
+                    <span class="sa-line sa-tip animateSuccessTip" style="background-color:limegreen"></span>
+                    <span class="sa-line sa-long animateSuccessLong" style="background-color:limegreen"></span>
+                    <div class="sa-placeholder"></div>
+                    <div class="sa-fix"></div>
+                </div>
+                <div class="section-title mt-5 mb-2">
+                    <h2 class="text-gradient-02">Budget Passed!</h2>
+                </div>
+                <p class="mc-5">Price allocated is in within bugdet</p>
+                <button type="button" id="btn-end-submit" class="btn btn-shadow mb-3" data-dismiss="modal">Ok</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="approved-modal" class="modal fade">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <div class="sa-icon sa-success animate" style="display: block;">
+                    <span class="sa-line sa-tip animateSuccessTip" style="background-color:limegreen"></span>
+                    <span class="sa-line sa-long animateSuccessLong" style="background-color:limegreen"></span>
+                    <div class="sa-placeholder"></div>
+                    <div class="sa-fix"></div>
+                </div>
+                <div class="section-title mt-5 mb-2">
+                    <h2 class="text-gradient-02">Application Approved!</h2>
+                </div>
+                <p class="mc-5">The form was approve successfully</p>
+                <button type="button" id="btn-end-approved" class="btn btn-shadow mb-3" data-dismiss="modal">Ok</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="verified-modal" class="modal fade">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <div class="sa-icon sa-success animate" style="display: block;">
+                    <span class="sa-line sa-tip animateSuccessTip" style="background-color:limegreen"></span>
+                    <span class="sa-line sa-long animateSuccessLong" style="background-color:limegreen"></span>
+                    <div class="sa-placeholder"></div>
+                    <div class="sa-fix"></div>
+                </div>
+                <div class="section-title mt-5 mb-2">
+                    <h2 class="text-gradient-02">Application Verified!</h2>
+                </div>
+                <p class="mc-5">The form was verified successfully</p>
+                <button type="button" id="btn-end-verify" class="btn btn-shadow mb-3" data-dismiss="modal">Ok</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="rejected-modal" class="modal fade">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <div class="sa-icon sa-success animate" style="display: block;">
+                    <span class="sa-line sa-tip animateSuccessTip" style="background-color:limegreen"></span>
+                    <span class="sa-line sa-long animateSuccessLong" style="background-color:limegreen"></span>
+                    <div class="sa-placeholder"></div>
+                    <div class="sa-fix"></div>
+                </div>
+                <div class="section-title mt-5 mb-2">
+                    <h2 class="text-gradient-02">Application Rejected!</h2>
+                </div>
+                <p class="mc-5">The form was rejected successfully</p>
+                <button type="button" id="btn-end-rejected" class="btn btn-shadow mb-3" data-dismiss="modal">Ok</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="declined-modal" class="modal fade">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <div class="section-title mt-5 mb-2">
+                    <h2 class="text-gradient-02">Nyatakan sebab anda</h2>
+                </div>
+                @*<input type="text" value="Sebab.." class="form-control">*@
+                <textarea rows="2" class="form-control" style=" width: 400px;margin-left: 35px;margin-top:20px;margin-bottom:30px"></textarea>
+                <a id="btnCancel" href="#" data-dismiss="modal" class="btn btn-secondary" data-toggle="modal">Cancel</a>
+                <a id="btnDecline" href="#" data-target="#rejected-modal" data-dismiss="modal" class="btn btn-danger" data-toggle="modal">Proceed</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="accept-modal" class="modal fade">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <div class="sa-icon sa-success animate" style="display: block;">
+                    <span class="sa-line sa-tip animateSuccessTip" style="background-color:limegreen"></span>
+                    <span class="sa-line sa-long animateSuccessLong" style="background-color:limegreen"></span>
+                    <div class="sa-placeholder"></div>
+                    <div class="sa-fix"></div>
+                </div>
+                <div class="section-title mt-5 mb-2">
+                    <h2 class="text-gradient-02">Application Accepted!</h2>
+                </div>
+                <p class="mc-5">The form was accepted successfully</p>
+                <button type="button" id="btn-end-accepted" class="btn btn-shadow mb-3" data-dismiss="modal">Ok</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="process-modal" class="modal fade">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <div class="sa-icon sa-success animate" style="display: block;">
+                    <span class="sa-line sa-tip animateSuccessTip" style="background-color:limegreen"></span>
+                    <span class="sa-line sa-long animateSuccessLong" style="background-color:limegreen"></span>
+                    <div class="sa-placeholder"></div>
+                    <div class="sa-fix"></div>
+                </div>
+                <div class="section-title mt-5 mb-2">
+                    <h2 class="text-gradient-02">Bank Details Saved!</h2>
+                </div>
+                <p class="mc-5">The form was saved successfully</p>
+                <button type="button" id="btn-end-processed" class="btn btn-shadow mb-3" data-dismiss="modal">Ok</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="issue-modal" class="modal fade">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <div class="sa-icon sa-success animate" style="display: block;">
+                    <span class="sa-line sa-tip animateSuccessTip" style="background-color:limegreen"></span>
+                    <span class="sa-line sa-long animateSuccessLong" style="background-color:limegreen"></span>
+                    <div class="sa-placeholder"></div>
+                    <div class="sa-fix"></div>
+                </div>
+                <div class="section-title mt-5 mb-2">
+                    <h2 class="text-gradient-02">Bank Draft Information Saved!</h2>
+                </div>
+                <p class="mc-5">The form was saved successfully</p>
+                <button type="button" id="btn-end-issued" class="btn btn-shadow mb-3" data-dismiss="modal">Ok</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="complete-modal" class="modal fade">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <div class="sa-icon sa-success animate" style="display: block;">
+                    <span class="sa-line sa-tip animateSuccessTip" style="background-color:limegreen"></span>
+                    <span class="sa-line sa-long animateSuccessLong" style="background-color:limegreen"></span>
+                    <div class="sa-placeholder"></div>
+                    <div class="sa-fix"></div>
+                </div>
+                <div class="section-title mt-5 mb-2">
+                    <h2 class="text-gradient-02">Application Completed!</h2>
+                </div>
+                <p class="mc-5">The form was completed successfully</p>
+                <button type="button" id="btn-end-completed" class="btn btn-shadow mb-3" data-dismiss="modal">Ok</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="confirmation-letter-modal" class="modal fade" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Submit to Bank Confirmation</h4>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">×</span>
+                    <span class="sr-only">close</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    Berikut ialah Wang Cagaran yang akan di hantar kepada Bank:
+                </p>
+                <ul>
+                    <li> TNB/WC/102020212</li>
+                    <li> TNB/WC/102367641</li>
+                    <li> TNB/WC/102053412</li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-shadow" data-dismiss="modal">Close</button>
+                <button type="button" data-target="#process-modal" class="btn btn-success" data-toggle="modal" data-dismiss="modal">Proceed</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="confirmation-memo-modal" class="modal fade" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Submit to Requestor Confirmation</h4>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">×</span>
+                    <span class="sr-only">close</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    Berikut ialah Wang Cagaran yang akan di hantar kepada Requestor:
+                </p>
+                <ul>
+                    <li> TNB/WC/102020212</li>
+                    <li> TNB/WC/102367641</li>
+                    <li> TNB/WC/102053412</li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-shadow" data-dismiss="modal">Close</button>
+                <button type="button" data-target="#issue-modal" class="btn btn-success" data-toggle="modal" data-dismiss="modal">Proceed</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="assign-role-modal" class="modal fade" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Submit to Bank Confirmation</h4>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">×</span>
+                    <span class="sr-only">close</span>
+                </button>
+            </div>
+            <div class="section-title mt-5 mb-5">
+                <h4>Assign Role</h4>
+            </div>
+            <div class="form-group row mb-3">
+                <div class="col-sm-12 mb-3">
+                    <label class="form-control-label">Role<span class="text-danger ml-2">*</span></label>
+                    <select id="ddlChooseRole" name="ddlChooseRole" class="selectpicker show-menu-arrow form-control" tabindex="-98">
+                        <option value="1">Requestor</option>
+                        <option value="2">Verifier</option>
+                        <option value="3">Approver</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group row mb-3">
+                <div class="col-sm-12 mb-3">
+                    <label class="form-control-label">Division<span class="text-danger ml-2">*</span></label>
+                    <select id="ddlChooseDiv" name="ddlChooseDiv" class="selectpicker show-menu-arrow form-control" tabindex="-98">
+                        <option value="1">Finance</option>
+                        <option value="2">Recon</option>
+                        <option value="3">AD HQ</option>
+                        <option value="4">DN (AD) - North</option>
+                        <option value="5">DN (AD) - East</option>
+                        <option value="6">DN (AD) - South</option>
+                        <option value="7">DN (AD) - KL</option>
+                        <option value="8">DN (AD) - Sel,Pj,Cj </option>
+                        <option value="9">DN (O&M) - North</option>
+                        <option value="10">DN (O&M) - South</option>
+                        <option value="11">DN (O&M) - Sel,Pj,Cj </option>
+                        <option value="12">Corporate</option>
+                        <option value="13">Grid</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row mb-3">
+                <div class="col-sm-12 mb-3">
+                    <label class="form-control-label">Group<span class="text-danger ml-2">*</span></label>
+                    <select id="ddlChooseGroup" name="ddlChooseGroup" class="selectpicker show-menu-arrow form-control" tabindex="-98">
+                        <option value="1">G1</option>
+                        <option value="2">G2</option>
+                        <option value="3">G3</option>
+                    </select>
+                </div>
+            </div>
+
+
+            <div class="modal-body">
+                <p>
+                    Berikut ialah Wang Cagaran yang akan di hantar kepada Bank:
+                </p>
+                <ul>
+                    <li> TNB/WC/102020212</li>
+                    <li> TNB/WC/102367641</li>
+                    <li> TNB/WC/102053412</li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-shadow" data-dismiss="modal">Close</button>
+                <button type="button" data-target="#process-modal" class="btn btn-success" data-toggle="modal" data-dismiss="modal">Proceed</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="confirmation-submit-modal" class="modal fade">
+    <div class="modal-dialog modal-dialog-centered" style="width:200px">
+        <div class="modal-content">
+            <div class="modal-header">
+            </div>
+            <div class="modal-body" style="text-align:center">
+                <p>
+                    Are you sure?
+                </p>
+                <button id="btnSubmitConfirm" type="button" class="btn btn-success" data-dismiss="modal">Yes</button>
+                <button type="button" class="btn btn-shadow" data-dismiss="modal">No</button>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+<div id="confirmation-verify-modal" class="modal fade">
+    <div class="modal-dialog modal-dialog-centered" style="width:200px">
+        <div class="modal-content">
+            <div class="modal-header">
+            </div>
+            <div class="modal-body" style="text-align:center">
+                <p>
+                    Are you sure?
+                </p>
+                <button type="submit" id="btnVerify" class="btn btn-success" data-dismiss="modal">Yes</button>
+                <button type="button" class="btn btn-shadow" data-dismiss="modal">No</button>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+<div id="confirmation-approve-modal" class="modal fade">
+    <div class="modal-dialog modal-dialog-centered" style="width:200px">
+        <div class="modal-content">
+            <div class="modal-header">
+            </div>
+            <div class="modal-body" style="text-align:center">
+                <p>
+                    Are you sure?
+                </p>
+                <button type="button" id="btnApprove" class="btn btn-success" data-dismiss="modal">Yes</button>
+                <button type="button" class="btn btn-shadow" data-dismiss="modal">No</button>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+<div id="confirmation-accept-modal" class="modal fade">
+    <div class="modal-dialog modal-dialog-centered" style="width:200px">
+        <div class="modal-content">
+            <div class="modal-header">
+            </div>
+            <div class="modal-body" style="text-align:center">
+                <p>
+                    Are you sure?
+                </p>
+                <button type="submit" id="btnAccept" class="btn btn-success" data-dismiss="modal">Yes</button>
+                <button type="button" class="btn btn-shadow" data-dismiss="modal">No</button>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+<div id="confirmation-decline-modal" class="modal fade">
+    <div class="modal-dialog modal-dialog-centered" style="width:200px">
+        <div class="modal-content">
+            <div class="modal-header">
+            </div>
+            <div class="modal-body" style="text-align:center">
+                <p>
+                    Are you sure?
+                </p>
+                <button type="submit" id="btnDeclined" class="btn btn-success" data-dismiss="modal">Yes</button>
+                <button type="button" class="btn btn-shadow" data-dismiss="modal">No</button>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+<div id="confirmation-rejectVerify-modal" class="modal fade">
+    <div class="modal-dialog modal-dialog-centered" style="width:200px">
+        <div class="modal-content">
+            <div class="modal-header">
+            </div>
+            <div class="modal-body" style="text-align:center">
+                <p>
+                    Are you sure?
+                </p>
+                <button type="submit" id="btnRejectVerify" class="btn btn-success" data-dismiss="modal">Yes</button>
+                <button type="button" class="btn btn-shadow" data-dismiss="modal">No</button>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+<div id="confirmation-rejectApprove-modal" class="modal fade">
+    <div class="modal-dialog modal-dialog-centered" style="width:200px">
+        <div class="modal-content">
+            <div class="modal-header">
+            </div>
+            <div class="modal-body" style="text-align:center">
+                <p>
+                    Are you sure?
+                </p>
+                <button type="submit" id="btnRejectApprove" class="btn btn-success" data-dismiss="modal">Yes</button>
+                <button type="button" class="btn btn-shadow" data-dismiss="modal">No</button>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+<div id="confirmation-process-modal" class="modal fade">
+    <div class="modal-dialog modal-dialog-centered" style="width:200px">
+        <div class="modal-content">
+            <div class="modal-header">
+            </div>
+            <div class="modal-body" style="text-align:center">
+                <p>
+                    Are you sure?
+                </p>
+                <button id="btnSubmitToBank" type="button" class="btn btn-success" data-dismiss="modal">Yes</button>
+                <button type="button" class="btn btn-shadow" data-dismiss="modal">No</button>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+<div id="confirmation-issue-modal" class="modal fade">
+    <div class="modal-dialog modal-dialog-centered" style="width:200px">
+        <div class="modal-content">
+            <div class="modal-header">
+            </div>
+            <div class="modal-body" style="text-align:center">
+                <p>
+                    Are you sure?
+                </p>
+                <button id="btnSubmitToRequestor" type="button" class="btn btn-success" data-dismiss="modal">Yes</button>
+                <button type="button" class="btn btn-shadow" data-dismiss="modal">No</button>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+<div id="confirmation-complete-modal" class="modal fade">
+    <div class="modal-dialog modal-dialog-centered" style="width:200px">
+        <div class="modal-content">
+            <div class="modal-header">
+            </div>
+            <div class="modal-body" style="text-align:center">
+                <p>
+                    Are you sure?
+                </p>
+                <button id="btnComplete" type="button" class="btn btn-success" data-dismiss="modal">Yes</button>
+                <button type="button" class="btn btn-shadow" data-dismiss="modal">No</button>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>

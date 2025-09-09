@@ -1,0 +1,553 @@
+﻿@model BDA.ViewModel.LoginModel
+@{
+    Layout = null;
+}
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>BDAS</title>
+    <meta name="description" content="Bank Draft Automation System using ASP.NET Core 8 with Elisyam (Bootstrap 4) as base UI template">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Google Fonts -->
+    <style>
+        .loginFooter {
+            font-size: 11px;
+            /*margin-bottom:-50px;*/
+        }
+
+        i:hover, a:hover {
+            cursor: pointer;
+        }
+    </style>
+    @*<script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>*@
+    <script src="~/assets/js/webfont/webfont.js"></script>
+    <script>
+        //WebFont.load({
+        //    google: { "families": ["Montserrat:400,500,600,700", "Noto+Sans:400,700"] },
+        //    active: function () {
+        //        sessionStorage.fonts = true;
+        //    }
+        //});
+
+    </script>
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="~/assets/img/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="~/assets/img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="~/assets/img/favicon-16x16.png">
+    <!-- Stylesheet -->
+
+    <link rel="stylesheet" href="~/assets/vendors/css/base/font-awesome.css">
+    <link rel="stylesheet" href="~/assets/upd/bootstrap-4.6.2.min.css">
+    <link rel="stylesheet" href="~/assets/vendors/css/base/elisyam-1.5.min.css">
+    <link rel="stylesheet" href="~/assets/css/bootstrap-select/bootstrap-select.min.css">
+
+
+    <!-- Tweaks for older IEs-->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body class="bg-white">
+<!-- Begin Preloader -->
+<div id="preloader">
+    <div class="canvas">
+        <img src="~/assets/img/logo.png" alt="logo" class="loader-logo">
+        <div class="spinner"></div>
+    </div>
+</div>
+<!-- End Preloader -->
+<!-- Begin Container -->
+<div class="container-fluid no-padding h-100">
+    <div class="row flex-row h-100 bg-white">
+        <!-- Begin Left Content -->
+        <div class="col-xl-8 col-lg-6 col-md-5 no-padding">
+            <div class="elisyam-bg background-01">
+                <div class="elisyam-overlay overlay-01"></div>
+                <div class="authentication-col-content mx-auto">
+                    <h1 class="gradient-text-01" style="text-align:center">
+                        Bank Draft Automation System
+                    </h1>
+                    <!--<span class="description">
+                        Etiam consequat urna at magna bibendum, in tempor arcu fermentum vitae mi massa egestas.
+                    </span>-->
+                </div>
+            </div>
+        </div>
+        <!-- End Left Content -->
+        <!-- Begin Right Content -->
+        <div class="col-xl-4 col-lg-6 col-md-7 my-auto no-padding">
+            <!-- Begin Form -->
+            <div class="authentication-form mx-auto">
+                <div class="logo-centered">
+                    <img src="~/assets/img/tnb-logo-1.jpeg" alt="logo">
+                </div>
+                @if (ViewBag.ErrorMessage != null)
+                {
+                    <div id="errorMsg" class="alert alert-outline-danger" role="alert">
+                        @ViewBag.ErrorMessage
+                    </div>
+                }
+                <h3>Sign In</h3>
+                <form action="" method="post" autocomplete="off">
+                    <div class="group material-input">
+                        <input type="text" name="UserName" required autocomplete="off">
+                        <span class="highlight"></span>
+                        <span class="bar"></span>
+                        <label>Username</label>
+                    </div>
+                    <div class="group material-input">
+                        <input id="PasswordLogin" type="password" name="Password" required autocomplete="off">
+                        <span class="highlight"></span>
+                        <span class="bar"></span>
+                        <span><i class="ti-eye" id="toggleBtn" type="button"
+                                 style="margin-left: 380px; cursor: pointer;"></i></span>
+                        <label>Password</label>
+                    </div>
+
+                    <div class="sign-btn text-center">
+                        @*<a href="/home/dashboard" class="btn btn-lg" style="background-color:#5d5386; color:white">
+                Sign in
+            </a>*@
+                        <button type="submit" class="btn btn-lg" style="background-color:#5d5386; color:white">Sign in
+                        </button>
+                    </div>
+                </form>
+                <div class="register">
+                    <a data-toggle="modal" data-target="#modal-contact">Contact Us</a>
+                </div>
+                <div class="register">
+                    <a data-toggle="modal" data-target="#modal-forget-password">Forget Password</a>
+
+                </div>
+                <div class="loginFooter" style="margin-top:150px;margin-bottom:-80px">
+                    <div class="row">Copyright © 2020. Tenaga Nasional Berhad. All Rights Reserved.</div>
+                    <div class="row">
+                        <a data-toggle="modal" data-target="#modal-TandC">Terms and Conditions</a>
+                    </div>
+                    @*<div class="row">
+                <div style="text-align:left">Contact Us</div>
+            </div>*@
+                </div>
+                <div id="modal-TandC" class="modal">
+                    <div class="modal-dialog modal-dialog-centered" style="width:500px">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <b>Terms and Conditions</b>
+                            </div>
+                            <div class="modal-body">
+                                <div>
+                                    This website, the domain and all information contain herein belongs to Tenaga
+                                    Nasional Berhad (TNB).
+                                    Any modification, copying, reproduction, republication, uploading, posting,
+                                    transmission, or distribution, in any manner,
+                                    of any information contain in this website, including text, graphics, code and/or
+                                    software without TNB’s prior written permission
+                                    is strictly prohibited.
+                                </div>
+                                <br/>
+                                <div style="text-align:center">
+                                    <button type="button" class="btn btn-shadow center" data-dismiss="modal">OK</button>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="modal-contact" class="modal fade">
+                    <div class="modal-dialog modal-dialog-centered" style="width:500px">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <b>Contact Us</b>
+                            </div>
+                            <div class="modal-body">
+                                <p style="font-weight:bold;font-size:12px;color:navy;margin-bottom:8px">Contact us
+                                    at:</p>
+                                <table class="contact-persons" width="100%">
+                                    <thead>
+                                    <th></th>
+                                    <th></th>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>Ms Lim Li Quan (Wendy) :</td>
+                                        <td>019-6372792</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Noor Haslina Dulbahrin :</td>
+                                        <td>012-5436445</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Norshafiqa Binti Samat :</td>
+                                        <td>019-2146732</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                @*<div class="row">
+                            <div class="col-xl-12">
+                            </div>
+                        </div>*@
+                                <p style="font-weight:bold;font-size:12px;color:red;margin-bottom:8px;margin-top:8px">
+                                    OR</p>
+                                <p style="font-weight:bold;font-size:12px;color:navy;margin-bottom:5px">
+                                    Email your enquiries at :
+                                </p>
+                                <p style="font-size:12px;font-weight:bold">bdainquiry@tnb.com.my</p>
+                                <br/>
+                                <div style="text-align:center">
+                                    <button type="button" class="btn btn-shadow center" data-dismiss="modal">OK</button>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="modal-forget-password" class="modal fade">
+                    <div class="modal-dialog modal-dialog-centered" style="width:500px">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <b>Forget Password</b>
+                            </div>
+                            <div class="modal-body">
+
+                                @using (Html.BeginForm("ForgetPassword", "Account", Model, FormMethod.Post, false, new { @id = "formForgetPassword", @class = "form-horizontal" }))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    <div class="widget-body">
+
+                                        <form method="post" autocomplete="off">
+                                            <fieldset>
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <div class="form-staff row">
+                                                            <div id="txtUserName"
+                                                                 class="col-sm-4 form-control-label d-flex align-items-center">
+                                                                Username
+                                                            </div>
+                                                            <div class="col-xl-8">
+                                                                @Html.TextBoxFor(x => x.UserName, new { @class = "form-control", id = "txtUsername", placeholder = "Username", autocomplete = "off" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <br/>
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <div class="form-staff row">
+                                                            <div id="txtRegisteredEmail"
+                                                                 class="col-sm-4 form-control-label d-flex align-items-center">
+                                                                Registered Email
+                                                            </div>
+                                                            <div class="col-xl-8">
+                                                                @Html.TextBoxFor(x => x.Email, new { @class = "form-control", id = "txtEmail", placeholder = "Email", autocomplete = "off" })
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </fieldset>
+                                            <br/>
+                                            <br/>
+                                            <div style="text-align:center">
+                                                <button id="btnSubmit" type="submit" class="btn btn-shadow center"
+                                                        data-dismiss="modal">Submit
+                                                </button>
+                                            </div>
+                                        </form>
+
+                                    </div>
+                                }
+                            </div>
+                            <div class="modal-footer">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="modal-reset-password" class="modal">
+                    <div class="modal-dialog modal-dialog-centered" style="width:500px">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <b>Reset Password</b>
+                            </div>
+                            <div class="modal-body">
+
+                                @using (Html.BeginForm("ChangePassword", "Account", Model, FormMethod.Post, false, new { @id = "formResetPassword", @class = "form-horizontal" }))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    <div class="widget-body">
+
+                                        <form method="post" autocomplete="off">
+                                            <fieldset>
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <div class="form-staff row">
+                                                            @Html.HiddenFor(x => x.UserName)
+                                                            @Html.HiddenFor(x => x.Password)
+                                                            <div id="txtNewPassword"
+                                                                 class="col-sm-4 form-control-label d-flex align-items-center">
+                                                                New Password
+                                                            </div>
+                                                            <div class="col-xl-8">
+                                                                @Html.TextBoxFor(x => x.NewPassword, new { @class = "form-control", id = "txtPassword", placeholder = "Password", type = "password", autocomplete = "off" })
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <br/>
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <div class="form-staff row">
+                                                            <div id="txtRePassword"
+                                                                 class="col-sm-4 form-control-label d-flex align-items-center">
+                                                                Re-type Password
+                                                            </div>
+                                                            <div class="col-xl-8">
+                                                                @Html.TextBoxFor(x => x.Repassword, new { @class = "form-control", id = "txtRepassword", placeholder = "Re-Type Password", type = "password", autocomplete = "off" })
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </fieldset>
+                                            <br/>
+                                            <br/>
+                                            <div style="text-align:center">
+                                                <button id="btnReset" type="button" class="btn btn-shadow center">
+                                                    Reset
+                                                </button>
+                                            </div>
+                                        </form>
+
+                                    </div>
+                                }
+                            </div>
+                            <div class="modal-footer">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Begin Centered Modal -->
+                @*<div id="modal-centered" class="modal">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Register your account</h4>
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span aria-hidden="true">×</span>
+                            <span class="sr-only">close</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div style="text-align: center">
+                            Request for account creation via:
+
+                        </div>
+                        <div style="text-align: center; color: black">
+                            <a href="https://myssc.tnb.com.my">MySSC</a>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-shadow" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>*@
+                <!-- End Centered Modal -->
+            </div>
+            <!-- End Form -->
+        </div>
+        <!-- End Right Content -->
+    </div>
+    <!-- End Row -->
+</div>
+<!-- End Container -->
+<!-- Begin Vendor Js -->
+
+<script src="~/assets/upd/jquery-3.7.1.min.js"></script>
+<script src="~/js/jquery-ui.js"></script>
+
+<script src="~/assets/vendors/js/bootstrap-wizard/bootstrap.wizard.min.js"></script>
+<script src="~/assets/upd/bootstrap-4.6.2-core.js"></script>
+<script src="~/assets/vendors/js/noty/noty.js"></script>
+<!-- End Vendor Js -->
+<!-- Begin Page Vendor Js -->
+<script src="~/assets/vendors/js/nicescroll/nicescroll.min.js"></script>
+<script src="~/assets/vendors/js/app/app.min.js"></script>
+<!-- End Page Vendor Js -->
+</body>
+
+</html>
+
+<script>
+
+    var open = 'ti-eye';
+    var close = 'ti-na';
+    var ele = document.getElementById("PasswordLogin");
+
+    function ShowNoty(_type = "success", _message = "") {
+        new Noty({
+            type: _type,
+            layout: 'topRight',
+            text: _message
+        }).show().setTimeout(3000);
+    }
+
+    function isStrongPwd(password) {
+
+        var count = 0;
+        console.log(password);
+        var uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        var lowercase = "abcdefghijklmnopqrstuvwxyz";
+        var digits = "0123456789";
+        var splChars = "!#$^%&*()@@";
+        var ucaseFlag = contains(password, uppercase);
+        var lcaseFlag = contains(password, lowercase);
+        var digitsFlag = contains(password, digits);
+        var splCharsFlag = contains(password, splChars);
+
+        if (ucaseFlag) {
+            count++;
+        }
+        if (lcaseFlag) {
+            count++;
+        }
+        if (digitsFlag) {
+            count++;
+        }
+        if (splCharsFlag) {
+            count++;
+        }
+
+        console.log(count);
+        if (count >= 3) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
+    function contains(password, allowedChars) {
+
+        for (i = 0; i < password.length; i++) {
+
+            var char = password.charAt(i);
+
+            if (allowedChars.indexOf(char) >= 0) {
+                return true;
+            }
+
+        }
+
+        return false;
+    }
+
+
+    $(document).ready(function () {
+
+
+        var errorMsg = '@ViewBag.ErrorMessage';
+
+
+        if (errorMsg == 'Password sudah luput. Sila kemaskini password anda.') {
+            $("#modal-reset-password").modal("show");
+        }
+
+        $("#btnSubmit").on('click', function (e) {
+            console.log('heelo');
+            $("#formForgetPassword").submit();
+
+        });
+
+        $('#toggleBtn').click(function () {
+            if (this.classList.contains(open)) {
+                ele.type = "text";
+                this.classList.remove(open);
+                this.className += ' ' + close;
+            } else {
+                ele.type = "password";
+                this.classList.remove(close);
+                this.className += ' ' + open;
+            }
+        });
+
+        $("#formForgetPassword").submit(function (e) {
+
+            e.preventDefault();
+
+            ShowNoty("warning", "Sending email..");
+
+            var form = $(this);
+            var url = form.attr('action');
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: form.serialize(),
+                success: function (data) {
+                    console.log(data);
+                    if (data.response.statusCode == 200) {
+                        ShowNoty("success", data.message);
+                    } else {
+                        ShowNoty("error", data.message);
+                    }
+                    refresh();
+                }
+            });
+        });
+
+        $("#btnReset").on('click', function (e) {
+
+            if ($("#txtPassword").val() != $("#txtRepassword").val()) {
+
+                ShowNoty("error", "Password not matching");
+            } else if ($("#txtPassword").val().length < 12) {
+                ShowNoty("error", "Password must be atleast 12 characters length!");
+            } else if (!isStrongPwd($("#txtPassword").val())) {
+                ShowNoty("error", "Password must be consist of mix of 3 characters from 3 groups:" +
+                    "\nUpper case alphabets: A,B,C,D,E...Z" +
+                    "\nLower case alphabets: a,b,c,d,e...z," +
+                    "\nNumber: 1,2,3,4...9, " +
+                    "\nSpecial characters: !#$%^(...etc!");
+            } else {
+                $("#formResetPassword").submit();
+            }
+
+        });
+
+        $("#formResetPassword").submit(function (e) {
+
+            e.preventDefault();
+
+            ShowNoty("warning", "Resetting password..");
+
+            var form = $(this);
+            var url = form.attr('action');
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: form.serialize(),
+                success: function (data) {
+                    console.log(data);
+                    if (data.response.statusCode == 200) {
+                        ShowNoty("success", data.message);
+                        $("#modal-reset-password").modal("hide");
+                        $('#errorMsg').hide();
+                    } else {
+                        ShowNoty("error", data.message);
+                    }
+                    refresh();
+                }
+            });
+        });
+
+    });
+
+
+</script>

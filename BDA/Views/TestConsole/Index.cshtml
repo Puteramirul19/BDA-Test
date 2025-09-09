@@ -1,0 +1,155 @@
+﻿@{
+    ViewData["Title"] = "Reporting";
+}
+
+@section Styles{
+
+    <style>
+
+        .btn-create {
+            background-color: #5d5386;
+            color: white;
+        }
+
+        .btn-apply:hover {
+            background-color: white;
+            color: black;
+        }
+
+        .btn-cancel:hover {
+            background-color: red;
+            color: white;
+        }
+
+        .btn-recover:hover {
+            background-color: limegreen;
+            color: white;
+        }
+
+        .btn-lost:hover {
+            background-color: #FFC300;
+            color: white;
+        }
+
+        select.filter {
+            height: 33px !important;
+        }
+
+        .dataTable > thead > tr > th[class*="sort"]:before,
+        .dataTable > thead > tr > th[class*="sort"]:after {
+            content: "" !important;
+        }
+
+        .dt-body-right {
+            text-align: right;
+        }
+
+        .dt-body-center {
+            text-align: center;
+        }
+    </style>
+}
+<div class="content-inner active">
+    <div class="container-fluid">
+        <!-- Begin Page Header-->
+        <div class="row">
+            <div class="page-header">
+                <div class="d-flex align-items-center">
+                    <div>
+                        <h2 class="page-header-title">Test Console</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="widget has-shadow">
+            <div id="pnl_main_form" class="widget-body">
+                <div class="padding-left-20 padding-right-20">
+                    <h4 style="padding-top:30px;" class="page-header-title">Posting Bank Draft To ERMS</h4>
+                    @*<form action="" method="post">*@
+                    <div class="form-group row">
+                        <br />
+                        <br />
+                        <div class="col-sm-2 form-control-label d-flex align-items-center">Reference No</div>
+                        <div class="col-xl-2">
+                            <input type="text" id="refNo" name="refNo">
+                        </div>
+                        <button id="btnPost" class="btn btn-create">Post</button>
+                    </div>
+                    <div class="form-group row">
+                        <br />
+                        <br />
+                        <div class="col-sm-2 form-control-label d-flex align-items-center">Reference No</div>
+                        <div class="col-xl-2">
+                            <input type="text" id="refNo2" name="refNo2">
+                        </div>
+                        <button id="btnSendEmail" class="btn btn-create">Send Email To Approver</button>
+                    </div>
+                    @*</form>*@
+                </div>
+          
+            </div>
+            @*<button id="btnDelete" class="btn btn-create">Run Delete</button>
+            <button id="btnEdit" class="btn btn-create">Run Edit</button>*@
+        </div>
+    </div>
+    <!-- End Container -->
+    <!-- Begin Page Footer-->
+    <!-- End Page Footer -->
+    <a href="#" class="go-top"><i class="la la-arrow-up"></i></a>
+    <!-- Offcanvas Sidebar -->
+    <!-- End Offcanvas Sidebar -->
+</div>
+
+@section Scripts{
+    @*<script src="~/assets/vendors/js/bootstrap-select/bootstrap-select.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+    <script src=https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.html5.min.js"></script>*@
+
+
+
+    @*<script src="~/assets/vendors/js/datatables/sum.js"></script>*@
+
+    <script>
+
+        $(function () {
+            $("nav").addClass("shrinked");
+        });
+
+        $("#btnPost").on('click', function () {
+          
+            $.ajax({
+                type: "POST",
+                url: "/TestConsole/PostingToERMS?refNo=" + $("#refNo").val(),
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    for (var i = 0; i < data.length; i++) {
+                        console.log(data[i]);
+
+                    }
+                }
+            });
+        });
+
+        $("#btnSendEmail").on('click', function () {
+
+            $.ajax({
+                type: "POST",
+                url: "/TestConsole/SendEmailForApprover?refNo=" + $("#refNo2").val(),
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    for (var i = 0; i < data.length; i++) {
+                        console.log(data[i]);
+
+                    }
+                }
+            });
+        });
+
+    </script>
+}
