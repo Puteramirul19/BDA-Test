@@ -1,62 +1,9 @@
-﻿@model BDA.ViewModel.UMAViewModel
-
-<div class="widget has-shadow">
-    <div class="widget-header d-flex align-items-center">
-        <h3>Action History</h3>
-    </div>
+﻿
+<div id="pnl_history" class="widget-body">
+    <h3>
+        Activity History
+    </h3>
     <div class="widget-body">
-        <div class="table-responsive">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Action</th>
-                        <th>By</th>
-                        <th>Comments</th>
-                    </tr>
-                </thead>
-                <tbody id="action-history-tbody">
-                    <!-- Action history will be loaded here via AJAX -->
-                </tbody>
-            </table>
-        </div>
+        <div id="jsGrid"></div>
     </div>
 </div>
-
-<script>
-    $(document).ready(function () {
-        // Load action history
-        if ('@Model?.Id' !== '') {
-            loadActionHistory('@Model?.Id');
-        }
-    });
-
-    function loadActionHistory(umaId) {
-        $.ajax({
-            url: '@Url.Action("GetActionHistory", "UMA")',
-            type: 'GET',
-            data: { id: umaId },
-            success: function (data) {
-                var tbody = $('#action-history-tbody');
-                tbody.empty();
-
-                if (data && data.length > 0) {
-                    $.each(data, function (index, item) {
-                        var row = '<tr>' +
-                            '<td>' + new Date(item.actionDate).toLocaleDateString() + '</td>' +
-                            '<td>' + item.action + '</td>' +
-                            '<td>' + item.actionBy + '</td>' +
-                            '<td>' + (item.comments || '') + '</td>' +
-                            '</tr>';
-                        tbody.append(row);
-                    });
-                } else {
-                    tbody.append('<tr><td colspan="4" class="text-center">No action history available</td></tr>');
-                }
-            },
-            error: function () {
-                $('#action-history-tbody').append('<tr><td colspan="4" class="text-center">Error loading action history</td></tr>');
-            }
-        });
-    }
-</script>

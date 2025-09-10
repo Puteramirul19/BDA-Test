@@ -1,0 +1,244 @@
+﻿@{
+    ViewData["Title"] = "My UMA";
+}
+
+@section Styles {
+
+    <style>
+        .btn-create {
+            background-color: #5d5386;
+            color: white;
+        }
+
+        .btn-apply:hover {
+            background-color: white;
+            color: black;
+        }
+
+        .btn-cancel:hover {
+            background-color: red;
+            color: white;
+        }
+
+        .btn-recover:hover {
+            background-color: limegreen;
+            color: white;
+        }
+
+        .btn-uma:hover {
+            background-color: #FFC300;
+            color: white;
+        }
+
+        select.filter {
+            height: 33px !important;
+        }
+    </style>
+}
+<div class="content-inner">
+    <div class="container-fluid">
+        <!-- Begin Page Header-->
+        <div class="row">
+            <div class="page-header">
+                <div class="d-flex align-items-center">
+                    <h2 class="page-header-title">My UMA Request</h2>
+                    <div>
+                        <!--<div class="page-header-tools">
+                            <a class="btn btn-gradient-01" href="#">Add Widget</a>
+                        </div>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Page Header -->
+        <!-- Begin Row -->
+        <!-- End Row -->
+        <!-- Begin Row -->
+
+        <div class="row flex-row">
+            <div class="col-xl-12">
+                <!-- Form -->
+                <div class="widget has-shadow">
+                    <div class="widget-body">
+                        <div class="row">
+                            <div class="col-xl-12 col-md-12">
+                                <div class="table-responsive">
+                                    <div class="widget has-shadow">
+                                        <div class="widget-header bordered no-actions d-flex align-items-center">
+                                            <h4>Search Filter</h4>
+                                        </div>
+                                        <div class="widget-body">
+                                            <form id="SearchFilters">
+                                                <div class="row">
+                                                    <div class="col-xl-2 col-md-6 col-sm-6">
+                                                        <div class="form-group">
+                                                            <input type="text" placeholder="Ref No" class="form-control filter" id="search-refNo">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xl-2 col-md-6 col-sm-6">
+                                                        <div class="form-group">
+                                                            <input type="text" placeholder="Requester" class="form-control filter" id="search-requester">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xl-2 col-md-6 col-sm-6">
+                                                        <div class="form-group">
+                                                            <input type="text" placeholder="BD No" class="form-control filter" id="search-BDNo">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xl-2 col-md-6 col-sm-6">
+                                                        <div class="form-group">
+                                                            <input type="text" placeholder="Project No" class="form-control filter" id="search-projectNo">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xl-2 col-md-6 col-sm-6">
+                                                        <div class="form-group">
+                                                            <input type="text" placeholder="Amount" class="form-control filter" id="search-amount">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xl-2 col-md-6 col-sm-6">
+                                                        <div class="form-group">
+                                                            <select class="form-control filter" id="search-applicationType">
+                                                                <option value="">Application Type</option>
+                                                                <option value="UMA">UMA</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xl-2 col-md-6 col-sm-6">
+                                                        <div class="form-group">
+                                                            <input type="date" placeholder="Submit Date" class="form-control filter" id="search-submitDate">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xl-2 col-md-6 col-sm-6">
+                                                        <div class="form-group">
+                                                            <select class="form-control filter" id="search-status">
+                                                                <option value="">Status</option>
+                                                                <option value="Draft">Draft</option>
+                                                                <option value="Submitted">Submitted</option>
+                                                                <option value="Processing">Processing</option>
+                                                                <option value="Approved">Approved</option>
+                                                                <option value="Rejected">Rejected</option>
+                                                                <option value="Completed">Completed</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xl-2 col-md-6 col-sm-6">
+                                                        <div class="form-group">
+                                                            <input type="date" placeholder="Updated On" class="form-control filter" id="search-updatedOn">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xl-2 col-md-6 col-sm-6">
+                                                        <div class="form-group">
+                                                            <button type="button" id="btn-search" class="btn btn-primary">Search</button>
+                                                            <button type="button" id="btn-clear" class="btn btn-secondary">Clear</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-12 col-md-12">
+                                <div class="table-responsive">
+                                    <table class="table table-striped" id="table_my_uma">
+                                        <thead>
+                                            <tr>
+                                                <th>Ref No</th>
+                                                <th>Requester Name</th>
+                                                <th>BD No</th>
+                                                <th>Project No</th>
+                                                <th>Amount</th>
+                                                <th>Application Type</th>
+                                                <th>Status</th>
+                                                <th>Updated On</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            var table = $('#table_my_uma').DataTable({
+                "ajax": {
+                    url: "@Url.Action("GetMyRequestUMA", "Application")",
+                    type: "GET",
+                    data: function (d) {
+                        d.refNo = $('#search-refNo').val();
+                        d.requesterName = $('#search-requester').val();
+                        d.bDNo = $('#search-BDNo').val();
+                        d.projectNo = $('#search-projectNo').val();
+                        d.amount = $('#search-amount').val();
+                        d.applicationType = $('#search-applicationType option:selected').val();
+                        d.submitDate = $('#search-submitDate').val();
+                        d.status = $('#search-status option:selected').val();
+                        d.updatedOn = $('#search-updatedOn').val();
+                    },
+                    dataFilter: function (result) {
+                        var jData = JSON.parse(result);
+                        var dtData = JSON.stringify({ "data": jData });
+                        return dtData;
+                    }
+                },
+                order: [[1, 'asc']],
+                columns: [
+                    { data: "refNo" },
+                    { data: "requesterName" },
+                    { data: "bdNo" },
+                    { data: "projectNo" },
+                    { data: "amount" },
+                    { data: "applicationType" },
+                    { data: "status" },
+                    { data: "updatedOn" },
+                    {
+                        data: "id",
+                        "render": function (data, type, row) {
+                            var id = data;
+                            var href = "/" + row["applicationType"] + "/Edit/" + id;
+                            if (type == "display") {
+                                data = '<a href="' + href + '" style="border-radius: 0%;background-color: #f4f4f4;border-color: #ddd;" class="btn btn-uma btn-block mb-2">View</a>';
+                            }
+                            return data;
+                        }
+                    }
+                ],
+                "bPaginate": true,
+                "bLengthChange": false,
+                "bFilter": false,
+                "bInfo": true,
+                "bAutoWidth": false,
+                orderCellsTop: true,
+                fixedHeader: true,
+                "lengthChange": false
+            });
+
+            $('#btn-search').click(function () {
+                table.ajax.reload();
+            });
+
+            $('#btn-clear').click(function () {
+                $('#SearchFilters')[0].reset();
+                table.ajax.reload();
+            });
+
+            $('.filter').keypress(function (e) {
+                if (e.which == 13) {
+                    table.ajax.reload();
+                }
+            });
+        });
+    </script>
+}

@@ -86,6 +86,39 @@ namespace BDA.Web.Controllers
             return View();
         }
 
+        public IActionResult MyUMA()
+        {
+            return View();
+        }
+
+        public JsonResult GetMyRequestUMA(Guid? bankDraftId = null, string refNo = null, string requesterName = null, string BDNo = null, string projectNo = null, string amount = null, string submitDate = null, string status = null, string updatedOn = null)
+        {
+            var user = _userManager.GetUserAsync(HttpContext.User).Result;
+
+            var result = Db.UMA
+                .Select(x => new {
+                    id = x.Id,
+                    refNo = x.RefNo,
+                    requesterName = x.Requester.FullName,
+                    bdNo = x.BDNo,
+                    projectNo = x.ProjectNo,
+                    amount = x.BDAmount,
+                    applicationType = "UMA",
+                    submitDate = x.SubmittedOn,
+                    status = x.Status,
+                    updatedOn = x.UpdatedOn
+                })
+                .Where(x => x.requesterName == user.FullName &&
+                           (refNo == null || x.refNo.Contains(refNo)) &&
+                           (requesterName == null || x.requesterName.Contains(requesterName)) &&
+                           (BDNo == null || x.bdNo.Contains(BDNo)) &&
+                           (projectNo == null || x.projectNo.Contains(projectNo)) &&
+                           (status == null || x.status == status))
+                .ToList();
+
+            return new JsonResult(result.ToList());
+        }
+
         public JsonResult GetMyRequestCancellation(Guid? id = null, string refNo = null, string bdNo = null,
                                       string projectNo = null, string nameOnBD = null,
                                       string requester = null, string coCode = null, string BA = null, string bdAmount = null, string status = null)

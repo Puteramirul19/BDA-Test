@@ -1,4 +1,4 @@
-﻿@model BDA.ViewModel.UMAViewModel
+﻿@model BDA.ViewModel.LostViewModel
 @{
     ViewData["Title"] = "CreateDetails";
 }
@@ -26,7 +26,7 @@
             color: white;
         }
 
-        .btn-uma:hover {
+        .btn-lost:hover {
             background-color: #FFC300;
             color: white;
         }
@@ -57,118 +57,57 @@
                                 </div>
                                 <br />
                                 <div class="form-group row">
-                                    <div class="col-sm-2 form-control-label d-flex">Justification of UMA<span class="text-danger ml-2">*</span></div>
+                                    <div class="col-sm-2 form-control-label d-flex">Justification of Lost<span class="text-danger ml-2">*</span></div>
                                     <div class="col-xl-10">
                                         @Html.TextAreaFor(x => x.Justification, new { @class = "form-control", required = "required", @placeholder = "Komen dan cadangan" })
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <div class="col-sm-2 form-control-label d-flex align-items-center">
-                                        BD No / Proj No<span class="text-danger ml-2">*</span>
+                                        Proj No/ Assignment/ BD No/ Ref No<span class="text-danger ml-2">*</span>
                                         @*<p class="ion-information-circled" data-toggle="tooltip" data-placement="top" data-original-title="Project No."></p>*@
                                     </div>
                                     <div class="col-xl-4">
                                         <div class="input-group">
-                                            @Html.TextBoxFor(x => x.BDNo, new { @class = "form-control", @placeholder = "Search BD No." })
-                                            <div class="input-group-append">
-                                                <button class="btn btn-outline-secondary" type="button" id="button-search-bd-no"><i class="fa fa-search"></i></button>
-                                            </div>
+                                            @Html.TextBoxFor(x => x.ProjectNo, new { @class = "form-control", @placeholder = "Search Project No.", required = "required" })
+                                            <span class="input-group-btn">
+                                                <input type="button" id="btnLoadProjDetails" class="btn btn-outline-primary mr-1 mb-2" value="Search" data-toggle="modal" data-target="#search-results-modal">
+                                            </span>
                                         </div>
                                     </div>
+                                    <div class="col-sm-2 form-control-label d-flex align-items-center">BD No.<span class="text-danger ml-2">*</span></div>
                                     <div class="col-xl-4">
-                                        @Html.TextBoxFor(x => x.ProjectNo, new { @class = "form-control", @placeholder = "Project No.", @readonly = "readonly" })
+                                        @Html.TextBoxFor(x => x.BDNo, new { @class = "form-control", required = "required" })
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <div class="col-sm-2 form-control-label d-flex align-items-center">Name on BD</div>
+                                    <div class="col-sm-2 form-control-label d-flex align-items-center">BD Requestor's Name</div>
                                     <div class="col-xl-4">
-                                        @Html.TextBoxFor(x => x.NameOnBD, new { @class = "form-control", @readonly = "readonly" })
+                                        @Html.TextBoxFor(x => x.BDRequesterName, new { @class = "form-control", disabled = "disabled" })
                                     </div>
-                                    <div class="col-sm-2 form-control-label d-flex align-items-center">BD Amount</div>
+                                    <div class="col-sm-2 form-control-label d-flex align-items-center">ERMS Document No.</div>
                                     <div class="col-xl-4">
-                                        @Html.TextBoxFor(x => x.BDAmount, new { @class = "form-control", @readonly = "readonly" })
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <div class="col-sm-2 form-control-label d-flex align-items-center">Instruction Letter Ref No</div>
-                                    <div class="col-xl-4">
-                                        @Html.TextBoxFor(x => x.InstructionLetterRefNo, new { @class = "form-control", @readonly = "readonly" })
-                                    </div>
-                                    <div class="col-sm-2 form-control-label d-flex align-items-center">BD Requester Name</div>
-                                    <div class="col-xl-4">
-                                        @Html.TextBoxFor(x => x.BDRequesterName, new { @class = "form-control", @readonly = "readonly" })
+                                        @Html.TextBoxFor(x => x.ERMSDocNo, new { @class = "form-control", @readonly = "readonly", type = "number" })
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <div class="col-sm-2 form-control-label d-flex align-items-center">ERMS Doc No</div>
-                                    <div class="col-xl-4">
-                                        @Html.TextBoxFor(x => x.ERMSDocNo, new { @class = "form-control", @readonly = "readonly" })
-                                    </div>
-                                    <div class="col-sm-2 form-control-label d-flex align-items-center">Co Code</div>
+                                    <div class="col-sm-2 form-control-label d-flex align-items-center">Company Code<span class="text-danger ml-2">*</span></div>
                                     <div class="col-xl-4">
                                         @Html.TextBoxFor(x => x.CoCode, new { @class = "form-control", @readonly = "readonly" })
                                     </div>
-                                </div>
-                                <div class="form-group row">
-                                    <div class="col-sm-2 form-control-label d-flex align-items-center">BA</div>
+                                    <div class="col-sm-2 form-control-label d-flex align-items-center">Business Area<span class="text-danger ml-2">*</span></div>
                                     <div class="col-xl-4">
                                         @Html.TextBoxFor(x => x.BA, new { @class = "form-control", @readonly = "readonly" })
                                     </div>
-                                    <div class="col-sm-2 form-control-label d-flex align-items-center">Received Date</div>
-                                    <div class="col-xl-4">
-                                        @Html.TextBoxFor(x => x.ReceivedDate, new { @class = "form-control", @type = "date" })
-                                    </div>
-                                </div>
-                                <br />
-                                <hr />
-                                <br />
-                                <div class="form-group row">
-                                    <div class="col-sm-2 form-control-label d-flex align-items-center">Scanned Police Report & Memo<span class="text-danger ml-2">*</span></div>
-                                    <div class="col-xl-4">
-                                        @if (Model != null && Model.ScannedPoliceReportVM != null && !string.IsNullOrEmpty(Model.ScannedPoliceReportVM.FileName))
-                                        {
-                                            <p>Current file: @Model.ScannedPoliceReportVM.FileName</p>
-                                        }
-                                        <input type="file" id="ScannedPoliceReportVM_File" name="ScannedPoliceReport" class="form-control" accept="image/*,.pdf" />
-                                    </div>
-                                    <div class="col-sm-2 form-control-label d-flex align-items-center">Scanned PBT Document</div>
-                                    <div class="col-xl-4">
-                                        @if (Model != null && Model.ScannedPBTDocVM != null && !string.IsNullOrEmpty(Model.ScannedPBTDocVM.FileName))
-                                        {
-                                            <p>Current file: @Model.ScannedPBTDocVM.FileName</p>
-                                        }
-                                        <input type="file" id="ScannedPBTDocVM_File" name="ScannedPBTDoc" class="form-control" accept="image/*,.pdf" />
-                                    </div>
                                 </div>
                                 <div class="form-group row">
-                                    <div class="col-sm-2 form-control-label d-flex align-items-center">Other Supporting Documents</div>
-                                    <div class="col-xl-10">
-                                        <div id="pnlOtherDoc">
-                                            <!-- Dynamic other documents will be added here -->
-                                        </div>
-                                        <button type="button" id="btnAddOtherDoc" class="btn btn-primary mt-2">Add Document</button>
-                                    </div>
-                                </div>
-                                <br />
-                                <div class="form-group row">
-                                    <div class="col-sm-2 form-control-label d-flex align-items-center">Select Approver<span class="text-danger ml-2">*</span></div>
+                                    <div class="col-sm-2 form-control-label d-flex align-items-center">Name on BD<span class="text-danger ml-2">*</span></div>
                                     <div class="col-xl-4">
-                                        <select name="ApproverId" id="ApproverId" class="form-control" required>
-                                            <option value="">Select Approver</option>
-                                        </select>
+                                        @Html.TextBoxFor(x => x.NameOnBD, new { @class = "form-control", disabled = "disabled" })
                                     </div>
-                                </div>
-                                <br />
-                                <div class="form-group row">
-                                    <div class="col-xl-12">
-                                        <div class="form-actions float-right">
-                                            <button type="submit" name="Status" value="Draft" class="btn btn-secondary mr-1">
-                                                <i class="la la-check-square-o"></i> Save as Draft
-                                            </button>
-                                            <button type="submit" name="Status" value="Submit" class="btn btn-primary">
-                                                <i class="la la-check-square-o"></i> Submit
-                                            </button>
-                                        </div>
+                                    <div class="col-sm-2 form-control-label d-flex align-items-center">BD Amount<span class="text-danger ml-2">*</span></div>
+                                    <div class="col-xl-4">
+                                        @Html.TextBoxFor(x => x.BDAmount, "{0:c}", new { @class = "form-control", @readonly = "readonly", id = "jumlah" })
                                     </div>
                                 </div>
                             </div>
@@ -179,32 +118,78 @@
         </div>
     </div>
 </div>
+<div id="search-results-modal" class="modal modal-top fade" style="display: none; padding-right: 17px;" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content" style="width:1300px;margin-left:-420px;margin-top:100px">
+            <div class="modal-header">
+                <h4 class="modal-title">Search Results</h4>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">×</span>
+                    <span class="sr-only">close</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table id="tblSearchResults" class="table table-hover mb-0 display table-bordered">
+                    <thead>
+                        <tr>
+                            <td>Reference No</td>
+                            <td>Proj No/Assignment</td>
+                            <td>Requester Name</td>
+                            <td>BD No</td>
+                            <td>ERMS Doc No</td>
+                            <td>Business Area</td>
+                            <td>State</td>
+                            <td>ERMS Posting Date</td>
+                            <td>Created Date</td>
+                            <td>BD Amount (RM)</td>
+                            <td>Keterangan Kerja</td>
+                            <td>Action</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-shadow" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
 
-<script>
-    $(document).ready(function () {
-        // Load approvers
-        $.ajax({
-            url: '@Url.Action("GetAllUMAApprover", "UMA")',
-            type: 'GET',
-            success: function (data) {
-                var approverSelect = $('#ApproverId');
-                approverSelect.empty();
-                approverSelect.append('<option value="">Select Approver</option>');
+    <script src="~/assets/js/components/wizard/form-wizard.min.js"></script>
+    <script src="~/assets/vendors/js/bootstrap-select/bootstrap-select.min.js"></script>
 
-                $.each(data, function (index, approver) {
-                    approverSelect.append('<option value="' + approver.userId + '">' + approver.userName + '</option>');
-                });
+    <script src="assets/vendors/js/base/jquery.min.js"></script>
+    <script src="assets/vendors/js/base/core.min.js"></script>
+    <!-- End Vendor Js -->
+    <!-- Begin Page Vendor Js -->
+    <script src="assets/vendors/js/nicescroll/nicescroll.min.js"></script>
+    <script src="assets/vendors/js/app/app.min.js"></script>
+
+    <script>
+
+        var check = function () {
+            if (document.getElementById('txtPassword').value ==
+                document.getElementById('txtRepassword').value) {
+                document.getElementById('message').style.color = 'green';
+                document.getElementById('message').innerHTML = 'Password matching';
+            } else {
+                document.getElementById('message').style.color = 'red';
+                document.getElementById('message').innerHTML = 'Password not matching';
             }
+        }
+        $("#btnSubmit").on('click', function (e) {
+            console.log('submit');
+            $("#formAddUser").submit();
         });
 
-        // Search BD No functionality
-        $('#button-search-bd-no').click(function () {
-            var bdNo = $('#BDNo').val();
-            if (bdNo) {
-                // You can implement search functionality here
-                // This would typically search for bank draft details and populate the form
-                console.log('Searching for BD No: ' + bdNo);
-            }
-        });
-    });
-</script>
+    </script>
+}
+
+
+
+
+
+

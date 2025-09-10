@@ -1,22 +1,34 @@
-﻿@model BDA.ViewModel.UMAViewModel
-
+﻿@model BDA.ViewModel.LostViewModel
+@*@if (Model != null)
+    {
+        verifierId = Model.VerifierId;
+        approverId = Model.ApproverId;
+    }*@
+@*
+        For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+    *@
 <div class="widget-header d-flex align-items-center" aria-expanded="true">
-    <h3>Action</h3>
+    <h3>
+        Approval
+    </h3>
 </div>
-<div id="pnl_action" class="widget-body">
+<div id="pnl_approver" class="widget-body">
     <div class="padding-left-20 padding-right-20">
         <div class="form-group row">
             <div class="col-sm-12">
-                <div class="form-actions">
-                    <button type="submit" name="Status" value="Approve" class="btn btn-success mr-2">
-                        <i class="la la-check"></i> Approve
-                    </button>
-                    <button type="submit" name="Status" value="Reject" class="btn btn-danger mr-2">
-                        <i class="la la-times"></i> Reject
-                    </button>
-                    <button type="submit" name="Status" value="Request More Info" class="btn btn-warning">
-                        <i class="la la-question"></i> Request More Information
-                    </button>
+                <div class="row">
+
+                    <div class="col-lg-12 before-submit">
+                        <label class="form-control-label">Approver<span class="text-danger ml-2">*</span></label>
+                        @Html.DropDownListFor(x => x.ApproverId, Enumerable.Empty<SelectListItem>(), new { @class = "form-control select2", id = "ddlApprover", required = "required" })
+                        @Html.HiddenFor(x => x.ApproverId)
+                    </div>
+                    <div id="afterSubmit" class="row after-submit" style="display:none">
+                        <div class="col-lg-12">
+                            <label class="form-control-label">Approver</label>
+                            <p style="font-weight:bold">@ViewBag.ApproverId</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

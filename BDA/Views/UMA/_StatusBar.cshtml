@@ -1,105 +1,93 @@
-﻿@model BDA.ViewModel.UMAViewModel
+﻿@{
+    var currentStep = 1;
+    if (Model != null)
+    {
+        switch (Model.Status)
+        {
+            case "Draft":
+            case "Submitted":
+                currentStep = 1;
+                break;
+            case "Approved":
+                currentStep = 2;
+                break;
+            case "Accepted":
+                currentStep = 3;
+                break;
+            case "Processed":
+                currentStep = 4;
+                break;
+            case "Received":
+                currentStep = 5;
+                break;
+            case "Confirmed":
+                currentStep = 6;
+                break;
+            case "Completed":
+                currentStep = 7;
+                break;
+        }
+    }
+}
 
-<div class="widget-header d-flex align-items-center" aria-expanded="true">
-    <h3>Status: @(Model?.Status ?? "Draft")</h3>
-</div>
-
-<div class="progress-bar-container">
-    <div class="progress-bar-wrapper">
-        <div class="progress-bar">
-            <div class="progress-step @(Model?.Status == "Draft" || Model?.Status == "Submitted" || Model?.Status == "Processing" || Model?.Status == "Approved" || Model?.Status == "Completed" ? "active" : "")">
-                <div class="progress-step-number">1</div>
-                <div class="progress-step-label">Draft</div>
-            </div>
-            <div class="progress-step @(Model?.Status == "Submitted" || Model?.Status == "Processing" || Model?.Status == "Approved" || Model?.Status == "Completed" ? "active" : "")">
-                <div class="progress-step-number">2</div>
-                <div class="progress-step-label">Submitted</div>
-            </div>
-            <div class="progress-step @(Model?.Status == "Processing" || Model?.Status == "Approved" || Model?.Status == "Completed" ? "active" : "")">
-                <div class="progress-step-number">3</div>
-                <div class="progress-step-label">Processing</div>
-            </div>
-            <div class="progress-step @(Model?.Status == "Approved" || Model?.Status == "Completed" ? "active" : "")">
-                <div class="progress-step-number">4</div>
-                <div class="progress-step-label">Approved</div>
-            </div>
-            <div class="progress-step @(Model?.Status == "Completed" ? "active" : "")">
-                <div class="progress-step-number">5</div>
-                <div class="progress-step-label">Completed</div>
+<div class="widget has-shadow">
+    <div class="widget-body">
+        <div class="row">
+            <div class="col-xl-12">
+                <div style="text-align:center; margin-bottom:20px">
+                    <h4>UMA Stages</h4>
+                </div>
+                <div class="progress-indicator">
+                    <div class="step @(currentStep >= 1 ? "completed" : "")">
+                        <div class="step-icon">1</div>
+                        <div class="step-text">
+                            <strong>Create</strong><br />
+                            <small>(Requestor)</small>
+                        </div>
+                    </div>
+                    <div class="step @(currentStep >= 2 ? "completed" : "")">
+                        <div class="step-icon">2</div>
+                        <div class="step-text">
+                            <strong>Approve</strong><br />
+                            <small>(Azon Team - TGBS)</small>
+                        </div>
+                    </div>
+                    <div class="step @(currentStep >= 3 ? "completed" : "")">
+                        <div class="step-icon">3</div>
+                        <div class="step-text">
+                            <strong>Accept</strong><br />
+                            <small>(AP Banking - TGBS)</small>
+                        </div>
+                    </div>
+                    <div class="step @(currentStep >= 4 ? "completed" : "")">
+                        <div class="step-icon">4</div>
+                        <div class="step-text">
+                            <strong>Submit To Bank</strong><br />
+                            <small>(AP Banking - TGBS)</small>
+                        </div>
+                    </div>
+                    <div class="step @(currentStep >= 5 ? "completed" : "")">
+                        <div class="step-icon">5</div>
+                        <div class="step-text">
+                            <strong>Receive</strong><br />
+                            <small>(Reconciling - TGBS)</small>
+                        </div>
+                    </div>
+                    <div class="step @(currentStep >= 6 ? "completed" : "")">
+                        <div class="step-icon">6</div>
+                        <div class="step-text">
+                            <strong>Confirm</strong><br />
+                            <small>(AP Banking - TGBS)</small>
+                        </div>
+                    </div>
+                    <div class="step @(currentStep >= 7 ? "completed" : "")">
+                        <div class="step-icon">7</div>
+                        <div class="step-text">
+                            <strong>Completed</strong>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
-
-<style>
-    .progress-bar-container {
-        margin: 20px 0;
-    }
-
-    .progress-bar-wrapper {
-        display: flex;
-        justify-content: center;
-    }
-
-    .progress-bar {
-        display: flex;
-        align-items: center;
-        position: relative;
-        width: 100%;
-        max-width: 600px;
-    }
-
-    .progress-step {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        flex: 1;
-        position: relative;
-    }
-
-        .progress-step:not(:last-child)::after {
-            content: '';
-            position: absolute;
-            top: 15px;
-            left: 50%;
-            width: 100%;
-            height: 2px;
-            background-color: #e0e0e0;
-            z-index: 1;
-        }
-
-        .progress-step.active:not(:last-child)::after {
-            background-color: #007bff;
-        }
-
-    .progress-step-number {
-        width: 30px;
-        height: 30px;
-        border-radius: 50%;
-        background-color: #e0e0e0;
-        color: #666;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: bold;
-        position: relative;
-        z-index: 2;
-    }
-
-    .progress-step.active .progress-step-number {
-        background-color: #007bff;
-        color: white;
-    }
-
-    .progress-step-label {
-        margin-top: 8px;
-        font-size: 12px;
-        text-align: center;
-        color: #666;
-    }
-
-    .progress-step.active .progress-step-label {
-        color: #007bff;
-        font-weight: bold;
-    }
-</style>

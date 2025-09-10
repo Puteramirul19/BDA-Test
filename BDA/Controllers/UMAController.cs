@@ -344,6 +344,35 @@ namespace BDA.Web.Controllers
         }
 
         [HttpGet]
+        public JsonResult GetMyRequestUMA(string refNo = null, string requesterName = null, string BDNo = null, string projectNo = null, string amount = null, string submitDate = null, string status = null, string updatedOn = null)
+        {
+            var user = _userManager.GetUserAsync(HttpContext.User).Result;
+
+            var result = Db.UMA
+                .Select(x => new {
+                    id = x.Id,
+                    refNo = x.RefNo,
+                    requesterName = x.Requester.FullName,
+                    bdNo = x.BDNo,
+                    projectNo = x.ProjectNo,
+                    amount = x.BDAmount,
+                    applicationType = "UMA",
+                    submitDate = x.SubmittedOn,
+                    status = x.Status,
+                    updatedOn = x.UpdatedOn
+                })
+                .Where(x => x.requesterName == user.FullName &&
+                           (refNo == null || x.refNo.Contains(refNo)) &&
+                           (requesterName == null || x.requesterName.Contains(requesterName)) &&
+                           (BDNo == null || x.bdNo.Contains(BDNo)) &&
+                           (projectNo == null || x.projectNo.Contains(projectNo)) &&
+                           (status == null || x.status == status))
+                .ToList();
+
+            return new JsonResult(result.ToList());
+        }
+
+        [HttpGet]
         public JsonResult GetAllUMAApprover()
         {
             var user = _userManager.GetUserAsync(HttpContext.User).Result;

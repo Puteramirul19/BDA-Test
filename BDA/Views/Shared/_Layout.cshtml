@@ -228,37 +228,29 @@
                             <li>
                                 <a href="#dropdown-app" aria-expanded="false" data-toggle="collapse"><i class="la la-file"></i><span>Create Application</span></a>
                                 <ul id="dropdown-app" class="collapse list-unstyled pt-0">
-                                    @if (User.HasClaim("_permission", "RequestWangCagaranLess5M") && User.HasClaim("_permission", "RequestWangHangusLess500K"))
+                                    @if (User.HasClaim("_permission", "RequestWangCagaranLess5M") || User.HasClaim("_permission", "RequestWangCagaranMore5M"))
                                     {
-                                        <li><a href="/WangCagaran/Create">Wang Cagaran</a></li>
-                                        <li><a href="/WangCagaranHangus/Create">Wang Cagaran with Hangus</a></li>
-                                        <li><a href="/wanghangus/Create">Wang Hangus</a></li>
+                                        <li><a href="/wangcagaran/apply">Wang Cagaran</a></li>
                                     }
-                                    else if (User.HasClaim("_permission", "RequestWangCagaranMore5M"))
+                                    @if (User.HasClaim("_permission", "RequestWangHangusLess500K") || User.HasClaim("_permission", "RequestWangHangusMore500K"))
                                     {
-                                        <li><a href="/WangCagaran/Create">Wang Cagaran</a></li>
-                                        <li><a href="/WangCagaranHangus/Create">Wang Cagaran with Hangus</a></li>
+                                        <li><a href="/wanghangus/apply">Wang Cagaran with Hangus</a></li>
                                     }
-                                    else if (User.HasClaim("_permission", "RequestWangHangusMore500K"))
-                                    {
-                                        <li><a href="/wanghangus/Create">Wang Hangus</a></li>
-                                    }
-
                                     @if (User.HasClaim("_permission", "RequestCancellation"))
                                     {
-                                        <li><a href="/Cancellation/Create">Cancel Application</a></li>
+                                        <li><a href="/cancellation/bankdraftlist">Cancel Application</a></li>
                                     }
                                     @if (User.HasClaim("_permission", "RequestRecovery"))
                                     {
-                                        <li><a href="/Recovery/Create">Recover Application</a></li>
+                                        <li><a href="/recovery/bankdraftlist">Recover Application</a></li>
                                     }
                                     @if (User.HasClaim("_permission", "RequestLost"))
                                     {
-                                        <li><a href="/Lost/Create">Lost Application</a></li>
+                                        <li><a href="/lost/bankdraftlist">Lost Application</a></li>
                                     }
                                     @if (User.HasClaim("_permission", "RequestUMA"))
                                     {
-                                        <li><a href="/UMA/Create">UMA Request</a></li>
+                                        <li><a href="/uma/bankdraftlist">UMA Request</a></li>
                                     }
                                 </ul>
                             </li>
