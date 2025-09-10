@@ -23,6 +23,7 @@ namespace BDA.ViewModel
         public string ProjectNo { get; set; }
         public string Justification { get; set; }
         public DateTime? ReceivedDate { get; set; }
+        public string UserAction { get; set; }
         public string Comment { get; set; }
 
         public AttachmentViewModel ScannedPoliceReportVM { get; set; }

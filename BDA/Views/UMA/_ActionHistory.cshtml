@@ -1,9 +1,26 @@
-﻿
-<div id="pnl_history" class="widget-body">
-    <h3>
-        Activity History
-    </h3>
+﻿@model BDA.ViewModel.UMAViewModel
+
+<div class="widget has-shadow">
     <div class="widget-body">
-        <div id="jsGrid"></div>
+        <div class="padding-left-20 padding-right-20">
+            <div class="form-group row">
+                <div class="col-sm-12">
+                    <h5>Action History</h5>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Action</th>
+                                <th>User</th>
+                                <th>Comment</th>
+                            </tr>
+                        </thead>
+                        <tbody id="actionHistoryTable">
+                            <!-- Action history will be populated here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

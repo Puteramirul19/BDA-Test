@@ -24,6 +24,7 @@ namespace BDA.ViewModel
         public string Justification { get; set; }
         public DateTime? ReceivedDate { get; set; }
         public string Comment { get; set; }
+        public string UserAction { get; set; }
 
         public AttachmentViewModel ScannedPoliceReportVM { get; set; }
         public AttachmentViewModel ScannedPBTDocVM { get; set; }

@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "Manage UMA";
+    ViewData["Title"] = "UMA Request List";
 }
 
 @section Styles {
@@ -34,75 +34,100 @@
         }
     </style>
 }
-
-<div class="content-inner">
+<div class="content-inner active">
     <div class="container-fluid">
         <!-- Begin Page Header-->
         <div class="row">
             <div class="page-header">
                 <div class="d-flex align-items-center">
-                    <h2 class="page-header-title">Manage UMA Application</h2>
+                    <h2 class="page-header-title">UMA Request</h2>
+                    <div>
+                    </div>
                 </div>
             </div>
         </div>
         <!-- End Page Header -->
-
+        <!-- Begin Row -->
+        <div class="row flex-row">
+            <div class="col-xl-3 col-md-6 col-sm-6">
+                <a id="btnCreateUMA" href="/UMA/Create" class="btn btn-create">Create New UMA Request</a>
+            </div>
+        </div>
+        <br />
         <div class="row flex-row">
             <div class="col-xl-12">
                 <!-- Form -->
-                <div class="widget has-shadow">
-                    <div class="widget-body">
-                        <div class="widget-body sliding-tabs">
-                            <ul class="nav nav-tabs form-tab" id="ul-form-tab" role="tablist">
-                                <li class="nav-item">
-                                    <a class="nav-link active" id="base-tab-1" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="true">In Progress</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" id="base-tab-2" data-toggle="tab" href="#tab-2" role="tab" aria-controls="tab-2" aria-selected="false">Completed</a>
-                                </li>
-                            </ul>
-                            <div class="tab-content pt-3">
-                                <div class="tab-pane fade active show" id="tab-1" role="tabpanel" aria-labelledby="base-tab-1">
-                                    <!-- Content for In Progress tab -->
+                <div class="widget-body sliding-tabs">
+                    <ul class="nav nav-tabs form-tab" id="ul-form-tab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="base-tab-1" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="true">In Progress</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="base-tab-2" data-toggle="tab" href="#tab-2" role="tab" aria-controls="tab-2" aria-selected="false">Completed</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content pt-3">
+                        <div class="tab-pane fade active show" id="tab-1" role="tabpanel" aria-labelledby="base-tab-1">
+                            <div class="row flex-row">
+                                <div class="col-xl-12 col-md-12">
                                     <div class="table-responsive">
-                                        <table class="table table-striped" id="table_uma_progress">
-                                            <thead>
-                                                <tr>
-                                                    <th>Ref No</th>
-                                                    <th>BD No</th>
-                                                    <th>Project No</th>
-                                                    <th>Name on BD</th>
-                                                    <th>Requester</th>
-                                                    <th>Co Code</th>
-                                                    <th>BA</th>
-                                                    <th>BD Amount</th>
-                                                    <th>Status</th>
-                                                    <th>Action Needed</th>
-                                                    <th>Action</th>
-                                                </tr>
-                                            </thead>
-                                        </table>
+                                        <div class="widget has-shadow">
+                                            <div class="widget-body">
+                                                <div class="table-responsive">
+                                                    <table id="tblUMAInProgress" class="table table-hover mb-0 display" style="width:100%">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Ref No</th>
+                                                                <th>BD No</th>
+                                                                <th>Project No</th>
+                                                                <th>Name on BD</th>
+                                                                <th>Requester</th>
+                                                                <th>Co Code</th>
+                                                                <th>BA</th>
+                                                                <th>BD Amount</th>
+                                                                <th>Status</th>
+                                                                <th>Action Needed</th>
+                                                                <th>Action</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="tab-pane fade" id="tab-2" role="tabpanel" aria-labelledby="base-tab-2">
-                                    <!-- Content for Completed tab -->
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="tab-2" role="tabpanel" aria-labelledby="base-tab-2">
+                            <div class="row flex-row">
+                                <div class="col-xl-12 col-md-12">
                                     <div class="table-responsive">
-                                        <table class="table table-striped" id="table_uma_completed">
-                                            <thead>
-                                                <tr>
-                                                    <th>Ref No</th>
-                                                    <th>BD No</th>
-                                                    <th>Project No</th>
-                                                    <th>Name on BD</th>
-                                                    <th>Requester</th>
-                                                    <th>Co Code</th>
-                                                    <th>BA</th>
-                                                    <th>BD Amount</th>
-                                                    <th>Status</th>
-                                                    <th>Action</th>
-                                                </tr>
-                                            </thead>
-                                        </table>
+                                        <div class="widget has-shadow">
+                                            <div class="widget-body">
+                                                <div class="table-responsive">
+                                                    <table id="tblUMACompleted" class="table table-hover mb-0 display" style="width:100%">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Ref No</th>
+                                                                <th>BD No</th>
+                                                                <th>Project No</th>
+                                                                <th>Name on BD</th>
+                                                                <th>Requester</th>
+                                                                <th>Co Code</th>
+                                                                <th>BA</th>
+                                                                <th>BD Amount</th>
+                                                                <th>Status</th>
+                                                                <th>Action</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -117,97 +142,55 @@
 @section Scripts {
     <script>
         $(document).ready(function () {
-            $('#table_uma_progress').DataTable({
+            $('#tblUMAInProgress').DataTable({
                 "ajax": {
-                    url: "@Url.Action("GetAllUMAByStatus", "UMA")",
-                    type: "GET",
-                    data: function (d) {
-                        d._Status = "In Progress";
-                    },
-                    dataFilter: function (result) {
-                        var jData = JSON.parse(result);
-                        var dtData = JSON.stringify({ "data": jData });
-                        return dtData;
-                    }
+                    "url": "/UMA/GetAllUMAByStatus?_Status=Submitted,Approved,Accepted,Processed",
+                    "type": "GET",
+                    "datatype": "json"
                 },
-                order: [[1, 'asc']],
-                columns: [
-                    { data: "refNo" },
-                    { data: "bdNo" },
-                    { data: "projNo" },
-                    { data: "nameOnBD" },
-                    { data: "requester" },
-                    { data: "compCode" },
-                    { data: "ba" },
-                    { data: "bdAmount" },
-                    { data: "Status" },
-                    { data: "actionNeeded" },
+                "columns": [
+                    { "data": "refNo", "autoWidth": true },
+                    { "data": "bdNo", "autoWidth": true },
+                    { "data": "projNo", "autoWidth": true },
+                    { "data": "nameOnBD", "autoWidth": true },
+                    { "data": "requester", "autoWidth": true },
+                    { "data": "compCode", "autoWidth": true },
+                    { "data": "ba", "autoWidth": true },
+                    { "data": "bdAmount", "autoWidth": true },
+                    { "data": "Status", "autoWidth": true },
+                    { "data": "actionNeeded", "autoWidth": true },
                     {
-                        data: "id",
-                        "render": function (data, type, row) {
-                            var id = data;
-                            var href = "/UMA/Edit/" + id;
-                            if (type == "display") {
-                                data = '<a href="' + href + '" style="border-radius: 0%;background-color: #f4f4f4;border-color: #ddd;" class="btn btn-lost btn-block mb-2">View</a>';
-                            }
-                            return data;
+                        "data": "id",
+                        "render": function (data, type, row, meta) {
+                            return '<a href="/UMA/Edit/' + data + '" class="btn btn-lost btn-block mb-2" style="border-radius: 0%;background-color: #f4f4f4;border-color: #ddd;">View</a>';
                         }
                     }
-                ],
-                "bPaginate": true,
-                "bLengthChange": false,
-                "bFilter": false,
-                "bInfo": true,
-                "bAutoWidth": false,
-                orderCellsTop: true,
-                fixedHeader: true,
-                "lengthChange": false
+                ]
             });
 
-            $('#table_uma_completed').DataTable({
+            $('#tblUMACompleted').DataTable({
                 "ajax": {
-                    url: "@Url.Action("GetAllUMAByStatus", "UMA")",
-                    type: "GET",
-                    data: function (d) {
-                        d._Status = "Completed";
-                    },
-                    dataFilter: function (result) {
-                        var jData = JSON.parse(result);
-                        var dtData = JSON.stringify({ "data": jData });
-                        return dtData;
-                    }
+                    "url": "/UMA/GetAllUMAByStatus?_Status=Received,Completed",
+                    "type": "GET",
+                    "datatype": "json"
                 },
-                order: [[1, 'asc']],
-                columns: [
-                    { data: "refNo" },
-                    { data: "bdNo" },
-                    { data: "projNo" },
-                    { data: "nameOnBD" },
-                    { data: "requester" },
-                    { data: "compCode" },
-                    { data: "ba" },
-                    { data: "bdAmount" },
-                    { data: "Status" },
+                "columns": [
+                    { "data": "refNo", "autoWidth": true },
+                    { "data": "bdNo", "autoWidth": true },
+                    { "data": "projNo", "autoWidth": true },
+                    { "data": "nameOnBD", "autoWidth": true },
+                    { "data": "requester", "autoWidth": true },
+                    { "data": "compCode", "autoWidth": true },
+                    { "data": "ba", "autoWidth": true },
+                    { "data": "bdAmount", "autoWidth": true },
+                    { "data": "Status", "autoWidth": true },
                     {
-                        data: "id",
-                        "render": function (data, type, row) {
-                            var id = data;
-                            var href = "/UMA/Edit/" + id;
-                            if (type == "display") {
-                                data = '<a href="' + href + '" style="border-radius: 0%;background-color: #f4f4f4;border-color: #ddd;" class="btn btn-lost btn-block mb-2">View</a>';
-                            }
-                            return data;
+                        "data": "id",
+                        "render": function (data, type, row, meta) {
+                            return '<a href="/UMA/Edit/' + data + '" class="btn btn-lost btn-block mb-2" style="border-radius: 0%;background-color: #f4f4f4;border-color: #ddd;">View</a>';
                         }
                     }
-                ],
-                "bPaginate": true,
-                "bLengthChange": false,
-                "bFilter": false,
-                "bInfo": true,
-                "bAutoWidth": false,
-                orderCellsTop: true,
-                fixedHeader: true,
-                "lengthChange": false
+                ]
             });
         });
     </script>

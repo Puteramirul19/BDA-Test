@@ -124,6 +124,58 @@ namespace BDA.Web.Controllers
             }
         }
 
+        [HttpPost]
+        public JsonResult NextAction(UMAViewModel model)
+        {
+            var user = _userManager.GetUserAsync(HttpContext.User).Result;
+
+            try
+            {
+                switch (model.UserAction)
+                {
+                    case "Withdrawn":
+                        model.Status = "Withdrawn";
+                        break;
+                    case "Approve":
+                        model.Status = "Approved";
+                        break;
+                    case "RejectApprove":
+                        model.Status = "Rejected";
+                        break;
+                    case "Accept":
+                        model.Status = "Accepted";
+                        break;
+                    case "Decline":
+                        model.Status = "Declined";
+                        break;
+                    case "Resubmit":
+                        model.Status = "Submitted";
+                        break;
+                    default:
+                        model.Status = "Invalid";
+                        break;
+                }
+
+                if (model.Status != "Invalid")
+                {
+                    var entity = Db.UMA.Find(Guid.Parse(model.Id));
+                    entity.Status = model.Status;
+                    entity.UpdatedOn = DateTime.Now;
+
+                    Db.SetModified(entity);
+                    Db.SaveChanges();
+
+                    return Json(new { response = StatusCode(StatusCodes.Status200OK), message = "UMA Request " + model.UserAction + " Successfully!" });
+                }
+
+                return Json(new { response = StatusCode(StatusCodes.Status500InternalServerError), message = "Invalid Action!" });
+            }
+            catch (Exception e)
+            {
+                return Json(new { response = StatusCode(StatusCodes.Status500InternalServerError), message = e.Message });
+            }
+        }
+
         [HttpGet]
         public IActionResult Edit(string Id)
         {

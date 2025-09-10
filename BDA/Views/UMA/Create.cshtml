@@ -18,7 +18,8 @@
                     <h2 class="page-header-title">UMA Request</h2>
                     <div>
                         <ul class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="/UMA/BankDraftList"><i class="ti ti-home"></i></a></li>
+                            <li class="breadcrumb-item"><a href="/home/dashboard"><i class="ti ti-home"></i></a></li>
+                            <li class="breadcrumb-item"><a href="#">New Application</a></li>
                             <li class="breadcrumb-item"><a href="#">UMA Application</a></li>
                         </ul>
                     </div>
@@ -83,7 +84,147 @@
 @section Scripts {
     <script>
         $(document).ready(function () {
-            // Copy from Lost Create scripts and replace Lost with UMA
+            var projectSelected = false;
+
+            // Load Bank Draft dropdown
+            $.ajax({
+                type: 'GET',
+                url: '/Application/GetAllBankDraftForUMA',
+                dataType: 'json',
+                success: function (data) {
+                    var items = '<option value="">Select Bank Draft</option>';
+                    $.each(data, function (i, item) {
+                        items += "<option value='" + item.id + "," + item.refNo + "," + item.projectNo + "," + item.bdNo + "," + item.bdRequesterName + "," + item.ermsDocNo + "," + item.coCode + "," + item.ba + "," + item.nameOnBD + "," + item.bdAmount + "'>" + item.bdNo + " - " + item.nameOnBD + " - " + item.bdAmount + "</option>";
+                    });
+                    $('#ddlBankDraft').html(items);
+                },
+                error: function (ex) {
+                    console.log(ex);
+                }
+            });
+
+            // Load Approver dropdown
+            $.ajax({
+                type: 'GET',
+                url: '/UMA/GetAllUMAApprover',
+                dataType: 'json',
+                success: function (data) {
+                    var items = '<option value="">Select Approver</option>';
+                    $.each(data, function (i, item) {
+                        items += "<option value='" + item.userId + "'>" + item.userName + "</option>";
+                    });
+                    $('#ddlApprover').html(items);
+                },
+                error: function (ex) {
+                    console.log(ex);
+                }
+            });
+
+            $('#ddlBankDraft').on('change', function () {
+                var value = $(this).val();
+                if (value != "") {
+                    var valueSplit = value.split(',');
+                    loadData(valueSplit[0], valueSplit[1], valueSplit[2], valueSplit[3], valueSplit[4], valueSplit[5], valueSplit[6], valueSplit[7], valueSplit[8], valueSplit[9]);
+                }
+            });
+
+            function loadData(bankDraftId, refNo, projNo, bdNo, requester, ermsDocNo, coCode, ba, nameOnBd, bdAmount) {
+                $("#BankDraftId").val(bankDraftId);
+                $("#RefNo").val(refNo + "/U");
+                $("#ProjectNo").val(projNo);
+                $("#BDNo").val(bdNo);
+                $("#BDRequesterName").val(requester);
+                $("#ERMSDocNo").val(ermsDocNo);
+                $("#CoCode").val(coCode);
+                $("#BA").val(ba);
+                $("#NameOnBD").val(nameOnBd);
+                $("#BDAmount").val(bdAmount);
+            }
+
+            var counter2 = 0;
+            $("#btnAddOtherDoc").click(function (e) {
+                e.preventDefault();
+                $("#pnlOtherDoc").append('<div id="pnlOtherDoc' + counter2 + '" class="row">' +
+                    '<div class="col-sm-4">' +
+                    '<input type="text" name="OthersDocName" class="form-control" placeholder="Document Name" />' +
+                    '</div>' +
+                    '<div class="col-sm-6">' +
+                    '<input type="file" id="otherDoc' + counter2 + 'Id" name="OthersDoc" class="form-control" accept="image/*,.pdf" />' +
+                    '</div>' +
+                    '<div class="col-sm-2">' +
+                    '<button type="button" class="btn btn-danger" onclick="RemoveOtherDoc(' + counter2 + ')">Remove</button>' +
+                    '</div>' +
+                    '</div>');
+                counter2++;
+            });
+
+            $("#btnDraft").on('click', function (e) {
+                $("#Status").val("Draft");
+                $("#formCreateUMA").submit();
+            });
+
+            $("#btnSubmit").on('click', function (e) {
+                $("#Status").val("Submit");
+                $("#formCreateUMA").submit();
+            });
+
+            $("#formCreateUMA").submit(function (e) {
+                e.preventDefault();
+                ShowNoty("warning", "Saving UMA Request..");
+
+                var form = $(this);
+                var url = form.attr('action');
+                var fdata = new FormData();
+
+                if ($('#ScannedPoliceReport').get(0).files.length !== 0) {
+                    var fileInput = $('#ScannedPoliceReport')[0];
+                    var file = fileInput.files[0];
+                    fdata.append("ScannedPoliceReport", file);
+                }
+
+                if ($('#ScannedPBTDoc').get(0).files.length !== 0) {
+                    var fileInput = $('#ScannedPBTDoc')[0];
+                    var file = fileInput.files[0];
+                    fdata.append("ScannedPBTDoc", file);
+                }
+
+                $("input[name='OthersDoc']").each(function (i, file) {
+                    if (file.files.length > 0) {
+                        fdata.append("OthersDoc", file.files[0]);
+                    }
+                });
+
+                $("input[name='OthersDocName']").each(function (i, input) {
+                    fdata.append("OthersDocName", $(input).val());
+                });
+
+                $("input, select, textarea").not("input[type='file']").each(function (x, y) {
+                    fdata.append($(y).attr("name"), $(y).val());
+                });
+
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: fdata,
+                    processData: false,
+                    contentType: false,
+                    success: function (data) {
+                        if (data.response.statusCode == 200) {
+                            ShowNoty("success", data.message);
+                            href = "/UMA/List";
+                            setTimeout(function () {
+                                window.location.href = href;
+                            }, 1000);
+                        } else {
+                            ShowNoty("error", data.message);
+                        }
+                    }
+                });
+            });
         });
+
+        function RemoveOtherDoc(id) {
+            $("#pnlOtherDoc" + id).remove();
+        }
     </script>
 }

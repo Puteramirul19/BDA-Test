@@ -3,7 +3,6 @@
 }
 
 @section Styles {
-
     <style>
         .btn-create {
             background-color: #5d5386;
@@ -43,16 +42,11 @@
                 <div class="d-flex align-items-center">
                     <h2 class="page-header-title">UMA Request</h2>
                     <div>
-                        <!--<div class="page-header-tools">
-                            <a class="btn btn-gradient-01" href="#">Add Widget</a>
-                        </div>-->
                     </div>
                 </div>
             </div>
         </div>
         <!-- End Page Header -->
-        <!-- Begin Row -->
-        <!-- End Row -->
         <!-- Begin Row -->
         <div class="row flex-row">
             <div class="col-xl-3 col-md-6 col-sm-6">
@@ -148,7 +142,6 @@
 @section Scripts {
     <script>
         $(document).ready(function () {
-
             $('#tblUMAPending').DataTable({
                 "ajax": {
                     "url": "/UMA/GetAllUMAByStatus?_Status=Submitted",

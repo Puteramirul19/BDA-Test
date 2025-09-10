@@ -223,7 +223,7 @@
                             <a href="/home/dashboard" aria-expanded="false"><i class="la la-columns"></i><span>Home</span></a>
                         </li>
                         @if (!User.IsInRole("Head of Unit") && !User.IsInRole("General Manager/Senior General Manager") && !User.IsInRole("TGBS Banking") && !User.IsInRole("TGBS Reconciliation")
-&& !User.IsInRole("Business Partner") && !User.IsInRole("Business Admin") && !User.IsInRole("ICT Admin") && !User.IsInRole("Viewer"))
+                                                && !User.IsInRole("Business Partner") && !User.IsInRole("Business Admin") && !User.IsInRole("ICT Admin") && !User.IsInRole("Viewer"))
                         {
                             <li>
                                 <a href="#dropdown-app" aria-expanded="false" data-toggle="collapse"><i class="la la-file"></i><span>Create Application</span></a>
@@ -248,10 +248,7 @@
                                     {
                                         <li><a href="/lost/bankdraftlist">Lost Application</a></li>
                                     }
-                                    @if (User.HasClaim("_permission", "RequestUMA"))
-                                    {
-                                        <li><a href="/uma/bankdraftlist">UMA Request</a></li>
-                                    }
+                                    <li><a href="/uma/create">UMA Request</a></li>
                                 </ul>
                             </li>
                             <li>
