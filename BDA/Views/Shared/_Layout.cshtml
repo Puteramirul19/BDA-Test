@@ -256,6 +256,10 @@
                                     {
                                         <li><a href="/Lost/Create">Lost Application</a></li>
                                     }
+                                    @if (User.HasClaim("_permission", "RequestUMA"))
+                                    {
+                                        <li><a href="/UMA/Create">UMA Request</a></li>
+                                    }
                                 </ul>
                             </li>
                             <li>
@@ -284,6 +288,10 @@
                                     @if (User.HasClaim("_permission", "RequestLost"))
                                     {
                                         <li><a href="/application/mylost">Lost</a></li>
+                                    }
+                                    @if (User.HasClaim("_permission", "RequestUMA"))
+                                    {
+                                        <li><a href="/application/myuma">UMA</a></li>
                                     }
                                 </ul>
                             </li>

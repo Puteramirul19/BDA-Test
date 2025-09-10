@@ -1,6 +1,8 @@
 ﻿@model BDA.ViewModel.UMAViewModel
 @{
     ViewData["Title"] = "UMA Request";
+    var status = Model.Status;
+    var userId = User.Identity.Name;
 }
 
 @section Styles {
@@ -11,6 +13,9 @@
 
     <link rel="stylesheet" href="~/assets/css/bootstrap-select/bootstrap-select.min.css">
     <style>
+        .break {
+            word-wrap: break-word;
+        }
     </style>
 }
 @{
@@ -43,6 +48,7 @@
                             <div class="row flex-row justify-content-center">
                                 <div class="col-xl-12">
                                     <div id="rootwizard">
+                                        @Html.Partial("_StatusPendingAction.cshtml")
                                         @Html.Partial("_StatusBar.cshtml")
                                         <div class="tab-content" style="font-family: Arial">
 
@@ -68,10 +74,26 @@
                                                         </ul>
                                                         <div class="tab-content pt-3">
                                                             <div class="tab-pane fade active show" id="tab-1" role="tabpanel" aria-labelledby="base-tab-1">
-                                                                @using (Html.BeginForm("Create", "UMA", Model, FormMethod.Post, false, new { @id = "formCreateUMA", @class = "form-horizontal needs-validation", @novalidate = "novalidate" }))
+
+                                                                @using (Html.BeginForm("Edit", "UMA", Model, FormMethod.Post, false, new { @id = "formEditUMA", @class = "form-horizontal needs-validation", @novalidate = "novalidate" }))
                                                                 {
                                                                     @Html.AntiForgeryToken()
                                                                     @Html.Partial("_CreateDetails.cshtml")
+                                                                }
+
+                                                                @if (status == "Submitted" || status == "Processing" || status == "Approve" || status == "Received" || status == "Closed")
+                                                                {
+                                                                    @Html.Partial("_ActionHistory.cshtml")
+                                                                }
+
+                                                                @if (status == "Processing" || status == "Submitted")
+                                                                {
+                                                                    @using (Html.BeginForm("NextAction", "UMA", Model, FormMethod.Post, false, new { @id = "formNextAction", @class = "form-horizontal needs-validation", @novalidate = "novalidate" }))
+                                                                    {
+                                                                        @Html.AntiForgeryToken()
+                                                                        @Html.Partial("_Comment.cshtml")
+                                                                        @Html.Partial("_ApproverList.cshtml")
+                                                                    }
                                                                 }
                                                             </div>
                                                         </div>
@@ -117,8 +139,8 @@
 </div>
 
 @section Scripts {
+
     <script src="~/assets/js/vendor/bootstrap-select/bootstrap-select.min.js"></script>
-    <script src="~/assets/js/vendor/noty/noty.min.js"></script>
     <script>
         $(function () {
             $("nav").addClass("shrinked");
@@ -150,7 +172,7 @@
         var counter2 = 0;
         $("#btnAddOtherDoc").click(function (e) {
             e.preventDefault();
-            $("#pnlOtherDoc").append('<div id="pnlOtherDoc' + counter2 + '" class="row mb-2">' +
+            $("#pnlOtherDoc").append('<div id="pnlOtherDoc' + counter2 + '" class="row">' +
                 '<div class="col-sm-4">' +
                 '<input type="text" name="OthersDocName" class="form-control" placeholder="Document Name" />' +
                 '</div>' +
@@ -169,7 +191,7 @@
             $("#pnlOtherDoc" + id).remove();
         }
 
-        $("#formCreateUMA").submit(function (e) {
+        $("#formEditUMA").submit(function (e) {
 
             e.preventDefault(); // avoid to execute the actual submit of the form.
             ShowNoty("warning", "Saving UMA Request..");
@@ -179,32 +201,39 @@
             var fdata = new FormData();
 
             var fileInput = $('#ScannedPoliceReportVM_File')[0];
-            if (fileInput && fileInput.files[0]) {
-                fdata.append("ScannedPoliceReport", fileInput.files[0]);
-            }
+            var file = fileInput.files[0];
+            fdata.append("ScannedPoliceReport", file);
 
-            var fileInput2 = $('#ScannedPBTDocVM_File')[0];
-            if (fileInput2 && fileInput2.files[0]) {
-                fdata.append("ScannedPBTDoc", fileInput2.files[0]);
-            }
+            var fileInput = $('#ScannedPBTDocVM_File')[0];
+            var file = fileInput.files[0];
+            fdata.append("ScannedPBTDoc", file);
 
             for (var i = 0; i < counter2; i++) {
                 var fileInput = $('#otherDoc' + i + 'Id')[0];
-                if (fileInput && fileInput.files[0]) {
-                    fdata.append("OthersDoc", fileInput.files[0]);
-                }
+                var file = fileInput.files[0];
+                fdata.append("OthersDoc", file);
             }
 
-            $("input[type='text'], input[type='hidden'], input[type='date'], select, textarea").each(function (x, y) {
-                if ($(y).attr("name")) {
-                    fdata.append($(y).attr("name"), $(y).val());
-                }
+            $("input[type='text'], input[type='hidden']").each(function (x, y) {
+                fdata.append($(y).attr("name"), $(y).val());
             });
+
+            // You can update the jquery selector to use a css class if you want
+            $("input,textarea").each(function (x, y) {
+                fdata.append($(y).attr("name"), $(y).val());
+            });
+
+            for (var value of fdata.values()) {
+                console.log(value);
+            }
+            for (var key of fdata.keys()) {
+                console.log(key);
+            }
 
             $.ajax({
                 type: "POST",
                 url: url,
-                data: fdata,
+                data: fdata, //form.serialize(), // serializes the form's elements.
                 processData: false,
                 contentType: false,
                 success: function (data) {
@@ -212,15 +241,43 @@
                     if (data.response.statusCode == 200) {
                         ShowNoty("success", data.message);
                         $('#create-modal').modal('show');
+                        href = "/Application/MyUMA";
                         setTimeout(function () {
-                            window.location.href = "/UMA/List";
+                            window.location.href = href;
                         }, 1000);
                     } else {
                         ShowNoty("error", data.message);
                     }
-                },
-                error: function (xhr, status, error) {
-                    ShowNoty("error", "An error occurred: " + error);
+                }
+            });
+        });
+
+        $("#formNextAction").submit(function (e) {
+
+            e.preventDefault(); // avoid to execute the actual submit of the form.
+            ShowNoty("warning", "Updating Application..");
+
+            var form = $(this);
+            var url = form.attr('action');
+            var fdata = new FormData();
+            $("input, textarea").each(function (x, y) {
+                fdata.append($(y).attr("name"), $(y).val());
+            });
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: fdata, //form.serialize(), // serializes the form's elements.
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    console.log(data);
+                    if (data.response.statusCode == 200) {
+                        ShowNoty("success", data.message);
+                        location.reload();
+                    } else {
+                        ShowNoty("error", data.message);
+                    }
                 }
             });
         });

@@ -50,6 +50,7 @@ namespace BDA.Data
         public DbSet<WangCagaranHangus> WangCagaranHangus { get; set; }
         public DbSet<ErmsLog> ErmsLog { get; set; }
         public DbSet<PasswordHistory> PasswordHistory { get; set; }
+        public DbSet<UMA> UMA { get; set; }
 
         public override int SaveChanges()
         {

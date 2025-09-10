@@ -70,7 +70,8 @@ namespace BDA.Data
         Evidence,
         Cancellation,
         Recovery,
-        Lost
+        Lost,
+        UMA
     }
     public enum BDAttachmentType
     {
