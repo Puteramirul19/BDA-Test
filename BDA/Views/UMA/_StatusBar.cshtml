@@ -26,50 +26,47 @@
     }
 }
 
-<div class="widget has-shadow">
-    <div class="widget-body">
-        <div class="row">
-            <div class="col-xl-12">
-                <div style="text-align:center; margin-bottom:20px">
-                    <h4>UMA Stages</h4>
-                </div>
-                <div class="progress-indicator">
-                    <div class="step @(currentStep >= 1 ? "completed" : "")">
-                        <div class="step-icon">1</div>
-                        <div class="step-text">
-                            <strong>Create</strong><br />
-                            <small>(CM - TGBS)</small>
-                        </div>
-                    </div>
-                    <div class="step @(currentStep >= 2 ? "completed" : "")">
-                        <div class="step-icon">2</div>
-                        <div class="step-text">
-                            <strong>Submit to Bank</strong><br />
-                            <small>(CM - TGBS)</small>
-                        </div>
-                    </div>
-                    <div class="step @(currentStep >= 3 ? "completed" : "")">
-                        <div class="step-icon">3</div>
-                        <div class="step-text">
-                            <strong>Submit to ANM</strong><br />
-                            <small>(CM - TGBS)</small>
-                        </div>
-                    </div>
-                    <div class="step @(currentStep >= 4 ? "completed" : "")">
-                        <div class="step-icon">4</div>
-                        <div class="step-text">
-                            <strong>Incoming Payment</strong><br />
-                            <small>(CM - TGBS)</small>
-                        </div>
-                    </div>
-                    <div class="step @(currentStep >= 5 ? "completed" : "")">
-                        <div class="step-icon">5</div>
-                        <div class="step-text">
-                            <strong>Completed</strong>
-                        </div>
-                    </div>
-                </div>
+<div class="status-bar has-shadow text-center">
+    <div class="status-header">
+        <span>UMA Stages</span>
+    </div>
+    <div class="step-container">
+        <div class="step-wizard">
+            <div class="progress">
+                <div class="progressbar"></div>
             </div>
+            <ul class="five">
+                <li>
+                    <a id="li-1" class="not-clickable @(currentStep >= 1 ? "active" : "")" data-toggle="tab" href="#">
+                        <span class="step">1</span>
+                        <span class="title">Create <br /><p style="font-size:12px;font-style:italic">(CM - TGBS)</p></span>
+                    </a>
+                </li>
+                <li>
+                    <a id="li-2" class="not-clickable @(currentStep >= 2 ? "active" : "")" data-toggle="tab" href="#" title="Submit to Bank">
+                        <span class="step">2</span>
+                        <span class="title">Submit to Bank <br /><p style="font-size:12px;font-style:italic">(CM - TGBS)</p></span>
+                    </a>
+                </li>
+                <li>
+                    <a id="li-3" class="not-clickable @(currentStep >= 3 ? "active" : "")" data-toggle="tab" href="#">
+                        <span class="step">3</span>
+                        <span class="title">Submit to ANM <br /><p style="font-size:12px;font-style:italic">(CM - TGBS)</p></span>
+                    </a>
+                </li>
+                <li>
+                    <a id="li-4" class="not-clickable @(currentStep >= 4 ? "active" : "")" data-toggle="tab" href="#">
+                        <span class="step">4</span>
+                        <span class="title">Incoming Payment <br /><p style="font-size:12px;font-style:italic">(CM - TGBS)</p></span>
+                    </a>
+                </li>
+                <li>
+                    <a id="li-5" class="not-clickable @(currentStep >= 5 ? "active" : "")" data-toggle="tab" href="#">
+                        <span class="step">5</span>
+                        <span class="title">Completed</span>
+                    </a>
+                </li>
+            </ul>
         </div>
     </div>
 </div>
